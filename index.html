@@ -65,6 +65,7 @@ ul,ol{margin:4px 0;padding-left:20px;} li{margin:6px 0;} li::marker{color:var(--
 a{color:var(--link);}
 a.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:16px;}
 a.btn::after{content:"↗";font-family:var(--f-latin);}
+a.btn[href^="#"]::after{content:"→";}
 a.btn:active{opacity:.8;}
 .tag{display:inline-block;font-size:13px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 10px;margin-bottom:6px;}
 /* say lines */
@@ -108,41 +109,30 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 
 <!-- ===== 总览 ===== -->
 <section class="view" id="v-overview">
-  <div class="card">
-    <h3>期末成绩</h3>
-    <div class="score"><span class="t">华文</span><span class="b"><i style="width:74%"></i></span><span class="p">74%</span></div>
-    <div class="score"><span class="t">数学</span><span class="b"><i style="width:62%"></i></span><span class="p">62%</span></div>
-    <div class="score low"><span class="t">科学</span><span class="b"><i style="width:32%"></i></span><span class="p">32%</span></div>
-    <div class="score low"><span class="t">英文</span><span class="b"><i style="width:30%"></i></span><span class="p">30%</span></div>
-  </div>
-  <div class="card soft"><p class="big">他会学习,卡住他的是读英文。<br>英文读顺了,科学会跟着上来。</p></div>
+  <div class="card soft"><p class="big">这个假期往前看:<br>预习下学期,顺手把没学稳的补上。</p></div>
 
-  <h2>每天 20–30 分钟</h2>
+  <h2>下学期(P4 上半年)学什么</h2>
+  <div class="card"><span class="tag">英文</span><p>理解题变成两篇、文章更长;还会练语法、词汇、句子合并,有的学校加“看图文”和“改错”。</p><a class="btn" href="#english">看英文怎么准备</a></div>
+  <div class="card"><span class="tag">科学</span><p>植物各部分的功能、消化系统、物质三态、光和影子、热。</p><a class="btn" href="#science">看六周科学主题</a></div>
+  <div class="card"><span class="tag">数学</span><p>十万以内的数、因数和倍数、乘除、量角、折线图,接着学分数。</p><a class="btn" href="#math">看六周数学小步</a></div>
+
+  <h2>每天、每周做什么</h2>
   <div class="card rows">
-    <div class="row"><span class="n">1</span><div><b>拼读 10 分钟</b><p class="muted">游戏或练习书,按顺序练</p></div></div>
-    <div class="row"><span class="n">2</span><div><b>一起读 10 分钟</b><p class="muted">大人读一页,他读一页</p></div></div>
-    <div class="row"><span class="n">3</span><div><b>睡前听书</b><p class="muted">边听边看字,不限时间</p></div></div>
+    <div class="row"><span class="n">1</span><div><b>每天 20–30 分钟英文</b><p class="muted">拼读 10 分钟 · 一起读 10 分钟 · 睡前听书</p></div></div>
+    <div class="row"><span class="n">2</span><div><b>每周一个科学主题</b><p class="muted">先读或听,周末出门看或动手做</p></div></div>
+    <div class="row"><span class="n">3</span><div><b>每周两次数学,每次 15 分钟</b><p class="muted">预习一小步 + 复习一类常错的题</p></div></div>
   </div>
-  <p class="muted">具体怎么做,点下面的“英文”。周末换成“科学”里的出门看。</p>
-
-  <h2>跟他说成绩</h2>
-  <div class="card say">
-    <p>“华文四分之三都对了!”</p>
-    <p>“数学上学期不到一半,这次超过六成了。”</p>
-    <p>“英文读起来累,我们一起让它变容易。”</p>
-  </div>
-  <div class="card no"><b>不说:</b>和别人比;“英文怎么这么差”;“笨”。</div>
 
   <h2>要守住的</h2>
   <div class="card"><ul>
     <li>每天短短做,比周末做一小时有用</li>
-    <li>先读得完,再加难度;喜欢的书反复读</li>
+    <li>先做得完,再加难度;喜欢的书反复读</li>
     <li>夸具体的事:“这段第三遍读得好顺!”</li>
     <li>累了就停</li>
   </ul></div>
 
   <details class="more"><summary>可以问学校的三件事</summary><div class="body"><ol>
-    <li>明年 P4 有没有适合他的英文小组辅导?</li>
+    <li>P4 有没有适合他的英文小组辅导?</li>
     <li>能不能帮忙安排学习方面的评估?</li>
     <li>以后考试能不能延长时间、放大字体?</li>
   </ol></div></details>
@@ -150,6 +140,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 
 <!-- ===== 英文 ===== -->
 <section class="view" id="v-english" hidden>
+  <div class="card soft"><p class="big">下学期要读的文章更长。<br>这个假期补三样:读懂长一点的文章、词汇、句子合并。</p><p class="muted">办法都在下面:每天读、读完问三句、每天 2–3 张生词卡。</p></div>
   <h2>每天三块</h2>
   <div class="card">
     <span class="tag">10 分钟</span><h3>① 拼读</h3>
@@ -248,9 +239,20 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 <!-- ===== 科学 ===== -->
 <section class="view" id="v-science" hidden>
   <div class="card soft"><p class="big">一周一个主题:<br>先听或读 → 出门看或动手 → 说一说 → 写三句</p></div>
-  <h2>六周主题(明年 P4 要学的)</h2>
+  <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面六周一周预习一个。</p></div>
+  <h2>六周主题</h2>
   <div id="weeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台手机上。</p>
+
+  <h2>顺手复习 P3</h2>
+  <div class="card">
+    <p>P3 学过:生物分类、真菌和细菌、材料、植物和动物的一生、磁铁。要补的是<b>读懂科学题、写完整答案</b>。</p>
+    <ul>
+      <li><b>关键词卡里也放 P3 的词:</b><span class="q">absorb · flexible · waterproof · magnetic · attract · repel · life cycle · fungi · bacteria</span></li>
+      <li><b>问答题用一个句式:</b>结论 + <span class="en">because</span> + 原因。<br><span class="q">Plant A grew taller because it got more sunlight.</span></li>
+      <li><b>看到 NOT、only、most 就圈起来</b>,再选答案。</li>
+    </ul>
+  </div>
 
   <h2>写三句的句式</h2>
   <div class="card say">
@@ -269,26 +271,21 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 
 <!-- ===== 数学 ===== -->
 <section class="view" id="v-math" hidden>
+  <div class="card soft"><p class="big">每周两次,每次 15 分钟:<br>预习一小步 + 复习一类常错的题。</p></div>
+
+  <h2>下学期学什么</h2>
   <div class="card">
-    <h3>一年在往上走</h3>
-    <div class="score low"><span class="t">上学期</span><span class="b"><i style="width:47%"></i></span><span class="p">47%</span></div>
-    <div class="score"><span class="t">期中</span><span class="b"><i style="width:70%"></i></span><span class="p">70%</span></div>
-    <div class="score"><span class="t">期末</span><span class="b"><i style="width:62%"></i></span><span class="p">62%</span></div>
-    <p class="muted">期末考全年 13 章,还保持六成以上。计算很稳。</p>
+    <p class="muted">课本是 Primary Mathematics 4A,顺序以学校为准。</p>
+    <ul>
+      <li><b>第 1 学期:</b>十万以内的数(读写、比大小、四舍五入)、因数和倍数、乘除(4 位数 × 1 位数、3 位数 × 2 位数)、量角和画角、表格和折线图</li>
+      <li><b>第 2 学期:</b>分数(带分数、假分数、一组东西的几分之几、分数加减)</li>
+    </ul>
+    <p class="muted">应用题会到三步。P3 没学稳的几类,正好每周复习一类。</p>
   </div>
 
-  <h2>P4 会学什么</h2>
-  <div class="card">
-    <p>十万以内的数、因数和倍数、乘除、表格和图、分数、角、长方形和正方形、小数,还有更多应用题(各校顺序略有不同)。</p>
-    <p class="muted">P4 的长方形和正方形、应用题,都接着 P3 的周长和应用题往上学,所以假期先把下面“做题前问一句”练熟,比提前学新课更有用。P4 量角要用量角器,用尺子的习惯现在就可以练。</p>
-  </div>
-
-  <h2>假期:轻一点</h2>
-  <div class="card"><ul>
-    <li>一周两次,每次 15 分钟,不用提前学 P4 新课</li>
-    <li>应用题大人读给他听</li>
-    <li>用学校卷子里打叉的题,换个数字再做</li>
-  </ul></div>
+  <h2>六周数学小步</h2>
+  <div id="mweeks" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="muted">打勾只存在这台手机上。复习那题由大人读给他听,练的是想,不是认字。</p>
 
   <h2>做题前问一句</h2>
   <div class="card rows">
@@ -299,7 +296,9 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     <div class="row"><span class="n">5</span><div><b>(b) 小题</b><p class="muted">要不要用 (a) 的答案?</p></div></div>
   </div>
   <div class="card warm"><b>最后一步:</b>这个答案说得通吗?</div>
-  <p class="muted">画平行线:先数格子点出第二个点,手指按住尺子中间再连。15 cm 短尺更好按。</p>
+
+  <div class="card"><h3>尺子和量角器</h3><p>P4 要用量角器量角。手指张开按住中间,对准了再画。15 cm 的短尺、小一点的量角器小手更好按。</p></div>
+  <div class="card"><h3>学校 SLS</h3><p>数学课按本地大纲编,可以先看 P4 的单元。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
 </section>
 
 <footer>开放时间、价格以官网为准。</footer>
@@ -335,6 +334,32 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     {t:"热",book:"这周以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
     {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
   ];
+  var MWEEKS=[
+    {t:"十万以内的数",pre:"一起读超市收据、广告上的大数,说出每一位是万、千、百、十、个;比一比哪个大。",rev:"卖掉、剩下:变多了还是变少了?",ex:"做了 60 个面包,剩 14 个,卖掉几个?",ans:"46 个"},
+    {t:"因数和倍数",pre:"12 颗糖平均分,可以分成几份、每份几颗?(1×12、2×6、3×4)",rev:"倒满几杯:先乘,再减",ex:"1 ℓ 水倒满 3 杯,每杯 200 ml,还剩多少?",ans:"1000 − 3 × 200 = 400 ml"},
+    {t:"乘法变大",pre:"23 × 12 拆开算:23 × 10 + 23 × 2。先用小数字试,算对就停。",rev:"一共多少、谁比谁多:题目问的是谁?",ex:"两人一共 20 颗,Amy 比 Ben 多 4 颗,Amy 有几颗?",ans:"(20 − 4) ÷ 2 = 8 是 Ben,Amy = 12 颗"},
+    {t:"角",pre:"买一个量角器,量家里的角:书角、打开的门、剪刀张开。先找直角 90°。",rev:"用尺子画平行线:先数格子点出第二个点,再连",ex:"在方格纸上画一条和横线平行的线。",ans:"也画成横线,穿过给的点"},
+    {t:"表格和折线图",pre:"配科学“热”那周:每小时量一次温度或看天气预报,画成折线图。",rev:"(b) 小题:要不要用 (a) 的答案?",ex:"书 $5,包是书的 3 倍。(a) 包多少钱?(b) 书和包一共多少?",ans:"(a) $15 (b) $20"},
+    {t:"分数(先认识)",pre:"切蛋糕或披萨:一个半 = 1½ = 3/2;6 块里的 2 块 = 2/6 = 1/3。",rev:"丝带、铁丝绕一圈:四条边都要算",ex:"50 cm 丝带绕边长 10 cm 的正方形一圈,还剩多少?",ans:"50 − 10 × 4 = 10 cm"}
+  ];
+  var MKEY="xx-holiday-math", mdone={};
+  try{mdone=JSON.parse(localStorage.getItem(MKEY)||"{}")||{};}catch(e){mdone={};}
+  var mbox=document.getElementById("mweeks");
+  MWEEKS.forEach(function(w,i){
+    var id="mw"+(i+1);
+    var d=document.createElement("details"); d.className="week";
+    d.innerHTML='<summary><span class="wk">W'+(i+1)+'</span><span class="tt">'+w.t+'</span><span class="ok" data-ok></span></summary>'+
+      '<div class="body"><p><span class="lbl">预习一小步</span>'+w.pre+'</p>'+
+      '<p><span class="lbl">复习一类题</span>'+w.rev+'</p>'+
+      '<p><span class="lbl">大人读给他听</span>'+w.ex+'<br><span class="muted">答案:'+w.ans+'</span></p>'+
+      '<label class="done"><input type="checkbox" id="'+id+'">这周完成了</label></div>';
+    mbox.appendChild(d);
+    var cb=d.querySelector("input"), ok=d.querySelector("[data-ok]");
+    function mark(){ok.textContent=cb.checked?"✓ 完成":"";}
+    cb.checked=!!mdone[id]; mark();
+    cb.addEventListener("change",function(){mdone[id]=cb.checked;mark();try{localStorage.setItem(MKEY,JSON.stringify(mdone));}catch(e){}});
+  });
+
   var KEY="xx-holiday-weeks", done={};
   try{done=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){done={};}
   var box=document.getElementById("weeks");
