@@ -69,7 +69,7 @@ ul,ol{margin:4px 0;padding-left:20px;} li{margin:6px 0;} li::marker{color:var(--
 .rows{display:flex;flex-direction:column;gap:12px;}
 /* link buttons */
 a{color:var(--link);}
-a.btn,button.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:16px;}
+a.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:16px;}
 a.btn::after{content:"↗";font-family:var(--f-latin);}
 a.btn[href^="#"]::after{content:"→";}
 a.btn:active{opacity:.8;}
@@ -313,12 +313,6 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 <section class="view" id="v-praise" hidden>
   <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
 
-  <div class="card" style="text-align:center">
-    <span class="tag">今天说一句</span>
-    <p class="big" id="pick" style="min-height:3.3em;display:flex;align-items:center;justify-content:center">“这一页你自己读完了。”</p>
-    <button type="button" id="next" class="btn" style="width:100%;border:0;cursor:pointer;font-family:inherit;justify-content:center">换一句 ↻</button>
-  </div>
-
   <h2>读英文时</h2>
   <div class="card say">
     <p>“这一页你自己读完了。”</p>
@@ -418,13 +412,6 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     {t:"热",book:"这周以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
     {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
   ];
-  var lines=[].slice.call(document.querySelectorAll("#v-praise .say p")).map(function(n){return n.textContent;});
-  var pick=document.getElementById("pick"), last=-1;
-  document.getElementById("next").addEventListener("click",function(){
-    var i; do{ i=Math.floor(Math.random()*lines.length); }while(lines.length>1 && i===last);
-    last=i; pick.textContent=lines[i];
-  });
-
   var MWEEKS=[
     {t:"十万以内的数",pre:"一起读超市收据、广告上的大数,说出每一位是万、千、百、十、个;比一比哪个大。",rev:"卖掉、剩下:变多了还是变少了?",ex:"做了 60 个面包,剩 14 个,卖掉几个?",ans:"46 个"},
     {t:"因数和倍数",pre:"12 颗糖平均分,可以分成几份、每份几颗?(1×12、2×6、3×4)",rev:"倒满几杯:先乘,再减",ex:"1 ℓ 水倒满 3 杯,每杯 200 ml,还剩多少?",ans:"1000 − 3 × 200 = 400 ml"},
