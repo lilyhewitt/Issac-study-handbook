@@ -69,7 +69,7 @@ ul,ol{margin:4px 0;padding-left:20px;} li{margin:6px 0;} li::marker{color:var(--
 .rows{display:flex;flex-direction:column;gap:12px;}
 /* link buttons */
 a{color:var(--link);}
-a.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:16px;}
+a.btn,button.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:16px;}
 a.btn::after{content:"↗";font-family:var(--f-latin);}
 a.btn[href^="#"]::after{content:"→";}
 a.btn:active{opacity:.8;}
@@ -95,9 +95,9 @@ details.more summary{cursor:pointer;padding:14px 16px;font-weight:700;min-height
 details.more .body{padding:0 16px 14px;}
 /* bottom nav */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
-nav.tabs .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;height:var(--nav-h);align-items:center;}
-nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:15px;}
-nav.tabs a .ic{font-family:var(--f-latin);font-size:13px;letter-spacing:.04em;}
+nav.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:var(--nav-h);align-items:center;}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:15px;min-width:0;}
+nav.tabs a .ic{font-family:var(--f-latin);font-size:11.5px;letter-spacing:.02em;}
 nav.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);}
 a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
 footer{color:var(--muted);font-size:13px;margin-top:8px;}
@@ -128,6 +128,8 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     <div class="row"><span class="n">2</span><div><b>每周一个科学主题</b><p class="muted">先读或听,周末出门看或动手做</p></div></div>
     <div class="row"><span class="n">3</span><div><b>每周两次数学,每次 15 分钟</b><p class="muted">预习一小步 + 复习一类常错的题</p></div></div>
   </div>
+
+  <div class="card"><span class="tag">家长夸夸</span><p>不知道怎么夸?按场景准备好了现成的话。</p><a class="btn" href="#praise">看夸夸的话</a></div>
 
   <h2>要守住的</h2>
   <div class="card"><ul>
@@ -307,6 +309,81 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card"><h3>学校 SLS</h3><p>数学课按本地大纲编,可以先看 P4 的单元。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
 </section>
 
+<!-- ===== 夸夸 ===== -->
+<section class="view" id="v-praise" hidden>
+  <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
+
+  <div class="card" style="text-align:center">
+    <span class="tag">今天说一句</span>
+    <p class="big" id="pick" style="min-height:3.3em;display:flex;align-items:center;justify-content:center">“这一页你自己读完了。”</p>
+    <button type="button" id="next" class="btn" style="width:100%;border:0;cursor:pointer;font-family:inherit;justify-content:center">换一句 ↻</button>
+  </div>
+
+  <h2>读英文时</h2>
+  <div class="card say">
+    <p>“这一页你自己读完了。”</p>
+    <p>“这个长词你拆开读出来了。”</p>
+    <p>“第三遍比第一遍顺多了,你听出来了吗?”</p>
+    <p>“你指着字读,一行都没跳。”</p>
+    <p class="q">You read the whole page!</p>
+  </div>
+
+  <h2>读完问问题时</h2>
+  <div class="card say">
+    <p>“你找到书里那一句了,答案就在那儿。”</p>
+    <p>“你从他的表情看出来他生气了,这就是证据。”</p>
+    <p class="q">You found the clue!</p>
+  </div>
+
+  <h2>做数学时</h2>
+  <div class="card say">
+    <p>“你回去看了题目问的是谁。”</p>
+    <p>“你在关键词下面画线了,这个办法是你自己想出来的。”</p>
+    <p>“你算完问了自己:说得通吗?”</p>
+    <p>“这题第一步是对的,就差一步。”</p>
+    <p>“你把四条边都算上了。”</p>
+  </div>
+
+  <h2>科学和出门时</h2>
+  <div class="card say">
+    <p>“你记得 stem 是茎。”</p>
+    <p>“你用 because 把原因说出来了。”</p>
+    <p>“你看得好仔细,连叶子背面都看了。”</p>
+  </div>
+
+  <h2>坚持下来时</h2>
+  <div class="card say">
+    <p>“这周你五天都读了。”</p>
+    <p>“关卡图又多了一颗星。”</p>
+    <p>“今天是你自己打开来练的。”</p>
+    <p>“像过关一样,一关一关来,你已经过了好几关。”</p>
+  </div>
+
+  <h2>卡住或做错时</h2>
+  <div class="card say">
+    <p>“这题还没会,不是学不会。”</p>
+    <p>“我们看看卡在哪一步。”</p>
+    <p>“改对了,就是学会了。”</p>
+    <p>“今天到这里,你做了很多了。”</p>
+  </div>
+
+  <h2>对别人好的时候</h2>
+  <div class="card say">
+    <p>“你教了他那一题,你是个好老师。”</p>
+    <p>“你等妹妹先玩,很体贴。”</p>
+  </div>
+  <div class="card warm"><b>他说别人笨的时候:</b>平静说一次,“分数低不是笨,是还没学会。我们家不说别人笨。”然后换话题。</div>
+
+  <h2>怎么说最管用</h2>
+  <div class="card"><ul>
+    <li><b>说他做的动作:</b>“你画了线”,比“你好棒”更让他相信。</li>
+    <li><b>语气平常,说一次就够,</b>不用一直夸、不用很夸张。</li>
+    <li><b>当场说:</b>看到就说,不要等做完一整张。</li>
+    <li><b>他做到了一件事,就写进“我会了”单子</b>或关卡图。</li>
+  </ul></div>
+  <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
+</section>
+
 <footer>开放时间、价格以官网为准。</footer>
 </div></main>
 
@@ -315,11 +392,12 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <a href="#english" data-view="english"><span>英文</span><span class="ic">English</span></a>
   <a href="#science" data-view="science"><span>科学</span><span class="ic">Science</span></a>
   <a href="#math" data-view="math"><span>数学</span><span class="ic">Math</span></a>
+  <a href="#praise" data-view="praise"><span>夸夸</span><span class="ic">Praise</span></a>
 </div></nav>
 
 <script>
 (function(){
-  var views=["overview","english","science","math"];
+  var views=["overview","english","science","math","praise"];
   function show(){
     var h=(location.hash||"").replace("#","");
     if(views.indexOf(h)<0) h="overview";
@@ -340,6 +418,13 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     {t:"热",book:"这周以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
     {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
   ];
+  var lines=[].slice.call(document.querySelectorAll("#v-praise .say p")).map(function(n){return n.textContent;});
+  var pick=document.getElementById("pick"), last=-1;
+  document.getElementById("next").addEventListener("click",function(){
+    var i; do{ i=Math.floor(Math.random()*lines.length); }while(lines.length>1 && i===last);
+    last=i; pick.textContent=lines[i];
+  });
+
   var MWEEKS=[
     {t:"十万以内的数",pre:"一起读超市收据、广告上的大数,说出每一位是万、千、百、十、个;比一比哪个大。",rev:"卖掉、剩下:变多了还是变少了?",ex:"做了 60 个面包,剩 14 个,卖掉几个?",ans:"46 个"},
     {t:"因数和倍数",pre:"12 颗糖平均分,可以分成几份、每份几颗?(1×12、2×6、3×4)",rev:"倒满几杯:先乘,再减",ex:"1 ℓ 水倒满 3 杯,每杯 200 ml,还剩多少?",ans:"1000 − 3 × 200 = 400 ml"},
