@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>小小假期学习手册</title>
+<style>html{color-scheme:light;} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} body{margin:0;} img{max-width:100%;} [hidden]{display:none!important;}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: a parent's field guide — sticky subject tabs, one column of short sections, tables that scroll inside themselves. */
+:root{
+  --bg:#f5f7f4; --surface:#ffffff; --ink:#1d2b2a; --muted:#5c6b68; --line:#d6dfdb;
+  --accent:#2f7d5b; --accent-ink:#1f5a41; --accent-soft:#e3f0e8;
+  --mark:#f2c94c; --mark-soft:#fdf5d9; --warn:#b4532a; --warn-soft:#f9e9e1;
+  --link:#1f6a8a;
+  --f-display:"Lexend","Noto Sans SC",system-ui,sans-serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-latin:"Lexend",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121816; --surface:#1a2220; --ink:#e4ece9; --muted:#9db0ab; --line:#2e3b38;
+  --accent:#6cc39a; --accent-ink:#9adbbb; --accent-soft:#1f3329;
+  --mark:#e2b93b; --mark-soft:#2e2a17; --warn:#e0896a; --warn-soft:#352219; --link:#7fc3e2; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#121816; --surface:#1a2220; --ink:#e4ece9; --muted:#9db0ab; --line:#2e3b38;
+  --accent:#6cc39a; --accent-ink:#9adbbb; --accent-soft:#1f3329;
+  --mark:#e2b93b; --mark-soft:#2e2a17; --warn:#e0896a; --warn-soft:#352219; --link:#7fc3e2; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.7;}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+header.top{padding-block:28px 14px;}
+.eyebrow{font-family:var(--f-latin);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(26px,5vw,36px);line-height:1.25;margin:6px 0 6px;text-wrap:balance;}
+.sub{color:var(--muted);margin:0;max-width:62ch;}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;}
+nav.tabs a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-weight:700;padding:8px 14px;border-radius:999px;font-size:15px;}
+nav.tabs a:hover{color:var(--ink);background:var(--accent-soft);}
+nav.tabs a[aria-current="page"]{color:var(--surface);background:var(--accent);}
+nav.tabs a:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--mark);outline-offset:2px;}
+main{padding-block:18px 48px;}
+section.view{display:flex;flex-direction:column;gap:22px;}
+section.view[hidden]{display:none;}
+h2{font-family:var(--f-display);font-size:21px;line-height:1.35;margin:0 0 8px;text-wrap:balance;}
+h3{font-size:16.5px;margin:0 0 6px;}
+.block{min-width:0;}
+p{margin:6px 0;max-width:68ch;}
+.lead{font-size:16.5px;}
+.muted{color:var(--muted);}
+.note{background:var(--accent-soft);border-radius:10px;padding:12px 14px;}
+.hl{background:var(--mark-soft);border-radius:10px;padding:12px 14px;}
+.no{background:var(--warn-soft);border-radius:10px;padding:12px 14px;}
+.no b{color:var(--warn);}
+.say{font-weight:700;border:1.5px dashed var(--line);border-radius:10px;padding:10px 14px;background:var(--surface);}
+.say span{display:block;}
+ul,ol{margin:6px 0;padding-left:22px;} li{margin:4px 0;} li::marker{color:var(--accent);}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+table{border-collapse:collapse;width:100%;font-size:14.5px;}
+table.wide{min-width:460px;}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line);}
+th{font-size:13px;color:var(--muted);font-weight:700;background:var(--bg);}
+tr:last-child td{border-bottom:none;}
+td.k{font-weight:700;white-space:nowrap;}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--f-latin);}
+.pct{font-family:var(--f-latin);font-weight:700;font-variant-numeric:tabular-nums;}
+.bar{height:8px;border-radius:4px;background:var(--line);margin-top:6px;overflow:hidden;min-width:80px;}
+.bar i{display:block;height:100%;background:var(--accent);}
+.bar.low i{background:var(--warn);}
+.en{font-family:var(--f-latin);font-weight:600;}
+a{color:var(--link);text-underline-offset:3px;}
+a.ext::after{content:" ↗";font-size:.85em;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:4px;}
+.card h3{font-size:15.5px;margin:0;}
+.card .en{font-size:15px;}
+.card .tag{font-size:12px;font-weight:700;color:var(--accent-ink);letter-spacing:.04em;}
+.card p{margin:0;font-size:14.5px;}
+.card a{font-size:14.5px;font-weight:600;margin-top:auto;padding-top:4px;}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+.steps div{border-left:4px solid var(--accent);background:var(--surface);border-radius:0 10px 10px 0;padding:10px 12px;}
+.steps b{display:block;font-size:15px;}
+.q{font-family:var(--f-latin);font-style:italic;color:var(--accent-ink);}
+.week{display:flex;gap:10px;align-items:flex-start;}
+.week input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:0 0 auto;}
+.weeks{display:flex;flex-direction:column;gap:10px;}
+.weekcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0;}
+.weekcard .wk{font-family:var(--f-latin);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;}
+.weekcard h3{margin:2px 0 4px;font-size:16.5px;}
+.weekcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:6px 0 0;font-size:14.5px;}
+.weekcard dt{color:var(--muted);font-weight:700;white-space:nowrap;}
+.weekcard dd{margin:0;min-width:0;}
+.words{font-family:var(--f-latin);color:var(--accent-ink);}
+footer{color:var(--muted);font-size:13px;padding-block:8px 32px;}
+@media (max-width:480px){body{font-size:15px;} .weekcard dl{grid-template-columns:1fr;} .weekcard dt{margin-top:4px;}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;}}
+</style>
+</head>
+<body>
+
+
+<header class="top"><div class="wrap">
+  <div class="eyebrow">P3 → P4 · Year-end holidays 2026</div>
+  <h1>小小假期学习手册</h1>
+  <p class="sub">给家长看的。点上面的科目进去,能找到的书和网站都直接放了链接。</p>
+</div></header>
+
+<nav class="tabs" aria-label="科目"><div class="wrap">
+  <a href="#overview" data-view="overview">总览</a>
+  <a href="#english" data-view="english">英文</a>
+  <a href="#science" data-view="science">科学</a>
+  <a href="#math" data-view="math">数学</a>
+</div></nav>
+
+<main><div class="wrap">
+
+<!-- ============ 总览 ============ -->
+<section class="view" id="v-overview">
+  <div class="block">
+    <h2>这次期末告诉我们什么</h2>
+    <div class="tbl"><table>
+      <tr><th>科目</th><th>得分</th><th>得分率</th></tr>
+      <tr><td class="k">华文试卷二</td><td class="num">33.5 / 45</td><td><span class="pct">74%</span><div class="bar"><i style="width:74%"></i></div></td></tr>
+      <tr><td class="k">数学</td><td class="num">31 / 50</td><td><span class="pct">62%</span><div class="bar"><i style="width:62%"></i></div></td></tr>
+      <tr><td class="k">科学</td><td class="num">25.5 / 80</td><td><span class="pct">32%</span><div class="bar low"><i style="width:32%"></i></div></td></tr>
+      <tr><td class="k">英文 Paper 2</td><td class="num">15 / 50</td><td><span class="pct">30%</span><div class="bar low"><i style="width:30%"></i></div></td></tr>
+    </table></div>
+    <p class="note" style="margin-top:10px"><b>规律:</b>用中文、或者读英文比较少的两科明显高;要大量读英文长句的英文和科学,都在三成左右。他的理解力和学习能力没有问题,卡住他的是<b>读英文</b>。英文读顺了,科学会跟着上来。</p>
+  </div>
+
+  <div class="block">
+    <h2>一个原则:先听、看、做,再读、说、写</h2>
+    <div class="steps">
+      <div><b>听 / 读</b>先听有声书,或大人和他轮流读,看图为主</div>
+      <div><b>看 / 做</b>出门看一次,或在家做个小实验</div>
+      <div><b>说</b>中文、英文都行:“你看到了什么?为什么?”</div>
+      <div><b>写三句</b>用固定句式,再做几张关键词卡</div>
+    </div>
+    <p>认字、拼读单独练,每天 10 分钟;内容、词汇、理解不用等字都认得,先靠听、看图、出门看实物学起来。他华文很好,可以用中文聊英文书和科学。</p>
+  </div>
+
+  <div class="block">
+    <h2>跟他说成绩</h2>
+    <div class="say"><span>“华文考了三十三分半,四分之三都对了!”</span><span>“数学上学期不到一半,这次超过六成了。”</span><span>“英文读起来比较累,我们一起想办法让它变容易。”</span></div>
+    <p class="no" style="margin-top:10px"><b>不说:</b>和别人比分数;一科一科分析错在哪;“英文怎么这么差”;“笨”。</p>
+  </div>
+
+  <div class="block">
+    <h2>可以问学校的三件事</h2>
+    <ol>
+      <li><b>明年 P4,学校有没有适合他的英文小组辅导?</b>他能不能参加?在练什么,家里怎么配合?</li>
+      <li><b>学校能不能帮忙安排学习方面的评估?</b>学校可以协助转介。</li>
+      <li><b>以后考试能不能有特别安排?</b>比如延长时间、放大字体。</li>
+    </ol>
+  </div>
+
+  <div class="block">
+    <h2>家里怎么分工</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">不懂英文的大人</span><p>陪他用拼读游戏和听书;用中文问故事和科学内容;贴关卡图的星星;负责夸他。</p></div>
+      <div class="card"><span class="tag">读得懂英文的大人</span><p>每天 10 分钟一起读书;如果用 Toe by Toe,由这位大人带;周末出门看。</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>几条要守住的</h2>
+    <ul>
+      <li><b>短、每天做:</b>一周 5–6 天,每块 10 分钟左右,比周末一次一小时有用。</li>
+      <li><b>先读得完,再加难度;</b>喜欢的书反复读,读熟了才会读顺。</li>
+      <li><b>让进度看得见:</b>做一张“关卡图”,读完一本、完成一个科学主题,各贴一颗星。</li>
+      <li><b>不在别人面前让他读出声,</b>除非他自己愿意。</li>
+      <li><b>夸具体的事:</b>“这一段你读了三遍,第三遍好顺!”</li>
+      <li><b>累了就停;</b>不用花钱买彩色眼镜、视觉训练这类“让孩子读得快”的东西,证据都不足。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 英文 ============ -->
+<section class="view" id="v-english" hidden>
+  <div class="block">
+    <h2>每天 20–30 分钟,分三块</h2>
+    <div class="tbl"><table class="wide">
+      <tr><th style="width:22%">哪一块</th><th>做什么</th><th style="width:26%">用什么</th></tr>
+      <tr><td class="k">① 拼读 10 分钟</td><td>按顺序学字母和发音的规律,把单词拆开读、拼出来。选一样坚持用。</td><td><a class="ext" href="https://nessy.com/en-gb/nessy-reading-and-spelling" target="_blank" rel="noopener">Nessy Reading &amp; Spelling</a><br><a class="ext" href="https://www.pearson.com/en-au/schools/primary/literacy/toe-by-toe-literacy-program/" target="_blank" rel="noopener">Toe by Toe</a></td></tr>
+      <tr><td class="k">② 一起读 10 分钟</td><td>读他自己挑的书,或这一周科学主题的书,用下面三种读法。</td><td>书单见下面</td></tr>
+      <tr><td class="k">③ 听书 不限</td><td>边朗读边把读到的词亮出来,他跟着看。睡前听也行。</td><td><a class="ext" href="https://www.nlb.gov.sg/main/services/faqs/NLB-Mobile/get-started-with-libby" target="_blank" rel="noopener">NLB 的 Libby app</a> 里的 Read-alongs</td></tr>
+    </table></div>
+    <p class="muted">Nessy 是网上课程,做成游戏关卡,要付费订阅,可以先试用,任何大人都能陪。Toe by Toe 是一本练习书,每天往下做一两页,要读得懂英文的大人带。</p>
+  </div>
+
+  <div class="block">
+    <h2>一起读的三种读法</h2>
+    <div class="grid">
+      <div class="card"><h3>轮流读</h3><p>大人读一页,他读一页;或者他只读对话气泡。他累了就多读几页给他听。</p></div>
+      <div class="card"><h3>跟读</h3><p>大人读一句,他用手指指着字跟读同一句。适合新书第一遍。</p></div>
+      <div class="card"><h3>同一段读三遍</h3><p>选很短的一段连读三遍,第三遍明显变顺,他自己能感觉到。</p></div>
+    </div>
+    <ul>
+      <li><b>读错了:</b>只在影响意思的地方,轻轻说一遍正确读法,他跟一遍,接着往下读。</li>
+      <li><b>读串行:</b>拿一张卡片压在正在读的那一行下面。</li>
+      <li><b>停在好玩的地方,</b>留着明天接着读。</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h2>怎么练理解:从书里写明的开始</h2>
+    <ol>
+      <li><b>先问写明的:</b><span class="q">Who? Where? What did he do?</span> 谁?在哪?做了什么?</li>
+      <li><b>再问要推一推的:</b><span class="q">How does he feel? How do you know?</span> 让他指着书里的图或句子说。漫画最适合练这个。</li>
+      <li><b>最后问他自己:</b><span class="q">Which part is the funniest?</span> 哪里最好笑?</li>
+    </ol>
+    <p><b>生词每天只挑 2–3 个,</b>从当天读的书里来;写在卡片上、配个小图,当天在说话里用一用。</p>
+  </div>
+
+  <div class="block">
+    <h2>书单:字少、图多、他会感兴趣</h2>
+    <h3 class="muted" style="margin-top:4px">他自己读</h3>
+    <div class="grid">
+      <div class="card"><span class="en">Press Start!</span><p>游戏主题,主角像马里奥;字大、句短、全彩。从第 1 本 <span class="en">Game Over, Super Rabbit Boy!</span> 开始。</p><a class="ext" href="https://bookroo.com/books/series/press-start" target="_blank" rel="noopener">看这套书</a></div>
+      <div class="card"><span class="en">Dragon Masters</span><p>养龙冒险,短章节,情节直接。读完 Press Start! 再试。</p><a class="ext" href="https://www.scholastic.com/site/branches/dragon-masters-bk.html" target="_blank" rel="noopener">看这套书</a></div>
+      <div class="card"><span class="en">Barrington Stoke</span><p>英国出版社,专门给读得慢、读得累的孩子出书:字体、纸色、句长都设计过,内容按大孩子的兴趣写。</p><a class="ext" href="https://collins.co.uk/pages/support-for-dyslexia" target="_blank" rel="noopener">看出版社书目</a></div>
+    </div>
+    <h3 class="muted" style="margin-top:14px">图像小说</h3>
+    <div class="grid">
+      <div class="card"><span class="en">Dog Man</span><p>画面热闹好笑,每格字不多。同作者还有 <span class="en">Cat Kid Comic Club</span>。</p><a class="ext" href="https://www.scholastic.com/content/site/dav-pilkey-books/dog-man-books/dog-man.html" target="_blank" rel="noopener">看这套书</a></div>
+      <div class="card"><span class="en">Super Mario Manga Mania</span><p>任天堂官方搞笑漫画,台词短,角色都熟。日式漫画有的从右往左读,先翻一下。</p><a class="ext" href="https://www.simonandschuster.net/books/Super-Mario-Manga-Mania/Yukio-Sawada/Super-Mario-Bros-Manga-Mania/9781974718481" target="_blank" rel="noopener">看这本书</a></div>
+      <div class="card"><span class="en">Hilo</span><p>机器人男孩冒险,画面像动画,看图就能跟上;字比 Dog Man 稍多,放后面。</p></div>
+    </div>
+    <h3 class="muted" style="margin-top:14px">知识类(也在“科学”里)</h3>
+    <div class="grid">
+      <div class="card"><span class="en">Who Would Win?</span><p>两种动物比一比,每页一小段,很具体。让他先猜谁会赢。</p><a class="ext" href="https://www.scholastic.com/parents/books-and-reading/book-lists-and-recommendations/animals/book-list-for-who-would-win.html" target="_blank" rel="noopener">看书目</a></div>
+      <div class="card"><span class="en">Let's-Read-and-Find-Out Science</span><p>美国科普绘本,Level 2 最合适,配科学主题读。</p><a class="ext" href="https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2" target="_blank" rel="noopener">看 Level 2 书目</a></div>
+    </div>
+    <p class="hl" style="margin-top:12px"><b>挑书时试一页:</b>随便翻开一页让他读。卡住的词很少、读完说得出内容,就合适;一页卡住五六个词就太难;读得飞快还说无聊就太简单。</p>
+  </div>
+
+  <div class="block">
+    <h2>在新加坡哪里找</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">借书 · 免费</span><h3>NLB 新加坡国家图书馆</h3><p>上面的书大多能借。会员:新加坡公民免费;PR 网上办要付一次 $10.50,MOE 学校的学生去图书馆柜台办可以免。</p><a class="ext" href="https://mobileapp.nlb.gov.sg/toptips/parent/" target="_blank" rel="noopener">家长使用指南</a><a class="ext" href="https://reference.nlb.gov.sg/getting-started/onesearch" target="_blank" rel="noopener">怎么在 NLB 搜书</a></div>
+      <div class="card"><span class="tag">听书 · 免费</span><h3>Libby 的 Read-alongs</h3><p>专业配音朗读,读到哪个词就高亮哪个词。在 Libby 里点 Library → Explore → Guide: Kids。</p><a class="ext" href="https://www.nlb.gov.sg/main/services/faqs/NLB-Mobile/get-started-with-libby" target="_blank" rel="noopener">Libby 入门</a></div>
+      <div class="card"><span class="tag">学校账号</span><h3>SLS 学生学习平台</h3><p>MOE 的网上学习平台,英文课按本地大纲编;问老师假期有没有可以先看的单元。</p><a class="ext" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
+      <div class="card"><span class="tag">问学校</span><h3>Little Red Dot</h3><p>海峡时报的学生报,很多学校给 P4 统一订;问学校明年有没有。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 科学 ============ -->
+<section class="view" id="v-science" hidden>
+  <div class="block">
+    <h2>每周一个科学主题(明年 P4 要学的)</h2>
+    <p>同一个主题,一周里走一遍:<b>先听或读 → 出门看或动手做 → 说 → 写三句</b>。完成一周就在前面打个勾(只存在这台设备上)。</p>
+    <div class="weeks" id="weeks"></div>
+    <p class="muted">书都可以在 NLB 搜书名借;借不到就换同主题、看起来简单的科普书。出门那天不用写,回来说一说就算完成。</p>
+  </div>
+
+  <div class="block">
+    <h2>写三句,用固定句式</h2>
+    <div class="say"><span class="q">The ___ helps the plant to ___.</span><span class="q">When ice is heated, it ___.</span><span class="q">I saw ___. It was ___.</span></div>
+    <p><b>关键词卡:</b>每周 3–5 张。正面英文 + 小图,背面中文。贴在冰箱或书桌上,吃饭时随口问一两个。写三句是加分,不是任务。</p>
+  </div>
+
+  <div class="block">
+    <h2>科学资源</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">杂志</span><h3>The Young Scientists</h3><p>新加坡出版的英文科学漫画,按本地科学大纲编,Level 2 适合 P3–P4。先问学校有没有发过;订阅可打出版社电话 6570 6811。</p><a class="ext" href="https://www.kiasuparents.com/kiasu/service-provider/the-young-scientists-smart-mathematicians/" target="_blank" rel="noopener">出版社资料</a></div>
+      <div class="card"><span class="tag">书</span><h3 class="en">Let's-Read-and-Find-Out Science</h3><p>科普绘本,每本一个主题,配下面六周用。</p><a class="ext" href="https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2" target="_blank" rel="noopener">Level 2 书目</a></div>
+      <div class="card"><span class="tag">免费 · 周一休息</span><h3>Jacob Ballas 儿童花园</h3><p>植物园里,14 岁以下孩子由大人陪同,主题就是植物。</p><a class="ext" href="https://nparks.gov.sg/sbg/our-gardens/bukit-timah-core/jacob-ballas-childrens-garden" target="_blank" rel="noopener">开放时间和介绍</a></div>
+      <div class="card"><span class="tag">门票</span><h3>新加坡科学馆</h3><p>新馆约 2027 年底开,旧馆开到那时。配合“光和影子”那一周。</p><a class="ext" href="https://www.science.edu.sg" target="_blank" rel="noopener">科学馆网站</a></div>
+      <div class="card"><span class="tag">出游</span><h3>乌敏岛 Chek Jawa 湿地</h3><p>配合 STELLAR 书 <span class="en">The Stars of Chek Jawa</span>,走木板道找书里的东西。</p><a class="ext" href="https://nparks.gov.sg/gardens-parks-and-nature/parks-and-nature-reserves/pulau-ubin-and-chek-jawa" target="_blank" rel="noopener">NParks 介绍</a></div>
+      <div class="card"><span class="tag">学校账号</span><h3>SLS 学生学习平台</h3><p>科学课按本地大纲编,可以先看 P4 的单元。</p><a class="ext" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 数学 ============ -->
+<section class="view" id="v-math" hidden>
+  <div class="block">
+    <h2>数学:一年在往上走</h2>
+    <div class="tbl"><table>
+      <tr><th>哪次</th><th>得分</th><th>得分率</th></tr>
+      <tr><td class="k">上学期</td><td class="num">14 / 30</td><td><span class="pct">47%</span><div class="bar low"><i style="width:47%"></i></div></td></tr>
+      <tr><td class="k">期中</td><td class="num">21 / 30</td><td><span class="pct">70%</span><div class="bar"><i style="width:70%"></i></div></td></tr>
+      <tr><td class="k">期末</td><td class="num">31 / 50</td><td><span class="pct">62%</span><div class="bar"><i style="width:62%"></i></div></td></tr>
+    </table></div>
+    <p class="note" style="margin-top:10px">期末考全年 13 章,比平时范围大得多,还能保持六成以上。<b>计算他很稳</b>,丢分大多在要读长句的应用题上。</p>
+  </div>
+
+  <div class="block">
+    <h2>假期怎么安排:轻一点</h2>
+    <ul>
+      <li><b>一周两次,每次 15 分钟就够,</b>重心放在英文阅读。数学不用预习 P4。</li>
+      <li><b>应用题由大人读给他听。</b>这样练的是数学思考,不是认字。</li>
+      <li><b>用学校发回的卷子和作业本,</b>挑打叉的题,换个数字让他再做一遍;不做原题。</li>
+      <li><b>他自己在关键词下面画线的习惯很好,</b>继续保留。</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h2>他反复错的几类:做题前问自己一句</h2>
+    <div class="tbl"><table class="wide">
+      <tr><th style="width:30%">看到这样的题</th><th>问自己一句</th><th style="width:30%">容易错成</th></tr>
+      <tr><td class="k">两人一共多少,一个比另一个多几</td><td><b>题目问的是谁?</b>算完回去看问句</td><td>停在少的那个人</td></tr>
+      <tr><td class="k">丝带、铁丝绕一圈</td><td><b>绕边,还是铺满?</b>绕一圈 = 四条边都算</td><td>算成面积,或只减一条边</td></tr>
+      <tr><td class="k">倒满几杯、几瓶</td><td><b>一共倒走了多少?</b>先乘,再减</td><td>看到“7 瓶”就除以 7</td></tr>
+      <tr><td class="k">卖掉、剩下</td><td><b>变多了,还是变少了?</b></td><td>把剩下的加上去</td></tr>
+      <tr><td class="k">C 部分的 (b)</td><td><b>要不要用 (a) 的答案?</b></td><td>(b) 重新拿题目里的数乱算</td></tr>
+      <tr><td class="k">方格上画平行线</td><td><b>先数格子点出第二个点,再连</b></td><td>尺子按不稳、线歪了</td></tr>
+    </table></div>
+    <p class="muted">用尺子:手指张开按在尺子中间,尺子边先对准两个点,笔尖贴着尺子边一笔画过去。15 cm 的短尺小手更好按。</p>
+    <p><b>每题做完问一句:</b>这个答案说得通吗?</p>
+  </div>
+
+  <div class="block">
+    <h2>数学资源</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">学校账号</span><h3>SLS 学生学习平台</h3><p>数学课按本地大纲编,问老师假期有没有布置。</p><a class="ext" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
+      <div class="card"><span class="tag">家里就有</span><h3>学校的卷子和作业本</h3><p>期末卷发回来后,把丢分分成“会但失手”和“还没学会”两类,只补第二类。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>链接都会在新窗口打开。书和场馆的开放时间、价格以官网为准。</footer>
+</div></main>
+
+<script>
+(function(){
+  var views=["overview","english","science","math"];
+  function show(){
+    var h=(location.hash||"").replace("#","");
+    if(views.indexOf(h)<0) h="overview";
+    views.forEach(function(v){
+      document.getElementById("v-"+v).hidden=(v!==h);
+      var a=document.querySelector('nav.tabs a[data-view="'+v+'"]');
+      if(v===h) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    });
+  }
+  window.addEventListener("hashchange",function(){show();window.scrollTo(0,0);});
+  show();
+
+  var WEEKS=[
+    {t:"植物各部分",book:"From Seed to Plant(Gail Gibbons)",do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit · seed"},
+    {t:"物质三态",book:"What Is the World Made Of?(Let's-Read-and-Find-Out)",do:"厨房里:冰块融化、烧开水看水蒸气、冰箱结冰",w:"solid · liquid · gas · melt · freeze"},
+    {t:"消化系统",book:"What Happens to a Hamburger?(Let's-Read-and-Find-Out)",do:"吃饭时一起说:食物现在“走到哪里了”",w:"mouth · gullet · stomach · intestine · digest"},
+    {t:"光和影子",book:"Light Is All Around Us(Let's-Read-and-Find-Out)",do:"晚上用手电筒玩手影;去新加坡科学馆",w:"light · shadow · block · reflect · torch"},
+    {t:"热",book:"这一周以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水里放勺子比一比",w:"heat · hot · cold · temperature · gain · lose"},
+    {t:"复习 + 出游",book:"重读 STELLAR 书 The Stars of Chek Jawa",do:"去乌敏岛 Chek Jawa 湿地走木板道,找书里写的东西",w:"shore · crab · sea star · wetland"}
+  ];
+  var KEY="xx-holiday-weeks", done={};
+  try{done=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){done={};}
+  var box=document.getElementById("weeks");
+  WEEKS.forEach(function(w,i){
+    var id="wk"+(i+1);
+    var d=document.createElement("div"); d.className="weekcard";
+    d.innerHTML='<div class="week"><input type="checkbox" id="'+id+'" aria-label="第 '+(i+1)+' 周完成"><div style="min-width:0;flex:1">'+
+      '<div class="wk">Week '+(i+1)+'</div><h3><label for="'+id+'">'+w.t+'</label></h3>'+
+      '<dl><dt>先读 / 先听</dt><dd class="en">'+w.book+'</dd><dt>再去看、做</dt><dd>'+w.do+'</dd><dt>关键词</dt><dd class="words">'+w.w+'</dd></dl></div></div>';
+    box.appendChild(d);
+    var cb=d.querySelector("input"); cb.checked=!!done[id];
+    cb.addEventListener("change",function(){done[id]=cb.checked;try{localStorage.setItem(KEY,JSON.stringify(done));}catch(e){}});
+  });
+})();
+</script>
+
+</body>
+</html>
