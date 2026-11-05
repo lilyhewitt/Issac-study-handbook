@@ -3,3 +3,5 @@
 给家长看的假期学习手册(英文、科学、数学),单页网页。
 
 在线查看:https://lilyhewitt.github.io/Issac-study-handbook/
+
+英文练习 app（给孩子用，手机上做选择题）:https://lilyhewitt.github.io/Issac-study-handbook/english/
