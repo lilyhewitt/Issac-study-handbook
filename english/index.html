@@ -336,7 +336,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   <section id="vHome" class="view" aria-label="Home">
     <div class="top">
       <div>
-        <a class="backlink" id="toHandbook" href="../" hidden>← 回家长手册</a>
+        <a class="backlink" id="toHandbook" href="../#practice" hidden>← 回家长手册</a>
         <h1 class="hello">Hi, 小小!</h1>
         <p class="hello-sub">Pick one. 5 quick questions. 选一个，做 5 题就好。</p>
       </div>
@@ -1647,7 +1647,7 @@ $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('bMeBack').addEventListener('click',home);
 $('bParent').addEventListener('click',statsView);
-$('bStatsBack').addEventListener('click',()=>{if(REMOTE)location.href='../';else meView();});
+$('bStatsBack').addEventListener('click',()=>{if(REMOTE)location.href='../#practice';else meView();});
 $('bCopy').addEventListener('click',copyReport);
 $('bSay').addEventListener('click',say);
 $('bHint').addEventListener('click',()=>{const on=$('qHint').hidden;$('qHint').hidden=!on;$('bHint').setAttribute('aria-pressed',String(on));});

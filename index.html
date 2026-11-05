@@ -92,6 +92,7 @@ details.inl summary{list-style:none;cursor:pointer;display:flex;align-items:cent
 details.inl summary::-webkit-details-marker{display:none;}
 details.inl summary::before{content:"+";font-family:var(--f-latin);font-size:1.125rem;width:1em;}
 details.inl[open] summary::before{content:"−";}
+.sub-h{font-size:1.0625rem;font-weight:900;margin:0.375rem 0 0;}
 .body h3{font-size:1rem;margin:0.875rem 0 2px;}
 .body h3:first-child{margin-top:0;}
 .tag{display:inline-block;font-size:0.8125rem;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:62.4375rem;padding:1px 0.625rem;margin-bottom:0.375rem;}
@@ -154,22 +155,15 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 <section class="view" id="v-overview">
   <div class="card soft"><p class="big">这个假期往前看:<br>预习下学期,顺手把没学稳的补上。</p></div>
 
-  <div class="card"><span class="tag">练习 app</span><p>给他在手机或 iPad 上做选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 应用题、计算、P4 预习</a>
-    <p class="muted"><b>小小用自己的 iPad 做:</b>在 iPad 的 Safari 里打开这一页,点进每个练习,各自“添加到主屏幕”,以后都从图标打开。记录会自动传到家长手机,第一次要连一下,见下面“小小 iPad 的记录”。</p></div>
 
   <h2>现在到哪了</h2>
   <div class="card prog" id="prog"></div>
-  <p class="muted">读法和打勾存在这台手机上;单词卡和练习天数来自小小的 iPad。能多读一点了、做完一个主题,当着他的面改过来。</p>
-
-  <div id="syncSec" class="view" hidden>
-    <h2>小小 iPad 的记录</h2>
-    <div class="card" id="syncBox"></div>
-  </div>
+  <p class="muted">读法和打勾存在这台手机上。能多读一点了、做完一个主题,当着他的面改过来。练习 app 的做题记录在“练习”页。</p>
 
   <h2>每天做什么</h2>
   <div class="card"><h3>每天必做 · 30 分钟左右</h3><ul>
     <li><b>英文 20 分钟</b>:拼读 10 分钟 + 一起读 10 分钟。睡前再听书,不算在里面。</li>
-    <li><b>练习 app 一轮</b>:英文、数学、科学轮着来,一天一个,10 分钟以内。<b>周一</b>改做英文单词卡,学新的一组。</li>
+    <li><b><a href="#practice">练习 app</a> 一轮</b>:英文、数学、科学轮着来,一天一个,10 分钟以内。<b>周一</b>改做英文单词卡,学新的一组。</li>
   </ul></div>
   <div class="card"><h3>每周两三次</h3><ul>
     <li><b>数学 15 分钟</b>:预习一小步 + 复习一类常错的题;应用题在纸上画线段图。</li>
@@ -180,7 +174,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>去图书馆、科学馆、公园,把学过的词用一用</li>
     <li>数学 app 里的单词卡(应用题常用词),想看就看一组</li>
   </ul></div>
-  <div class="card soft"><p><b>每两周看一次</b>小小的练习记录(上面“小小 iPad 的记录”→ 看记录),只挑一类错法来练。<b>开学前最后一周</b>只复习,不加新东西。</p></div>
+  <div class="card soft"><p><b>开学前最后一周</b>只复习,不加新东西。</p></div>
 
   <h2>下学期(P4 上半年)学什么</h2>
   <div class="card prog">
@@ -193,7 +187,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card"><ul>
     <li>短短做、常常做,比一次做一小时有用</li>
     <li>先做得完,再加难度;喜欢的书反复读</li>
-    <li>夸具体的事:“这段第三遍读得好顺!”<br><a href="#praise">现成的话在“夸夸”页 →</a></li>
+    <li>夸具体的事:“这段第三遍读得好顺!”<br><a href="#praise" data-jump="praiseTop">现成的话在这页最下面 ↓</a></li>
     <li>练习 app 每天 10 分钟以内,不拿它代替读书</li>
     <li>累了就停</li>
   </ul></div>
@@ -204,6 +198,59 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>如果评估结果支持,考试的特别安排(比如延长时间、放大字体)要学校申请,怎么申请?</li>
     <li>高级华文要不要考虑?什么时候要决定?</li>
   </ol><p class="muted">最好约班主任和英文老师当面谈一次,把在家的情况讲清楚。目的是拿到学校的支持。</p></div></details>
+
+  <h2 id="praiseTop">夸夸:现成的话</h2>
+  <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
+  <details class="more"><summary>读英文时</summary><div class="body say">
+    <p>“这一页你自己读完了。”</p>
+    <p>“这个长词你拆开读出来了。”</p>
+    <p>“第三遍比第一遍顺多了,你听出来了吗?”</p>
+    <p>“你指着字读,一行都没跳。”</p>
+    <p class="q">You read the whole page!</p>
+  </div></details>
+  <details class="more"><summary>读完问问题时</summary><div class="body say">
+    <p>“你找到书里那一句了,答案就在那儿。”</p>
+    <p>“你从他的表情看出来他生气了,这就是证据。”</p>
+    <p class="q">You found the clue!</p>
+  </div></details>
+  <details class="more"><summary>做数学时</summary><div class="body say">
+    <p>“你回去看了题目问的是谁。”</p>
+    <p>“你在关键词下面画线了,这个办法是你自己想出来的。”</p>
+    <p>“你算完问了自己:说得通吗?”</p>
+    <p>“这题第一步是对的,就差一步。”</p>
+    <p>“你把四条边都算上了。”</p>
+  </div></details>
+  <details class="more"><summary>科学和出门时</summary><div class="body say">
+    <p>“你记得 stem 是茎。”</p>
+    <p>“你用 because 把原因说出来了。”</p>
+    <p>“你看得好仔细,连叶子背面都看了。”</p>
+  </div></details>
+  <details class="more"><summary>坚持下来时</summary><div class="body say">
+    <p>“这几天你天天都读了。”</p>
+    <p>“这本书你读了一大半。”</p>
+    <p>“今天是你自己打开来练的。”</p>
+    <p>“你比上个月读得多了。”</p>
+  </div></details>
+  <details class="more"><summary>卡住或做错时</summary><div class="body say">
+    <p>“这题还没会,不是学不会。”</p>
+    <p>“我们看看卡在哪一步。”</p>
+    <p>“改对了,就是学会了。”</p>
+    <p>“今天到这里,你做了很多了。”</p>
+  </div></details>
+  <details class="more"><summary>对别人好的时候</summary><div class="body say">
+    <p>“你教了他那一题,你是个好老师。”</p>
+    <p>“你等妹妹先玩,很体贴。”</p>
+    <div class="card warm"><b>他说别人笨的时候:</b>平静说一次,“分数低不是笨,是还没学会。我们家不说别人笨。”然后换话题。</div>
+  </div></details>
+  <h3 class="sub-h">怎么说最管用</h3>
+  <div class="card"><ul>
+    <li><b>说他做的动作:</b>“你画了线”,比“你好棒”更让他相信。</li>
+    <li><b>语气平常,说一次就够,</b>不用一直夸、不用很夸张。</li>
+    <li><b>当场说:</b>看到就说,不要等做完一整张。</li>
+    <li><b>能多读一点了、做完一个主题,</b>当着他的面在总览“现在到哪了”里改过来,让他看见自己往前走了。</li>
+  </ul></div>
+  <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
+
   <a class="btn" href="#updates">手册更新记录</a>
 </section>
 
@@ -457,73 +504,26 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card"><h3>学校 SLS</h3><p>数学课按本地大纲编,可以先看 P4 的单元。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
 </section>
 
-<!-- ===== 夸夸 ===== -->
-<section class="view" id="v-praise" hidden>
-  <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
+<!-- ===== 练习 app 和做题记录 ===== -->
+<section class="view" id="v-practice" hidden>
+  <div class="card soft"><p class="big">小小的练习 app 和做题记录,<br>都在这一页。</p></div>
 
-  <h2>读英文时</h2>
-  <div class="card say">
-    <p>“这一页你自己读完了。”</p>
-    <p>“这个长词你拆开读出来了。”</p>
-    <p>“第三遍比第一遍顺多了,你听出来了吗?”</p>
-    <p>“你指着字读,一行都没跳。”</p>
-    <p class="q">You read the whole page!</p>
+  <h2>练习 app</h2>
+  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 应用题、计算、P4 预习</a>
+    <p class="muted"><b>小小用自己的 iPad 做:</b>在 iPad 的 Safari 里打开手册的这一页,点进每个练习,各自“添加到主屏幕”,以后都从图标打开。</p></div>
+
+  <div id="syncSec" class="view" hidden>
+    <h2>小小的做题记录</h2>
+    <div class="card" id="syncBox"></div>
   </div>
+  <div class="card soft"><p><b>每两周看一次</b>做题记录,只挑一类错法来练。</p></div>
 
-  <h2>读完问问题时</h2>
-  <div class="card say">
-    <p>“你找到书里那一句了,答案就在那儿。”</p>
-    <p>“你从他的表情看出来他生气了,这就是证据。”</p>
-    <p class="q">You found the clue!</p>
-  </div>
-
-  <h2>做数学时</h2>
-  <div class="card say">
-    <p>“你回去看了题目问的是谁。”</p>
-    <p>“你在关键词下面画线了,这个办法是你自己想出来的。”</p>
-    <p>“你算完问了自己:说得通吗?”</p>
-    <p>“这题第一步是对的,就差一步。”</p>
-    <p>“你把四条边都算上了。”</p>
-  </div>
-
-  <h2>科学和出门时</h2>
-  <div class="card say">
-    <p>“你记得 stem 是茎。”</p>
-    <p>“你用 because 把原因说出来了。”</p>
-    <p>“你看得好仔细,连叶子背面都看了。”</p>
-  </div>
-
-  <h2>坚持下来时</h2>
-  <div class="card say">
-    <p>“这几天你天天都读了。”</p>
-    <p>“这本书你读了一大半。”</p>
-    <p>“今天是你自己打开来练的。”</p>
-    <p>“你比上个月读得多了。”</p>
-  </div>
-
-  <h2>卡住或做错时</h2>
-  <div class="card say">
-    <p>“这题还没会,不是学不会。”</p>
-    <p>“我们看看卡在哪一步。”</p>
-    <p>“改对了,就是学会了。”</p>
-    <p>“今天到这里,你做了很多了。”</p>
-  </div>
-
-  <h2>对别人好的时候</h2>
-  <div class="card say">
-    <p>“你教了他那一题,你是个好老师。”</p>
-    <p>“你等妹妹先玩,很体贴。”</p>
-  </div>
-  <div class="card warm"><b>他说别人笨的时候:</b>平静说一次,“分数低不是笨,是还没学会。我们家不说别人笨。”然后换话题。</div>
-
-  <h2>怎么说最管用</h2>
-  <div class="card"><ul>
-    <li><b>说他做的动作:</b>“你画了线”,比“你好棒”更让他相信。</li>
-    <li><b>语气平常,说一次就够,</b>不用一直夸、不用很夸张。</li>
-    <li><b>当场说:</b>看到就说,不要等做完一整张。</li>
-    <li><b>能多读一点了、做完一个主题,</b>当着他的面在总览“现在到哪了”里改过来,让他看见自己往前走了。</li>
-  </ul></div>
-  <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
+  <details class="more"><summary>练习 app 里有什么</summary><div class="body"><ul>
+    <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学分应用题、计算、P4 预习,应用题会拆成一步一步。</li>
+    <li><b>单词卡</b>:一周学一组 5 个词,学过的隔几天自动再考。</li>
+    <li><b>我的进步</b>:首页最下面,小小自己看的,只说他做到了什么。</li>
+    <li><b>家长入口</b>:“我的进步”最下面的小字,里面是完整记录、复制报告和同步码。数据库万一不工作,也能在 iPad 上看这里。</li>
+  </ul></div></details>
 </section>
 
 <!-- ===== 更新记录(新的写在最上面) ===== -->
@@ -531,6 +531,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v3.6 · 11 月 5 日</span><h3>新的“练习”页</h3><ul>
+    <li>底栏原来“夸夸”的位置改成“练习”:三个练习 app 的入口、小小的做题记录(每门课最近一次练习、最近 7 天、单词卡)、同步码。以后练习 app 相关的都在这里。</li>
+    <li>夸夸的话移到总览最下面,按场景收起来,点开看。</li>
+  </ul></div>
   <div class="card"><span class="tag">v3.5 · 11 月 5 日</span><h3>小小看到的是“我的进步”</h3><ul>
     <li>练习 app 首页最下面改成“我的进步”:做了几题、这 7 天练了几天、已经会的题型、进步了的、改对了几道、记住的单词。只说做到了什么,不列错题。</li>
     <li>完整记录(每次练习、错题、复制报告、同步码)放在“我的进步”最下面的小字“家长入口”里。数据库万一不工作,也能在 iPad 上看完整记录、复制报告发给家人。</li>
@@ -629,14 +633,15 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <a href="#english" data-view="english"><span>英文</span><span class="ic">English</span></a>
   <a href="#science" data-view="science"><span>科学</span><span class="ic">Science</span></a>
   <a href="#math" data-view="math"><span>数学</span><span class="ic">Math</span></a>
-  <a href="#praise" data-view="praise"><span>夸夸</span><span class="ic">Praise</span></a>
+  <a href="#practice" data-view="practice"><span>练习</span><span class="ic">Practice</span></a>
 </div></nav>
 
 <script>
 (function(){
-  var views=["overview","english","science","math","praise","updates"];
+  var views=["overview","english","science","math","practice","updates"];
   function show(){
-    var h=(location.hash||"").replace("#","");
+    var h=(location.hash||"").replace("#",""),jump=null;
+    if(h==="praise"){h="overview";jump="praiseTop";}
     if(views.indexOf(h)<0) h="overview";
     views.forEach(function(v){
       document.getElementById("v-"+v).hidden=(v!==h);
@@ -645,8 +650,11 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
       if(v===(h==="updates"?"overview":h)) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
     });
     renderProg();
+    return jump;
   }
-  window.addEventListener("hashchange",function(){show();window.scrollTo(0,0);});
+  function land(j){var el=j&&document.getElementById(j);if(el)el.scrollIntoView();else window.scrollTo(0,0);}
+  window.addEventListener("hashchange",function(){land(show());});
+  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-jump]");if(!a||location.hash!==a.getAttribute("href"))return;e.preventDefault();land(a.getAttribute("data-jump"));});
 
   var WEEKS=[
     {t:"植物各部分",books:[
@@ -766,12 +774,19 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
         '<div class="row"><span class="n">3</span><div><b>回到这里看</b><p class="muted">他做完一轮,这里就会有记录。</p></div></div></div>'+
         '<details class="inl"><summary>已经有同步码了(比如家里别人生成过)</summary><div class="inrow"><input class="code" id="sIn" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="9" placeholder="比如 K7QM-3XPA" aria-label="同步码"><button type="button" class="hb" data-s="use">用这个码</button></div><p class="muted" id="sMsg" role="status"></p></details>';
     }else{
-      h='<p class="muted">同步码</p><div class="codebig">'+pretty(c)+'</div><p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。</p>'+
-        (cloudState==="loading"?'<p class="muted">正在读取……</p>':cloudState==="net"?'<p class="muted">现在连不上网络,等一下再打开。</p>':cloudState==="rules"?'<p class="muted">数据库不让读:Firebase 里的“规则”还没设置好。</p>':'')+
-        '<div class="prog">'+APPS.map(function(a){var e=cloud&&cloud[a[0]];
-          return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(e&&lastSess(e.S)?sessText(lastSess(e.S)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+'</div>'+
+      var S3=APPS.map(function(a){var e=cloud&&cloud[a[0]];return e?e.S:null;});
+      var we=setsDone(S3[0]),ws=setsDone(S3[1]),days=0,today=false,d=new Date();
+      for(var i=0;i<7;i++){var k=dk(d);if(S3.some(function(x){return x&&x.days&&x.days[k];})){days++;if(i===0)today=true;}d.setDate(d.getDate()-1);}
+      var any=S3.some(function(x){return !!x;});
+      h=(cloudState==="loading"?'<p class="muted">正在读取……</p>':cloudState==="net"?'<p class="muted">现在连不上网络,等一下再打开。</p>':cloudState==="rules"?'<p class="muted">数据库不让读:Firebase 里的“规则”还没设置好。</p>':'')+
+        '<div class="prog">'+APPS.map(function(a,i){var x=S3[i];
+          return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
+        (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
+             '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/8 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>':'')+'</div>'+
+        '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
+        '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。家里别人想看,在他们手机的手册里输同一个码。</p>'+
         (askNew?'<p class="muted">换了以后,iPad 上三个 app 都要重新输入新码。</p><div class="inrow"><button type="button" class="hb" data-s="reset">确定换</button><button type="button" class="hb ghost" data-s="keep">不换了</button></div>'
-               :'<button type="button" class="hb ghost" data-s="ask">换一个码</button>');
+               :'<button type="button" class="hb ghost" data-s="ask">换一个码</button>')+'</details>';
     }
     box.innerHTML=h;}
   document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-s]");if(!b)return;var k=b.getAttribute("data-s");
@@ -796,25 +811,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   function renderProg(){
     var box=document.getElementById("prog");if(!box)return;
     var lv=lvMem;
-    var linked=!!(SYNC_ON&&sget());
-    function src(k){if(linked){var e=cloud&&cloud[k];return e?e.S:null;}return appData("xiaoxiao-"+k+"-v1");}
-    var en=src("english"),sc=src("science"),ma=src("math");
-    var we=setsDone(en),ws=setsDone(sc);
-    var waiting=linked&&cloudState!=="ok";
-    var words=(we||ws)?'英文 <b>'+we+'</b>/8 组 · 科学 <b>'+ws+'</b>/8 组':waiting?'<span class="muted">'+(cloudState==="net"?'连不上网络':cloudState==="rules"?'数据库规则没设好':'正在读取……')+'</span>':'还没开始 · 周一在英文 app 学第 1 组';
-    var days=0,today=false,d=new Date();
-    for(var i=0;i<7;i++){var k=dk(d);if([en,sc,ma].some(function(x){return x&&x.days&&x.days[k];})){days++;if(i===0)today=true;}d.setDate(d.getDate()-1);}
-    var practice=(en||sc||ma)?'最近 7 天练了 <b>'+days+'</b> 天<br><span class="muted">'+(today?'今天练过了':'今天还没练')+'</span>'
-      :waiting?'<span class="muted">'+(cloudState==="net"?'连不上网络':cloudState==="rules"?'数据库规则没设好':'正在读取……')+'</span>'
-      :linked?'iPad 还没传过记录<br><span class="muted">他做完一轮就会有</span>'
-      :SYNC_ON?'还没连上小小的 iPad<br><span class="muted">看下面“小小 iPad 的记录”</span>'
-      :'这台设备上还没有记录<br><span class="muted">要从上面的按钮进 app 练</span>';
     box.innerHTML=
       '<div class="pr"><span class="pl">英文阅读</span><span class="pv"><b>'+LVN[lv-1]+'</b></span><div class="seg" data-seg></div></div>'+
       '<a class="pr" href="#science"><span class="pl">科学主题</span><span class="pv">'+stepOf(WEEKS,done,"wk")+'</span><span class="go">→</span></a>'+
-      '<a class="pr" href="#math"><span class="pl">数学小步</span><span class="pv">'+stepOf(MWEEKS,mdone,"mw")+'</span><span class="go">→</span></a>'+
-      '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+words+'</span></div>'+
-      '<div class="pr"><span class="pl">练习 app</span><span class="pv">'+practice+'</span></div>';
+      '<a class="pr" href="#math"><span class="pl">数学小步</span><span class="pv">'+stepOf(MWEEKS,mdone,"mw")+'</span><span class="go">→</span></a>';
     document.querySelectorAll("[data-seg]").forEach(function(sg){sg.innerHTML=segHTML(lv);});
     document.querySelectorAll("details.lvl").forEach(function(dt){dt.querySelector("[data-now]").textContent=(+dt.getAttribute("data-lvl")===lv)?"现在用这个":"";});
   }
@@ -826,7 +826,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   });
   document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")syncLoad();});
   openLevel(lvMem);
-  show();
+  var j0=show();if(j0)setTimeout(function(){land(j0);},0);
   syncLoad();
 })();
 </script>
