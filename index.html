@@ -283,6 +283,10 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card soft"><p class="big">一个主题一个主题来:<br>先听或读 → 出门看或动手 → 说一说 → 写三句</p></div>
   <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题,按家里的安排一个一个来。</p></div>
   <h2>6 个科学主题</h2>
+  <div class="card warm">
+    <p><b>书去哪找:</b>先在 NLB 图书馆借,实体书或 Libby 里的电子书都行。在 NLB Mobile 里搜书名;借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
+    <a class="btn" href="https://reference.nlb.gov.sg/getting-started/onesearch" target="_blank" rel="noopener">怎么在 NLB 搜书</a>
+  </div>
   <div id="weeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台手机上。</p>
 
@@ -440,12 +444,12 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   show();
 
   var WEEKS=[
-    {t:"植物各部分",book:"From Seed to Plant,或 Secrets of Singapore: Botanic Gardens",do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit"},
-    {t:"物质三态",book:"What Is the World Made Of?",do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt"},
-    {t:"消化系统",book:"What Happens to a Hamburger?",do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest"},
-    {t:"光和影子",book:"Light Is All Around Us",do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect"},
+    {t:"植物各部分",book:"From Seed to Plant,或 Secrets of Singapore: Botanic Gardens",href:"https://bookshop.org/p/books/from-seed-to-plant-gail-gibbons/8202115",href2:"https://www.thetoyfolks.com/collections/singapore-books/products/secrets-of-singapore-botanic-gardens",do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit"},
+    {t:"物质三态",book:"What Is the World Made Of?",href:"https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2",do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt"},
+    {t:"消化系统",book:"What Happens to a Hamburger?",href:"https://bookshop.org/p/books/what-happens-to-a-hamburger-paul-showers/3d65a76a9bb4630a",do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest"},
+    {t:"光和影子",book:"Light Is All Around Us",href:"https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2",do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect"},
     {t:"热",book:"这个主题以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
-    {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
+    {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa(学校的 STELLAR 书)",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
   ];
   var MWEEKS=[
     {t:"十万以内的数",pre:"一起读超市收据、广告上的大数,说出每一位是万、千、百、十、个;比一比哪个大。",rev:"卖掉、剩下:变多了还是变少了?",ex:"做了 60 个面包,剩 14 个,卖掉几个?",ans:"46 个"},
@@ -481,6 +485,8 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     var d=document.createElement("details"); d.className="week";
     d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">'+w.t+'</span><span class="ok" data-ok></span></summary>'+
       '<div class="body"><p><span class="lbl">先读 / 先听</span><span class="en">'+w.book+'</span></p>'+
+      (w.href?'<a class="btn" href="'+w.href+'" target="_blank" rel="noopener">看这本书</a>':'')+
+      (w.href2?'<a class="btn" href="'+w.href2+'" target="_blank" rel="noopener">Secrets of Singapore 植物园</a>':'')+
       '<p><span class="lbl">出门看、动手做</span>'+w.do+'</p>'+
       '<p><span class="lbl">关键词</span><span class="q">'+w.w+'</span></p>'+
       '<label class="done"><input type="checkbox" id="'+id+'">完成了</label></div>';
