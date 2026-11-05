@@ -486,6 +486,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <div class="pass" id="qPass" hidden></div>
       <p class="qtext" id="qText"></p>
       <div class="tools">
+        <button class="tool" id="bAuto" aria-pressed="true" hidden>自动读 开</button>
         <button class="tool" id="bSay" hidden><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6"/></svg>Listen</button>
         <button class="tool" id="bHint" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>提示 Hint</button>
       </div>
@@ -534,7 +535,7 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 /* ---------- verb helpers ---------- */
 function s3(v){if(v==='have')return'has';if(v==='do')return'does';if(v==='go')return'goes';if(/[^aeiou]y$/.test(v))return v.slice(0,-1)+'ies';if(/(s|sh|ch|x|z|o)$/.test(v))return v+'es';return v+'s';}
 const DBL={run:'running',swim:'swimming',sit:'sitting',stop:'stopping',get:'getting',put:'putting',cut:'cutting',begin:'beginning',hit:'hitting',shop:'shopping',win:'winning',forget:'forgetting',drop:'dropping'};
-function ing(v){if(DBL[v])return DBL[v];if(/ie$/.test(v))return v.slice(0,-2)+'ying';if(/[^e]e$/.test(v))return v.slice(0,-1)+'ing';return v+'ing';}
+function ing(v){if(DBL[v])return DBL[v];if(/ie$/.test(v))return v.slice(0,-2)+'ying';if(/[^e]e$/.test(v))return v.slice(0,-1)+'ing';if(/^[^aeiou]*[aeiou][^aeiouwxy]$/.test(v))return v+v.slice(-1)+'ing';return v+'ing';}
 
 /* ========== GRAMMAR ========== */
 const PAST=[
@@ -609,12 +610,12 @@ const BE=[
 ['Ali and I ___ in the same class.',['are','is','am','be'],'Ali and I 是两个人 → **are**。'],
 ['Where ___ my shoes? I cannot find them.',['are','is','am','be'],'shoes 是复数 → **are**。'],
 ['There ___ a lot of people at the beach last Sunday.',['were','was','are','is'],'last Sunday 是过去；people 是很多人 → **were**。'],
-['Siti ___ two brothers.',['has','have','having','haves'],'Siti 一个人 → **has**。'],
-['We ___ art lessons every Friday.',['have','has','having','haves'],'主语是 We → **have**。'],
-['The dog ___ a long tail.',['has','have','haves','having'],'The dog 是一只 → **has**。'],
+['Siti ___ two brothers.',['has','have','having','is'],'Siti 一个人 → **has**。'],
+['We ___ art lessons every Friday.',['have','has','having','are'],'主语是 We → **have**。'],
+['The dog ___ a long tail.',['has','have','is','having'],'The dog 是一只 → **has**。'],
 ['The weather ___ very hot yesterday.',['was','were','is','are'],'yesterday 是过去；weather 是一个 → **was**。'],
 ['___ you ready for the test?',['Are','Is','Am','Be'],'you 要用 **are**。'],
-['My grandparents ___ a big garden.',['have','has','haves','having'],'grandparents 是两个人 → **have**。'],
+['My grandparents ___ a big garden.',['have','has','are','having'],'grandparents 是两个人 → **have**。'],
 ];
 G('gram','is · are · was · were',1,.8,()=>{const [q,o,ex]=pick(BE);return mk({q,zh:'主语是一个还是很多？说的是现在还是过去？',a:o[0],d:o.slice(1),ex});});
 
@@ -721,16 +722,7 @@ const DEM=[
 G('gram','this · that · these · those',1,.5,()=>{const [q,o,ex]=pick(DEM);return mk({q,zh:'近还是远？一个还是很多？',a:o[0],d:o.slice(1),ex});});
 
 const PLUR=[['box',['boxes','boxs','boxies','boxses']],['baby',['babies','babys','babyes','babis']],['leaf',['leaves','leafs','leafes','leavs']],['child',['children','childs','childrens','childes']],['mouse',['mice','mouses','mices','mousies']],['tooth',['teeth','tooths','teeths','toothes']],['foot',['feet','foots','feets','footes']],['sheep',['sheep','sheeps','sheepes','sheepies']],['man',['men','mans','mens','manes']],['knife',['knives','knifes','knifs','knivs']],['story',['stories','storys','storyes','storeis']],['bus',['buses','buss','busies','bussies']],['toy',['toys','toies','toyes','toyses']],['potato',['potatoes','potatos','potatoies','potatoss']],['woman',['women','womans','womens','womanes']],['goose',['geese','gooses','geeses','goosies']],['city',['cities','citys','cityes','citis']],['watch',['watches','watchs','watchies','watchess']],['dish',['dishes','dishs','dishies','dishess']],['wolf',['wolves','wolfs','wolfes','wolvs']],['brush',['brushes','brushs','brushies','brushess']],['monkey',['monkeys','monkies','monkeyes','monkeis']]];
-G('gram','Plurals · 复数',1,.6,()=>{const [s,o]=pick(PLUR);const p=o[0];let ex;
-  if(p===s)ex=`${s} 单数复数一样：one ${s}, two **${p}**。`;
-  else if(!p.startsWith(s.slice(0,Math.max(1,s.length-2))))ex=`${s} → **${p}** 是特殊变化，要记住。`;
-  else if(p.endsWith('ves'))ex=`f / fe 结尾：变成 ves → **${p}**。`;
-  else if(p.endsWith('ies'))ex=`辅音 + y 结尾：把 y 变成 ies → **${p}**。`;
-  else if(/(ch|sh|s|x|o)$/.test(s))ex=`${s} 是 -${s.match(/(ch|sh|s|x|o)$/)[1]} 结尾：加 es → **${p}**。`;
-  else if(/[aeiou]y$/.test(s))ex=`元音 + y 结尾：直接加 s → **${p}**。`;
-  else ex=`直接加 s → **${p}**。`;
-  if(/^(children|mice|teeth|feet|men|women|geese)$/.test(p))ex=`${s} → **${p}** 是特殊变化，要记住。`;
-  return mk({q:`one ${s}, two ___`,zh:'看单词的结尾：-x / -sh / -ch / -y / -f，还是特殊变化？',a:p,d:o.slice(1),ex});});
+/* plurals removed for the same reason: every distractor was a made-up wrong spelling (boxs, childs) */
 
 const SYN=[
 ['I was tired.','I went to bed early.',['I was tired, so I went to bed early.','I was tired because I went to bed early.','I was tired, but I went to bed early.','I was tired or I went to bed early.'],'累了 → 结果早睡：用 **so**。'],
@@ -876,7 +868,7 @@ const SPELL=[
 [['thought','thougth','thort','thoght'],2],[['minute','minit','minnute','minuet'],1],[['island','iland','islend','eyeland'],2],
 [['restaurant','resturant','restaurent','restrant'],2],[['quiet','qiuet','quiat','queit'],1],
 ];
-bank('word','Spelling · 拼写',.7,SPELL,x=>x[1],([o])=>mk({q:'Which word is spelt correctly?',zh:'一个字母一个字母地看。',a:o[0],d:o.slice(1),ex:`正确拼写：**${o[0]}**（${o[0].toLowerCase().split('').join('-')}）。`}));
+/* spelling-choice questions removed: a child still building spelling memory should only see correct spellings */
 
 const FILL=[
 ['It was raining heavily, so Ali opened his ___.',['umbrella','window','lunchbox','book'],1],
@@ -1362,7 +1354,8 @@ if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeo
 function norm(){
 if(!S.by||typeof S.by!=='object')S.by={};
 for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
-if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
+if(typeof S.auto!=='boolean')S.auto=true;
+if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
 norm();
 function save(){if(REMOTE)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(SYNC)SYNC.push(S);}
@@ -1435,9 +1428,12 @@ function showQ(){
   $('opts').innerHTML=q.opts.map((o,i)=>`<button class="opt${o.length>34?' long':''}" id="opt${i}" data-i="${i}"><span class="onum">(${i+1})</span><span class="otext">${fmt(o)}</span></button>`).join('');
   pips();$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';
   window.scrollTo(0,0);
+  autoBtn();if(S.auto)say();
 }
+function autoBtn(){const b=$('bAuto');b.setAttribute('aria-pressed',String(!!S.auto));b.textContent=S.auto?'自动读 开':'自动读 关';}
 function choose(i){
   if(!R||R.locked)return;R.locked=true;
+  try{speechSynthesis.cancel();}catch(e){}
   const q=R.qs[R.i],ok=i===q.ans;R.res[R.i]=ok;
   [...$('opts').children].forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.classList.add('ok');else if(j===i)b.classList.add('no');else b.classList.add('dim');});
   const by=S.by[q.c]||(S.by[q.c]=[0,0]);by[0]++;
@@ -1612,7 +1608,7 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   t=t.replace(/(\d)\u2009(?=\d)/g,'$1').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
-$('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
+$('bSay').hidden=!canSay;$('bAuto').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();}catch(e){}}
 
 /* sound */
@@ -1651,6 +1647,7 @@ $('bStatsBack').addEventListener('click',()=>{if(REMOTE)location.href='../#pract
 $('bCopy').addEventListener('click',copyReport);
 $('bSay').addEventListener('click',say);
 $('bHint').addEventListener('click',()=>{const on=$('qHint').hidden;$('qHint').hidden=!on;$('bHint').setAttribute('aria-pressed',String(on));});
+$('bAuto').addEventListener('click',()=>{S.auto=!S.auto;save();autoBtn();if(S.auto)say();else{try{speechSynthesis.cancel();}catch(e){}}});
 $('bSound').addEventListener('click',()=>{S.sound=!S.sound;save();$('bSound').setAttribute('aria-pressed',String(S.sound));if(S.sound)beep(true);});
 document.addEventListener('keydown',e=>{if($('vQuiz').hidden||!R)return;if(!R.locked&&/^[1-4]$/.test(e.key)){choose(+e.key-1);e.preventDefault();}else if(R.locked&&(e.key==='Enter'||e.key===' ')&&document.activeElement!==$('bNext')){next();e.preventDefault();}});
 
