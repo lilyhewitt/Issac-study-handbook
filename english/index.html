@@ -155,6 +155,13 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .dbtns{display:grid;gap:12px;width:100%;margin-top:8px}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 
+/* write it down */
+.wbox{width:100%;text-align:left;background:var(--paper);border:2px dashed var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.wb-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.wb-h small{color:var(--ink-2)}
+.wb-q{margin:0;font-weight:700;font-size:1.1rem;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
+.wb-zh{margin:0;color:var(--ink-2);font-size:.95rem}
+.wb-a{background:var(--good-bg);border-radius:12px;padding:10px 12px;white-space:pre-line;line-height:1.55;overflow-wrap:anywhere}
 /* word cards */
 .wtile{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:var(--surface);border:2px solid var(--gram);border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 var(--gram-deep);transition:transform .08s ease,box-shadow .08s ease}
 .wtile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gram-deep)}
@@ -362,6 +369,15 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
       <div class="drow" id="dStars"></div>
       <p class="dmsg" id="dMsg">Nice try!</p>
       <p class="dsub" id="dSub"></p>
+      <div class="wbox" id="wBox" hidden>
+        <div class="wb-h"><span class="chip">写一写 · Write it down</span><small>写在纸上，写完再看答案</small></div>
+        <div class="pass" id="wP" hidden></div>
+        <p class="wb-q" id="wQ"></p>
+        <p class="wb-zh" id="wZh"></p>
+        <button class="sbtn ghost" id="bWShow">写好了，看参考答案</button>
+        <div class="wb-a" id="wA" hidden></div>
+        <p class="st-note">大人只看一件事：有没有写完整。不用判对错。</p>
+      </div>
       <div class="dbtns">
         <button class="btn" id="bAgain">One more round 再来一轮</button>
         <button class="btn ghost" id="bHome">Home 回首页</button>
@@ -1189,6 +1205,29 @@ const WORDSETS=[
  ['damp','潮湿的','a little wet','The towel is still **damp**.']]},
 ];
 
+/* ---------- write it down: one prompt after each round, answered on paper. [prompt, 中文, model answer] ---------- */
+const WRITE=[
+['Answer in a full sentence. Start with words from the question.\nWhat did you eat for dinner yesterday?','用完整的句子回答，用题目里的词开头：你昨天晚饭吃了什么？','Yesterday, I ate chicken rice for dinner.'],
+['Answer in a full sentence.\nWhere do you like to go on Saturdays?','用完整的句子回答：你星期六喜欢去哪里？','On Saturdays, I like to go to the library.'],
+['Join the two sentences with “because”.\nI was hungry. I ate a sandwich.','用 because 把两句合成一句。','I ate a sandwich because I was hungry.'],
+['Join the two sentences with “so”.\nIt was raining. We stayed at home.','用 so 把两句合成一句。','It was raining, so we stayed at home.'],
+['Join the two sentences with “although”.\nBen was tired. He finished his homework.','用 although 把两句合成一句。','Although Ben was tired, he finished his homework.'],
+['Join the two sentences with “who”.\nThe boy is my cousin. He is wearing a red cap.','用 who 把两句合成一句。','The boy who is wearing a red cap is my cousin.'],
+['How did you feel on your last birthday?\nWrite: I felt ___ because ___.','你上次过生日感觉怎样？写：I felt ___ because ___.','I felt happy because my family sang a song for me.'],
+['Write one sentence about what you did last weekend. Use the past tense.','写一句上周末做了什么，用过去式。','Last weekend, I played football with my friends.'],
+['Write one sentence about what you do every morning.','写一句你每天早上做什么。','Every morning, I brush my teeth and eat my breakfast.'],
+['Describe your favourite food in two sentences. Use one describing word.','用两句话写你最喜欢的食物，用一个形容词。','My favourite food is laksa. It is spicy and delicious.'],
+['Look out of the window. Write two sentences about what you see.','看看窗外，写两句你看到了什么。','I can see a tall tree. Some birds are flying above it.'],
+['Write a sentence with the word “suddenly”.','用 suddenly 写一句。','Suddenly, a big dog ran towards us.'],
+['Write a sentence with the word “nervous”.','用 nervous 写一句。','I felt nervous before my swimming test.'],
+['Tell a short story in three sentences.\nFirst… Then… Finally…','用 First… Then… Finally… 写三句的小故事。','First, I woke up early. Then, I went to the park with Dad. Finally, we had ice cream.'],
+['Answer in a full sentence.\nWhy do you like your best friend?','用完整的句子回答：你为什么喜欢你最好的朋友？','I like my best friend because he is kind and funny.'],
+['Change the sentence to the past tense.\nI go to school by bus.','把句子改成过去式。','I went to school by bus.'],
+['Write a question that starts with “Where”. Then answer it.','写一个 Where 开头的问题，再回答它。','Where is the cat? The cat is under the table.'],
+['Answer in a full sentence.\nWhat would you do if you found a lost puppy?','用完整的句子回答：如果你捡到一只走失的小狗，你会怎么做？','If I found a lost puppy, I would call the number on its collar.'],
+];
+function writePrompt(){const [q,zh,a]=pick(WRITE);return{q,zh,a};}
+
 /* ---------- engine ---------- */
 const CATW={gram:.33,word:.3,read:.37};
 function wpick(arr,wf){let t=0;arr.forEach(x=>t+=wf(x));let r=Math.random()*t;for(const x of arr){r-=wf(x);if(r<=0)return x;}return arr[arr.length-1];}
@@ -1202,7 +1241,7 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
   if(ok2)for(let k=0;k<40;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return PAST.length+PF.length*18+CF.length*14+BE.length+PRON.length+PREP.length+QUANT.length+CONJ.length+DEM.length+PLUR.length+SYN.length+VOC.length+OPP.length+SPELL.length+FILL.length+QW.length*4+RD.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,writePrompt};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -1319,6 +1358,9 @@ function finish(){
   const wordRound=/^learn:|^review$/.test(R.mode);
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
+  /* one thing to write on paper, except after word-card rounds */
+  const w=QB.writePrompt&&!wordRound?QB.writePrompt(R.qs):null;$('wBox').hidden=!w;
+  if(w){$('wP').hidden=!w.p;$('wP').innerHTML=w.p?fmt(w.p):'';$('wQ').textContent=w.q;$('wZh').textContent=w.zh||'';$('wA').textContent=w.a;$('wA').hidden=true;$('bWShow').hidden=false;}
   if(s>=n-1&&n>1)confetti();
 }
 
@@ -1455,6 +1497,7 @@ $('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch
 $('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakText(`${w.w}. ${w.ex.replace(/\*\*/g,'')}`);});
 $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
+$('bWShow').addEventListener('click',()=>{$('wA').hidden=false;$('bWShow').hidden=true;});
 $('bStats').addEventListener('click',statsView);
 $('bStatsBack').addEventListener('click',home);
 $('bCopy').addEventListener('click',copyReport);
