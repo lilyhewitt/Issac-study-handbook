@@ -88,6 +88,13 @@ details.week[open] summary::after{content:"−";}
 details.week .body{padding:0 16px 14px;}
 details.week .body p{margin:6px 0;}
 details.week .lbl{color:var(--muted);font-size:14px;font-weight:700;display:block;}
+ul.books{list-style:none;margin:6px 0 12px;padding:0;display:flex;flex-direction:column;gap:8px;}
+ul.books li{margin:0;}
+ul.books .bk{position:relative;display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:52px;padding:9px 38px 9px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);text-decoration:none;line-height:1.4;}
+ul.books a.bk::after{content:"↗";font-family:var(--f-latin);position:absolute;right:14px;top:50%;transform:translateY(-50%);}
+ul.books div.bk{background:transparent;border:1.5px dashed var(--line);color:var(--ink);}
+ul.books .bk .en{font-size:16px;}
+ul.books .by{font-size:14px;color:var(--muted);}
 label.done{display:flex;align-items:center;gap:10px;min-height:44px;margin-top:6px;font-weight:700;}
 label.done input{width:22px;height:22px;accent-color:var(--accent);}
 details.more{background:var(--surface);border:1px solid var(--line);border-radius:14px;}
@@ -284,7 +291,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题,按家里的安排一个一个来。</p></div>
   <h2>6 个科学主题</h2>
   <div class="card warm">
-    <p><b>书去哪找:</b>先在 NLB 图书馆借,实体书或 Libby 里的电子书都行。在 NLB Mobile 里搜书名;借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
+    <p><b>书去哪找:</b>每个主题列了 3 本,从简单到难,<b>找到一本就行</b>。先在 NLB 图书馆借,实体书或 Libby 里的电子书都行,在 NLB Mobile 里搜书名。三本都借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
     <a class="btn" href="https://reference.nlb.gov.sg/getting-started/onesearch" target="_blank" rel="noopener">怎么在 NLB 搜书</a>
   </div>
   <div id="weeks" style="display:flex;flex-direction:column;gap:10px"></div>
@@ -444,13 +451,43 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   show();
 
   var WEEKS=[
-    {t:"植物各部分",book:"From Seed to Plant,或 Secrets of Singapore: Botanic Gardens",href:"https://bookshop.org/p/books/from-seed-to-plant-gail-gibbons/8202115",href2:"https://www.thetoyfolks.com/collections/singapore-books/products/secrets-of-singapore-botanic-gardens",do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit"},
-    {t:"物质三态",book:"What Is the World Made Of?",href:"https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2",do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt"},
-    {t:"消化系统",book:"What Happens to a Hamburger?",href:"https://bookshop.org/p/books/what-happens-to-a-hamburger-paul-showers/3d65a76a9bb4630a",do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest"},
-    {t:"光和影子",book:"Light Is All Around Us",href:"https://bookroo.com/books/leveled-readers/lets-read-and-find-out-science/level-2",do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect"},
-    {t:"热",book:"这个主题以动手为主",do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
-    {t:"复习 + 出游",book:"重读 The Stars of Chek Jawa(学校的 STELLAR 书)",do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
+    {t:"植物各部分",books:[
+      {n:"How a Seed Grows",a:"Helene J. Jordan",h:"https://www.charterbookstore.com/book/9780062381880"},
+      {n:"From Seed to Plant",a:"Gail Gibbons",h:"https://bookshop.org/p/books/from-seed-to-plant-gail-gibbons/8202115"},
+      {n:"Secrets of Singapore: Botanic Gardens",a:"新加坡植物园,去之前读",h:"https://www.thetoyfolks.com/collections/singapore-books/products/secrets-of-singapore-botanic-gardens"}
+    ],do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit"},
+    {t:"物质三态",books:[
+      {n:"What Is the World Made Of?",a:"Kathleen Weidner Zoehfeld",h:"https://bookroo.com/books/what-is-the-world-made-of-all-about-solids-liquids-and-gases-9780062381958"},
+      {n:"Matter: See It, Touch It, Taste It, Smell It",a:"Darlene R. Stille",h:"https://www.booksource.com/Products/Matter--See-It--Touch-It--Taste-It--Smell-It__1404803440.aspx"},
+      {n:"What's the Matter in Mr. Whiskers' Room?",a:"Michael Elsohn Ross · 跟着做小实验",h:"https://bookroo.com/books/whats-the-matter-in-mr-whiskers-room"}
+    ],do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt"},
+    {t:"消化系统",books:[
+      {n:"What Happens to a Hamburger?",a:"Paul Showers",h:"https://bookshop.org/p/books/what-happens-to-a-hamburger-paul-showers/3d65a76a9bb4630a"},
+      {n:"The Magic School Bus Inside the Human Body",a:"Joanna Cole · 漫画式,热闹",h:"https://www.schoollibraryjournal.com/review/the-magic-school-bus-inside-the-human-body"},
+      {n:"Burp!",a:"Diane Swanson · 字多一点,大人可以读给他听",h:"https://49thshelf.com/Books/B/Burp"}
+    ],do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest"},
+    {t:"光和影子",books:[
+      {n:"What Makes a Shadow?",a:"Clyde Robert Bulla",h:"https://www.librarything.com/work/573523"},
+      {n:"Light Is All Around Us",a:"Wendy Pfeffer",h:"https://mitpressbookstore.mit.edu/book/9780062381903"},
+      {n:"Light: Shadows, Mirrors, and Rainbows",a:"Natalie M. Rosinsky",h:"https://www.booksource.com/Products/Light--Shadows--Mirrors--And-Rainbows__1404803327.aspx"}
+    ],do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect"},
+    {t:"热",books:[
+      {n:"Heating and Cooling",a:"Cody Crane",h:"https://blackwells.co.uk/bookshop/product/Heating-and-Cooling-Rookie-Read-About-Science-Physical-Science-by-Cody-Crane/9780531138014"},
+      {n:"Energy Makes Things Happen",a:"Kimberly Brubaker Bradley",h:"https://www.powells.com/book/energy-makes-things-happen-9780060289089"},
+      {n:"Temperature: Heating Up and Cooling Down",a:"Darlene R. Stille",h:"https://www.goodreads.com/book/show/7952935-temperature"}
+    ],do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
+    {t:"复习 + 出游",books:[
+      {n:"The Stars of Chek Jawa",a:"学校发的 STELLAR 书,先重读这本"},
+      {n:"Starfish",a:"Edith Thacher Hurd",h:"https://www.powells.com/book/-9780064451987"},
+      {n:"What Lives in a Shell?",a:"Kathleen Weidner Zoehfeld",h:"https://www.librarything.com/work/34800"}
+    ],do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
   ];
+  function bookList(bs){
+    return '<ul class="books">'+bs.map(function(b){
+      var inner='<span class="en">'+b.n+'</span><span class="by">'+b.a+'</span>';
+      return '<li>'+(b.h?'<a class="bk" href="'+b.h+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="bk">'+inner+'</div>')+'</li>';
+    }).join('')+'</ul>';
+  }
   var MWEEKS=[
     {t:"十万以内的数",pre:"一起读超市收据、广告上的大数,说出每一位是万、千、百、十、个;比一比哪个大。",rev:"卖掉、剩下:变多了还是变少了?",ex:"做了 60 个面包,剩 14 个,卖掉几个?",ans:"46 个"},
     {t:"因数和倍数",pre:"12 颗糖平均分,可以分成几份、每份几颗?(1×12、2×6、3×4)",rev:"倒满几杯:先乘,再减",ex:"1 ℓ 水倒满 3 杯,每杯 200 ml,还剩多少?",ans:"1000 − 3 × 200 = 400 ml"},
@@ -484,9 +521,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     var id="wk"+(i+1);
     var d=document.createElement("details"); d.className="week";
     d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">'+w.t+'</span><span class="ok" data-ok></span></summary>'+
-      '<div class="body"><p><span class="lbl">先读 / 先听</span><span class="en">'+w.book+'</span></p>'+
-      (w.href?'<a class="btn" href="'+w.href+'" target="_blank" rel="noopener">看这本书</a>':'')+
-      (w.href2?'<a class="btn" href="'+w.href2+'" target="_blank" rel="noopener">Secrets of Singapore 植物园</a>':'')+
+      '<div class="body"><p><span class="lbl">先读 / 先听(找到一本就行)</span></p>'+bookList(w.books)+
       '<p><span class="lbl">出门看、动手做</span>'+w.do+'</p>'+
       '<p><span class="lbl">关键词</span><span class="q">'+w.w+'</span></p>'+
       '<label class="done"><input type="checkbox" id="'+id+'">完成了</label></div>';
