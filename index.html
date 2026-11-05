@@ -73,6 +73,27 @@ a.btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-
 a.btn::after{content:"↗";font-family:var(--f-latin);}
 a.btn[href^="#"]::after{content:"→";}
 a.btn:active{opacity:.8;}
+a.btn .src{margin-left:auto;font-family:var(--f-latin);font-size:12.5px;font-weight:700;opacity:.7;}
+/* progress rows */
+.prog{padding-block:2px;}
+.pr{display:grid;grid-template-columns:4.6em 1fr auto;gap:8px 12px;align-items:center;padding:12px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:52px;}
+.prog > .pr:first-child{border-top:0;}
+.pr .pl{font-size:14px;font-weight:700;color:var(--muted);line-height:1.4;}
+.pr .pv{min-width:0;line-height:1.5;}
+.pr .go{font-family:var(--f-latin);font-weight:700;color:var(--accent-ink);}
+.pr .seg{grid-column:1 / -1;}
+a.pr:active{opacity:.8;}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px;}
+.seg button{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:0 4px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface);}
+/* small fold inside a card */
+details.inl{margin-top:10px;border-top:1px dashed var(--line);}
+details.inl summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;min-height:44px;font-weight:700;color:var(--accent-ink);}
+details.inl summary::-webkit-details-marker{display:none;}
+details.inl summary::before{content:"+";font-family:var(--f-latin);font-size:18px;width:1em;}
+details.inl[open] summary::before{content:"−";}
+.body h3{font-size:16px;margin:14px 0 2px;}
+.body h3:first-child{margin-top:0;}
 .tag{display:inline-block;font-size:13px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 10px;margin-bottom:6px;}
 /* say lines */
 .say p{font-weight:700;margin:4px 0;}
@@ -90,8 +111,8 @@ details.week .body p{margin:6px 0;}
 details.week .lbl{color:var(--muted);font-size:14px;font-weight:700;display:block;}
 ul.books{list-style:none;margin:6px 0 12px;padding:0;display:flex;flex-direction:column;gap:8px;}
 ul.books li{margin:0;}
-ul.books .bk{position:relative;display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:52px;padding:9px 38px 9px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);text-decoration:none;line-height:1.4;}
-ul.books a.bk::after{content:"↗";font-family:var(--f-latin);position:absolute;right:14px;top:50%;transform:translateY(-50%);}
+ul.books .bk{position:relative;display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:52px;padding:9px 64px 9px 14px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);text-decoration:none;line-height:1.4;}
+ul.books a.bk::after{content:"NLB ↗";font-family:var(--f-latin);font-size:13px;font-weight:700;position:absolute;right:14px;top:50%;transform:translateY(-50%);opacity:.85;}
 ul.books div.bk{background:transparent;border:1.5px dashed var(--line);color:var(--ink);}
 ul.books .bk .en{font-size:16px;}
 ul.books .by{font-size:14px;color:var(--muted);}
@@ -102,7 +123,7 @@ details.more summary{cursor:pointer;padding:14px 16px;font-weight:700;min-height
 details.more .body{padding:0 16px 14px;}
 /* bottom nav */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
-nav.tabs .wrap{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;height:var(--nav-h);align-items:center;}
+nav.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:var(--nav-h);align-items:center;}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:15px;min-width:0;}
 nav.tabs a .ic{font-family:var(--f-latin);font-size:11.5px;letter-spacing:.02em;}
 nav.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);}
@@ -124,37 +145,42 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
 <section class="view" id="v-overview">
   <div class="card soft"><p class="big">这个假期往前看:<br>预习下学期,顺手把没学稳的补上。</p></div>
 
-  <div class="card"><span class="tag">手机练习 app</span><p>给他在手机上做选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 应用题、计算、P4 预习</a></div>
+  <div class="card"><span class="tag">手机练习 app</span><p>给他在手机上做选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 应用题、计算、P4 预习</a>
+    <p class="muted"><b>固定从这里点进去。</b>在 iPhone 上,从这里、从 app 自己的主屏图标、从 Safari 打开,是三份分开的记录,换着开就对不上。</p></div>
+
+  <h2>现在到哪了</h2>
+  <div class="card prog" id="prog"></div>
+  <p class="muted">进度存在这台手机上。升关、做完一个主题,当着他的面改过来。</p>
 
   <h2>每天做什么</h2>
   <div class="card"><h3>每天必做 · 30 分钟左右</h3><ul>
-    <li><b>英文 20 分钟</b>:一起读 10 分钟 + 睡前听书。拼读按英文页的顺序来。</li>
-    <li><b>练习 app 一轮</b>:英文、数学、科学轮着来,一天一个,10 分钟以内。</li>
+    <li><b>英文 20 分钟</b>:拼读 10 分钟 + 一起读 10 分钟。睡前再听书,不算在里面。</li>
+    <li><b>练习 app 一轮</b>:英文、数学、科学轮着来,一天一个,10 分钟以内。<b>周一</b>改做英文单词卡,学新的一组。</li>
     <li><b>写一道</b>:app 每轮做完会出一道“写一写”,写在纸上,写完再看参考答案。大人只看有没有写完整,不用判对错。</li>
   </ul></div>
   <div class="card"><h3>每周两三次</h3><ul>
     <li><b>数学 15 分钟</b>:预习一小步 + 复习一类常错的题;应用题在纸上画线段图。</li>
-    <li><b>科学一个主题</b>:先听或读,再出门看或动手,回来说一说。</li>
+    <li><b>科学一个主题</b>:先听或读,再出门看或动手,回来说一说。开始新主题那天,在科学 app 学同一主题的单词卡。</li>
     <li><b>华文书</b>:读一本他喜欢的。华文是强项,别停。</li>
   </ul></div>
   <div class="card"><h3>有空再做</h3><ul>
-    <li>单词卡学新的一组(一周一组就够)</li>
     <li>去图书馆、科学馆、公园,把学过的词用一用</li>
+    <li>数学 app 里的单词卡(应用题常用词),想看就看一组</li>
   </ul></div>
   <div class="card soft"><p><b>每两周看一次</b>练习 app 里的“家长看 · 练习记录”,只挑一类错法来练。<b>开学前最后一周</b>只复习,不加新东西。</p></div>
 
   <h2>下学期(P4 上半年)学什么</h2>
-  <div class="card"><span class="tag">英文</span><p>理解题变成两篇、文章更长;还会练语法、词汇、句子合并,有的学校加“看图文”和“改错”。</p><a class="btn" href="#english">看英文怎么准备</a></div>
-  <div class="card"><span class="tag">科学</span><p>植物各部分的功能、消化系统、物质三态、光和影子、热。</p><a class="btn" href="#science">看 6 个科学主题</a></div>
-  <div class="card"><span class="tag">数学</span><p>十万以内的数、因数和倍数、乘除、量角、折线图,接着学分数。</p><a class="btn" href="#math">看 6 个数学小步</a></div>
-
-  <div class="card"><span class="tag">家长夸夸</span><p>不知道怎么夸?按场景准备好了现成的话。</p><a class="btn" href="#praise">看夸夸的话</a></div>
+  <div class="card prog">
+    <a class="pr" href="#english"><span class="pl">英文</span><span class="pv">理解题变成两篇、文章更长;有的学校加看图文和改错</span><span class="go">→</span></a>
+    <a class="pr" href="#science"><span class="pl">科学</span><span class="pv">植物各部分、消化系统、物质三态、光和影子、热</span><span class="go">→</span></a>
+    <a class="pr" href="#math"><span class="pl">数学</span><span class="pv">十万以内的数、因数和倍数、乘除、角、折线图、分数</span><span class="go">→</span></a>
+  </div>
 
   <h2>要守住的</h2>
   <div class="card"><ul>
     <li>短短做、常常做,比一次做一小时有用</li>
     <li>先做得完,再加难度;喜欢的书反复读</li>
-    <li>夸具体的事:“这段第三遍读得好顺!”</li>
+    <li>夸具体的事:“这段第三遍读得好顺!”<br><a href="#praise">现成的话在“夸夸”页 →</a></li>
     <li>练习 app 每天 10 分钟以内,不拿它代替读书</li>
     <li>累了就停</li>
   </ul></div>
@@ -165,103 +191,92 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     <li>如果评估结果支持,考试的特别安排(比如延长时间、放大字体)要学校申请,怎么申请?</li>
     <li>高级华文要不要考虑?什么时候要决定?</li>
   </ol><p class="muted">最好约班主任和英文老师当面谈一次,把在家的情况讲清楚。目的是拿到学校的支持。</p></div></details>
+  <a class="btn" href="#updates">手册更新记录</a>
 </section>
 
 <!-- ===== 英文 ===== -->
 <section class="view" id="v-english" hidden>
   <div class="card soft"><p class="big">一关一关来,从简单到难。<br>过关看他读得顺不顺,不看读多快。</p></div>
 
-  <h2>三块,每块 10 分钟左右</h2>
+  <h2>每天:拼读 + 一起读,睡前听书</h2>
   <div class="card">
     <span class="tag">10 分钟</span><h3>① 拼读</h3>
-    <p>按顺序学字母和发音,把单词拆开读。选一个顺手的:</p>
-    <p><b>Oxford Owl 免费电子书库:</b>注册就能用,手机、平板打开网页。选 Phonics(拼读)类的书,从低的 Oxford Level 往上读;带 Audio 的书可以先听再读。</p>
+    <p>先用 <b>Oxford Owl 免费电子书库</b>:注册就能用,手机、平板打开网页。选 Phonics(拼读)类的书,从低的 Oxford Level 往上读;带 Audio 的书先听再读。</p>
     <a class="btn" href="https://www.oxfordowl.co.uk/for-home/find-a-book/library-page/" target="_blank" rel="noopener">Oxford Owl 电子书库</a>
-    <p><b>Duolingo ABC:</b>免费、没有广告的拼读小游戏,iPhone、iPad 可用。画风偏小朋友,当热身用。</p>
-    <a class="btn" href="https://apps.apple.com/app/id1440502568" target="_blank" rel="noopener">Duolingo ABC</a>
-    <p><b>Moo-O:</b>新加坡很多小学在用的阅读 app,能听、能跟读、能录音。问学校有没有给他开账号。</p>
+    <details class="inl"><summary>不合适再换</summary>
+      <p><b>学校给了 Moo-O 账号:</b>就改用 Moo-O。新加坡很多小学在用,能听、能跟读、能录音。开学时问老师有没有。</p>
+      <p><b>他嫌读书没意思:</b>先用 Duolingo ABC 热身。免费、没有广告的拼读小游戏,iPhone、iPad 可用,画风偏小朋友。</p>
+      <a class="btn" href="https://apps.apple.com/app/id1440502568" target="_blank" rel="noopener">Duolingo ABC</a>
+    </details>
   </div>
   <div class="card">
     <span class="tag">10 分钟</span><h3>② 一起读</h3>
-    <p>按下面的关卡读。读错了只轻轻纠正影响意思的;用卡片压住正在读的那一行。</p>
+    <p>按他现在那一关读(看下面)。读错了只轻轻纠正影响意思的;用卡片压住正在读的那一行。</p>
   </div>
   <div class="card">
-    <span class="tag">睡前</span><h3>③ 听书</h3>
+    <span class="tag">睡前 · 不算时间</span><h3>③ 听书</h3>
     <p>NLB 的 Libby app 里有 Read-alongs:边朗读边把字亮出来。比他现在能读的难一点的书,先用听的。</p>
     <a class="btn" href="https://www.nlb.gov.sg/main/services/faqs/NLB-Mobile/get-started-with-libby" target="_blank" rel="noopener">Libby 怎么用</a>
   </div>
 
   <h2>阅读关卡(从简单到难)</h2>
-
-  <div class="card">
-    <span class="tag">第 1 关 · 最简单</span>
-    <h3>大人读,他读一小部分</h3>
+  <div class="card"><p><b>他现在在第几关?</b>点一下就改,总览也跟着变。</p><div class="seg" data-seg></div></div>
+  <details class="week lvl" data-lvl="1"><summary><span class="wk">1</span><span class="tt">大人读,他读一小部分</span><span class="ok" data-now></span></summary><div class="body">
     <p><b>怎么读:</b>大人读,他只读对话气泡,或每页读一两句。</p>
     <p><b>读完问:</b><span class="q">Who? What did he do?</span> 谁?做了什么?</p>
     <p><b>读这些书:</b></p>
     <p><span class="en">Press Start!</span> 游戏主题,像马里奥,从第 1 本 <span class="en">Game Over, Super Rabbit Boy!</span> 开始</p>
-    <a class="btn" href="https://bookroo.com/books/series/press-start" target="_blank" rel="noopener">Press Start!</a>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Press%20Start%20Thomas%20Flintham" target="_blank" rel="noopener"><span>Press Start!</span><small class="src">NLB</small></a>
     <p><span class="en">Super Mario Manga Mania</span> 任天堂官方搞笑漫画,台词短</p>
-    <a class="btn" href="https://www.simonandschuster.net/books/Super-Mario-Manga-Mania/Yukio-Sawada/Super-Mario-Bros-Manga-Mania/9781974718481" target="_blank" rel="noopener">Super Mario Manga Mania</a>
-  </div>
-
-  <div class="card">
-    <span class="tag">第 2 关</span>
-    <h3>你一页,我一页</h3>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Super%20Mario%20Manga%20Mania" target="_blank" rel="noopener"><span>Super Mario Manga Mania</span><small class="src">NLB</small></a>
+  </div></details>
+  <details class="week lvl" data-lvl="2"><summary><span class="wk">2</span><span class="tt">你一页,我一页</span><span class="ok" data-now></span></summary><div class="body">
     <p><b>怎么读:</b>轮流读;短短一段连读三遍,越读越顺。</p>
     <p><b>读完问:</b><span class="q">Who? Where? What?</span> 谁?在哪?做了什么?</p>
     <p><b>读这些书:</b></p>
     <p><span class="en">Percy and Pam / Classroom Critters</span> 新加坡本地初级读物,故事在印度煎饼店、鸡饭摊;Classroom Critters 讲动物</p>
-    <a class="btn" href="https://epigrambookshop.sg/collections/early-readers-6-years-old-and-up" target="_blank" rel="noopener">Epigram 本地初级读物</a>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Percy%20and%20Pam" target="_blank" rel="noopener"><span>Percy and Pam</span><small class="src">NLB</small></a><a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Classroom%20Critters" target="_blank" rel="noopener"><span>Classroom Critters</span><small class="src">NLB</small></a>
     <p><span class="en">Dog Man</span> 画面热闹好笑,每格字不多</p>
-    <a class="btn" href="https://www.scholastic.com/content/site/dav-pilkey-books/dog-man-books/dog-man.html" target="_blank" rel="noopener">Dog Man</a>
-  </div>
-
-  <div class="card">
-    <span class="tag">第 3 关</span>
-    <h3>他读大部分</h3>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Dog%20Man%20Dav%20Pilkey" target="_blank" rel="noopener"><span>Dog Man</span><small class="src">NLB</small></a>
+  </div></details>
+  <details class="week lvl" data-lvl="3"><summary><span class="wk">3</span><span class="tt">他读大部分</span><span class="ok" data-now></span></summary><div class="body">
     <p><b>怎么读:</b>他读大约三分之二,大人读剩下的。</p>
     <p><b>读完问:</b><span class="q">How does he feel? How do you know?</span> 让他指着书里的图或句子说。</p>
     <p><b>读这些书:</b></p>
     <p><span class="en">Dragon Masters</span> 养龙冒险,短章节</p>
-    <a class="btn" href="https://www.scholastic.com/site/branches/dragon-masters-bk.html" target="_blank" rel="noopener">Dragon Masters</a>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Dragon%20Masters%20Tracey%20West" target="_blank" rel="noopener"><span>Dragon Masters</span><small class="src">NLB</small></a>
     <p><span class="en">Who Would Win?</span> 两种动物比一比,先猜谁赢</p>
-    <a class="btn" href="https://www.scholastic.com/parents/books-and-reading/book-lists-and-recommendations/animals/book-list-for-who-would-win.html" target="_blank" rel="noopener">Who Would Win?</a>
-  </div>
-
-  <div class="card">
-    <span class="tag">第 4 关 · 最难</span>
-    <h3>他自己读,读完说一句</h3>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Who%20Would%20Win%20Jerry%20Pallotta" target="_blank" rel="noopener"><span>Who Would Win?</span><small class="src">NLB</small></a>
+  </div></details>
+  <details class="week lvl" data-lvl="4"><summary><span class="wk">4</span><span class="tt">他自己读,读完说一句</span><span class="ok" data-now></span></summary><div class="body">
     <p><b>怎么读:</b>他自己读一段,读完用一句话说“这段讲什么”。</p>
     <p><b>读完问:</b><span class="q">Which part is the most interesting? Why?</span></p>
     <p><b>读这些书:</b></p>
     <p><span class="en">Secrets of Singapore</span> 探索植物园、国家博物馆、樟宜机场这些真实的地方,去之前先读那一本</p>
-    <a class="btn" href="https://epigrambookshop.sg/products/secrets-of-singapore-updated-edition" target="_blank" rel="noopener">Secrets of Singapore</a>
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Secrets%20of%20Singapore" target="_blank" rel="noopener"><span>Secrets of Singapore</span><small class="src">NLB</small></a>
     <p><span class="en">Sherlock Sam</span> 新加坡男孩侦探,字比较多,先听或大人读,再自己读</p>
-    <a class="btn" href="https://www.simonandschuster.ca/books/Sherlock-Sam-and-the-Missing-Heirloom-in-Katong/A-J-Low/Sherlock-Sam/9781449477899" target="_blank" rel="noopener">Sherlock Sam 第 1 本</a>
-  </div>
-
+    <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Sherlock%20Sam%20Missing%20Heirloom%20Katong" target="_blank" rel="noopener"><span>Sherlock Sam 第 1 本</span><small class="src">NLB</small></a>
+  </div></details>
   <div class="card warm">
     <p><b>什么时候升关:</b>连着几次都读得顺、读完说得出内容,就升一关。</p>
     <p><b>什么时候退回:</b>读得很痛苦、开始躲书,就退回上一关,这完全没关系。</p>
     <p><b>怎么看进步:</b>隔几天挑同一小段读一次,数卡住了几个词。从 6 个变成 3 个,就指给他看。</p>
   </div>
-  <p class="muted">可以用中文聊英文书。生词一次只记 2–3 个,从当天读的书里来。</p>
+  <p class="muted">书的按钮会在 NLB 图书馆目录里搜这本书。可以用中文聊英文书;读书碰到生词,一次最多讲 2–3 个,不用每个都查。</p>
 
   <h2>词汇:少而反复</h2>
-  <div class="card soft"><p class="big">一周 5 个词,每个词在不同地方碰到很多次。<br>比一天背 20 个、过两周忘光有用得多。</p></div>
-  <div class="card rows">
+  <div class="card soft"><p class="big">英文一周 5 个词,每个词在不同地方碰到很多次。<br>比一天背 20 个、过两周忘光有用得多。</p></div>
+  <div class="card"><h3>一周这样排(不另外占时间)</h3><ul>
+    <li><b>周一</b>:这天的练习 app 改做英文“单词卡”,学新的一组 5 个词:听读音,看中文和例句。</li>
+    <li><b>周二到周四</b>:一起读时找这几个词,找到就用它说一句自己的话。</li>
+    <li><b>周末</b>:出门时用一用。</li>
+    <li><b>复习不用另外排</b>:学过的词 2 天、5 天、10 天、21 天后会自动混进英文练习题,答错的第二天再出现。连续答对 4 次算记住了。</li>
+  </ul></div>
+  <details class="more"><summary>教一个新词的三步</summary><div class="body"><div class="rows">
     <div class="row"><span class="n">1</span><div><b>先懂再记</b><p class="muted">先用中文、实物或图把意思弄懂,再学英文怎么说。很多词孩子其实懂意思,只是不认识英文。</p></div></div>
     <div class="row"><span class="n">2</span><div><b>一词一卡</b><p class="muted">英文词 · 中文 · 一个简笔画 · 一句孩子自己说的话。不抄写,不背长单词表。</p></div></div>
     <div class="row"><span class="n">3</span><div><b>用出来才算会</b><p class="muted">能用这个词说一句自己的话,才算掌握。</p></div></div>
-  </div>
-  <div class="card"><h3>一周这样排(每天 10 分钟左右)</h3><ul>
-    <li><b>周一</b>:认识 5 个新词。看实物或图,听读音,说出中文意思。</li>
-    <li><b>周二到周四</b>:在书里、生活里找到它们,用它说一句话,玩一个小游戏。</li>
-    <li><b>周五</b>:在练习 app 里复习。</li>
-    <li><b>周末</b>:出门时用一用。</li>
-    <li><b>下周</b>:先复习上周的,再学新的 5 个。</li>
-  </ul><p class="muted">练习 app 首页有“单词卡”:每组 5 个词,有朗读、中文和例句;学完会在 2 天、5 天、10 天、21 天后自动再考,答错的第二天再出现。连续答对 4 次算记住了。</p></div>
+  </div></div></details>
   <details class="more"><summary>让词多出现几次的小办法</summary><div class="body"><ul>
     <li><b>学词头词尾</b>:<span class="en">un- · re- · -ful · -less</span>,比如 <span class="en">un-happy、care-less、re-cycle</span>。学会一个,认得一串。</li>
     <li><b>多听</b>:听书、看英文动画。听得懂的词比读得懂的多得多,这是最不累的长词汇方式。</li>
@@ -279,55 +294,43 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     <p><b>第 8 组 · 地方和天气</b><br><span class="en">crowded <span class="muted">拥挤的</span> · scorching <span class="muted">非常炎热的</span> · gloomy <span class="muted">阴沉的</span> · shallow <span class="muted">浅的</span> · damp <span class="muted">潮湿的</span></span></p>
   </div></details>
 
-  <h2>新加坡考试用的英文</h2>
-  <div class="card"><ul>
+  <h2>需要时再查</h2>
+  <details class="more"><summary>新加坡考试用的英文</summary><div class="body"><ul>
     <li><b>拼写用英式:</b><span class="en">colour · favourite · centre · metre · litre · neighbour</span>。美国出的书(Press Start!、Dog Man)拼法不一样,读没关系,写作业照学校的拼。</li>
     <li><b>说和写用标准英文:</b>不加 lah,不说 “can or not”;口试要说完整的句子。</li>
     <li><b>本地常用词先认识:</b><span class="en">hawker centre · void deck · MRT · HDB flat · wet market</span>,本地故事书里常出现,作文、口试也常用。</li>
-  </ul></div>
-
-  <h2>为 P4 英文做准备</h2>
-  <p class="muted">P4 和 P3 大体一样,但理解题变成两篇、分数更多,有的学校还加了“看图文”和“改错”。各校格式略有不同,以学校明年发的 P4 考试通知为准。假期不用刷题,一次几题就好,重点还是常常读。</p>
-  <details class="more"><summary>阅读理解 · 两篇,分数最多</summary><div class="body">
-    <p>P4 通常有两篇理解,开放题加起来约 18 分,比 P3 多一倍。要能读完较长的文章。</p>
-    <p><b>在家练:</b>常常读书就是在练;按关卡读完提问,回答用题目里的词开头、写完整句子。</p>
-  </div></details>
-  <details class="more"><summary>作文 · 看图写故事</summary><div class="body">
-    <p>还是写一篇故事(约 50 分钟,20 分),要写得比 P3 长一些。</p>
-    <p><b>在家练:</b>读完一章,让他用 “First… Then… After that… Finally…” 说一遍,再写 4–5 句。</p>
-  </div></details>
-  <details class="more"><summary>语法 · 选择和填空</summary><div class="body">
-    <p>语法选择约 10 题、语法填空约 8 题。时态、主谓一致、代词、介词、连接词、可数和不可数还是重点。</p>
-    <p><b>在家练:</b>一起读书时,遇到一个就指出来,比如 <span class="en">was eating</span>、<span class="en">a few</span>。</p>
+  </ul></div></details>
+  <details class="more"><summary>P4 英文考什么、在家怎么练</summary><div class="body">
+    <p class="muted">P4 和 P3 大体一样,但理解题变成两篇、分数更多,有的学校还加了“看图文”和“改错”。各校格式略有不同,以学校明年发的 P4 考试通知为准。假期不用刷题,一次几题就好,重点还是常常读。</p>
+    <h3>阅读理解 · 两篇,分数最多</h3>
+    <p>P4 通常有两篇理解,开放题加起来约 18 分,比 P3 多一倍。要能读完较长的文章。<br><b>在家练:</b>常常读书就是在练;按关卡读完提问,回答用题目里的词开头、写完整句子。</p>
+    <h3>作文 · 看图写故事</h3>
+    <p>还是写一篇故事(约 50 分钟,20 分),要写得比 P3 长一些。<br><b>在家练:</b>读完一章,让他用 “First… Then… After that… Finally…” 说一遍,再写 4–5 句。</p>
+    <h3>语法 · 选择和填空</h3>
+    <p>语法选择约 10 题、语法填空约 8 题。时态、主谓一致、代词、介词、连接词、可数和不可数还是重点。<br><b>在家练:</b>一起读书时,遇到一个就指出来,比如 <span class="en">was eating</span>、<span class="en">a few</span>。</p>
+    <h3>词汇 · 选词</h3>
+    <p>约 6 题,在句子里选对的词。<br><b>在家练:</b>单词卡一周一组;学过的词当天在说话里用一用。</p>
+    <h3>看图文 · 海报、通知(部分学校)</h3>
+    <p>看一张海报、广告或通知,回答几道选择题。<br><b>在家练:</b>用新加坡的真东西练:图书馆活动海报、动物园地图、商场通知、MRT 指示牌。问他:“什么活动?哪天?几点?在哪里?”字少图多,他会做得不错。</p>
+    <h3>改错 · 拼写和语法(部分学校)</h3>
+    <p>一段短文里找出拼错或用错的词并改正。<br><b>在家练:</b>大人写 3 句话,每句藏一个错(比如 <span class="en">color → colour</span>、<span class="en">he go → he goes</span>),让他当“小老师”找出来。</p>
+    <h3>句子合并和改写</h3>
+    <p>把两句并成一句,或按给的词改写。P3 学过的 <span class="en">because · so · who · when · although · before</span> 还会用到。<br><b>在家练:</b>读书时找这几个词,找到一个就照着说一句自己的。</p>
+    <h3>听力和口试</h3>
+    <p>听力题型更多样,可能有填空、排顺序、做笔记。口试是朗读一段,再看图聊天,图常是新加坡的生活场景。<br><b>在家练:</b>常常听书;短短一段读三遍;出门时用完整英文句子说说看到的:<span class="q">I can see… They are… I think…</span></p>
+    <h3>练习书(想买再买)</h3>
     <a class="btn" href="https://popular.com.sg/products/primary-4-complete-practice-book-for-gramar-vocabulary-comprehension-3ed" target="_blank" rel="noopener">P4 语法、词汇、理解练习书</a>
-  </div></details>
-  <details class="more"><summary>词汇 · 选词</summary><div class="body">
-    <p>约 6 题,在句子里选对的词。</p>
-    <p><b>在家练:</b>一次 2–3 张生词卡,词从本地故事书里来,当天在说话里用一用。</p>
-  </div></details>
-  <details class="more"><summary>看图文 · 海报、通知(部分学校)</summary><div class="body">
-    <p>看一张海报、广告或通知,回答几道选择题。</p>
-    <p><b>在家练:</b>这个最适合用新加坡的真东西练:图书馆活动海报、动物园地图、商场通知、MRT 指示牌。问他:“什么活动?哪天?几点?在哪里?”字少图多,他会做得不错。</p>
-  </div></details>
-  <details class="more"><summary>改错 · 拼写和语法(部分学校)</summary><div class="body">
-    <p>一段短文里找出拼错或用错的词并改正。</p>
-    <p><b>在家练:</b>大人写 3 句话,每句藏一个错(比如 <span class="en">color → colour</span>、<span class="en">he go → he goes</span>),让他当“小老师”找出来。</p>
     <a class="btn" href="https://popular.com.sg/products/primary-4-conquer-english-editing-workbook-4-4th-edition" target="_blank" rel="noopener">P4 改错练习书</a>
+    <a class="btn" href="https://popular.com.sg/pages/recommended-assessement-books-primary-4" target="_blank" rel="noopener">Popular 书店推荐的 P4 英文练习书</a>
   </div></details>
-  <details class="more"><summary>句子合并和改写</summary><div class="body">
-    <p>把两句并成一句,或按给的词改写。P3 学过的 <span class="en">because · so · who · when · although · before</span> 还会用到。</p>
-    <p><b>在家练:</b>读书时找这几个词,找到一个就照着说一句自己的。</p>
+  <details class="more"><summary>去哪借书、听书</summary><div class="body">
+    <p><b>NLB 图书馆(免费)</b>:上面的书大多能借。公民免费;PR 是 MOE 学生的,去图书馆柜台办可免费。</p>
+    <a class="btn" href="https://mobileapp.nlb.gov.sg/toptips/parent/" target="_blank" rel="noopener">NLB 家长指南</a>
+    <p><b>NLB Storytime(免费 · 网上)</b>:图书馆的网上讲故事,英文场一般在每月第 2、4 个星期六上午 10 点。假期还有其他免费活动。</p>
+    <a class="btn" href="https://nlb.gov.sg/main/whats-on/events/ChildrenAndTeens" target="_blank" rel="noopener">NLB 儿童活动</a>
+    <p><b>学校 SLS</b>:MOE 网上学习平台,用学校账号登录。</p>
+    <a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a>
   </div></details>
-  <details class="more"><summary>听力和口试</summary><div class="body">
-    <p>听力题型更多样,可能有填空、排顺序、做笔记。口试是朗读一段,再看图聊天,图常是新加坡的生活场景。</p>
-    <p><b>在家练:</b>常常听书;短短一段读三遍;出门时用完整英文句子说说看到的:<span class="q">I can see… They are… I think…</span></p>
-  </div></details>
-  <a class="btn" href="https://popular.com.sg/pages/recommended-assessement-books-primary-4" target="_blank" rel="noopener">Popular 书店推荐的 P4 英文练习书</a>
-
-  <h2>去哪借</h2>
-  <div class="card"><h3>NLB 图书馆(免费)</h3><p>上面的书大多能借。公民免费;PR 是 MOE 学生的,去图书馆柜台办可免费。</p><a class="btn" href="https://mobileapp.nlb.gov.sg/toptips/parent/" target="_blank" rel="noopener">NLB 家长指南</a></div>
-  <div class="card"><h3>NLB Storytime(免费 · 网上)</h3><p>图书馆的网上讲故事,英文场一般在每月第 2、4 个星期六上午 10 点。假期还有其他免费活动。</p><a class="btn" href="https://nlb.gov.sg/main/whats-on/events/ChildrenAndTeens" target="_blank" rel="noopener">NLB 儿童活动</a></div>
-  <div class="card"><h3>学校 SLS</h3><p>MOE 网上学习平台,用学校账号登录。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
 </section>
 
 <!-- ===== 科学 ===== -->
@@ -336,8 +339,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题,按家里的安排一个一个来。</p></div>
   <h2>6 个科学主题</h2>
   <div class="card warm">
-    <p><b>书去哪找:</b>每个主题列了 3 本,从简单到难,<b>找到一本就行</b>。先在 NLB 图书馆借,实体书或 Libby 里的电子书都行,在 NLB Mobile 里搜书名。三本都借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
-    <a class="btn" href="https://reference.nlb.gov.sg/getting-started/onesearch" target="_blank" rel="noopener">怎么在 NLB 搜书</a>
+    <p><b>书去哪找:</b>每个主题列了 3 本,从简单到难,<b>找到一本就行</b>。点书名会在 NLB 图书馆目录里搜这本,实体书或 Libby 里的电子书都行。三本都借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
   </div>
   <div id="weeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台手机上。</p>
@@ -356,7 +358,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card">
     <p><b>先抓跨主题的词</b>,一个词能用好几个地方:<span class="en">absorb</span> 在材料(布吸水)、植物(根吸水)、消化(小肠吸收养分)里都会出现。</p>
     <p><b>考试指令词要认得</b>:<span class="en">describe · explain · compare · observe · state</span>,问答题都靠它们。</p>
-    <p class="muted">练习 app 里的“单词卡”按上面 6 个主题的顺序排,一周一组。</p>
+    <p class="muted">科学 app 的单词卡第 1–5 组跟着前 5 个主题:开始新主题那天学那一组。第 6–8 组是 P3 复习词和考试指令词,做第 6 个主题时学。</p>
   </div>
   <div class="card warm"><p><b>在生活里用</b>:窗户贴 <span class="en">transparent</span>,冰箱贴 <span class="en">magnet</span>;出门时问 <span class="q">Is it transparent or opaque?</span>;吃饭时每人说一个科学词。</p></div>
   <details class="more"><summary>科学单词卡 8 组(和 app 里一样)</summary><div class="body">
@@ -481,7 +483,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <h2>坚持下来时</h2>
   <div class="card say">
     <p>“这几天你天天都读了。”</p>
-    <p>“关卡图又多了一颗星。”</p>
+    <p>“你从第 1 关升到第 2 关了。”</p>
     <p>“今天是你自己打开来练的。”</p>
     <p>“像过关一样,一关一关来,你已经过了好几关。”</p>
   </div>
@@ -506,7 +508,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     <li><b>说他做的动作:</b>“你画了线”,比“你好棒”更让他相信。</li>
     <li><b>语气平常,说一次就够,</b>不用一直夸、不用很夸张。</li>
     <li><b>当场说:</b>看到就说,不要等做完一整张。</li>
-    <li><b>他做到了一件事,就写进“我会了”单子</b>或关卡图。</li>
+    <li><b>升了一关、做完一个主题,</b>当着他的面在总览“现在到哪了”里改过来,让他看见自己往前走了。</li>
   </ul></div>
   <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
 </section>
@@ -516,6 +518,15 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v2.7 · 11 月 5 日</span><h3>家长用起来更顺手</h3><ul>
+    <li>总览加了“现在到哪了”:英文第几关、科学和数学做到哪、单词卡学了几组、最近 7 天练了几天。</li>
+    <li>时间说法统一:英文每天 20 分钟(拼读 + 一起读),睡前听书不算;单词卡放在周一的练习 app 时间,科学单词卡跟着主题学。</li>
+    <li>练习 app 入口下面写明:固定从手册点进去,记录才是同一份。</li>
+    <li>英文页重排:每天用的放上面,关卡只展开现在那一关,考试格式和借书收进“需要时再查”。拼读先用 Oxford Owl,不合适再换。</li>
+    <li>书的按钮改成直接在 NLB 图书馆目录里搜这本书。</li>
+    <li>夸夸页去掉了手册里没有的“关卡图”和“我会了”单子。</li>
+    <li>总览“下学期学什么”缩成一张卡;“更新”从底栏移到总览最下面。</li>
+  </ul></div>
   <div class="card"><span class="tag">v2.6 · 11 月 5 日</span><h3>按老师的意见调整</h3><ul>
     <li>总览把“三件事”改成“每天做什么”:每天必做、每周两三次、有空再做。</li>
     <li>三个练习 app 每轮做完多一道“写一写”,写在纸上,写完再看参考答案。</li>
@@ -572,7 +583,6 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <a href="#science" data-view="science"><span>科学</span><span class="ic">Science</span></a>
   <a href="#math" data-view="math"><span>数学</span><span class="ic">Math</span></a>
   <a href="#praise" data-view="praise"><span>夸夸</span><span class="ic">Praise</span></a>
-  <a href="#updates" data-view="updates"><span>更新</span><span class="ic">Updates</span></a>
 </div></nav>
 
 <script>
@@ -584,48 +594,49 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     views.forEach(function(v){
       document.getElementById("v-"+v).hidden=(v!==h);
       var a=document.querySelector('nav.tabs a[data-view="'+v+'"]');
-      if(v===h) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+      if(!a) return;
+      if(v===(h==="updates"?"overview":h)) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
     });
+    renderProg();
   }
   window.addEventListener("hashchange",function(){show();window.scrollTo(0,0);});
-  show();
 
   var WEEKS=[
     {t:"植物各部分",books:[
-      {n:"How a Seed Grows",a:"Helene J. Jordan",h:"https://www.charterbookstore.com/book/9780062381880"},
-      {n:"From Seed to Plant",a:"Gail Gibbons",h:"https://bookshop.org/p/books/from-seed-to-plant-gail-gibbons/8202115"},
-      {n:"Secrets of Singapore: Botanic Gardens",a:"新加坡植物园,去之前读",h:"https://www.thetoyfolks.com/collections/singapore-books/products/secrets-of-singapore-botanic-gardens"}
-    ],do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit"},
+      {n:"How a Seed Grows",a:"Helene J. Jordan",q:"How a Seed Grows Jordan"},
+      {n:"From Seed to Plant",a:"Gail Gibbons",q:"From Seed to Plant Gibbons"},
+      {n:"Secrets of Singapore: Botanic Gardens",a:"新加坡植物园,去之前读",q:"Secrets of Singapore Botanic Gardens"}
+    ],do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit",wc:"第 1 组 · 植物"},
     {t:"物质三态",books:[
-      {n:"What Is the World Made Of?",a:"Kathleen Weidner Zoehfeld",h:"https://bookroo.com/books/what-is-the-world-made-of-all-about-solids-liquids-and-gases-9780062381958"},
-      {n:"Matter: See It, Touch It, Taste It, Smell It",a:"Darlene R. Stille",h:"https://www.booksource.com/Products/Matter--See-It--Touch-It--Taste-It--Smell-It__1404803440.aspx"},
-      {n:"What's the Matter in Mr. Whiskers' Room?",a:"Michael Elsohn Ross · 跟着做小实验",h:"https://bookroo.com/books/whats-the-matter-in-mr-whiskers-room"}
-    ],do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt"},
+      {n:"What Is the World Made Of?",a:"Kathleen Weidner Zoehfeld",q:"What Is the World Made Of Zoehfeld"},
+      {n:"Matter: See It, Touch It, Taste It, Smell It",a:"Darlene R. Stille",q:"Matter See It Touch It Taste It Smell It"},
+      {n:"What's the Matter in Mr. Whiskers' Room?",a:"Michael Elsohn Ross · 跟着做小实验",q:"Whats the Matter in Mr Whiskers Room"}
+    ],do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt",wc:"第 2 组 · 物质"},
     {t:"消化系统",books:[
-      {n:"What Happens to a Hamburger?",a:"Paul Showers",h:"https://bookshop.org/p/books/what-happens-to-a-hamburger-paul-showers/3d65a76a9bb4630a"},
-      {n:"The Magic School Bus Inside the Human Body",a:"Joanna Cole · 漫画式,热闹",h:"https://www.schoollibraryjournal.com/review/the-magic-school-bus-inside-the-human-body"},
-      {n:"Burp!",a:"Diane Swanson · 字多一点,大人可以读给他听",h:"https://49thshelf.com/Books/B/Burp"}
-    ],do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest"},
+      {n:"What Happens to a Hamburger?",a:"Paul Showers",q:"What Happens to a Hamburger Showers"},
+      {n:"The Magic School Bus Inside the Human Body",a:"Joanna Cole · 漫画式,热闹",q:"Magic School Bus Inside the Human Body"},
+      {n:"Burp!",a:"Diane Swanson · 字多一点,大人可以读给他听",q:"Burp Diane Swanson"}
+    ],do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest",wc:"第 3 组 · 消化"},
     {t:"光和影子",books:[
-      {n:"What Makes a Shadow?",a:"Clyde Robert Bulla",h:"https://www.librarything.com/work/573523"},
-      {n:"Light Is All Around Us",a:"Wendy Pfeffer",h:"https://mitpressbookstore.mit.edu/book/9780062381903"},
-      {n:"Light: Shadows, Mirrors, and Rainbows",a:"Natalie M. Rosinsky",h:"https://www.booksource.com/Products/Light--Shadows--Mirrors--And-Rainbows__1404803327.aspx"}
-    ],do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect"},
+      {n:"What Makes a Shadow?",a:"Clyde Robert Bulla",q:"What Makes a Shadow Bulla"},
+      {n:"Light Is All Around Us",a:"Wendy Pfeffer",q:"Light Is All Around Us Pfeffer"},
+      {n:"Light: Shadows, Mirrors, and Rainbows",a:"Natalie M. Rosinsky",q:"Light Shadows Mirrors and Rainbows Rosinsky"}
+    ],do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect",wc:"第 4 组 · 光"},
     {t:"热",books:[
-      {n:"Heating and Cooling",a:"Cody Crane",h:"https://blackwells.co.uk/bookshop/product/Heating-and-Cooling-Rookie-Read-About-Science-Physical-Science-by-Cody-Crane/9780531138014"},
-      {n:"Energy Makes Things Happen",a:"Kimberly Brubaker Bradley",h:"https://www.powells.com/book/energy-makes-things-happen-9780060289089"},
-      {n:"Temperature: Heating Up and Cooling Down",a:"Darlene R. Stille",h:"https://www.goodreads.com/book/show/7952935-temperature"}
-    ],do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature"},
+      {n:"Heating and Cooling",a:"Cody Crane",q:"Heating and Cooling Cody Crane"},
+      {n:"Energy Makes Things Happen",a:"Kimberly Brubaker Bradley",q:"Energy Makes Things Happen Bradley"},
+      {n:"Temperature: Heating Up and Cooling Down",a:"Darlene R. Stille",q:"Temperature Heating Up and Cooling Down Stille"}
+    ],do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature",wc:"第 5 组 · 热"},
     {t:"复习 + 出游",books:[
       {n:"The Stars of Chek Jawa",a:"学校发的 STELLAR 书,先重读这本"},
-      {n:"Starfish",a:"Edith Thacher Hurd",h:"https://www.powells.com/book/-9780064451987"},
-      {n:"What Lives in a Shell?",a:"Kathleen Weidner Zoehfeld",h:"https://www.librarything.com/work/34800"}
-    ],do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star"}
+      {n:"Starfish",a:"Edith Thacher Hurd",q:"Starfish Edith Thacher Hurd"},
+      {n:"What Lives in a Shell?",a:"Kathleen Weidner Zoehfeld",q:"What Lives in a Shell Zoehfeld"}
+    ],do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star",wc:"第 6–8 组 · P3 复习词和考试指令词"}
   ];
   function bookList(bs){
     return '<ul class="books">'+bs.map(function(b){
       var inner='<span class="en">'+b.n+'</span><span class="by">'+b.a+'</span>';
-      return '<li>'+(b.h?'<a class="bk" href="'+b.h+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="bk">'+inner+'</div>')+'</li>';
+      return '<li>'+(b.q?'<a class="bk" href="https://catalogue.nlb.gov.sg/search?query='+encodeURIComponent(b.q)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="bk">'+inner+'</div>')+'</li>';
     }).join('')+'</ul>';
   }
   var MWEEKS=[
@@ -651,7 +662,7 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
     var cb=d.querySelector("input"), ok=d.querySelector("[data-ok]");
     function mark(){ok.textContent=cb.checked?"✓ 完成":"";}
     cb.checked=!!mdone[id]; mark();
-    cb.addEventListener("change",function(){mdone[id]=cb.checked;mark();try{localStorage.setItem(MKEY,JSON.stringify(mdone));}catch(e){}});
+    cb.addEventListener("change",function(){mdone[id]=cb.checked;mark();try{localStorage.setItem(MKEY,JSON.stringify(mdone));}catch(e){}renderProg();});
   });
 
   var KEY="xx-holiday-weeks", done={};
@@ -664,13 +675,53 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
       '<div class="body"><p><span class="lbl">先读 / 先听(找到一本就行)</span></p>'+bookList(w.books)+
       '<p><span class="lbl">出门看、动手做</span>'+w.do+'</p>'+
       '<p><span class="lbl">关键词</span><span class="q">'+w.w+'</span></p>'+
+      '<p><span class="lbl">单词卡(开始这个主题那天学)</span>科学 app '+w.wc+'</p>'+
       '<label class="done"><input type="checkbox" id="'+id+'">完成了</label></div>';
     box.appendChild(d);
     var cb=d.querySelector("input"), ok=d.querySelector("[data-ok]");
     function mark(){ok.textContent=cb.checked?"✓ 完成":"";}
     cb.checked=!!done[id]; mark();
-    cb.addEventListener("change",function(){done[id]=cb.checked;mark();try{localStorage.setItem(KEY,JSON.stringify(done));}catch(e){}});
+    cb.addEventListener("change",function(){done[id]=cb.checked;mark();try{localStorage.setItem(KEY,JSON.stringify(done));}catch(e){}renderProg();});
   });
+
+  /* ===== 现在到哪了: reading level (saved here), science/math from the ticks, word cards and practice days read from the three apps (same site, same storage) ===== */
+  var LVKEY="xx-holiday-level", LVN=["大人读,他读一小部分","你一页,我一页","他读大部分","他自己读,读完说一句"], lvMem=1;
+  try{lvMem=parseInt(localStorage.getItem(LVKEY),10)||1;}catch(e){}
+  lvMem=Math.min(4,Math.max(1,lvMem));
+  function segHTML(cur){var h="";for(var i=1;i<=4;i++)h+='<button type="button" data-lv="'+i+'" aria-pressed="'+(i===cur)+'">第 '+i+' 关</button>';return h;}
+  function appData(k){try{var x=JSON.parse(localStorage.getItem(k)||"null");return x&&typeof x==="object"?x:null;}catch(e){return null;}}
+  function setsDone(x){var n=0;if(x&&x.sets&&typeof x.sets==="object")for(var k in x.sets)if(x.sets[k])n++;return n;}
+  function dk(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function stepOf(list,obj,pre){var n=0,nx=-1;list.forEach(function(w,i){if(obj[pre+(i+1)])n++;else if(nx<0)nx=i;});
+    if(nx<0)return '<b>'+list.length+' 个都做完了 ✓</b>';
+    return (n?'<b>做完 '+n+'/'+list.length+'</b> · 下一个:':'下一个:')+'<b>'+list[nx].t+'</b>';}
+  function renderProg(){
+    var box=document.getElementById("prog");if(!box)return;
+    var lv=lvMem;
+    var en=appData("xiaoxiao-english-v1"),sc=appData("xiaoxiao-science-v1"),ma=appData("xiaoxiao-math-v1");
+    var we=setsDone(en),ws=setsDone(sc);
+    var words=(we||ws)?'英文 <b>'+we+'</b>/8 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组';
+    var days=0,today=false,d=new Date();
+    for(var i=0;i<7;i++){var k=dk(d);if([en,sc,ma].some(function(x){return x&&x.days&&x.days[k];})){days++;if(i===0)today=true;}d.setDate(d.getDate()-1);}
+    var practice=(en||sc||ma)?'最近 7 天练了 <b>'+days+'</b> 天<br><span class="muted">'+(today?'今天练过了':'今天还没练')+'</span>':'这台手机上还没有记录<br><span class="muted">要从上面的按钮进 app 练</span>';
+    box.innerHTML=
+      '<div class="pr"><span class="pl">英文阅读</span><span class="pv"><b>第 '+lv+' 关</b> · '+LVN[lv-1]+'</span><div class="seg" data-seg></div></div>'+
+      '<a class="pr" href="#science"><span class="pl">科学主题</span><span class="pv">'+stepOf(WEEKS,done,"wk")+'</span><span class="go">→</span></a>'+
+      '<a class="pr" href="#math"><span class="pl">数学小步</span><span class="pv">'+stepOf(MWEEKS,mdone,"mw")+'</span><span class="go">→</span></a>'+
+      '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+words+'</span></div>'+
+      '<div class="pr"><span class="pl">练习 app</span><span class="pv">'+practice+'</span></div>';
+    document.querySelectorAll("[data-seg]").forEach(function(sg){sg.innerHTML=segHTML(lv);});
+    document.querySelectorAll("details.lvl").forEach(function(dt){dt.querySelector("[data-now]").textContent=(+dt.getAttribute("data-lvl")===lv)?"现在这关":"";});
+  }
+  function openLevel(n){document.querySelectorAll("details.lvl").forEach(function(dt){dt.open=(+dt.getAttribute("data-lvl")===n);});}
+  document.addEventListener("click",function(e){
+    var b=e.target.closest&&e.target.closest("[data-lv]");if(!b)return;
+    lvMem=+b.getAttribute("data-lv");try{localStorage.setItem(LVKEY,String(lvMem));}catch(err){}
+    renderProg();openLevel(lvMem);
+  });
+  document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")renderProg();});
+  openLevel(lvMem);
+  show();
 })();
 </script>
 
