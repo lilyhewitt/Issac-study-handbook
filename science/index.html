@@ -155,6 +155,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .dbtns{display:grid;gap:12px;width:100%;margin-top:8px}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 
+.backlink{display:inline-flex;align-items:center;min-height:40px;margin-bottom:10px;padding:6px 14px;border-radius:99px;background:var(--surface);border:2px solid var(--line);color:var(--ink);font-weight:700;font-size:.92rem;text-decoration:none}
+
 /* parent view */
 .plink{align-self:flex-start;font-weight:700;color:var(--life-ink);padding:6px 0;text-decoration:underline;text-underline-offset:3px}
 .st-h{margin:0;flex:1;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.15}
@@ -193,6 +195,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
   <section id="vHome" class="view" aria-label="Home">
     <div class="top">
       <div>
+        <a class="backlink" id="toHandbook" href="../" hidden>← 回家长手册</a>
         <h1 class="hello">Hi, 小小!</h1>
         <p class="hello-sub">Pick one. 5 quick questions. 选一个，做 5 题就好。</p>
       </div>
@@ -619,6 +622,10 @@ if(!S.by||typeof S.by!=='object')S.by={};
 for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+/* opened from the parent handbook? then offer a way back to it */
+let fromHB=false;
+try{fromHB=new URLSearchParams(location.search).get('from')==='handbook';if(fromHB)sessionStorage.setItem('fromHandbook','1');else fromHB=sessionStorage.getItem('fromHandbook')==='1';}catch(e){}
+$('toHandbook').hidden=!fromHB;
 
 const STAR='<svg viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
