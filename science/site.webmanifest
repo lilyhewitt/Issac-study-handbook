@@ -1,0 +1,13 @@
+{
+  "name": "小小科学题库",
+  "short_name": "小小科学",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#E9F3EE",
+  "theme_color": "#12965F",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
