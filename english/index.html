@@ -196,6 +196,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .st-num{color:var(--ink-2);font-size:.9rem;font-variant-numeric:tabular-nums}
 .st-row.lo .fill{background:var(--miss)}.st-row.mid .fill{background:var(--star)}.st-row.hi .fill{background:var(--good)}
 .st-w{background:var(--surface);border:2px solid var(--line);border-radius:0.875rem;padding:0.625rem 0.875rem;display:flex;flex-direction:column;gap:4px;min-width:0}
+details.sess summary{cursor:pointer;list-style:none}
+details.sess summary::-webkit-details-marker{display:none}
+.st-sh{font-weight:700;line-height:1.45}
+.st-sh .st-num{font-weight:400}
+.st-sh .nw{white-space:nowrap}
+details.sess summary .st-sh::after{content:"  点开看 ▸";font-weight:700;font-size:.82rem;color:var(--gram-ink);white-space:nowrap}
+details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
+.st-wi{border-top:1px dashed var(--line);padding-top:0.5rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:2px;min-width:0}
 .st-wt{display:flex;flex-wrap:wrap;gap:0.375rem;align-items:center;font-size:.82rem;color:var(--ink-2);font-weight:700}
 .st-badge{background:var(--miss-bg);color:var(--miss);border-radius:6.1875rem;padding:1px 0.5rem}
 .st-fixed{background:var(--good-bg);color:var(--good);border-radius:6.1875rem;padding:1px 0.5rem}
@@ -384,6 +392,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
       <h2 class="st-h">家长看 · 练习记录</h2>
     </div>
     <div class="stcard" id="stSum"></div>
+    <h3 class="st-h3">每次练习</h3>
+    <p class="st-note">最近的在最上面。点开看错了哪几题。</p>
+    <div class="st-list" id="stSess"></div>
     <h3 class="st-h3">哪类题还要多练</h3>
     <p class="st-note">按做对的比例从低到高排。红色 = 不到六成，黄色 = 六到八成，绿色 = 八成以上。</p>
     <div class="st-list" id="stTopics"></div>
@@ -1485,7 +1496,7 @@ function kindOf(q){if(q.c!=='read'||!q.p)return '';const s=q.q;
   if(/feel/i.test(s))return '感受';
   return '找细节';}
 function logAnswer(q,i,ok){if(!Array.isArray(S.log))S.log=[];
-  const e={d:dkey(new Date()),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;
+  const e={d:dkey(new Date()),ts:Date.now(),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;
   if(!ok){e.q=q.q.replace(/\*\*/g,'').replace(/\s*\n\s*/g,' ').slice(0,160);if(q.p)e.p=q.p.replace(/\s*\n\s*/g,' ').slice(0,90);e.a=q.opts[i];e.r=q.opts[q.ans];if(q.err&&q.err[i])e.err=q.err[i];}
   S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);}
 function errCounts(){const c={};(Array.isArray(S.log)?S.log:[]).forEach(e=>{if(e.err)c[e.err]=(c[e.err]||0)+1;});return Object.entries(c).sort((a,b)=>b[1]-a[1]);}
@@ -1496,11 +1507,27 @@ function stats(){const L=Array.isArray(S.log)?S.log:[];const g={};
   const byH=new Map();L.forEach((e,idx)=>{let r=byH.get(e.h);if(!r){r={wrong:0,lastWrong:-1,lastOk:-1,e:null};byH.set(e.h,r);}if(e.ok)r.lastOk=idx;else{r.wrong++;r.lastWrong=idx;r.e=e;}});
   const wrong=[...byH.values()].filter(r=>r.wrong&&r.e&&r.e.q).sort((a,b)=>b.lastWrong-a.lastWrong).map(r=>Object.assign(r,{fixed:r.lastOk>r.lastWrong}));
   return{L,total:L.length,okn:L.reduce((s,e)=>s+e.ok,0),days:new Set(L.map(e=>e.d)).size,last7:L.filter(e=>e.d>=k7).length,ranked,few,wrong};}
+/* practice sessions: answers on the same day less than 30 minutes apart; answers saved before times were kept are grouped by day */
+function sessions(){const L=Array.isArray(S.log)?S.log:[],out=[];let cur=null;
+  L.forEach(e=>{const t=e.ts||0;
+    if(!cur||cur.d!==e.d||(!t)!==(!cur.end)||(t&&t-cur.end>30*60000)){cur={d:e.d,start:t,end:t,n:0,ok:0,wrong:[]};out.push(cur);}
+    cur.n++;cur.ok+=e.ok?1:0;if(t)cur.end=t;if(!e.ok&&e.q)cur.wrong.push(e);});
+  return out.reverse();}
+const WK='日一二三四五六';
+function sDay(d){const x=new Date(d+'T00:00:00');return d.slice(5).replace('-','/')+' 周'+WK[x.getDay()];}
+function sHM(t){const x=new Date(t);return String(x.getHours()).padStart(2,'0')+':'+String(x.getMinutes()).padStart(2,'0');}
+function sMin(x){return Math.max(1,Math.round((x.end-x.start)/60000)+1);}
+function sLine(x){const w=x.n-x.ok;return `${sDay(x.d)}${x.start?' '+sHM(x.start)+' · 约 '+sMin(x)+' 分钟':''} · ${x.n} 题 · ${w?'错 '+w+' 题':'全对'}`;}
+function sessHTML(){return sessions().slice(0,30).map(x=>{const w=x.n-x.ok;
+    const head=`<div class="st-sh">${esc(sDay(x.d))}${x.start?' '+sHM(x.start):''} <span class="st-num">${x.start?'· 约 '+sMin(x)+' 分钟 ':''}· ${x.n} 题 · </span>${w?'<span class="nw">错 '+w+' 题</span>':'全对 ✓'}</div>`;
+    if(!x.wrong.length)return `<div class="st-w sess">${head}</div>`;
+    return `<details class="st-w sess"><summary>${head}</summary>`+x.wrong.map(e=>`<div class="st-wi"><div class="st-wt"><span>${esc(e.t)}${e.k?' · '+esc(e.k):''}</span></div>${e.p?`<div class="st-p">${esc(e.p)}…</div>`:''}<div class="st-q">${esc(e.q)}</div><div class="st-a">他选：${esc(e.a)}　答案：<b>${esc(e.r)}</b></div></div>`).join('')+'</details>';}).join('')||'<p class="st-note">还没有记录。</p>';}
 function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
     :'<p class="st-sub">还没开始学单词卡。</p>';
+  $('stSess').innerHTML=sessHTML();
   const ec=errCounts();$('stErrBox').hidden=!ec.length;$('stErrs').innerHTML=ec.map(([k,n])=>`<div class="st-row lo"><div class="st-name">${esc((QB.ERRS||{})[k]||k)}</div><div class="st-num">${n} 次</div></div>`).join('');
   if(!st.total){$('stSum').innerHTML='<p class="st-sub">还没有记录。从现在开始，他每做一题都会记在这里。</p>';$('stTopics').innerHTML='';$('stWrong').innerHTML='';return;}
   $('stSum').innerHTML=`<div class="st-big"><b>${st.total}</b> 题 · 对 <b>${pct(st.okn,st.total)}%</b></div><p class="st-sub">练了 ${st.days} 天 · 最近 7 天 ${st.last7} 题 · 从 ${esc(st.L[0].d)} 开始记录</p>`;
@@ -1511,6 +1538,7 @@ function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textCo
 function report(){const st=stats(),title=document.title;
   if(!st.total)return `${title}：还没有记录。`;
   let t=`${title} · 练习记录（${dkey(new Date())}）\n一共 ${st.total} 题，对 ${st.okn} 题（${pct(st.okn,st.total)}%），练了 ${st.days} 天，最近 7 天 ${st.last7} 题。从 ${st.L[0].d} 开始记录。\n`;
+  const ss=sessions().slice(0,7);if(ss.length)t+='\n最近几次练习：\n'+ss.map(x=>'- '+sLine(x)).join('\n')+'\n';
   const line=r=>`- ${r.name}：${r.n} 题对 ${r.ok}（${pct(r.ok,r.n)}%）`;
   const weak=st.ranked.filter(r=>r.ok/r.n<.8),good=st.ranked.filter(r=>r.ok/r.n>=.8);
   if(weak.length)t+='\n还要多练：\n'+weak.map(line).join('\n')+'\n';
