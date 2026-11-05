@@ -531,6 +531,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v3.5 · 11 月 5 日</span><h3>小小看到的是“我的进步”</h3><ul>
+    <li>练习 app 首页最下面改成“我的进步”:做了几题、这 7 天练了几天、已经会的题型、进步了的、改对了几道、记住的单词。只说做到了什么,不列错题。</li>
+    <li>完整记录(每次练习、错题、复制报告、同步码)放在“我的进步”最下面的小字“家长入口”里。数据库万一不工作,也能在 iPad 上看完整记录、复制报告发给家人。</li>
+  </ul></div>
   <div class="card"><span class="tag">v3.4 · 11 月 5 日</span><h3>iPad 的记录自动传到家长手机</h3><ul>
     <li>小小在 iPad 上做题,记录会自动传到家长手机。总览多了“小小 iPad 的记录”:在这里生成同步码,在 iPad 上三个练习 app 的“家长看”里输一次。</li>
     <li>英文、科学、数学分开显示最近一次练习:几点、几题、错几题;点“看记录”看每次练习和错了哪几题(只能看,不能改)。</li>
@@ -758,11 +762,11 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     if(!c){
       h='<p>小小在自己的 iPad 上做题,记录可以自动传到这台手机。第一次要连一下:</p><div class="rows">'+
         '<div class="row"><span class="n">1</span><div><b>在这里生成同步码</b><p class="muted">只要生成一次。</p><button type="button" class="hb" data-s="new">生成同步码</button></div></div>'+
-        '<div class="row"><span class="n">2</span><div><b>在小小的 iPad 上输入</b><p class="muted">打开练习 app,点首页最下面“家长看 · 练习记录”,在“同步到家长手机”里输入同步码,点“连上”。英文、科学、数学三个都看一下,已经写着“已同步”的就不用再输。</p></div></div>'+
+        '<div class="row"><span class="n">2</span><div><b>在小小的 iPad 上输入</b><p class="muted">打开练习 app,点首页最下面“我的进步”,再点最下面的“家长入口”,在“同步到家长手机”里输入同步码,点“连上”。英文、科学、数学三个都看一下,已经写着“已同步”的就不用再输。</p></div></div>'+
         '<div class="row"><span class="n">3</span><div><b>回到这里看</b><p class="muted">他做完一轮,这里就会有记录。</p></div></div></div>'+
         '<details class="inl"><summary>已经有同步码了(比如家里别人生成过)</summary><div class="inrow"><input class="code" id="sIn" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="9" placeholder="比如 K7QM-3XPA" aria-label="同步码"><button type="button" class="hb" data-s="use">用这个码</button></div><p class="muted" id="sMsg" role="status"></p></details>';
     }else{
-      h='<p class="muted">同步码</p><div class="codebig">'+pretty(c)+'</div><p class="muted">小小 iPad 上三个练习 app 的“家长看 · 练习记录”里,都要写着“已同步”。没有的话,在那里输入这个码。</p>'+
+      h='<p class="muted">同步码</p><div class="codebig">'+pretty(c)+'</div><p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。</p>'+
         (cloudState==="loading"?'<p class="muted">正在读取……</p>':cloudState==="net"?'<p class="muted">现在连不上网络,等一下再打开。</p>':cloudState==="rules"?'<p class="muted">数据库不让读:Firebase 里的“规则”还没设置好。</p>':'')+
         '<div class="prog">'+APPS.map(function(a){var e=cloud&&cloud[a[0]];
           return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(e&&lastSess(e.S)?sessText(lastSess(e.S)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+'</div>'+
