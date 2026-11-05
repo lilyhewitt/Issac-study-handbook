@@ -117,7 +117,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .tool{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 12px;border-radius:12px;border:2px solid var(--line);background:var(--paper);font-weight:700;font-size:.92rem}
 .tool svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tool[aria-pressed="true"]{border-color:var(--gram);color:var(--gram-ink);background:var(--gram-tint)}
-.hint{background:var(--paper);border-left:4px solid var(--mix);border-radius:10px;padding:10px 12px;font-size:1.02rem;color:var(--ink)}
+.hint{white-space:pre-line;background:var(--paper);border-left:4px solid var(--mix);border-radius:10px;padding:10px 12px;font-size:1.02rem;color:var(--ink)}
 .opts{display:grid;gap:10px}
 .opt{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 14px;border-radius:16px;background:var(--surface);border:2px solid var(--line);box-shadow:0 3px 0 var(--line);font-size:1.18rem;font-weight:700;line-height:1.3;transition:transform .06s ease}
 .opt:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
@@ -288,6 +288,11 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
     <h3 class="st-h3">哪类题还要多练</h3>
     <p class="st-note">按做对的比例从低到高排。红色 = 不到六成，黄色 = 六到八成，绿色 = 八成以上。</p>
     <div class="st-list" id="stTopics"></div>
+    <div class="view" id="stErrBox" hidden>
+      <h3 class="st-h3">常见错法</h3>
+      <p class="st-note">做错时他选的那个答案，代表的是哪一种想法。次数多的先练。</p>
+      <div class="st-list" id="stErrs"></div>
+    </div>
     <h3 class="st-h3">单词卡</h3>
     <div class="stcard" id="stWords"></div>
     <h3 class="st-h3">做错过的题</h3>
@@ -1246,19 +1251,22 @@ function home(){
 
 /* round */
 let R=null;
-function again(m){const q=JSON.parse(JSON.stringify(m));const a=q.opts[q.ans];q.opts=QB.shuf(q.opts);q.ans=q.opts.indexOf(a);q.again=true;return q;}
+function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts.map((_,i)=>i));['opts','zo','why','err'].forEach(f=>{if(Array.isArray(m[f]))q[f]=idx.map(i=>m[f][i]);});q.ans=idx.indexOf(m.ans);q.again=true;return q;}
 function startRound(mode){
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6);if(!S.sets[si])S.sets[si]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
   else{
-    [1,1,2,2,1].forEach((l,i)=>{let q=null;
-      if(i===2){const pool=S.misses.filter(m=>mode==='mix'||m.c===mode);if(pool.length&&Math.random()<.6)q=again(pick(pool));}
-      if(!q||keys.has(QB.key(q)))q=QB.make(mode==='mix'?QB.pickCat():mode,l,k=>!seen.has(QB.hash(k))&&!keys.has(k),k=>!recent.has(k)&&!keys.has(k));
-      keys.add(QB.key(q));qs.push(q);});
+    /* a round = 5 slots [category, level]; an app's bank can supply its own plan; a slot may return a chain of step questions */
+    const plan=QB.plan?QB.plan(mode):[1,1,2,2,1].map(l=>[mode==='mix'?QB.pickCat():mode,l]);
+    const missSlot=QB.missSlot!=null?QB.missSlot:2;
+    plan.forEach(([c,l],i)=>{let q=null;
+      if(i===missSlot){const pool=S.misses.filter(m=>mode==='mix'||m.c===mode);if(pool.length&&Math.random()<.6)q=again(pick(pool));}
+      if(!q||keys.has(QB.key(q)))q=QB.make(c,l,k=>!seen.has(QB.hash(k))&&!keys.has(k),k=>!recent.has(k)&&!keys.has(k));
+      (Array.isArray(q)?q:[q]).forEach(x=>{keys.add(QB.key(x));qs.push(x);});});
     /* words that are due for review take one or two of the easy slots */
-    const due=QB.shuf(dueWords());if(due.length)qs[0]=wordQ(due[0]);if(due.length>=3)qs[4]=wordQ(due[1]);
+    const due=QB.shuf(dueWords());if(due.length)qs[0]=wordQ(due[0]);if(due.length>=3)qs[qs.length-1]=wordQ(due[1]);
   }
   if(!qs.length){home();return;}
   qs.forEach(q=>{const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
@@ -1270,10 +1278,10 @@ function pips(){$('pips').innerHTML=R.qs.map((q,i)=>`<span class="pip ${R.res[i]
 function showQ(){
   const q=R.qs[R.i];R.locked=false;
   try{speechSynthesis.cancel();}catch(e){}
-  $('qChip').textContent=q.t;$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
+  $('qChip').textContent=q.t+(q.step?' · 第 '+q.step.split('/')[0]+' 步，共 '+q.step.split('/')[1]+' 步':'');$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
   $('qPass').hidden=!q.p;$('qPass').innerHTML=q.p?fmt(q.p):'';
   $('qText').innerHTML=fmt(q.q);
-  $('bHint').hidden=!q.zh;$('bHint').setAttribute('aria-pressed','false');$('qHint').hidden=true;$('qHint').textContent=q.zh||'';
+  $('bHint').hidden=!q.zh;$('bHint').setAttribute('aria-pressed','false');$('qHint').hidden=true;$('qHint').textContent=(q.zh||'')+(q.zo?'\n'+q.zo.map((z,i)=>'('+(i+1)+') '+z).join('\n'):'');
   $('opts').innerHTML=q.opts.map((o,i)=>`<button class="opt${o.length>34?' long':''}" id="opt${i}" data-i="${i}"><span class="onum">(${i+1})</span><span class="otext">${fmt(o)}</span></button>`).join('');
   pips();$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';
   window.scrollTo(0,0);
@@ -1286,13 +1294,13 @@ function choose(i){
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const k=QB.key(q);
   if(ok){by[1]++;S.stars++;R.score++;if(q.again)S.misses=S.misses.filter(m=>QB.key(m)!==k);}
-  else if(!q.wd&&!S.misses.some(m=>QB.key(m)===k)){const m={c:q.c,t:q.t,l:q.l,q:q.q,p:q.p,zh:q.zh,opts:q.opts,ans:q.ans,ex:q.ex};S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
+  else if(!q.wd&&!S.misses.some(m=>QB.key(m)===k)){const m=JSON.parse(JSON.stringify(q));delete m.again;S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
   logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);
   save();beep(ok);pips();
   const sh=$('sheet');sh.className='sheet'+(ok?'':' miss');
   $('fbT').innerHTML=ok?`${pick(['Correct!','Nice one!','You got it!','Well done!'])} <svg class="ico ico-star" viewBox="0 0 24 24" style="width:26px;height:26px"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`:pick(['Almost!','Good try!','Not quite.']);
-  $('fbS').innerHTML=ok?'+1 star':`The answer is (${q.ans+1}) ${fmt(q.opts[q.ans])}`;
-  $('fbE').innerHTML=fmt(q.ex);
+  $('fbS').innerHTML=ok?'+1 star':`The answer is (${q.ans+1}) ${fmt(q.opts[q.ans])}${q.zo&&q.zo[q.ans]&&q.zo[q.ans]!==q.opts[q.ans]?'（'+esc(q.zo[q.ans])+'）':''}`;
+  $('fbE').innerHTML=fmt((!ok&&q.why&&q.why[i]?q.why[i]+'\n':'')+q.ex);
   $('bNext').textContent=R.i===R.qs.length-1?'See my score 看成绩':'Next 下一题';
   sh.hidden=false;
   requestAnimationFrame(()=>{document.querySelector('.app').style.paddingBottom=(sh.offsetHeight+24)+'px';const t=$('opt'+q.ans);if(t)t.scrollIntoView({block:'center',behavior:'smooth'});try{$('bNext').focus({preventScroll:true});}catch(e){}});
@@ -1368,8 +1376,9 @@ function kindOf(q){if(q.c!=='read'||!q.p)return '';const s=q.q;
   return '找细节';}
 function logAnswer(q,i,ok){if(!Array.isArray(S.log))S.log=[];
   const e={d:dkey(new Date()),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;
-  if(!ok){e.q=q.q.replace(/\*\*/g,'').replace(/\s*\n\s*/g,' ').slice(0,160);if(q.p)e.p=q.p.replace(/\s*\n\s*/g,' ').slice(0,90);e.a=q.opts[i];e.r=q.opts[q.ans];}
+  if(!ok){e.q=q.q.replace(/\*\*/g,'').replace(/\s*\n\s*/g,' ').slice(0,160);if(q.p)e.p=q.p.replace(/\s*\n\s*/g,' ').slice(0,90);e.a=q.opts[i];e.r=q.opts[q.ans];if(q.err&&q.err[i])e.err=q.err[i];}
   S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);}
+function errCounts(){const c={};(Array.isArray(S.log)?S.log:[]).forEach(e=>{if(e.err)c[e.err]=(c[e.err]||0)+1;});return Object.entries(c).sort((a,b)=>b[1]-a[1]);}
 function stats(){const L=Array.isArray(S.log)?S.log:[];const g={};
   L.forEach(e=>{const name=e.t+(e.k?' · '+e.k:'');const x=g[name]||(g[name]={name,n:0,ok:0});x.n++;x.ok+=e.ok;});
   const rows=Object.values(g),ranked=rows.filter(r=>r.n>=3).sort((a,b)=>a.ok/a.n-b.ok/b.n||b.n-a.n),few=rows.filter(r=>r.n<3);
@@ -1382,6 +1391,7 @@ function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textCo
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
     :'<p class="st-sub">还没开始学单词卡。</p>';
+  const ec=errCounts();$('stErrBox').hidden=!ec.length;$('stErrs').innerHTML=ec.map(([k,n])=>`<div class="st-row lo"><div class="st-name">${esc((QB.ERRS||{})[k]||k)}</div><div class="st-num">${n} 次</div></div>`).join('');
   if(!st.total){$('stSum').innerHTML='<p class="st-sub">还没有记录。从现在开始，他每做一题都会记在这里。</p>';$('stTopics').innerHTML='';$('stWrong').innerHTML='';return;}
   $('stSum').innerHTML=`<div class="st-big"><b>${st.total}</b> 题 · 对 <b>${pct(st.okn,st.total)}%</b></div><p class="st-sub">练了 ${st.days} 天 · 最近 7 天 ${st.last7} 题 · 从 ${esc(st.L[0].d)} 开始记录</p>`;
   $('stTopics').innerHTML=(st.ranked.map(r=>{const p=pct(r.ok,r.n);return `<div class="st-row ${p<60?'lo':p<80?'mid':'hi'}"><div class="st-name">${esc(r.name)}</div><div class="st-num">对 ${r.ok}/${r.n} · ${p}%</div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;}).join('')
@@ -1397,6 +1407,7 @@ function report(){const st=stats(),title=document.title;
   if(good.length)t+='\n做得好的：\n'+good.map(line).join('\n')+'\n';
   const w=st.wrong.filter(x=>!x.fixed).slice(0,20);
   if(w.length)t+='\n还没做对的错题：\n'+w.map((x,i)=>`${i+1}. [${x.e.t}${x.e.k?' · '+x.e.k:''}] ${x.e.p?'（短文：'+x.e.p+'…）':''}${x.e.q}　他选：${x.e.a}　答案：${x.e.r}${x.wrong>1?'（错 '+x.wrong+' 次）':''}`).join('\n')+'\n';
+  const ec=errCounts();if(ec.length)t+='\n常见错法：\n'+ec.map(([k,n])=>`- ${(QB.ERRS||{})[k]||k}：${n} 次`).join('\n')+'\n';
   const wi=wordInfo();
   if(wi.learned.length)t+=`\n单词卡：学过 ${wi.learned.length} 个词，记住了 ${wi.mast.length} 个。`+(wi.weak.length?`还不熟：${wi.weak.map(w=>w.w+'（'+w.zh+'）').join('、')}。`:'')+'\n';
   return t;}
@@ -1409,6 +1420,7 @@ const canSay=('speechSynthesis' in window)&&typeof window.SpeechSynthesisUtteran
 function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   let t=(q.p?q.p+'\n':'')+q.q.replace(/\*\*/g,'').replace(/___/g,' blank ').replace(/[①②]/g,'')+'\n';
   q.opts.forEach((o,i)=>{t+=`Number ${i+1}. ${o}.\n`;});
+  t=t.replace(/(\d)\u2009(?=\d)/g,'$1').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
