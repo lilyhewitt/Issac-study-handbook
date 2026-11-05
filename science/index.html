@@ -155,6 +155,31 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .dbtns{display:grid;gap:12px;width:100%;margin-top:8px}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 
+/* word cards */
+.wtile{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:var(--surface);border:2px solid var(--life);border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 var(--life-deep);transition:transform .08s ease,box-shadow .08s ease}
+.wtile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--life-deep)}
+.wtile .tname{color:var(--ink)}.wtile .tsub{color:var(--ink-2);opacity:1}
+.wt-r{flex:none;font-weight:700;font-size:.9rem;color:var(--life-ink);background:var(--life-tint);border-radius:99px;padding:6px 12px}
+.wset{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.wset.next{border-color:var(--life)}
+.wset-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+.wset-h small{color:var(--ink-2);font-weight:400}
+.chips2{display:flex;flex-wrap:wrap;gap:6px}
+.wchip{padding:4px 10px;border-radius:99px;font-weight:700;font-size:.92rem;background:var(--track);color:var(--ink-2)}
+.wchip.s1{background:var(--mix-tint);color:var(--mix-ink)}
+.wchip.s2{background:var(--good-bg);color:var(--good)}
+.wchip.s0{background:var(--miss-bg);color:var(--miss)}
+.sbtn{align-self:flex-start;min-height:44px;padding:8px 16px;border-radius:12px;background:var(--life);color:var(--on-tile);font-family:var(--f-display);font-weight:800;font-size:1.05rem;box-shadow:0 3px 0 var(--life-deep)}
+.sbtn.ghost{background:var(--surface);color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.wcard{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:22px 18px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.wc-set{font-size:.85rem;font-weight:700;color:var(--ink-2)}
+.wc-word{font-family:var(--f-display);font-weight:800;font-size:2.6rem;line-height:1.05;overflow-wrap:anywhere}
+.wc-zh{font-size:1.45rem;font-weight:700}
+.wc-def{color:var(--ink-2);font-size:1.05rem}
+.wc-ex{width:100%;background:var(--paper);border-radius:14px;padding:12px 14px;font-size:1.18rem;line-height:1.5}
+.wc-ex b{background:var(--hl);padding:0 .2em;border-radius:5px}
+.wc-tip{font-size:.92rem;color:var(--ink-2)}
 .backlink{display:inline-flex;align-items:center;min-height:40px;margin-bottom:10px;padding:6px 14px;border-radius:99px;background:var(--surface);border:2px solid var(--line);color:var(--ink);font-weight:700;font-size:.92rem;text-decoration:none}
 
 /* parent view */
@@ -225,6 +250,11 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
       <div class="track"><div class="fill" id="hGoalBar"></div></div>
     </div>
 
+    <button class="wtile" id="tWords">
+      <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一周 5 个词</span></span>
+      <span class="wt-r" id="wtNote">这周：Week 1</span>
+    </button>
+
     <div class="tiles">
       <button class="tile" data-mode="life" id="tLife">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M8 32C8 15 19 6 34 6c0 16-9 26-24 26z"/><path d="M8 32L22 18"/></svg></span>
@@ -264,12 +294,44 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
     <h3 class="st-h3">哪类题还要多练</h3>
     <p class="st-note">按做对的比例从低到高排。红色 = 不到六成，黄色 = 六到八成，绿色 = 八成以上。</p>
     <div class="st-list" id="stTopics"></div>
+    <h3 class="st-h3">单词卡</h3>
+    <div class="stcard" id="stWords"></div>
     <h3 class="st-h3">做错过的题</h3>
     <p class="st-note">最近的在最上面。“后来做对了”= 之后再出现时他答对了。</p>
     <div class="st-list" id="stWrong"></div>
     <button class="btn" id="bCopy">复制报告（可以发给家人）</button>
     <p class="st-note" id="copyMsg" role="status"></p>
     <textarea id="copyBox" readonly hidden aria-label="报告内容"></textarea>
+  </section>
+
+  <!-- WORD SETS -->
+  <section id="vWords" class="view" aria-label="Word cards" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="bWordsBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 class="st-h">Word cards 单词卡</h2>
+    </div>
+    <div class="stcard" id="wSum"></div>
+    <button class="btn" id="bReview">复习今天的词</button>
+    <p class="st-note">灰色 = 还没学 · 黄色 = 在复习 · 绿色 = 记住了 · 红色 = 最近答错，会再出现</p>
+    <div class="st-list" id="wSets"></div>
+  </section>
+
+  <!-- ONE WORD CARD -->
+  <section id="vCard" class="view" aria-label="Word card" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="bCardQuit" aria-label="Back to word cards"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="pips" id="cPips"></div>
+    </div>
+    <div class="wcard">
+      <div class="wc-set" id="cSet"></div>
+      <div class="wc-word" id="cWord"></div>
+      <button class="tool" id="cSay"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6"/></svg>Listen</button>
+      <div class="wc-zh" id="cZh"></div>
+      <div class="wc-def" id="cDef"></div>
+      <div class="wc-ex" id="cEx"></div>
+      <div class="wc-tip">Say your own sentence with this word.<br>用这个词说一句你自己的话。</div>
+    </div>
+    <button class="btn" id="cNext">Next word 下一个</button>
   </section>
 
   <!-- QUIZ -->
@@ -592,6 +654,58 @@ const EXP=[
 ];
 EXP.forEach(([c,pp,qs])=>qs.forEach(([l,q,qz,o,ex])=>GENS.push({c,t:'Experiment · 实验',l,w:1.1,f:()=>mkz(q,qz,o,ex,pp.p,pp.pz)})));
 
+/* ---------- word cards: one set of 5 a week, in the handbook's topic order. [word, 中文, simple meaning, example with **word**] ---------- */
+const WORDSETS=[
+{title:'Plant parts',zh:'植物',words:[
+ ['root','根','the part of a plant under the ground that takes in water','The **root** takes in water from the soil.'],
+ ['stem','茎','the part of a plant that holds it up','The **stem** carries water up to the leaves.'],
+ ['absorb','吸收','take in water or food','The roots **absorb** water from the soil.'],
+ ['transport','运送','carry from one place to another','The stem helps to **transport** water.'],
+ ['support','支撑','hold something up','The stem helps to **support** the plant.']]},
+{title:'Matter',zh:'物质',words:[
+ ['solid','固体','has its own shape, like a stone','Ice is a **solid**.'],
+ ['liquid','液体','flows and takes the shape of its container, like water','Milk is a **liquid**.'],
+ ['gas','气体','spreads out to fill any space, like air','Air is a **gas**.'],
+ ['volume','体积','how much space something takes up','We measured the **volume** of water in the cup.'],
+ ['mass','质量','how much matter something has','We used a scale to find the **mass** of the bag.']]},
+{title:'Digestion',zh:'消化',words:[
+ ['digest','消化','break food down so the body can use it','Our bodies **digest** the food we eat.'],
+ ['saliva','唾液','the liquid in your mouth','**Saliva** makes food soft.'],
+ ['stomach','胃','the bag-like organ that churns food','Food goes from the gullet to the **stomach**.'],
+ ['intestine','肠','the long tube after the stomach','Digested food is taken in by the small **intestine**.'],
+ ['organ','器官','a body part that does a special job','The heart is an **organ**.']]},
+{title:'Light',zh:'光',words:[
+ ['source','来源（光源）','where something comes from','The Sun is a **source** of light.'],
+ ['reflect','反射','bounce light back','A mirror can **reflect** light.'],
+ ['shadow','影子','a dark shape made when light is blocked','My **shadow** is long in the evening.'],
+ ['transparent','透明的','lets light through, so you can see through it','Clear glass is **transparent**.'],
+ ['opaque','不透明的','does not let light through','Wood is **opaque**.']]},
+{title:'Heat',zh:'热',words:[
+ ['temperature','温度','how hot or cold something is','The **temperature** today is 33 °C.'],
+ ['conductor','导体','lets heat pass through easily','Metal is a good **conductor** of heat.'],
+ ['insulator','隔热的东西','does not let heat pass through easily','Wood is a good **insulator**.'],
+ ['expand','膨胀','get bigger','Most things **expand** when they are heated.'],
+ ['contract','收缩','get smaller','Most things **contract** when they are cooled.']]},
+{title:'Magnets and materials (P3)',zh:'磁铁和材料',words:[
+ ['attract','吸引','pull towards','A magnet can **attract** iron nails.'],
+ ['repel','排斥','push away','Two north poles **repel** each other.'],
+ ['magnetic','有磁性的','can be attracted by a magnet','Iron is **magnetic**.'],
+ ['flexible','能弯曲的','can bend without breaking','Rubber is **flexible**.'],
+ ['waterproof','防水的','does not let water through','My raincoat is **waterproof**.']]},
+{title:'Life cycles (P3)',zh:'生命周期',words:[
+ ['reproduce','繁殖','make young ones of the same kind','All living things **reproduce**.'],
+ ['germinate','发芽','when a seed starts to grow','The bean seed began to **germinate**.'],
+ ['larva','幼虫','the young of some insects, like a caterpillar','A caterpillar is a **larva**.'],
+ ['pupa','蛹','the stage inside a hard case, before becoming an adult','The **pupa** does not eat.'],
+ ['nymph','若虫','a young insect that looks like its parent but has no wings','A young grasshopper is a **nymph**.']]},
+{title:'Exam words',zh:'考试指令词',words:[
+ ['describe','描述','say what something is like','**Describe** what happened to the ice.'],
+ ['explain','解释','say why or how','**Explain** why the plant died.'],
+ ['compare','比较','say how things are the same or different','**Compare** the two shadows.'],
+ ['observe','观察','look carefully','**Observe** the seed every day.'],
+ ['state','写出、说出','give a short, clear answer','**State** one property of rubber.']]},
+];
+
 /* ---------- engine ---------- */
 const CATW={life:.38,mat:.27,p4:.35};
 function wpick(arr,wf){let t=0;arr.forEach(x=>t+=wf(x));let r=Math.random()*t;for(const x of arr){r-=wf(x);if(r<=0)return x;}return arr[arr.length-1];}
@@ -604,7 +718,7 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
   if(ok2)for(let k=0;k<60;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return GENS.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -631,7 +745,7 @@ const STAR='<svg viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/___/g,'<span class="blank" aria-label="blank"></span>').replace(/\n/g,'<br>');}
 
-function show(id){['vHome','vQuiz','vDone','vStats'].forEach(v=>$(v).hidden=v!==id);$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
+function show(id){['vHome','vQuiz','vDone','vStats','vWords','vCard'].forEach(v=>$(v).hidden=v!==id);$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
 function streak(){let n=0;const d=new Date();if(!S.days[dkey(d)])d.setDate(d.getDate()-1);while(S.days[dkey(d)]){n++;d.setDate(d.getDate()-1);}return n;}
 
 function home(){
@@ -647,6 +761,8 @@ function home(){
   $('bRedo').hidden=!S.misses.length;$('redoN').textContent=S.misses.length;
   $('mini').innerHTML=Object.keys(CATS).filter(k=>S.by[k][0]).map(k=>`<span>${CATS[k]} · ${S.by[k][0]} 题 · 对 ${Math.round(S.by[k][1]/S.by[k][0]*100)}%</span>`).join('');
   $('bSound').setAttribute('aria-pressed',String(!!S.sound));
+  const dn=dueWords().length,nx=nextSet();
+  $('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`这周：Week ${nx+1}`:'全部学完了';
 }
 
 /* round */
@@ -655,11 +771,15 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
 function startRound(mode){
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
+  else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
+  else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6);if(!S.sets[si])S.sets[si]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
   else{
     [1,1,2,2,1].forEach((l,i)=>{let q=null;
       if(i===2){const pool=S.misses.filter(m=>mode==='mix'||m.c===mode);if(pool.length&&Math.random()<.6)q=again(pick(pool));}
       if(!q||keys.has(QB.key(q)))q=QB.make(mode==='mix'?QB.pickCat():mode,l,k=>!seen.has(QB.hash(k))&&!keys.has(k),k=>!recent.has(k)&&!keys.has(k));
       keys.add(QB.key(q));qs.push(q);});
+    /* words that are due for review take one or two of the easy slots */
+    const due=QB.shuf(dueWords());if(due.length)qs[0]=wordQ(due[0]);if(due.length>=3)qs[4]=wordQ(due[1]);
   }
   if(!qs.length){home();return;}
   qs.forEach(q=>{const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
@@ -687,8 +807,8 @@ function choose(i){
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const k=QB.key(q);
   if(ok){by[1]++;S.stars++;R.score++;if(q.again)S.misses=S.misses.filter(m=>QB.key(m)!==k);}
-  else if(!S.misses.some(m=>QB.key(m)===k)){const m={c:q.c,t:q.t,l:q.l,q:q.q,p:q.p,zh:q.zh,zo:q.zo,opts:q.opts,ans:q.ans,ex:q.ex};S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
-  logAnswer(q,i,ok);
+  else if(!q.wd&&!S.misses.some(m=>QB.key(m)===k)){const m={c:q.c,t:q.t,l:q.l,q:q.q,p:q.p,zh:q.zh,zo:q.zo,opts:q.opts,ans:q.ans,ex:q.ex};S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
+  logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);
   save();beep(ok);pips();
   const sh=$('sheet');sh.className='sheet'+(ok?'':' miss');
   $('fbT').innerHTML=ok?`${pick(['Correct!','Nice one!','You got it!','Well done!'])} <svg class="ico ico-star" viewBox="0 0 24 24" style="width:26px;height:26px"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`:pick(['Almost!','Good try!','Not quite.']);
@@ -709,8 +829,53 @@ function finish(){
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
+  const wordRound=/^learn:|^review$/.test(R.mode);
+  if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
+  $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
   if(s>=n-1&&n>1)confetti();
 }
+
+/* ===== word cards: learn 5, then review after 2, 5, 10, 21, 45 days; a miss comes back tomorrow ===== */
+const WS=(QB.WORDSETS||[]).map((s,si)=>({title:s.title,zh:s.zh,words:s.words.map(([w,zh,def,ex])=>({w,zh,def,ex,set:si}))}));
+const WL=[].concat(...WS.map(s=>s.words));
+const INTV=[1,2,5,10,21,45];
+if(!S.wd||typeof S.wd!=='object')S.wd={};
+if(!S.sets||typeof S.sets!=='object')S.sets={};
+const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return dkey(d);};
+const cap1=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function dueWords(){const t=dkey(new Date());return WL.filter(w=>S.wd[w.w]&&S.wd[w.w].due<=t);}
+function srs(w,ok){const s=S.wd[w]||(S.wd[w]={box:0,due:dkey(new Date()),n:0,bad:0});s.n++;
+  if(ok){s.box=Math.min(s.box+1,INTV.length-1);s.due=addDays(INTV[s.box]);}else{s.bad++;s.box=0;s.due=addDays(1);}}
+function wStatus(w){const s=S.wd[w];if(!s)return '';if(s.box>=4)return 's2';if(s.box===0)return 's0';return 's1';}
+function nextSet(){for(let i=0;i<WS.length;i++)if(!S.sets[i]||WS[i].words.some(w=>!S.wd[w.w]))return i;return -1;}
+function wordQ(w,first){const s=S.wd[w.w],box=s?s.box:0;
+  const others=QB.shuf(WL.filter(x=>x.w!==w.w)),pool=others.filter(x=>x.set===w.set).concat(others.filter(x=>x.set!==w.set));
+  const type=first||box<=1?'zh':box===2?(Math.random()<.5?'def':'zh'):(Math.random()<.6?'blank':'def');
+  let q,a,d,hint;
+  if(type==='zh'){q=`What does “${w.w}” mean?`;a=w.zh;d=others.map(x=>x.zh);hint='想想例句：'+w.ex.replace(/\*\*/g,'');}
+  else if(type==='def'){q=`Which word means “${w.def}”?`;a=w.w;d=pool.map(x=>x.w);hint='把每个词的意思想一想，哪个最接近？';}
+  else{const m=/\*\*(.+?)\*\*/.exec(w.ex),cp=!!(m&&/^[A-Z]/.test(m[1]));q='Which word fits in the blank?\n'+w.ex.replace(/\*\*(.+?)\*\*/,'___');a=cp?cap1(w.w):w.w;d=pool.map(x=>cp?cap1(x.w):x.w);hint='把每个词放进句子里读一读，哪个说得通？';}
+  const seen=new Set([a]),ds=[];for(const x of d){if(!seen.has(x)){seen.add(x);ds.push(x);}if(ds.length===3)break;}
+  const opts=QB.shuf([a,...ds]);
+  return{q,p:null,zh:hint,opts,ans:opts.indexOf(a),ex:`**${w.w}** = ${w.zh}（${w.def}）\n例句：${w.ex}`,c:'card',t:'Word cards · 单词卡',l:1,wd:w.w};}
+function wordsView(){show('vWords');const due=dueWords(),nx=nextSet();
+  const learned=WL.filter(w=>S.wd[w.w]).length,mast=WL.filter(w=>wStatus(w.w)==='s2').length;
+  $('wSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学一组。学完会自动再考：两天后、五天后、十天后……连续答对 4 次就算记住了。</p>`;
+  $('bReview').disabled=!due.length;$('bReview').textContent=due.length?`复习今天的词（${due.length} 个）`:'今天没有要复习的词';
+  $('wSets').innerHTML=WS.map((s,i)=>{const done=!!S.sets[i],isNext=i===nx;
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>Week ${i+1} · ${esc(s.title)} <small>${esc(s.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.sets[i].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+      +`<div class="chips2">${s.words.map(w=>`<span class="wchip ${wStatus(w.w)}">${esc(w.w)}</span>`).join('')}</div>`
+      +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-learn="${i}">${done?'再看一遍':'学这 5 个词'}</button>`:'')+'</div>';}).join('');
+}
+let CARD=null;
+function startCards(si){CARD={si,i:0};show('vCard');showCard();}
+function showCard(){const s=WS[CARD.si],w=s.words[CARD.i];
+  $('cSet').textContent=`Week ${CARD.si+1} · ${s.title} · ${CARD.i+1}/${s.words.length}`;
+  $('cWord').textContent=w.w;$('cZh').textContent=w.zh;$('cDef').textContent=w.def;$('cEx').innerHTML=fmt(w.ex);
+  $('cNext').textContent=CARD.i<s.words.length-1?'Next word 下一个':'Check! 考考自己';
+  $('cPips').innerHTML=s.words.map((x,j)=>`<span class="pip ${j<CARD.i?'ok':j===CARD.i?'now':''}"></span>`).join('');
+  window.scrollTo(0,0);}
+function wordInfo(){const learned=WL.filter(w=>S.wd[w.w]);return{learned,mast:learned.filter(w=>wStatus(w.w)==='s2'),weak:learned.filter(w=>S.wd[w.w].bad>=2||wStatus(w.w)==='s0'),due:dueWords()};}
 
 /* answer log + parent view */
 const pct=(a,b)=>b?Math.round(a/b*100):0;
@@ -734,6 +899,10 @@ function stats(){const L=Array.isArray(S.log)?S.log:[];const g={};
   const wrong=[...byH.values()].filter(r=>r.wrong&&r.e&&r.e.q).sort((a,b)=>b.lastWrong-a.lastWrong).map(r=>Object.assign(r,{fixed:r.lastOk>r.lastWrong}));
   return{L,total:L.length,okn:L.reduce((s,e)=>s+e.ok,0),days:new Set(L.map(e=>e.d)).size,last7:L.filter(e=>e.d>=k7).length,ranked,few,wrong};}
 function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+  const wi=wordInfo();
+  $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
+    +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
+    :'<p class="st-sub">还没开始学单词卡。</p>';
   if(!st.total){$('stSum').innerHTML='<p class="st-sub">还没有记录。从现在开始，他每做一题都会记在这里。</p>';$('stTopics').innerHTML='';$('stWrong').innerHTML='';return;}
   $('stSum').innerHTML=`<div class="st-big"><b>${st.total}</b> 题 · 对 <b>${pct(st.okn,st.total)}%</b></div><p class="st-sub">练了 ${st.days} 天 · 最近 7 天 ${st.last7} 题 · 从 ${esc(st.L[0].d)} 开始记录</p>`;
   $('stTopics').innerHTML=(st.ranked.map(r=>{const p=pct(r.ok,r.n);return `<div class="st-row ${p<60?'lo':p<80?'mid':'hi'}"><div class="st-name">${esc(r.name)}</div><div class="st-num">对 ${r.ok}/${r.n} · ${p}%</div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;}).join('')
@@ -749,6 +918,8 @@ function report(){const st=stats(),title=document.title;
   if(good.length)t+='\n做得好的：\n'+good.map(line).join('\n')+'\n';
   const w=st.wrong.filter(x=>!x.fixed).slice(0,20);
   if(w.length)t+='\n还没做对的错题：\n'+w.map((x,i)=>`${i+1}. [${x.e.t}${x.e.k?' · '+x.e.k:''}] ${x.e.p?'（短文：'+x.e.p+'…）':''}${x.e.q}　他选：${x.e.a}　答案：${x.e.r}${x.wrong>1?'（错 '+x.wrong+' 次）':''}`).join('\n')+'\n';
+  const wi=wordInfo();
+  if(wi.learned.length)t+=`\n单词卡：学过 ${wi.learned.length} 个词，记住了 ${wi.mast.length} 个。`+(wi.weak.length?`还不熟：${wi.weak.map(w=>w.w+'（'+w.zh+'）').join('、')}。`:'')+'\n';
   return t;}
 function copyReport(){const t=report(),box=$('copyBox');
   const fallback=()=>{box.hidden=false;box.value=t;try{box.focus();box.select();}catch(e){}$('copyMsg').textContent='请长按下面的文字，全选后复制。';};
@@ -760,7 +931,8 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   let t=(q.p?q.p+'\n':'')+q.q.replace(/\*\*/g,'').replace(/___/g,' blank ').replace(/[①②]/g,'')+'\n';
   q.opts.forEach((o,i)=>{t+=`Number ${i+1}. ${o}.\n`;});
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
-$('bSay').hidden=!canSay;
+function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
+$('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();}catch(e){}}
 
 /* sound */
@@ -783,7 +955,14 @@ $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
-$('bAgain').addEventListener('click',()=>startRound($('bAgain').dataset.mode||'mix'));
+$('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='words')wordsView();else startRound(m);});
+$('tWords').addEventListener('click',wordsView);
+$('bWordsBack').addEventListener('click',home);
+$('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
+$('wSets').addEventListener('click',e=>{const b=e.target.closest('[data-learn]');if(b)startCards(+b.dataset.learn);});
+$('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}wordsView();});
+$('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakText(`${w.w}. ${w.ex.replace(/\*\*/g,'')}`);});
+$('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',statsView);
 $('bStatsBack').addEventListener('click',home);
