@@ -102,7 +102,7 @@ details.more summary{cursor:pointer;padding:14px 16px;font-weight:700;min-height
 details.more .body{padding:0 16px 14px;}
 /* bottom nav */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
-nav.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:var(--nav-h);align-items:center;}
+nav.tabs .wrap{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;height:var(--nav-h);align-items:center;}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:15px;min-width:0;}
 nav.tabs a .ic{font-family:var(--f-latin);font-size:11.5px;letter-spacing:.02em;}
 nav.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);}
@@ -481,6 +481,43 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
 </section>
 
+<!-- ===== 更新记录(新的写在最上面) ===== -->
+<section class="view" id="v-updates" hidden>
+  <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
+  <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
+
+  <div class="card"><span class="tag">v2.3 · 11 月 5 日</span><h3>加了“更新”页</h3><ul>
+    <li>就是这一页:每次改了什么都写在这里。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v2.2 · 11 月 5 日</span><h3>单词卡和词汇</h3><ul>
+    <li>英文、科学练习 app 加了“单词卡”:一周 5 个词,有朗读、中文和例句,学完隔几天自动再考。</li>
+    <li>英文页加了“词汇:少而反复”,科学页加了“科学词汇”,附两科的词表。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v2.1 · 11 月 5 日</span><h3>自动更新和练习记录</h3><ul>
+    <li>手册和练习 app 打开时会自己换成最新版。</li>
+    <li>练习 app 记下每一题的对错。首页底部“家长看 · 练习记录”能看哪类题还要多练,还能复制报告发给家人。</li>
+    <li>从手册点进练习 app,首页左上角有“← 回家长手册”。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v2.0 · 11 月 5 日</span><h3>练习 app 上线</h3><ul>
+    <li>英文练习:语法、词汇、阅读选择题,每轮 5 题。</li>
+    <li>科学练习:P3 复习加 P4 预习,每题都能看中文翻译。</li>
+    <li>总览、英文、科学三页都加了入口。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v1.2 · 11 月 5 日</span><h3>科学书和拼读资源</h3><ul>
+    <li>科学每个主题列 3 本书,从简单到难,写了去哪里借。</li>
+    <li>拼读资源换成更容易上手的;主题改成按 1–6 编号,不固定哪一周做什么。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v1.1 · 11 月 5 日</span><h3>内容补充</h3><ul>
+    <li>改成往前看:每科加了 P4 预习和复习的步骤。</li>
+    <li>英文阅读按关卡从简单到难;加了新加坡本地书和考试用的英文。</li>
+    <li>数学按学段说明 P4 学什么。</li>
+    <li>加了“夸夸”页和主屏幕图标。</li>
+  </ul></div>
+  <div class="card"><span class="tag">v1.0 · 11 月 5 日</span><h3>手册上线</h3><ul>
+    <li>总览、英文、科学、数学四页,在手机上看的版本。</li>
+  </ul></div>
+</section>
+
 <footer>开放时间、价格以官网为准。</footer>
 </div></main>
 
@@ -490,11 +527,12 @@ footer{color:var(--muted);font-size:13px;margin-top:8px;}
   <a href="#science" data-view="science"><span>科学</span><span class="ic">Science</span></a>
   <a href="#math" data-view="math"><span>数学</span><span class="ic">Math</span></a>
   <a href="#praise" data-view="praise"><span>夸夸</span><span class="ic">Praise</span></a>
+  <a href="#updates" data-view="updates"><span>更新</span><span class="ic">Updates</span></a>
 </div></nav>
 
 <script>
 (function(){
-  var views=["overview","english","science","math","praise"];
+  var views=["overview","english","science","math","praise","updates"];
   function show(){
     var h=(location.hash||"").replace("#","");
     if(views.indexOf(h)<0) h="overview";
