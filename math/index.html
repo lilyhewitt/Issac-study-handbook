@@ -156,12 +156,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 
 /* write it down */
-.wbox{width:100%;text-align:left;background:var(--paper);border:2px dashed var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.wb-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.wb-h small{color:var(--ink-2)}
-.wb-q{margin:0;font-weight:700;font-size:1.1rem;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
-.wb-zh{margin:0;color:var(--ink-2);font-size:.95rem}
-.wb-a{background:var(--good-bg);border-radius:12px;padding:10px 12px;white-space:pre-line;line-height:1.55;overflow-wrap:anywhere}
 /* word cards */
 .wtile{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:var(--surface);border:2px solid var(--wp);border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 var(--wp-deep);transition:transform .08s ease,box-shadow .08s ease}
 .wtile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--wp-deep)}
@@ -375,15 +369,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
       <div class="drow" id="dStars"></div>
       <p class="dmsg" id="dMsg">Nice try!</p>
       <p class="dsub" id="dSub"></p>
-      <div class="wbox" id="wBox" hidden>
-        <div class="wb-h"><span class="chip">写一写 · Write it down</span><small>写在纸上，写完再看答案</small></div>
-        <div class="pass" id="wP" hidden></div>
-        <p class="wb-q" id="wQ"></p>
-        <p class="wb-zh" id="wZh"></p>
-        <button class="sbtn ghost" id="bWShow">写好了，看参考答案</button>
-        <div class="wb-a" id="wA" hidden></div>
-        <p class="st-note">大人只看一件事：有没有写完整。不用判对错。</p>
-      </div>
       <div class="dbtns">
         <button class="btn" id="bAgain">One more round 再来一轮</button>
         <button class="btn ghost" id="bHome">Home 回首页</button>
@@ -756,10 +741,7 @@ function plan(mode){
   return[['calc',1],[pick(['wp','p4']),1],['wp',3],[pick(['wp','p4','calc']),2],[pick(['wp','p4']),1]];}
 function size(){return GENS.length;}
 /* write it down: the step-by-step problem from this round (or a fresh one), full working on paper */
-function writePrompt(qs){let ch=(qs||[]).filter(q=>q.step&&q.p);
-  if(ch.length){const p=ch[0].p;ch=ch.filter(q=>q.p===p);}else{const g=pick(GENS.filter(g=>g.c==='wp'&&g.l===3)),r=g.f();ch=r;}
-  return{p:ch[0].p,q:'Write the full working for this problem on paper. You can draw a model first.',zh:'把这道题的算式在纸上完整写出来，可以先画线段图。写完再看参考答案。',a:ch.map((q,i)=>`第 ${i+1} 步：${q.ex}`).join('\n')};}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,writePrompt};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -876,9 +858,6 @@ function finish(){
   const wordRound=/^learn:|^review$/.test(R.mode);
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
-  /* one thing to write on paper, except after word-card rounds */
-  const w=QB.writePrompt&&!wordRound?QB.writePrompt(R.qs):null;$('wBox').hidden=!w;
-  if(w){$('wP').hidden=!w.p;$('wP').innerHTML=w.p?fmt(w.p):'';$('wQ').textContent=w.q;$('wZh').textContent=w.zh||'';$('wA').textContent=w.a;$('wA').hidden=true;$('bWShow').hidden=false;}
   if(s>=n-1&&n>1)confetti();
 }
 
@@ -1015,7 +994,6 @@ $('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch
 $('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakText(`${w.w}. ${w.ex.replace(/\*\*/g,'')}`);});
 $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
-$('bWShow').addEventListener('click',()=>{$('wA').hidden=false;$('bWShow').hidden=true;});
 $('bStats').addEventListener('click',statsView);
 $('bStatsBack').addEventListener('click',home);
 $('bCopy').addEventListener('click',copyReport);

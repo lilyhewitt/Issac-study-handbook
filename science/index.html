@@ -156,12 +156,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
 
 /* write it down */
-.wbox{width:100%;text-align:left;background:var(--paper);border:2px dashed var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.wb-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.wb-h small{color:var(--ink-2)}
-.wb-q{margin:0;font-weight:700;font-size:1.1rem;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
-.wb-zh{margin:0;color:var(--ink-2);font-size:.95rem}
-.wb-a{background:var(--good-bg);border-radius:12px;padding:10px 12px;white-space:pre-line;line-height:1.55;overflow-wrap:anywhere}
 /* word cards */
 .wtile{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:var(--surface);border:2px solid var(--life);border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 var(--life-deep);transition:transform .08s ease,box-shadow .08s ease}
 .wtile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--life-deep)}
@@ -375,15 +369,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
       <div class="drow" id="dStars"></div>
       <p class="dmsg" id="dMsg">Nice try!</p>
       <p class="dsub" id="dSub"></p>
-      <div class="wbox" id="wBox" hidden>
-        <div class="wb-h"><span class="chip">写一写 · Write it down</span><small>写在纸上，写完再看答案</small></div>
-        <div class="pass" id="wP" hidden></div>
-        <p class="wb-q" id="wQ"></p>
-        <p class="wb-zh" id="wZh"></p>
-        <button class="sbtn ghost" id="bWShow">写好了，看参考答案</button>
-        <div class="wb-a" id="wA" hidden></div>
-        <p class="st-note">大人只看一件事：有没有写完整。不用判对错。</p>
-      </div>
       <div class="dbtns">
         <button class="btn" id="bAgain">One more round 再来一轮</button>
         <button class="btn ghost" id="bHome">Home 回首页</button>
@@ -728,25 +713,6 @@ const WORDSETS=[
 ];
 
 /* ---------- write it down: one prompt after each round, answered on paper. [prompt, 中文, model answer] ---------- */
-const WRITE=[
-['Explain why we keep food in the fridge. Use “because”.','解释为什么把食物放进冰箱，用 because。','We keep food in the fridge because bacteria and fungi grow slowly in the cold.'],
-['Why is a dolphin not a fish? Give one reason.','为什么海豚不是鱼？写一个原因。','A dolphin is not a fish because it breathes through lungs. (Or: because it feeds its young on milk.)'],
-['State one property of rubber that makes it good for tyres.','写出橡胶适合做轮胎的一个特性。','Rubber is strong and flexible.'],
-['Why should we not leave water in flower pot plates?','为什么花盆底盘不能积水？','Mosquitoes can lay eggs in the water, and their larvae grow in water.'],
-['A plant was kept in a dark cupboard and turned yellow. Explain why.','植物放在黑暗的柜子里变黄了。解释原因。','The plant could not get light, so it could not make food.'],
-['How can you make an electromagnet stronger?','怎样让电磁铁更强？','Wind more coils of wire around the iron nail.'],
-['Why are pot handles made of plastic or wood?','为什么锅把手用塑料或木头做？','Plastic and wood are poor conductors of heat, so the handle does not get too hot.'],
-['Describe what happens to ice when it is heated.','描述冰受热以后会怎样。','The ice melts. It changes from a solid into a liquid.'],
-['Explain how a shadow is formed.','解释影子是怎样形成的。','A shadow is formed when an object blocks light.'],
-['Why are small gaps left between sections of a railway track?','为什么铁轨之间要留小缝？','The metal expands on hot days. The gaps leave room for it to expand.'],
-['State one thing a seed needs to germinate.','写出种子发芽需要的一样东西。','A seed needs water to germinate. (Or: air, or warmth.)'],
-['Why should we chew our food well?','为什么吃东西要好好咀嚼？','Chewing breaks food into smaller pieces, so it is easier to digest.'],
-['How do you know that a spider is not an insect?','你怎么知道蜘蛛不是昆虫？','A spider has 8 legs, but an insect has 6 legs.'],
-['Siti tested which cloth absorbs the most water. Name one thing she must keep the same.','Siti 测试哪块布最吸水。写出一样必须保持不变的东西。','She must keep the amount of water the same. (Or: the size of the cloths.)'],
-['Why does a balloon get bigger when you blow into it?','为什么往气球里吹气，气球会变大？','Air takes up space, so the balloon gets bigger.'],
-['Compare a solid and a liquid. Write one difference.','比较固体和液体，写一个不同点。','A solid has a definite shape, but a liquid takes the shape of its container.'],
-];
-function writePrompt(){const [q,zh,a]=pick(WRITE);return{q,zh,a};}
 
 /* ---------- engine ---------- */
 const CATW={life:.38,mat:.27,p4:.35};
@@ -760,7 +726,7 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
   if(ok2)for(let k=0;k<60;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return GENS.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,writePrompt};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -877,9 +843,6 @@ function finish(){
   const wordRound=/^learn:|^review$/.test(R.mode);
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
-  /* one thing to write on paper, except after word-card rounds */
-  const w=QB.writePrompt&&!wordRound?QB.writePrompt(R.qs):null;$('wBox').hidden=!w;
-  if(w){$('wP').hidden=!w.p;$('wP').innerHTML=w.p?fmt(w.p):'';$('wQ').textContent=w.q;$('wZh').textContent=w.zh||'';$('wA').textContent=w.a;$('wA').hidden=true;$('bWShow').hidden=false;}
   if(s>=n-1&&n>1)confetti();
 }
 
@@ -1016,7 +979,6 @@ $('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch
 $('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakText(`${w.w}. ${w.ex.replace(/\*\*/g,'')}`);});
 $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
-$('bWShow').addEventListener('click',()=>{$('wA').hidden=false;$('bWShow').hidden=true;});
 $('bStats').addEventListener('click',statsView);
 $('bStatsBack').addEventListener('click',home);
 $('bCopy').addEventListener('click',copyReport);
