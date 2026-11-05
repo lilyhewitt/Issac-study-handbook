@@ -154,6 +154,28 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .dsub{margin:0;color:var(--ink-2)}
 .dbtns{display:grid;gap:12px;width:100%;margin-top:8px}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+
+/* parent view */
+.plink{align-self:flex-start;font-weight:700;color:var(--gram-ink);padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+.st-h{margin:0;flex:1;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.15}
+.st-h3{margin:6px 0 0;font-family:var(--f-display);font-weight:800;font-size:1.2rem}
+.stcard{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px}
+.st-big{font-size:1.05rem}.st-big b{font-family:var(--f-display);font-size:1.8rem;font-variant-numeric:tabular-nums}
+.st-sub,.st-note{margin:4px 0 0;color:var(--ink-2);font-size:.9rem}
+.st-list{display:flex;flex-direction:column;gap:8px}
+.st-row{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center}
+.st-row .track{grid-column:1 / -1}
+.st-name{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.st-num{color:var(--ink-2);font-size:.9rem;font-variant-numeric:tabular-nums}
+.st-row.lo .fill{background:var(--miss)}.st-row.mid .fill{background:var(--star)}.st-row.hi .fill{background:var(--good)}
+.st-w{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.st-wt{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.82rem;color:var(--ink-2);font-weight:700}
+.st-badge{background:var(--miss-bg);color:var(--miss);border-radius:99px;padding:1px 8px}
+.st-fixed{background:var(--good-bg);color:var(--good);border-radius:99px;padding:1px 8px}
+.st-p{font-size:.85rem;color:var(--ink-2);overflow-wrap:anywhere}
+.st-q{font-weight:700;overflow-wrap:anywhere}
+.st-a{font-size:.92rem;overflow-wrap:anywhere}
+#copyBox{width:100%;min-height:220px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink);padding:10px;font:inherit;font-size:.85rem}
 @keyframes up{from{transform:translateY(100%)}to{transform:none}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.board{grid-template-columns:1fr 1fr}.board .lv{grid-column:1 / -1;order:3}.tile{min-height:124px}}
@@ -220,6 +242,25 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 
     <div class="mini" id="mini"></div>
     <p class="foot">Tap 🔊 Listen to hear the question. Tap 提示 for a Chinese hint.</p>
+    <button class="plink" id="bStats">家长看 · 练习记录 →</button>
+  </section>
+
+  <!-- PARENT VIEW -->
+  <section id="vStats" class="view" aria-label="练习记录" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="bStatsBack" aria-label="回首页"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 class="st-h">家长看 · 练习记录</h2>
+    </div>
+    <div class="stcard" id="stSum"></div>
+    <h3 class="st-h3">哪类题还要多练</h3>
+    <p class="st-note">按做对的比例从低到高排。红色 = 不到六成，黄色 = 六到八成，绿色 = 八成以上。</p>
+    <div class="st-list" id="stTopics"></div>
+    <h3 class="st-h3">做错过的题</h3>
+    <p class="st-note">最近的在最上面。“后来做对了”= 之后再出现时他答对了。</p>
+    <div class="st-list" id="stWrong"></div>
+    <button class="btn" id="bCopy">复制报告（可以发给家人）</button>
+    <p class="st-note" id="copyMsg" role="status"></p>
+    <textarea id="copyBox" readonly hidden aria-label="报告内容"></textarea>
   </section>
 
   <!-- QUIZ -->
@@ -1055,14 +1096,14 @@ let S={stars:0,days:{},misses:[],recent:[],sound:true,by:{}};
 try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
 if(!S.by||typeof S.by!=='object')S.by={};
 for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
-if(!Array.isArray(S.misses))S.misses=[];if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
+if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 
 const STAR='<svg viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/___/g,'<span class="blank" aria-label="blank"></span>').replace(/\n/g,'<br>');}
 
-function show(id){['vHome','vQuiz','vDone'].forEach(v=>$(v).hidden=v!==id);$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
+function show(id){['vHome','vQuiz','vDone','vStats'].forEach(v=>$(v).hidden=v!==id);$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
 function streak(){let n=0;const d=new Date();if(!S.days[dkey(d)])d.setDate(d.getDate()-1);while(S.days[dkey(d)]){n++;d.setDate(d.getDate()-1);}return n;}
 
 function home(){
@@ -1119,6 +1160,7 @@ function choose(i){
   const k=QB.key(q);
   if(ok){by[1]++;S.stars++;R.score++;if(q.again)S.misses=S.misses.filter(m=>QB.key(m)!==k);}
   else if(!S.misses.some(m=>QB.key(m)===k)){const m={c:q.c,t:q.t,l:q.l,q:q.q,p:q.p,zh:q.zh,opts:q.opts,ans:q.ans,ex:q.ex};S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
+  logAnswer(q,i,ok);
   save();beep(ok);pips();
   const sh=$('sheet');sh.className='sheet'+(ok?'':' miss');
   $('fbT').innerHTML=ok?`${pick(['Correct!','Nice one!','You got it!','Well done!'])} <svg class="ico ico-star" viewBox="0 0 24 24" style="width:26px;height:26px"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`:pick(['Almost!','Good try!','Not quite.']);
@@ -1141,6 +1183,48 @@ function finish(){
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
   if(s>=n-1&&n>1)confetti();
 }
+
+/* answer log + parent view */
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+function kindOf(q){if(q.c!=='read'||!q.p)return '';const s=q.q;
+  if(/^How do you know|^Which words? (tell|show)/i.test(s))return '找证据';
+  if(/refer to/i.test(s))return '指的是谁';
+  if(/mean/i.test(s))return '词义';
+  if(/NOT true|NOT mentioned|is true\?/i.test(s))return '判断对错';
+  if(/^Why/i.test(s))return '为什么';
+  if(/feel/i.test(s))return '感受';
+  return '找细节';}
+function logAnswer(q,i,ok){if(!Array.isArray(S.log))S.log=[];
+  const e={d:dkey(new Date()),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;
+  if(!ok){e.q=q.q.replace(/\*\*/g,'').replace(/\s*\n\s*/g,' ').slice(0,160);if(q.p)e.p=q.p.replace(/\s*\n\s*/g,' ').slice(0,90);e.a=q.opts[i];e.r=q.opts[q.ans];}
+  S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);}
+function stats(){const L=Array.isArray(S.log)?S.log:[];const g={};
+  L.forEach(e=>{const name=e.t+(e.k?' · '+e.k:'');const x=g[name]||(g[name]={name,n:0,ok:0});x.n++;x.ok+=e.ok;});
+  const rows=Object.values(g),ranked=rows.filter(r=>r.n>=3).sort((a,b)=>a.ok/a.n-b.ok/b.n||b.n-a.n),few=rows.filter(r=>r.n<3);
+  const d7=new Date();d7.setDate(d7.getDate()-6);const k7=dkey(d7);
+  const byH=new Map();L.forEach((e,idx)=>{let r=byH.get(e.h);if(!r){r={wrong:0,lastWrong:-1,lastOk:-1,e:null};byH.set(e.h,r);}if(e.ok)r.lastOk=idx;else{r.wrong++;r.lastWrong=idx;r.e=e;}});
+  const wrong=[...byH.values()].filter(r=>r.wrong&&r.e&&r.e.q).sort((a,b)=>b.lastWrong-a.lastWrong).map(r=>Object.assign(r,{fixed:r.lastOk>r.lastWrong}));
+  return{L,total:L.length,okn:L.reduce((s,e)=>s+e.ok,0),days:new Set(L.map(e=>e.d)).size,last7:L.filter(e=>e.d>=k7).length,ranked,few,wrong};}
+function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+  if(!st.total){$('stSum').innerHTML='<p class="st-sub">还没有记录。从现在开始，他每做一题都会记在这里。</p>';$('stTopics').innerHTML='';$('stWrong').innerHTML='';return;}
+  $('stSum').innerHTML=`<div class="st-big"><b>${st.total}</b> 题 · 对 <b>${pct(st.okn,st.total)}%</b></div><p class="st-sub">练了 ${st.days} 天 · 最近 7 天 ${st.last7} 题 · 从 ${esc(st.L[0].d)} 开始记录</p>`;
+  $('stTopics').innerHTML=(st.ranked.map(r=>{const p=pct(r.ok,r.n);return `<div class="st-row ${p<60?'lo':p<80?'mid':'hi'}"><div class="st-name">${esc(r.name)}</div><div class="st-num">对 ${r.ok}/${r.n} · ${p}%</div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;}).join('')
+    +(st.few.length?`<p class="st-note">做得还少（不到 3 题），先不排：${st.few.map(r=>esc(r.name)).join('、')}</p>`:''))||'<p class="st-note">每类题做到 3 题以上，就会出现在这里。</p>';
+  $('stWrong').innerHTML=st.wrong.slice(0,40).map(w=>{const e=w.e;return `<div class="st-w"><div class="st-wt"><span>${esc(e.d.slice(5).replace('-','/'))} · ${esc(e.t)}${e.k?' · '+esc(e.k):''}</span>${w.wrong>1?`<span class="st-badge">错 ${w.wrong} 次</span>`:''}${w.fixed?'<span class="st-fixed">后来做对了</span>':''}</div>${e.p?`<div class="st-p">${esc(e.p)}…</div>`:''}<div class="st-q">${esc(e.q)}</div><div class="st-a">他选：${esc(e.a)}　答案：<b>${esc(e.r)}</b></div></div>`;}).join('')||'<p class="st-note">还没有做错的题。</p>';
+}
+function report(){const st=stats(),title=document.title;
+  if(!st.total)return `${title}：还没有记录。`;
+  let t=`${title} · 练习记录（${dkey(new Date())}）\n一共 ${st.total} 题，对 ${st.okn} 题（${pct(st.okn,st.total)}%），练了 ${st.days} 天，最近 7 天 ${st.last7} 题。从 ${st.L[0].d} 开始记录。\n`;
+  const line=r=>`- ${r.name}：${r.n} 题对 ${r.ok}（${pct(r.ok,r.n)}%）`;
+  const weak=st.ranked.filter(r=>r.ok/r.n<.8),good=st.ranked.filter(r=>r.ok/r.n>=.8);
+  if(weak.length)t+='\n还要多练：\n'+weak.map(line).join('\n')+'\n';
+  if(good.length)t+='\n做得好的：\n'+good.map(line).join('\n')+'\n';
+  const w=st.wrong.filter(x=>!x.fixed).slice(0,20);
+  if(w.length)t+='\n还没做对的错题：\n'+w.map((x,i)=>`${i+1}. [${x.e.t}${x.e.k?' · '+x.e.k:''}] ${x.e.p?'（短文：'+x.e.p+'…）':''}${x.e.q}　他选：${x.e.a}　答案：${x.e.r}${x.wrong>1?'（错 '+x.wrong+' 次）':''}`).join('\n')+'\n';
+  return t;}
+function copyReport(){const t=report(),box=$('copyBox');
+  const fallback=()=>{box.hidden=false;box.value=t;try{box.focus();box.select();}catch(e){}$('copyMsg').textContent='请长按下面的文字，全选后复制。';};
+  try{navigator.clipboard.writeText(t).then(()=>{$('copyMsg').textContent='已复制，可以直接粘贴到 WhatsApp 发出去。';},fallback);}catch(e){fallback();}}
 
 /* listen */
 const canSay=('speechSynthesis' in window)&&typeof window.SpeechSynthesisUtterance==='function';
@@ -1173,12 +1257,39 @@ $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
 $('bAgain').addEventListener('click',()=>startRound($('bAgain').dataset.mode||'mix'));
 $('bHome').addEventListener('click',home);
+$('bStats').addEventListener('click',statsView);
+$('bStatsBack').addEventListener('click',home);
+$('bCopy').addEventListener('click',copyReport);
 $('bSay').addEventListener('click',say);
 $('bHint').addEventListener('click',()=>{const on=$('qHint').hidden;$('qHint').hidden=!on;$('bHint').setAttribute('aria-pressed',String(on));});
 $('bSound').addEventListener('click',()=>{S.sound=!S.sound;save();$('bSound').setAttribute('aria-pressed',String(S.sound));if(S.sound)beep(true);});
 document.addEventListener('keydown',e=>{if($('vQuiz').hidden||!R)return;if(!R.locked&&/^[1-4]$/.test(e.key)){choose(+e.key-1);e.preventDefault();}else if(R.locked&&(e.key==='Enter'||e.key===' ')&&document.activeElement!==$('bNext')){next();e.preventDefault();}});
 
 home();
+})();
+</script>
+<script>window.canAutoReload=function(){var h=document.getElementById('vHome'),s=document.getElementById('sheet');return !!h&&!h.hidden&&(!s||s.hidden);};</script>
+<script>
+/* Auto-update: when the page is opened or brought back to the front, ask the server whether a newer
+   version exists (Last-Modified is newer than this copy). If so, refresh the cached copy and reload.
+   Pages can veto a reload at a bad moment by defining window.canAutoReload(). */
+(function(){
+  function docTime(){var m=/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/.exec(document.lastModified||'');return m?new Date(+m[3],m[1]-1,+m[2],+m[4],+m[5],+m[6]).getTime():0;}
+  var mine=docTime(),last=0,url=location.pathname;
+  function check(){
+    if(!mine||!window.fetch||document.visibilityState==='hidden'||location.protocol==='file:')return;
+    var now=Date.now();if(now-last<30000)return;last=now;
+    fetch(url,{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=Date.parse(r.headers.get('last-modified')||'');
+      if(!r.ok||!lm||lm<=mine+1000)return;
+      if(window.canAutoReload&&!window.canAutoReload()){last=0;return;}
+      try{var t=+sessionStorage.getItem('auto-reload-at'+url)||0;if(now-t<60000)return;sessionStorage.setItem('auto-reload-at'+url,String(now));}catch(e){}
+      return fetch(url,{cache:'reload'}).then(function(){location.reload();});
+    }).catch(function(){});
+  }
+  document.addEventListener('visibilitychange',check);
+  window.addEventListener('focus',check);
+  window.addEventListener('pageshow',function(){setTimeout(check,800);});
 })();
 </script>
 </body>
