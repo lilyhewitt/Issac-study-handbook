@@ -432,13 +432,15 @@ function mk(o){
     seen.add(s);all.push([s,e||null,w||null,z||null]);if(all.length===4)break;}
   if(all.length<4&&o.fill){let k=1;while(all.length<4&&k<80){for(const v of [o.fill.n+k*o.fill.step,o.fill.n-k*o.fill.step]){if(all.length<4&&v>0){const s=o.fill.f(v);if(!seen.has(s)){seen.add(s);all.push([s,null,null,null]);}}}k++;}}
   const idx=shuf(all.map((_,i)=>i));
-  const q={q:o.q,p:o.p||null,zh:o.zh||null,opts:idx.map(i=>all[i][0]),ans:idx.indexOf(0),ex:o.ex||''};
+  const dot=t=>typeof t==='string'?t.replace(/\b([ap])\.m\.\./g,'$1.m.'):t; /* "2.40 p.m.." -> "2.40 p.m." */
+  const q={q:dot(o.q),p:dot(o.p)||null,zh:o.zh||null,opts:idx.map(i=>all[i][0]),ans:idx.indexOf(0),ex:dot(o.ex)||''};
   if(all.some(x=>x[1]))q.err=idx.map(i=>all[i][1]);
   if(all.some(x=>x[2]))q.why=idx.map(i=>all[i][2]);
   if(all.some(x=>x[3]))q.zo=idx.map(i=>all[i][3]||all[i][0]);
   return q;}
-/* a word problem split into steps: same problem text, one small question per step */
-function chain(p,pz,steps){const n=steps.length;return steps.map((s,i)=>{const q=mk(Object.assign({},s,{p,zh:pz+'\n\n'+(s.qz||'')}));q.step=(i+1)+'/'+n;return q;});}
+/* a word problem split into steps: the story stays on top without its final question (that question is the last step), one small question per step */
+function chain(p,pz,steps){const n=steps.length,st=p.replace(/\s*[^.?!]*\?\s*$/,''),sz=pz.replace(/[^。？！]*？\s*$/,'');
+  return steps.map((s,i)=>{const q=mk(Object.assign({},s,{p:st,zh:sz+'\n\n'+(s.qz||'')}));q.step=(i+1)+'/'+n;return q;});}
 
 /* helpers */
 function carry(a,b){while(a||b){if(a%10+b%10>=10)return true;a=Math.floor(a/10);b=Math.floor(b/10);}return false;}
