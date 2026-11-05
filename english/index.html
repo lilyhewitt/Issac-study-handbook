@@ -233,7 +233,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
    under a family sync code; a parent's phone opens the app with ?remote=1 to read them, read-only.
    An empty DB address turns all of this off. */
 (function(){
-  var DB='';
+  var DB='https://xiaoxiao-sync-default-rtdb.asia-southeast1.firebasedatabase.app';
   if(!/^(https:\/\/|http:\/\/localhost)/.test(DB)||!window.fetch||!window.JSON)return;
   var m=location.pathname.match(/\/(english|science|math)\//);if(!m)return;
   var APP=m[1],CK='xx-sync-code',TK='xx-sync-at-'+APP;
@@ -251,7 +251,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     return (d.getMonth()+1)+'/'+d.getDate()+' '+hm;}
   function nlog(S){return S&&Array.isArray(S.log)?S.log.length:0;}
   function slim(S){var o={};for(var k in S)if(k!=='seen'&&k!=='recent')o[k]=S[k];return o;}
-  function pull(c){return fetch(url(c),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();})
+  function pull(c){return fetch(url(c),{cache:'no-store'}).then(function(r){if(r.status===401||r.status===403)throw 'rules';if(!r.ok)throw 0;return r.json();})
     .then(function(x){return x&&x.v?{data:JSON.parse(x.v),at:x.at||0}:{data:null,at:0};});}
 
   var last=null,timer=null,busy=false,api;
@@ -269,7 +269,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     load:function(){var c=code();if(!c){api.state='nocode';paint();return Promise.resolve(null);}
       api.state='loading';paint();
       return pull(c).then(function(r){api.state=r.data?'ok':'empty';api.at=r.at;paint();return r.data;},
-                          function(){api.state='net';paint();return null;});}};
+                          function(e){api.state=e==='rules'?'rules':'net';paint();return null;});}};
   window.xxSync=api;
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(timer);flush();}});
 
@@ -286,6 +286,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
         s==='loading'?'正在读取……':
         s==='nocode'?'这台手机还没连上小小的 iPad。回家长手册，看“小小 iPad 的记录”。':
         s==='net'?'现在连不上网络，等一下再打开。':
+        s==='rules'?'数据库不让读：Firebase 里的“规则”还没设置好。':
         s==='empty'?'iPad 上这个 app 还没传过记录。':
         '只能看，不能改 · 上次同步 '+when(api.at))+'</p>';
       var t=document.querySelector('#vStats .st-h');if(t)t.textContent='小小的练习记录';
@@ -307,7 +308,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     pull(c).then(function(r){put(CK,c);api.stale=false;
       if(r.data&&nlog(r.data)>nlog(last)&&api.restore)api.restore(r.data);  /* a fresh copy picks up the records already in the cloud */
       paint();if(last){clearTimeout(timer);flush();}
-    },function(){msg('现在连不上网络，等一下再试。');});}
+    },function(e){msg(e==='rules'?'数据库不让读写：Firebase 里的“规则”还没设置好。':'现在连不上网络，等一下再试。');});}
   function onClick(e){var b=e.target.closest&&e.target.closest('[data-sync]');if(!b)return;
     if(b.getAttribute('data-sync')==='go')link();
     else{put(CK,null);put(TK,null);paint();}}
