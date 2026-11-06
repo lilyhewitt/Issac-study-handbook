@@ -233,8 +233,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .tasks .tk-h small{font-family:var(--f-body);font-weight:700;font-size:.85rem;color:var(--ink-2)}
 .tk{display:flex;align-items:center;gap:0.625rem;width:100%;min-height:2.75rem;padding:0.375rem 0.5rem;border-radius:0.75rem;border:0;background:var(--paper);color:var(--ink);font:inherit;font-weight:700;text-align:left;cursor:pointer}
 .tk i{flex:none;width:1.6rem;height:1.6rem;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:.9rem;color:var(--surface)}
-.tk.done{color:var(--ink-2);cursor:default}
-.tk.done i{background:var(--good);border-color:var(--good)}
+.tk.tk-ok{color:var(--ink-2);cursor:default}
+.tk.tk-ok i{background:var(--good);border-color:var(--good)}
+.tk-n{margin:0;text-align:center;font-size:.85rem;color:var(--ink-2)}
 .tk-all{margin:0;text-align:center;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--good)}
 .plink{align-self:flex-start;font-weight:700;color:var(--life-ink);padding:0.375rem 0;text-decoration:underline;text-underline-offset:3px}
 .st-h{margin:0;flex:1;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.15}
@@ -406,10 +407,6 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       </div>
     </div>
 
-    <div class="goal">
-      <div class="goal-row"><span>Today 今天 <span id="hToday">0</span> / 10</span><span id="hGoalNote">10 to go</span></div>
-      <div class="track"><div class="fill" id="hGoalBar"></div></div>
-    </div>
 
     <div class="tasks" id="tasks"></div>
 
@@ -987,8 +984,8 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
   return L;}
-function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length;
-  $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' done':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'');}
+function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
+  $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 function home(){
   drawTasks();
   if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
@@ -998,9 +995,6 @@ function home(){
   $('hLvlBar').style.width=(S.stars%PER)/PER*100+'%';
   $('hLvlNote').textContent=`${PER-S.stars%PER} ★ to Level ${lvl+1}`;
   $('hStreak').textContent=streak();
-  const t=S.days[dkey(new Date())]||0;
-  $('hToday').textContent=t;$('hGoalBar').style.width=Math.min(1,t/GOAL)*100+'%';
-  $('hGoalNote').textContent=t>=GOAL?'Done! 今天完成了':`${GOAL-t} to go 还差 ${GOAL-t} 题`;
   $('bRedo').hidden=!S.misses.length;$('redoN').textContent=S.misses.length;
   $('mini').innerHTML=Object.keys(CATS).filter(k=>S.by[k][0]).map(k=>`<span>${CATS[k]} · ${S.by[k][0]} 题 · 对 ${Math.round(S.by[k][1]/S.by[k][0]*100)}%</span>`).join('');
   $('bSound').setAttribute('aria-pressed',String(!!S.snd));
@@ -1335,7 +1329,7 @@ $('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakT
 $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
-$('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('done'))return;const k=b.dataset.tk;
+$('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
   if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();});
 $('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
