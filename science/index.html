@@ -492,7 +492,6 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <div class="pass" id="qPass" hidden></div>
       <p class="qtext" id="qText"></p>
       <div class="tools">
-        <button class="tool" id="bAuto" aria-pressed="false" hidden>自动读 关</button>
         <button class="tool" id="bSay" hidden><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6"/></svg>Listen</button>
         <button class="tool" id="bHint" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c0 3-3 7-7 8"/><path d="M13 21l4-10 4 10M14.5 17.5h5"/></svg>中文</button>
       </div>
@@ -884,7 +883,7 @@ if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeo
 function norm(){
 if(!S.by||typeof S.by!=='object')S.by={};
 for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
-if(typeof S.read!=='boolean')S.read=false;delete S.auto;
+delete S.auto;delete S.read;
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
 norm();
@@ -958,9 +957,7 @@ function showQ(){
   $('opts').innerHTML=q.opts.map((o,i)=>`<button class="opt${o.length>34?' long':''}" id="opt${i}" data-i="${i}"><span class="onum">(${i+1})</span><span class="otext">${fmt(o)}</span></button>`).join('');
   pips();$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';
   window.scrollTo(0,0);
-  autoBtn();if(S.read)say();
 }
-function autoBtn(){const b=$('bAuto');b.setAttribute('aria-pressed',String(!!S.read));b.textContent=S.read?'自动读 开':'自动读 关';}
 function choose(i){
   if(!R||R.locked)return;R.locked=true;
   try{speechSynthesis.cancel();}catch(e){}
@@ -1138,7 +1135,7 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   t=t.replace(/(\d)\u2009(?=\d)/g,'$1').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
-$('bSay').hidden=!canSay;$('bAuto').hidden=!canSay;$('cSay').hidden=!canSay;
+$('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();}catch(e){}}
 
 /* sound */
@@ -1177,7 +1174,6 @@ $('bStatsBack').addEventListener('click',()=>{if(REMOTE)location.href='../#pract
 $('bCopy').addEventListener('click',copyReport);
 $('bSay').addEventListener('click',say);
 $('bHint').addEventListener('click',()=>{const on=$('qHint').hidden;$('qHint').hidden=!on;$('bHint').setAttribute('aria-pressed',String(on));});
-$('bAuto').addEventListener('click',()=>{S.read=!S.read;save();autoBtn();if(S.read)say();else{try{speechSynthesis.cancel();}catch(e){}}});
 $('bSound').addEventListener('click',()=>{S.sound=!S.sound;save();$('bSound').setAttribute('aria-pressed',String(S.sound));if(S.sound)beep(true);});
 document.addEventListener('keydown',e=>{if($('vQuiz').hidden||!R)return;if(!R.locked&&/^[1-4]$/.test(e.key)){choose(+e.key-1);e.preventDefault();}else if(R.locked&&(e.key==='Enter'||e.key===' ')&&document.activeElement!==$('bNext')){next();e.preventDefault();}});
 
