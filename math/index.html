@@ -240,6 +240,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .plink{align-self:flex-start;font-weight:700;color:var(--wp-ink);padding:0.375rem 0;text-decoration:underline;text-underline-offset:3px}
 .st-h{margin:0;flex:1;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.15}
 .st-h3{margin:0.375rem 0 0;font-family:var(--f-display);font-weight:800;font-size:1.2rem}
+.vc-list{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem}
+.vc-row{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem;padding:0.5rem 0.625rem;border-radius:0.75rem;background:var(--paper)}
+.vc-row.on{box-shadow:inset 0 0 0 2px var(--good)}
+.vc-n{flex:1 1 8em;min-width:0;display:flex;flex-direction:column;font-weight:700;overflow-wrap:anywhere}
+.vc-n small{font-weight:400;font-size:.82rem;color:var(--ink-2)}
+.vc-row .sbtn{align-self:auto;min-height:2.5rem;padding:0.375rem 0.75rem}
+.vc-on{font-weight:800;color:var(--good);padding:0 0.375rem}
+details.vc-more summary{cursor:pointer;min-height:2.75rem;display:flex;align-items:center;font-weight:700;color:var(--ink-2)}
 .stcard{background:var(--surface);border:2px solid var(--line);border-radius:1.125rem;padding:0.875rem 1rem}
 .st-big{font-size:1.05rem}.st-big b{font-family:var(--f-display);font-size:1.8rem;font-variant-numeric:tabular-nums}
 .st-sub,.st-note{margin:4px 0 0;color:var(--ink-2);font-size:.9rem}
@@ -488,6 +496,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <button class="btn" id="bCopy">复制报告（可以发给家人）</button>
     <p class="st-note" id="copyMsg" role="status"></p>
     <textarea id="copyBox" readonly hidden aria-label="报告内容"></textarea>
+    <div class="stcard" id="vcCard" hidden></div>
   </section>
 
   <!-- WORD SETS -->
@@ -1295,7 +1304,7 @@ function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
   $('meWords').innerHTML='<p class="me-t">单词 · Words</p>'+(wi.learned.length?`<p class="st-sub">学了 <b>${wi.learned.length}</b> 个词，记住了 <b>${wi.mast.length}</b> 个。${spelt?`自己拼对过 <b>${spelt}</b> 个。`:''}</p>`+(wi.mast.length?`<div class="chips2" style="margin-top:.5rem">${wi.mast.map(w=>`<span class="wchip s2">${esc(w.w)}</span>`).join('')}</div>`:''):'<p class="st-sub">去“单词卡”学第一组吧。</p>');
   const CH=['每天一点点，就是很大的进步。','做错没关系，改对了就是学会了。','Practice makes progress! 多练就会进步。','今天也很努力！'];
   $('meCheer').textContent=CH[new Date().getDate()%CH.length];}
-function statsView(){show('vStats');$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+function statsView(){show('vStats');voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
@@ -1328,14 +1337,41 @@ function copyReport(){const t=report(),box=$('copyBox');
 
 /* listen */
 const canSay=('speechSynthesis' in window)&&typeof window.SpeechSynthesisUtterance==='function';
+/* the reading voice: Kate (British) first, then other British voices, better-quality ones first; a family member can pick another in 家长入口.
+   The choice is kept under one key for the whole site, so the three apps share it. */
+const VKEY='xx-voice';
+function voices(){try{return speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));}catch(e){return [];}}
+function vGB(v){return /^en[-_]GB/i.test(v.lang);}
+function vRank(v){const n=v.name||'',hi=/enhanced|premium|增强|優化|优化|高品质|高音質/i.test(n)?0:.5;
+  return (vGB(v)&&/\bkate\b/i.test(n)?0:vGB(v)?2:/^en[-_](SG|IE|AU|NZ)/i.test(v.lang)?4:6)+hi;}
+function vSame(a,b){return !!(a&&b&&a.name===b.name&&a.voiceURI===b.voiceURI);}
+function pickVoice(){const vs=voices();if(!vs.length)return null;let saved='';try{saved=localStorage.getItem(VKEY)||'';}catch(e){}
+  return (saved&&vs.find(v=>(v.voiceURI||v.name)===saved))||vs.slice().sort((a,b)=>vRank(a)-vRank(b))[0];}
+function utter(t,v){const u=new SpeechSynthesisUtterance(t);v=v||pickVoice();if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;return u;}
+const VLAB={GB:'英国',US:'美国',AU:'澳大利亚',SG:'新加坡',IE:'爱尔兰',IN:'印度',ZA:'南非',NZ:'新西兰',CA:'加拿大'};
+function vLabel(l){const m=String(l).match(/[-_]([A-Za-z]{2})/);return (m&&VLAB[m[1].toUpperCase()])||l;}
+function voiceCard(){const el=$('vcCard');if(!el)return;if(!canSay||REMOTE){el.hidden=true;return;}el.hidden=false;
+  const vs=voices().sort((a,b)=>vRank(a)-vRank(b)),cur=pickVoice(),hasKate=vs.some(v=>vGB(v)&&/\bkate\b/i.test(v.name));
+  const row=(v,i)=>`<div class="vc-row${vSame(v,cur)?' on':''}"><span class="vc-n">${esc(v.name)}<small>${esc(vLabel(v.lang))}</small></span><button class="sbtn ghost" data-vtry="${i}">试听</button>${vSame(v,cur)?'<span class="vc-on">✓ 在用</span>':`<button class="sbtn" data-vuse="${i}">用这个</button>`}</div>`;
+  const gb=vs.map((v,i)=>[v,i]).filter(([v])=>vGB(v)),other=vs.map((v,i)=>[v,i]).filter(([v])=>!vGB(v));
+  el.innerHTML='<p class="me-t">朗读的声音</p>'+(cur?`<p class="st-sub">现在用：<b>${esc(cur.name)}</b>（${esc(vLabel(cur.lang))}）。点“试听”听一听，点“用这个”就换。三个练习 app 一起换。</p>`
+      +'<div class="vc-list">'+gb.map(([v,i])=>row(v,i)).join('')+'</div>'
+      +(other.length?`<details class="vc-more"${gb.length?'':' open'}><summary>其他英文声音（${other.length} 个）</summary><div class="vc-list">${other.map(([v,i])=>row(v,i)).join('')}</div></details>`:'')
+    :'<p class="st-sub">这台设备现在读不到英文声音，等一下再打开这里看看。</p>')
+    +(hasKate?'':'<p class="st-note">这台设备上还没有 Kate。要用 Kate：设置 → 辅助功能 → 朗读内容 → 声音 → 英语，在“英国”里下载 Kate，下载好再回来这里。</p>');
+  el._vs=vs;}
 function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   let t=(q.p?q.p+'\n':'')+q.q.replace(/\*\*/g,'').replace(/___/g,' blank ').replace(/[①②]/g,'')+'\n';
   q.opts.forEach((o,i)=>{t+=`Number ${i+1}. ${o}.\n`;});
   t=t.replace(/(\d)\u2009(?=\d)/g,'$1').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
-function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_](GB|SG|AU|IE)/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;u.lang=v?v.lang:'en-GB';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
+  try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
+function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
-if(canSay){try{speechSynthesis.getVoices();}catch(e){}}
+if(canSay){try{speechSynthesis.getVoices();speechSynthesis.addEventListener('voiceschanged',()=>{if(!$('vStats').hidden)voiceCard();});}catch(e){}}
+$('vcCard').addEventListener('click',e=>{const el=$('vcCard'),t=e.target.closest('[data-vtry],[data-vuse]');if(!t||!el._vs)return;
+  const v=el._vs[+(t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse)];if(!v)return;
+  if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v.voiceURI||v.name);}catch(err){}voiceCard();}
+  try{speechSynthesis.cancel();speechSynthesis.speak(utter('Hello! I will read the questions for you. Number 1. apple.',v));}catch(err){}});
 
 /* sound */
 let AC=null;
