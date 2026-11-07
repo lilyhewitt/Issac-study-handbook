@@ -1312,27 +1312,33 @@ function vLang(v){const l=String(v.lang||'').replace('_','-').toLowerCase(),u=St
 /* only British, American and Singapore English; leave out the joke voices */
 const ODD=/^(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|pipe organ|superstar|trinoids|whisper|wobble|zarvox|deranged|hysterical|junior|ralph|fred|kathy|princess)\b/i,
       ELO=/^(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley)\b/i;
-function voices(){try{return speechSynthesis.getVoices().filter(v=>vLang(v)&&!ODD.test(v.name||''));}catch(e){return [];}}
+function voices(){try{const seen={};return speechSynthesis.getVoices().filter(v=>{const c=vLang(v);if(!c||ODD.test(v.name||''))return false;const k=c+'|'+String(v.name||'').trim().toLowerCase();if(seen[k])return false;seen[k]=1;return true;});}catch(e){return [];}}
 function vGB(v){return vLang(v)==='GB';}
 function vRank(v){const n=v.name||'',c=vLang(v);
   return (c==='GB'?(/\bkate\b/i.test(n)?0:2):c==='SG'?4:6)+(/enhanced|premium|增强|優化|优化|高品质|高音質/i.test(n)?0:.5)+(ELO.test(n)?1:0);}
 function vSame(a,b){return !!(a&&b&&a.name===b.name&&a.voiceURI===b.voiceURI);}
-function pickVoice(){const vs=voices();if(!vs.length)return null;let saved='';try{saved=localStorage.getItem(VKEY)||'';}catch(e){}
-  return (saved&&vs.find(v=>(v.voiceURI||v.name)===saved))||vs.slice().sort((a,b)=>vRank(a)-vRank(b))[0];}
-function utter(t,v){const u=new SpeechSynthesisUtterance(t);v=v||pickVoice();if(v)u.voice=v;u.lang=v&&v.lang?v.lang:'en-GB';u.rate=.85;return u;}
+/* null = no voice set: the device reads with the English voice ticked in its own settings (iPhone/iPad web pages cannot list downloaded voices such as Kate) */
+function pickVoice(){const vs=voices();let saved='';try{saved=localStorage.getItem(VKEY)||'';}catch(e){}
+  if(saved==='sys')return null;
+  const sv=saved&&vs.find(v=>(v.voiceURI||v.name)===saved);if(sv)return sv;
+  const kate=vs.filter(v=>vGB(v)&&/\bkate\b/i.test(v.name)).sort((a,b)=>vRank(a)-vRank(b))[0];if(kate)return kate;
+  if(!vs.length||vs.some(v=>/^com\.apple/i.test(v.voiceURI||'')))return null;
+  return vs.slice().sort((a,b)=>vRank(a)-vRank(b))[0];}
+function utter(t,v){const u=new SpeechSynthesisUtterance(t);if(v===undefined)v=pickVoice();if(v)u.voice=v;u.lang=v&&v.lang?String(v.lang).replace('_','-'):'en-GB';u.rate=.85;return u;}
 const VLAB={GB:'英国',US:'美国',SG:'新加坡'};
 function vLabel(v){return VLAB[vLang(v)]||'';}
 function voiceCard(){const el=$('vcCard');if(!el)return;if(!canSay||REMOTE){el.hidden=true;return;}el.hidden=false;
-  const vs=voices().sort((a,b)=>vRank(a)-vRank(b)),cur=pickVoice(),hasKate=vs.some(v=>vGB(v)&&/\bkate\b/i.test(v.name));
+  const vs=voices().sort((a,b)=>vRank(a)-vRank(b)),cur=pickVoice(),sysOn=!cur,hasKate=vs.some(v=>vGB(v)&&/\bkate\b/i.test(v.name));
   if(!vs.length&&!voiceCard.retried){voiceCard.retried=1;setTimeout(voiceCard,800);}
   const row=([v,i])=>`<div class="vc-row${vSame(v,cur)?' on':''}"><span class="vc-n">${esc(v.name)}<small>${esc(vLabel(v))}</small></span><button class="sbtn ghost" data-vtry="${i}">试听</button>${vSame(v,cur)?'<span class="vc-on">✓ 在用</span>':`<button class="sbtn" data-vuse="${i}">用这个</button>`}</div>`;
   const grp=c=>vs.map((v,i)=>[v,i]).filter(([v])=>vLang(v)===c),gb=grp('GB'),us=grp('US'),sg=grp('SG');
   const fold=(t,g)=>g.length?`<details class="vc-more"${gb.length?'':' open'}><summary>${t}（${g.length} 个）</summary><div class="vc-list">${g.map(row).join('')}</div></details>`:'';
   el.innerHTML='<p class="me-t">朗读的声音</p>'
-    +(cur?`<p class="st-sub">现在用：<b>${esc(cur.name)}</b>（${esc(vLabel(cur))}）。点“试听”听一听，点“用这个”就换。三个练习 app 一起换。</p>`:'<p class="st-sub">这台设备现在读不到英国、美国或新加坡的英文声音。</p>')
+    +`<p class="st-sub">现在用：<b>${sysOn?'设备设置里的英文声音':esc(cur.name)+'</b>（'+esc(vLabel(cur))+'）<b>'}</b>。点“试听”听一听，点“用这个”就换。三个练习 app 一起换。</p>`
+    +`<div class="vc-list"><div class="vc-row${sysOn?' on':''}"><span class="vc-n">设备设置里的英文声音<small>设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里打勾的那个</small></span><button class="sbtn ghost" data-vtry="sys">试听</button>${sysOn?'<span class="vc-on">✓ 在用</span>':'<button class="sbtn" data-vuse="sys">用这个</button>'}</div></div>`
     +'<p class="vc-h">英国</p>'+(gb.length?'<div class="vc-list">'+gb.map(row).join('')+'</div>':'<p class="st-note">这台设备的网页读不到英国的声音。</p>')
     +fold('美国',us)+fold('新加坡',sg)
-    +(hasKate?'':'<p class="st-note">要用 Kate：设置 → 辅助功能 → 朗读内容 → 声音 → 英语，在“英国”里下载 Kate。下载好后，把这个 app 从后台划掉再打开。</p>')
+    +(hasKate?'':'<p class="st-note">iPhone、iPad 的网页列不出自己下载的声音（比如 Kate）。要用 Kate：设置 → 辅助功能 → 朗读内容 → 声音 → 英语，下载 Kate 并<b>打勾</b>；这里选“设备设置里的英文声音”，点试听。</p>')
     +`<p class="st-note">这台设备一共读到：英国 ${gb.length} 个、美国 ${us.length} 个、新加坡 ${sg.length} 个。</p>`;
   el._vs=vs;}
 function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
@@ -1344,8 +1350,8 @@ function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynth
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();const vch=()=>{if(!$('vStats').hidden)voiceCard();};if(speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',vch);else speechSynthesis.onvoiceschanged=vch;}catch(e){}}
 $('vcCard').addEventListener('click',e=>{const el=$('vcCard'),t=e.target.closest('[data-vtry],[data-vuse]');if(!t||!el._vs)return;
-  const v=el._vs[+(t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse)];if(!v)return;
-  if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v.voiceURI||v.name);}catch(err){}voiceCard();}
+  const k=t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse,v=k==='sys'?null:el._vs[+k];if(k!=='sys'&&!v)return;
+  if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v?(v.voiceURI||v.name):'sys');}catch(err){}voiceCard();}
   try{speechSynthesis.cancel();speechSynthesis.speak(utter('Hello! I will read the questions for you. Number 1. apple.',v));}catch(err){}});
 
 /* sound */
