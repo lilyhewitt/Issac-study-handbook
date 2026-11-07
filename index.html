@@ -10,7 +10,11 @@
 <meta name="theme-color" content="#2f7d5b">
 <meta name="apple-mobile-web-app-title" content="小小手册">
 <title>小小假期学习手册</title>
-<style>html{color-scheme:light;} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} body{margin:0;} img{max-width:100%;} [hidden]{display:none!important;}</style>
+<style>html{color-scheme:light;} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} body{margin:0;} img{max-width:100%;} [hidden]{display:none!important;}.chpick{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.chpick p{margin:0 0 6px}
+.chs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chs .hb{margin:0}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
@@ -525,7 +529,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   </div>
 
   <h2>预习 4A:8 小步</h2>
-  <p class="muted">按课本顺序,一周一步左右,做不完没关系。每一步开始时,在练习 app 的“我的进步 → 家长入口”里选同一章,app 里的四年级题就多出这一章,也会复习前面几章。</p>
+  <p class="muted">按课本顺序,一周一步左右,做不完没关系。每一步开始时,在<a href="#practice">练习</a>页的“数学 app:这周预习第几章”选同一章,数学 app 里的四年级题就多出这一章,也会复习前面几章。</p>
   <div id="mweeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台设备上。复习那题由大人读给他听,练的是想,不是认字。</p>
 
@@ -566,7 +570,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li><b>拼一拼</b>(英文,试用中):用字母块拼单词卡里学过的词,一次 4 个。拼错了只给他看正确的拼法,再照着拼一次;拼过的词过几天会再来。</li>
     <li><b>我的进步</b>:首页最下面,小小自己看的,只说他做到了什么。</li>
     <li><b>朗读的声音</b>:默认用设备设置里打勾的英文声音。想用 Kate(英国口音):在 iPad 的 设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里下载 Kate 并打勾。家长入口最下面可以试听、换一个。</li>
-    <li><b>数学预习 4A</b>:四年级题按课本 8 章出,有的题带图(折线图、角、长方形)。家长入口里选“这周预习第几章”,题目就多出这一章;每天的一轮里有 3 题是 4A。</li>
+    <li><b>数学预习 4A</b>:四年级题按课本 8 章出,有的题带图(折线图、角、长方形)。在手册“练习”页选“这周预习第几章”(iPad 的家长入口里也能选),题目就多出这一章;每天的一轮里有 3 题是 4A。</li>
     <li><b>家长入口</b>:“我的进步”最下面的小字,里面是完整记录、复制报告和同步码。数据库万一不工作,也能在 iPad 上看这里。</li>
   </ul></div></details>
 </section>
@@ -576,6 +580,9 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.8 · 11 月 6 日</span><h3>在手册里选这周预习第几章</h3><ul>
+    <li>“练习”页的做题记录下面,可以选数学 app 这周预习第几章。小小下次打开数学 app 就会换;iPad 上数学 app 的家长入口里也还能选,以后选的那个算数。</li>
+  </ul></div>
   <div class="card"><span class="tag">v4.7 · 11 月 6 日</span><h3>假期主要预习 4A</h3><ul>
     <li>数学 app 的四年级题按 4A 课本 8 章出,新加:数的规律、公因数、除以一位数(有余数)、折线图、分数比大小和加减、一组东西的几分之几、看图认角和给角命名、长方形和正方形。折线图、角、长方形的题带图。</li>
     <li>家长入口可以选“这周预习第几章”;每天的一轮 5 题里 3 题是 4A、2 题是应用题。</li>
@@ -867,8 +874,22 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     fetch(SYNC_DB.replace(/\/+$/,"")+"/sync/"+c+".json",{cache:"no-store"}).then(function(r){if(r.status===401||r.status===403)throw "rules";if(!r.ok)throw 0;return r.json();}).then(function(x){
       if(sget()!==c)return;
       cloud={};APPS.forEach(function(a){var e=x&&x[a[0]];if(e&&e.v){try{cloud[a[0]]={S:JSON.parse(e.v),at:e.at||0};}catch(err){}}});
+      cloud.cfg=x&&x.math&&x.math.cfg&&typeof x.math.cfg.ch==="number"?x.math.cfg:null;
       cloudState="ok";renderSync();renderProg();
     }).catch(function(e){cloudState=e==="rules"?"rules":"net";renderSync();renderProg();});}
+  /* math app: this week's chapter of 4A. Saved next to the math records (math/cfg); the iPad picks it up when the math app opens. */
+  var CHN=["十万以内的数","因数和倍数","整数四则","表格和折线图","分数(一)","分数(二)","角","长方形和正方形"],chMsg="";
+  function chPick(){if(cloudState!=="ok")return "";
+    if(!(cloud&&cloud.math))return '<div class="chpick"><p><b>数学 app:这周预习第几章</b></p><p class="muted">小小在 iPad 上做过一轮数学、记录传过来以后,这里就能选。</p></div>';var m=cloud&&cloud.math?cloud.math.S:null,cf=cloud&&cloud.cfg,mAt=m&&m.chAt||0;
+    var cur=cf&&cf.at>mAt?cf.ch:(m&&typeof m.ch==="number"?m.ch:0),pending=cf&&cf.at>mAt&&!(m&&m.ch===cf.ch);
+    var st=chMsg||(pending?"等小小下次打开数学 app 就换成这一章。":m&&cur?"iPad 上的数学 app 现在用这一章。":"");
+    return '<div class="chpick"><p><b>数学 app:这周预习第几章</b></p><p class="muted">选了以后,“预习 4A”和每天的一轮里,四年级题多数出这一章,也复习前面几章。和数学页“预习 4A:8 小步”对着选。</p><div class="chs">'+
+      ["全部"].concat(CHN.map(function(t,i){return "第"+(i+1)+"章 "+t;})).map(function(t,i){return '<button type="button" class="hb'+(i===cur?'':' ghost')+'" data-s="ch" data-ch="'+i+'"'+(i===cur?' aria-pressed="true"':'')+'>'+t+'</button>';}).join("")+
+      '</div><p class="muted" role="status">'+st+'</p></div>';}
+  function chSet(n){var c=sget();if(!c||!SYNC_ON)return;chMsg="正在保存……";renderSync();var v={ch:n,at:Date.now()};
+    fetch(SYNC_DB.replace(/\/+$/,"")+"/sync/"+c+"/math/cfg.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)}).then(function(r){
+      if(r.status===401||r.status===403||r.status===400)throw "rules";if(!r.ok)throw 0;cloud.cfg=v;chMsg="";renderSync();
+    }).catch(function(e){chMsg=e==="rules"?(cloud&&cloud.math?"数据库不让保存。可以在 iPad 的数学 app → 我的进步 → 家长入口 里选。":"小小先在 iPad 上做一轮数学,这里才能选。"):"现在连不上网络,等一下再试。";renderSync();});}
   function renderSync(){var sec=document.getElementById("syncSec"),box=document.getElementById("syncBox");if(!sec||!box)return;
     sec.hidden=!SYNC_ON;if(!SYNC_ON)return;var c=sget(),h;
     if(!c){
@@ -887,6 +908,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
           return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
         (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
              '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/8 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>':'')+'</div>'+
+        chPick()+
         '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
         '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。家里别人想看,在他们手机的手册里输同一个码。</p>'+
         (askNew?'<p class="muted">换了以后,iPad 上三个 app 都要重新输入新码。</p><div class="inrow"><button type="button" class="hb" data-s="reset">确定换</button><button type="button" class="hb ghost" data-s="keep">不换了</button></div>'
@@ -896,6 +918,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-s]");if(!b)return;var k=b.getAttribute("data-s");
     if(k==="new"){sset(newCode());askNew=false;syncLoad();}
     else if(k==="use"){var v=sclean((document.getElementById("sIn")||{}).value);if(v.length!==8){var m=document.getElementById("sMsg");if(m)m.textContent="同步码是 8 位,字母和数字。";return;}sset(v);askNew=false;syncLoad();}
+    else if(k==="ch"){chSet(+b.getAttribute("data-ch"));}
     else if(k==="ask"){askNew=true;renderSync();}
     else if(k==="keep"){askNew=false;renderSync();}
     else if(k==="reset"){sset("");askNew=false;syncLoad();}

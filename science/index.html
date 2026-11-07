@@ -342,18 +342,27 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     fetch(url(c,'n'),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(cn){
       if((+cn||0)>n){api.stale=true;paint();return;}
       var at=Date.now();
-      return fetch(url(c),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({at:at,n:n,v:JSON.stringify(slim(last))})})
-        .then(function(r){if(r.ok){put(TK,at);api.stale=false;paint();}});
+      /* PATCH, not PUT: only these three fields change, so a setting the handbook put next to them (cfg) stays.
+         If PATCH is refused, fall back to PUT and carry the setting over. */
+      var body={at:at,n:n,v:JSON.stringify(slim(last))},H={'Content-Type':'application/json'};
+      return fetch(url(c),{method:'PATCH',headers:H,body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw 0;return r;})
+        .catch(function(){return fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+          .then(function(cf){if(cf)body.cfg=cf;return fetch(url(c),{method:'PUT',headers:H,body:JSON.stringify(body)});});})
+        .then(function(r){if(r&&r.ok){put(TK,at);api.stale=false;paint();}});
     }).catch(function(){}).then(function(){busy=false;});}
 
-  api={remote:remote,stale:false,state:'',at:0,restore:null,
+  /* a setting chosen in the parent handbook (math: this week's chapter), read when the app opens or comes back */
+  function cfgCheck(){var c=code();if(remote||!c||!api.oncfg)return;
+    fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(x){if(x&&typeof x.ch==='number')api.oncfg(x);}).catch(function(){});}
+  api={remote:remote,stale:false,state:'',at:0,restore:null,oncfg:null,cfgCheck:cfgCheck,linked:function(){return !!code();},
     push:function(S){if(remote)return;last=S;clearTimeout(timer);timer=setTimeout(flush,1500);},
     load:function(){var c=code();if(!c){api.state='nocode';paint();return Promise.resolve(null);}
       api.state='loading';paint();
       return pull(c).then(function(r){api.state=r.data?'ok':'empty';api.at=r.at;paint();return r.data;},
                           function(e){api.state=e==='rules'?'rules':'net';paint();return null;});}};
   window.xxSync=api;
-  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(timer);flush();}});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(timer);flush();}else cfgCheck();});
+  window.addEventListener('load',function(){setTimeout(cfgCheck,300);});
 
   /* the card at the top of 家长看 */
   function card(){var el=document.getElementById('syncCard');if(el)return el;
@@ -389,7 +398,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     msg('正在连……');
     pull(c).then(function(r){put(CK,c);api.stale=false;
       if(r.data&&nlog(r.data)>nlog(last)&&api.restore)api.restore(r.data);  /* a fresh copy picks up the records already in the cloud */
-      paint();if(last){clearTimeout(timer);flush();}
+      paint();if(last){clearTimeout(timer);flush();}cfgCheck();
     },function(e){msg(e==='rules'?'数据库不让读写：Firebase 里的“规则”还没设置好。':'现在连不上网络，等一下再试。');});}
   function onClick(e){var b=e.target.closest&&e.target.closest('[data-sync]');if(!b)return;
     if(b.getAttribute('data-sync')==='go')link();
@@ -1293,7 +1302,7 @@ function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
   $('meCheer').textContent=CH[new Date().getDate()%CH.length];}
 /* 4A: which chapter the questions mostly come from this week (set on the child's device) */
 function chCard(){const el=$('chCard');if(!el)return;if(!QB.CH||REMOTE){el.hidden=true;return;}el.hidden=false;const c=S.ch||0;
-  el.innerHTML='<p class="me-t">这周预习第几章</p><p class="st-sub">“预习 4A”和每天的一轮里，四年级题多数出这一章，也会复习前面几章。选“全部”就 8 章都出。</p><div class="ch-list">'
+  el.innerHTML='<p class="me-t">这周预习第几章</p><p class="st-sub">“预习 4A”和每天的一轮里，四年级题多数出这一章，也会复习前面几章。选“全部”就 8 章都出。家长手册的“练习”页也能选。</p><div class="ch-list">'
     +['全部'].concat(QB.CH.map((t,i)=>'第'+(i+1)+'章 '+t)).map((t,i)=>`<button class="ch-b${i===c?' on':''}" data-ch="${i}">${esc(t)}</button>`).join('')+'</div>';}
 function statsView(){show('vStats');chCard();voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
@@ -1377,7 +1386,7 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();const vch=()=>{if(!$('vStats').hidden)voiceCard();};if(speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',vch);else speechSynthesis.onvoiceschanged=vch;}catch(e){}}
-$('chCard').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b)return;S.ch=+b.dataset.ch;QB.focus=S.ch;save();chCard();});
+$('chCard').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b)return;S.ch=+b.dataset.ch;S.chAt=Date.now();QB.focus=S.ch;save();chCard();});
 $('vcCard').addEventListener('click',e=>{const el=$('vcCard'),t=e.target.closest('[data-vtry],[data-vuse]');if(!t||!el._vs)return;
   const k=t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse,v=k==='sys'?null:el._vs[+k];if(k!=='sys'&&!v)return;
   if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v?(v.voiceURI||v.name):'sys');}catch(err){}voiceCard();}
@@ -1431,7 +1440,10 @@ $('bSound').addEventListener('click',()=>{S.snd=!S.snd;save();$('bSound').setAtt
 document.addEventListener('keydown',e=>{if($('vQuiz').hidden||!R)return;if(!R.locked&&/^[1-4]$/.test(e.key)){choose(+e.key-1);e.preventDefault();}else if(R.locked&&(e.key==='Enter'||e.key===' ')&&document.activeElement!==$('bNext')){next();e.preventDefault();}});
 
 if(REMOTE){statsView();SYNC.load().then(x=>{if(x){S=Object.assign(S,x);norm();}statsView();});}
-else{home();if(SYNC){SYNC.restore=x=>{S=Object.assign(S,x);norm();save();statsView();};SYNC.push(S);}}
+else{home();if(SYNC){SYNC.restore=x=>{S=Object.assign(S,x);norm();save();statsView();};
+  /* this week's chapter chosen in the parent handbook: used if it is newer than a choice made here */
+  SYNC.oncfg=c=>{if(!QB.CH||!(c.ch>=0&&c.ch<=QB.CH.length)||(+c.at||0)<=(S.chAt||0))return;S.ch=c.ch;S.chAt=+c.at;QB.focus=S.ch;save();if(!$('vHome').hidden)home();if(!$('vStats').hidden)chCard();};
+  SYNC.push(S);}}
 })();
 </script>
 <script>window.canAutoReload=function(){var h=document.getElementById('vHome'),s=document.getElementById('sheet');return !!h&&!h.hidden&&(!s||s.hidden);};</script>
