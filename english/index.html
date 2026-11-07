@@ -1510,7 +1510,7 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
-  else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6);if(!S.sets[si])S.sets[si]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
+  else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6),stt=WS[si].title;if(!S.sets[stt])S.sets[stt]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
   else{
     /* a round = 5 slots [category, level]; an app's bank can supply its own plan; a slot may return a chain of step questions */
     const plan=QB.plan?QB.plan(mode):[1,1,2,2,1].map(l=>[mode==='mix'?QB.pickCat():mode,l]);
@@ -1607,13 +1607,19 @@ const INTV=[1,2,5,10,21,45];
 if(!S.wd||typeof S.wd!=='object')S.wd={};
 if(!S.sets||typeof S.sets!=='object')S.sets={};
 if(!S.sp||typeof S.sp!=='object')S.sp={};
+/* learned word sets are kept by set title (they used to be kept by position, which breaks when a set is added in front).
+   An old position is matched to the set it meant: the bank's old order (QB.OLDSETS) or the current order, whichever set's words were learned. */
+if(!S.setk){const old=QB.OLDSETS||WS.map(x=>x.title),nu=WS.map(x=>x.title),m={};
+  Object.keys(S.sets).forEach(k=>{if(!/^\d+$/.test(k)){m[k]=S.sets[k];return;}const i=+k,cs=[old[i],nu[i]].filter(Boolean);
+    const hit=cs.find(t=>{const st=WS.find(x=>x.title===t);return st&&st.words.every(w=>S.wd[w.w]);})||cs[0];if(hit&&!m[hit])m[hit]=S.sets[k];});
+  S.sets=m;S.setk=1;}
 const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return dkey(d);};
 const cap1=s=>s.charAt(0).toUpperCase()+s.slice(1);
 function dueWords(){const t=dkey(new Date());return WL.filter(w=>S.wd[w.w]&&S.wd[w.w].due<=t);}
 function srs(w,ok){const s=S.wd[w]||(S.wd[w]={box:0,due:dkey(new Date()),n:0,bad:0});s.n++;
   if(ok){s.box=Math.min(s.box+1,INTV.length-1);s.due=addDays(INTV[s.box]);}else{s.bad++;s.box=0;s.due=addDays(1);}}
 function wStatus(w){const s=S.wd[w];if(!s)return '';if(s.box>=4)return 's2';if(s.box===0)return 's0';return 's1';}
-function nextSet(){for(let i=0;i<WS.length;i++)if(!S.sets[i]||WS[i].words.some(w=>!S.wd[w.w]))return i;return -1;}
+function nextSet(){for(let i=0;i<WS.length;i++)if(!S.sets[WS[i].title]||WS[i].words.some(w=>!S.wd[w.w]))return i;return -1;}
 function wordQ(w,first){const s=S.wd[w.w],box=s?s.box:0;
   const others=QB.shuf(WL.filter(x=>x.w!==w.w)),pool=others.filter(x=>x.set===w.set).concat(others.filter(x=>x.set!==w.set));
   const type=first||box<=1?'zh':box===2?(Math.random()<.5?'def':'zh'):(Math.random()<.6?'blank':'def');
@@ -1628,8 +1634,8 @@ function wordsView(){show('vWords');const due=dueWords(),nx=nextSet();
   const learned=WL.filter(w=>S.wd[w.w]).length,mast=WL.filter(w=>wStatus(w.w)==='s2').length;
   $('wSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学一组。学完会自动再考：两天后、五天后、十天后……连续答对 4 次就算记住了。</p>`;
   $('bReview').disabled=!due.length;$('bReview').textContent=due.length?`复习今天的词（${due.length} 个）`:'今天没有要复习的词';
-  $('wSets').innerHTML=WS.map((s,i)=>{const done=!!S.sets[i],isNext=i===nx;
-    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>Week ${i+1} · ${esc(s.title)} <small>${esc(s.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.sets[i].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+  $('wSets').innerHTML=WS.map((s,i)=>{const done=!!S.sets[s.title],isNext=i===nx;
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>Week ${i+1} · ${esc(s.title)} <small>${esc(s.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.sets[s.title].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
       +`<div class="chips2">${s.words.map(w=>`<span class="wchip ${wStatus(w.w)}">${esc(w.w)}</span>`).join('')}</div>`
       +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-learn="${i}">${done?'再看一遍':'学这 5 个词'}</button>`:'')+'</div>';}).join('');
 }

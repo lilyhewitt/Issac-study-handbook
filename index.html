@@ -580,7 +580,8 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>数学 app 的四年级题按 4A 课本 8 章出,新加:数的规律、公因数、除以一位数(有余数)、折线图、分数比大小和加减、一组东西的几分之几、看图认角和给角命名、长方形和正方形。折线图、角、长方形的题带图。</li>
     <li>家长入口可以选“这周预习第几章”;每天的一轮 5 题里 3 题是 4A、2 题是应用题。</li>
     <li>数学单词卡最前面加了 3 组 4A 常用词(factor、remainder、improper fraction……)。</li>
-    <li>手册数学页:“6 个数学小步”换成“预习 4A:8 小步”,每步写了课本页码;之前的打勾不保留。</li>
+    <li>存档不受影响:单词卡“学过哪一组”改成按组名记,旧的记录会自动对上。</li>
+    <li>手册数学页:“6 个数学小步”换成“预习 4A:8 小步”,每步写了课本页码;之前打过的勾会跟到对应的那一步。</li>
   </ul></div>
   <div class="card"><span class="tag">v4.6 · 11 月 6 日</span><h3>数学按 4A 课本目录</h3><ul>
     <li>数学页“下学期学什么”按 Primary Mathematics 4A 的 8 章重排:角和长方形、正方形在课本后半本。</li>
@@ -803,6 +804,9 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   ];
   var MKEY="xx-4a-math", mdone={};
   try{mdone=JSON.parse(localStorage.getItem(MKEY)||"{}")||{};}catch(e){mdone={};}
+  /* the old 6 steps: keep their ticks on the matching 4A steps (角 was step 4, now step 7) */
+  try{if(!localStorage.getItem(MKEY)){var old=JSON.parse(localStorage.getItem("xx-holiday-math")||"{}")||{},mp={mw1:"mw1",mw2:"mw2",mw3:"mw3",mw4:"mw7",mw5:"mw5",mw6:"mw6"};
+    for(var ok in mp)if(old[ok])mdone[mp[ok]]=true;localStorage.setItem(MKEY,JSON.stringify(mdone));}}catch(e){}
   var mbox=document.getElementById("mweeks");
   MWEEKS.forEach(function(w,i){
     var id="mw"+(i+1);
