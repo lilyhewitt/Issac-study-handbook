@@ -115,6 +115,19 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .pass .num,.qtext .num{font-weight:800}
 .ask{display:inline-block;vertical-align:.1em;font-size:.78rem;font-weight:800;line-height:1.5;padding:0 0.4rem;margin-right:0.375rem;border-radius:0.375rem;background:var(--wp-tint);color:var(--wp-ink)}
 .qtip{margin:0;font-size:.92rem;line-height:1.5;color:var(--ink-2)}
+.qfig{display:flex;justify-content:center}
+.qfig svg{width:100%;max-width:26rem;height:auto}
+.fg-g{stroke:var(--line);stroke-width:1}
+.fg-ax{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.fg-ln{fill:none;stroke:var(--p4);stroke-width:2.5}
+.fg-pt{fill:var(--p4)}
+.fg-ang{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.fg-arc{fill:none;stroke:var(--p4);stroke-width:2}
+.fg-s{font-size:12px;font-weight:700;fill:var(--ink-2)}
+.fg-l{font-size:15px;font-weight:800;fill:var(--ink)}
+.ch-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem}
+.ch-b{min-height:2.75rem;padding:0.375rem 0.75rem;border-radius:0.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.ch-b.on{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
 .qtext{margin:0;font-size:1.3rem;line-height:1.5;font-weight:700;overflow-wrap:anywhere}
 .qtext b,.pass b,.fbe b{background:var(--hl);padding:0 .2em;border-radius:5px}
 .blank{display:inline-block;width:3.2em;height:1em;border-bottom:3px solid var(--ink-2);margin:0 .12em;vertical-align:-.1em}
@@ -438,8 +451,8 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
         <span><span class="tname">Calculation</span><span class="tsub">计算 · 口算、竖式、换算</span></span>
       </button>
       <button class="tile" data-mode="p4" id="tP4">
-        <span class="glyph">P4</span>
-        <span><span class="tname">P4 Preview</span><span class="tsub">四年级预习 · 因数 · 角 · 分数</span></span>
+        <span class="glyph">4A</span>
+        <span><span class="tname">Preview 4A</span><span class="tsub" id="tP4s">预习 4A 课本 · 第1–8章</span></span>
       </button>
       <button class="tile" data-mode="mix" id="tMix">
         <span class="glyph"><svg viewBox="0 0 40 38"><rect x="7" y="5" width="28" height="28" rx="6"/><circle cx="14" cy="12" r="1.6" fill="currentColor"/><circle cx="28" cy="12" r="1.6" fill="currentColor"/><circle cx="21" cy="19" r="1.6" fill="currentColor"/><circle cx="14" cy="26" r="1.6" fill="currentColor"/><circle cx="28" cy="26" r="1.6" fill="currentColor"/></svg></span>
@@ -497,6 +510,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <button class="btn" id="bCopy">复制报告（可以发给家人）</button>
     <p class="st-note" id="copyMsg" role="status"></p>
     <textarea id="copyBox" readonly hidden aria-label="报告内容"></textarea>
+    <div class="stcard" id="chCard" hidden></div>
     <div class="stcard" id="vcCard" hidden></div>
   </section>
 
@@ -574,6 +588,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <div class="qcard">
       <div class="chips"><span class="chip" id="qChip">Grammar</span><span class="chip again" id="qAgain" hidden>Try again 再练一次</span></div>
       <div class="pass" id="qPass" hidden></div>
+      <div class="qfig" id="qFig" hidden></div>
       <p class="qtext" id="qText"></p>
       <p class="qtip" id="qTip" hidden></p>
       <div class="tools">
@@ -660,6 +675,7 @@ function mk(o){
   if(all.some(x=>x[1]))q.err=idx.map(i=>all[i][1]);
   if(all.some(x=>x[2]))q.why=idx.map(i=>all[i][2]);
   if(all.some(x=>x[3]))q.zo=idx.map(i=>all[i][3]||all[i][0]);
+  if(o.fig)q.fig=o.fig;
   return q;}
 /* a word problem split into steps: the story stays on top without its final question (that question is the last step), one small question per step */
 function chain(p,pz,steps,ask){const st=p.replace(/\s*[^.?!]*\?\s*$/,''),sz=pz.replace(/[^。？！]*？\s*$/,''),fq=(p.match(/[^.?!]*\?\s*$/)||[''])[0].trim();
@@ -692,7 +708,10 @@ const ITEMS=[['a storybook','一本故事书'],['a water bottle','一个水壶']
 const T={pv:'Place value · 数位',as:'Add & subtract · 加减',md:'Times & divide · 乘除',mon:'Money · 钱',fr:'Fractions · 分数',meas:'Measures · 单位换算',tm:'Time · 时间',
  one:'One-step problems · 一步应用题',left:'Left & sold · 剩下和卖掉',pour:'Pouring · 倒满几杯',round:'Going round · 绕一圈',sd:'Sum & difference · 和差',times:'Times as many · 几倍',
  cmp:'More & fewer · 比多比少',grp:'Groups · 分组',wtime:'Time problems · 时间应用题',wmon:'Money problems · 钱的应用题',mass:'Mass problems · 质量应用题',ap:'Area & perimeter · 面积周长',sense:'Does it make sense? · 说得通吗',
- p4n:'P4 · Numbers to 100 000 · 十万以内的数',p4r:'P4 · Rounding · 四舍五入',p4f:'P4 · Factors & multiples · 因数倍数',p4m:'P4 · Multiplication · 乘法',p4a:'P4 · Angles · 角',p4t:'P4 · Tables · 看表格',p4fr:'P4 · Fractions · 分数'};
+ p4n:'Ch1 Numbers to 100 000 · 第1章 十万以内的数',p4pat:'Ch1 Number patterns · 第1章 数的规律',p4r:'Ch1 Rounding · 第1章 四舍五入',p4f:'Ch2 Factors & multiples · 第2章 因数和倍数',
+ p4m:'Ch3 Multiplication · 第3章 乘法',p4d:'Ch3 Division · 第3章 除法',p4t:'Ch4 Tables & line graphs · 第4章 表格和折线图',p4fr:'Ch5 Fractions (I) · 第5章 分数（一）',p4fr2:'Ch6 Fractions (II) · 第6章 分数（二）',
+ p4a:'Ch7 Angles · 第7章 角',p4rs:'Ch8 Rectangles & squares · 第8章 长方形和正方形'};
+const CH=['十万以内的数','因数和倍数','整数四则','表格和折线图','分数（一）','分数（二）','角','长方形和正方形'];
 
 /* ================= CALCULATION ================= */
 G('calc',T.pv,1,.7,()=>{let s;do{s=S_(ri(1000,9999));}while(new Set(s).size<4||s.includes('0'));const n=+s,pos=ri(0,3),d=+s[pos],v=d*10**(3-pos),zpl=['千','百','十','个'][pos];
@@ -862,7 +881,10 @@ G('p4',T.p4f,1,1,()=>{const n=pick([12,18,20,24,30,36,40,42,48]),fs=[];for(let i
   if(Math.random()<.5)return mk({q:`Which of these is a factor of ${n}?`,zh:`哪一个是 ${n} 的因数？`,a:f,d:[...non.map(x=>[x,'calc',`${n} ÷ ${x} 有余数，所以 ${x} 不是因数。`]),[n*2,'fm',`${n*2} 是 ${n} 的倍数，不是因数。因数比 ${n} 小（或等于）。`]],ex:`${n} ÷ ${f} = ${n/f}，没有余数，所以 ${f} 是 ${n} 的因数。`});
   const k=pick([3,4,6,7,8]),m=k*ri(3,9);
   return mk({q:`Which of these is a multiple of ${k}?`,zh:`哪一个是 ${k} 的倍数？`,a:m,d:[[m+1,'calc',`${m+1} ÷ ${k} 有余数。`],[m-2,'calc'],[k===8?2:k===6?3:1,'fm',`这是 ${k} 的因数，不是倍数。倍数是 ${k} × 几。`]],ex:`${k} × ${m/k} = ${m}，所以 ${m} 是 ${k} 的倍数。`});});
-G('p4',T.p4f,2,.9,()=>{const v=ri(0,2);
+G('p4',T.p4f,2,.9,()=>{const v=ri(0,3);
+  if(v===3){const [x,y]=pick([[12,18],[16,24],[12,20],[18,27],[15,25],[20,30],[24,36],[14,21]]),fx=[],fy=[];for(let i=2;i<=y;i++){if(x%i===0)fx.push(i);if(y%i===0)fy.push(i);}
+    const cf=fx.filter(i=>fy.includes(i)),a=pick(cf),ox=fx.filter(i=>!fy.includes(i)),oy=fy.filter(i=>!fx.includes(i));
+    return mk({q:`Which of these is a common factor of ${x} and ${y}?`,zh:`哪一个是 ${x} 和 ${y} 的公因数？`,a,d:[[pick(ox),'fm',`它只是 ${x} 的因数，不是 ${y} 的因数。`],[pick(oy),'fm',`它只是 ${y} 的因数，不是 ${x} 的因数。`],[x*y/gcd(x,y),'fm','这是公倍数，不是公因数。']],ex:`${x} ÷ ${a} = ${x/a}，${y} ÷ ${a} = ${y/a}，都没有余数，所以 ${a} 是公因数。`});}
   if(v===0){const n=pick([24,30,36,40,48]);let x;do{x=ri(5,n-1);}while(n%x===0);const fs=[];for(let i=2;i<n;i++)if(n%i===0)fs.push(i);const ds=shuf(fs).slice(0,3);
     return mk({q:`Which of these is NOT a factor of ${n}?`,zh:`哪一个“不是” ${n} 的因数？`,a:x,d:ds.map(y=>[y,'calc',`${n} ÷ ${y} = ${n/y}，没有余数，${y} 是因数。题目问的是“不是”。`]),ex:`${n} ÷ ${x} 有余数，所以 ${x} 不是 ${n} 的因数。`});}
   if(v===1){const [a,b,c]=pick([[4,6,12],[3,4,12],[2,5,10],[3,5,15],[4,10,20],[6,8,24]]),m=c*pick([1,2]);
@@ -895,9 +917,100 @@ G('p4',T.p4t,2,1,()=>{const names=shuf(['Ali','Siti','Ben','Mei','Ravi','Farah']
   if(v===1){const [i,j]=shuf([0,1,2,3]).slice(0,2),hi=vals[i]>vals[j]?i:j,lo=hi===i?j:i;return mk({p,q:`How many more ${it[2]} does ${names[hi]} have than ${names[lo]}?`,zh:pz+`\n\n${names[hi]} 比 ${names[lo]} 多多少？`,a:vals[hi]-vals[lo],d:[[vals[hi]+vals[lo],'keyword','“多多少”要用减法。'],[vals[hi],'who','这是 '+names[hi]+' 的数量。'],[vals[lo],'who']],fill:{n:vals[hi]-vals[lo],step:1,f:S_},ex:`${vals[hi]} − ${vals[lo]} = ${vals[hi]-vals[lo]}。`});}
   const tot=vals.reduce((a,b)=>a+b,0);return mk({p,q:`How many ${it[2]} do the four children have altogether?`,zh:pz+'\n\n四个孩子一共多少？',a:tot,d:[[tot-vals[0],'step1','四个人都要加上。'],[Math.max(...vals),'who'],[tot+10,'calc']],fill:{n:tot,step:1,f:S_},ex:`${vals.join(' + ')} = ${tot}。`});});
 G('p4',T.p4fr,2,1,()=>{const v=ri(0,2);
+  if(v===2){const n=pick([1,2,3]),ds=shuf([4,5,6,7,8,9,10,12]).slice(0,4),g=Math.random()<.5,ad=g?Math.min(...ds):Math.max(...ds);
+    return mk({q:`Which fraction is the ${g?'greatest':'smallest'}?`,zh:`哪一个分数${g?'最大':'最小'}？`,a:`${n}/${ad}`,d:ds.filter(d=>d!==ad).map(d=>[`${n}/${d}`,'frac','分子一样时，分母越大，每一份越小。']),ex:`分子都是 ${n}。分母越小，每一份越大，所以${g?'最大':'最小'}的是 ${n}/${ad}。`});}
   if(v===0){const b=pick([3,4,5,6,8]),w=ri(1,3);let a;do{a=ri(1,b-1);}while(gcd(a,b)>1);const top=w*b+a;return mk({q:`Write ${top}/${b} as a mixed number.`,zh:`把 ${top}/${b} 写成带分数。`,a:`${w} ${a}/${b}`,d:[[`${a} ${w}/${b}`,'frac','整数部分是 '+top+' ÷ '+b+' 的商。'],[`${w+1} ${a}/${b}`,'calc'],[`${w} ${b-a}/${b}`,'frac','余数才是新的分子。'],[`${w+2} ${a}/${b}`,'calc'],[`${w} ${a}/${b+1}`,'frac','分母不变。']],ex:`${top} ÷ ${b} = ${w} 余 ${a}，所以 ${top}/${b} = ${w} ${a}/${b}。`});}
   if(v===1){const b=pick([3,4,5,6,8]),w=ri(1,3);let a;do{a=ri(1,b-1);}while(gcd(a,b)>1);const top=w*b+a;return mk({q:`Write ${w} ${a}/${b} as an improper fraction.`,zh:`把 ${w} ${a}/${b} 写成假分数。`,a:`${top}/${b}`,d:[[`${w+a}/${b}`,'frac',`整数 ${w} 要先变成 ${w*b}/${b}，再加 ${a}/${b}。`],[`${w*a}/${b}`,'frac'],[`${top}/${b+w}`,'frac','分母不变。'],[`${top+1}/${b}`,'calc'],[`${top-1}/${b}`,'calc']],ex:`${w} = ${w*b}/${b}，${w*b}/${b} + ${a}/${b} = ${top}/${b}。`});}
   const b=pick([3,4,5]),n=b*ri(3,8),a=ri(1,b-1),one=n/b;return mk({q:`What is ${a}/${b} of ${n}?`,zh:`${n} 的 ${a}/${b} 是多少？`,a:one*a,d:[[one,'step1',`${one} 是 1/${b}，题目问的是 ${a}/${b}，还要 × ${a}。`],[n*a,'frac',`要先 ÷ ${b}。`],[n-a,'keyword']],fill:{n:one*a,step:1,f:S_},ex:`${n} ÷ ${b} = ${one}（1 份），× ${a} = ${one*a}。`});});
+
+/* ---- more of 4A: patterns, division, line graphs, fractions (II), angles and shapes with pictures ---- */
+const DAYS=['Mon','Tue','Wed','Thu','Fri'],DAYZ=['星期一','星期二','星期三','星期四','星期五'];
+function frS(n,d){const g=gcd(n,d);n/=g;d/=g;if(n%d===0)return S_(n/d);if(n>d)return `${Math.floor(n/d)} ${n%d}/${d}`;return `${n}/${d}`;}
+function lineG(vals,xl){const SW=300,SH=190,L=40,B=30,T0=12,R=16,mx=Math.ceil(Math.max(...vals)/10)*10+10,sy=(SH-B-T0)/mx,sx=(SW-L-R)/(vals.length-1);let o='';
+  for(let v=0;v<=mx;v+=10){const y=SH-B-v*sy;o+=`<line x1="${L}" y1="${y.toFixed(1)}" x2="${SW-R}" y2="${y.toFixed(1)}" class="fg-g"/><text x="${L-6}" y="${(y+4).toFixed(1)}" text-anchor="end" class="fg-s">${v}</text>`;}
+  xl.forEach((t,i)=>{o+=`<text x="${(L+i*sx).toFixed(1)}" y="${SH-B+18}" text-anchor="middle" class="fg-s">${t}</text>`;});
+  const pts=vals.map((v,i)=>[(L+i*sx).toFixed(1),(SH-B-v*sy).toFixed(1)]);
+  o+=`<line x1="${L}" y1="${T0-4}" x2="${L}" y2="${SH-B}" class="fg-ax"/><line x1="${L}" y1="${SH-B}" x2="${SW-R}" y2="${SH-B}" class="fg-ax"/><polyline points="${pts.map(p=>p.join(',')).join(' ')}" class="fg-ln"/>`+pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" class="fg-pt"/>`).join('');
+  return `<svg viewBox="0 0 ${SW} ${SH}" role="img" aria-label="line graph">${o}</svg>`;}
+/* angles side by side: [degrees, arm length, label] */
+function angG(list){const mxl=Math.max(...list.map(a=>a[1])),w=2*mxl+20,H=mxl+50,y0=mxl+16;let o='';
+  list.forEach(([dg,len,lab],i)=>{const x0=i*w+w/2-(list.length===1?mxl/2:0),r=dg*Math.PI/180,x2=x0+len*Math.cos(r),y2=y0-len*Math.sin(r);
+    o+=`<path d="M${(x0+len).toFixed(1)} ${y0}L${x0.toFixed(1)} ${y0}L${x2.toFixed(1)} ${y2.toFixed(1)}" class="fg-ang"/>`;
+    o+=dg===90?`<path d="M${(x0+12).toFixed(1)} ${y0}V${y0-12}H${x0.toFixed(1)}" class="fg-ax"/>`:`<path d="M${(x0+16).toFixed(1)} ${y0}A16 16 0 0 0 ${(x0+16*Math.cos(r)).toFixed(1)} ${(y0-16*Math.sin(r)).toFixed(1)}" class="fg-arc"/>`;
+    if(lab)o+=`<text x="${x0.toFixed(1)}" y="${H-6}" text-anchor="middle" class="fg-l">${lab}</text>`;});
+  return `<svg viewBox="0 0 ${list.length*w} ${H}" role="img" aria-label="angles">${o}</svg>`;}
+const RCN=(xs,ys,lab)=>xs.map((x,i)=>`<text x="${x}" y="${ys[i]}" text-anchor="middle" class="fg-l">${lab[i]}</text>`).join('');
+
+/* Ch1 number patterns */
+G('p4',T.p4pat,1,1,()=>{const st=pick([10,100,1000]),up=Math.random()<.7,sg=up?1:-1,s0=up?ri(10000,99999-4*st):ri(10000+4*st,99999),seq=[0,1,2,3,4].map(i=>s0+sg*i*st),bi=ri(1,4),a=seq[bi],show=seq.map((x,i)=>i===bi?'___':N(x)).join(', ');
+  return mk({p:show,q:'What is the missing number?',zh:`找规律，空格里是几？\n${show}`,a:N(a),d:[[N(a+sg*st*10),'place','看清楚每次变的是哪一位。'],[N(a+sg*st/10),'place','看清楚每次变的是哪一位。'],[N(seq[bi-1]-sg*st),'calc',`这串数是越来越${up?'大':'小'}的。`]],fill:{n:a,step:st,f:N},ex:`每次${up?'多':'少'} ${N(st)}：${N(seq[bi-1])} ${up?'+':'−'} ${N(st)} = ${N(a)}。`});});
+G('p4',T.p4pat,2,1,()=>{
+  if(Math.random()<.5){const x=pick([10,100,1000,10000]),more=Math.random()<.5;let n;do{n=ri(10000,89999);}while(!more&&n-x<10000);const a=more?n+x:n-x,xz={10:'十',100:'百',1000:'千',10000:'万'}[x];
+    return mk({q:`What is ${N(x)} ${more?'more':'less'} than ${N(n)}?`,zh:`比 ${N(n)} ${more?'多':'少'} ${N(x)} 的数是多少？`,a:N(a),d:[[N(more?n-x:n+x),'keyword',`“${more?'more than':'less than'}”是${more?'加':'减'}。`],[N(more?n+x*10:n-x*10),'place',`只改${xz}位。`],[N(more?n+x/10:n-x/10),'place',`只改${xz}位。`]],fill:{n:a,step:x,f:N},ex:`${more?'多':'少'} ${N(x)}，就是${xz}位${more?'加':'减'} 1：${N(n)} ${more?'+':'−'} ${N(x)} = ${N(a)}。`});}
+  const st=pick([200,250,500,2000,5000]),up=Math.random()<.6,sg=up?1:-1,s0=up?ri(10,60)*1000+pick([0,100,500]):ri(50,95)*1000,seq=[0,1,2,3,4].map(i=>s0+sg*i*st),bi=ri(2,4),a=seq[bi],show=seq.map((x,i)=>i===bi?'___':N(x)).join(', ');
+  return mk({p:show,q:'What is the missing number?',zh:`找规律，空格里是几？\n${show}`,a:N(a),d:[[N(seq[bi-1]+sg*st*2),'calc','先看前两个数差多少。'],[N(seq[bi-1]+sg*Math.round(st/2)),'calc','先看前两个数差多少。'],[N(seq[bi-1]-sg*st),'calc',`这串数是越来越${up?'大':'小'}的。`]],fill:{n:a,step:st,f:N},ex:`前后两个数差 ${N(st)}，每次${up?'多':'少'} ${N(st)}：${N(seq[bi-1])} ${up?'+':'−'} ${N(st)} = ${N(a)}。`});});
+
+/* Ch3 division by a 1-digit number */
+G('p4',T.p4d,1,1,()=>{const b=ri(2,9);let qn;do{qn=Math.random()<.5?ri(1,19)*100+ri(1,9):ri(102,1999);}while(qn*b<1000||qn*b>9999);const a=qn*b,dz=+S_(qn).replace(/0/g,'');
+  return mk({q:`${N(a)} ÷ ${b} = ___`,zh:`${N(a)} ÷ ${b} 等于多少？`,a:N(qn),d:[dz!==qn?[N(dz),'place','有一位不够除时，商要写 0，不能漏。']:[N(qn+10),'calc'],[N(qn+1),'calc'],[N(qn-10),'calc'],[N(qn*10),'place','先看最高位够不够除，商的位数才对。']],fill:{n:qn,step:1,f:N},ex:`${N(a)} ÷ ${b} = ${N(qn)}。检查：${N(qn)} × ${b} = ${N(a)}。`});});
+G('p4',T.p4d,2,1,()=>{const b=ri(3,9);let qn;do{qn=ri(102,1999);}while(qn*b+b>9999||qn*b<1000);const r=ri(1,b-1),a=qn*b+r,RR=(x,y)=>`${N(x)} R ${y}`;
+  return mk({q:`${N(a)} ÷ ${b} = ___ (R = remainder)`,zh:`${N(a)} ÷ ${b} 等于多少？R 表示余数。`,a:RR(qn,r),d:[[RR(qn-1,r+b),'round',`余数 ${r+b} 比除数 ${b} 大，说明还能再分一次。余数一定要比除数小。`],[RR(qn+1,r),'calc'],[RR(qn,b-r),'calc'],[N(qn),'step1','还有余数没写。']],ex:`${N(qn)} × ${b} = ${N(qn*b)}，${N(a)} − ${N(qn*b)} = ${r}，所以是 ${RR(qn,r)}。余数 ${r} 比 ${b} 小。`});});
+
+/* Ch4 line graphs */
+const LGI=[['cups of juice sold','卖出的果汁','cups'],['visitors to a library','图书馆的访客','visitors'],['books borrowed','借出的书','books']];
+G('p4',T.p4t,1,1,()=>{const it=pick(LGI),vals=shuf([10,20,30,40,50,60,70]).slice(0,5),fig=lineG(vals,DAYS),p=`The line graph shows the number of ${it[0]} from Monday to Friday.`,pz=`折线图是星期一到星期五${it[1]}的数量。`;
+  if(Math.random()<.5){const g=Math.random()<.5,i=vals.indexOf(g?Math.max(...vals):Math.min(...vals));
+    return mk({p,fig,q:`On which day were there the ${g?'most':'fewest'} ${it[2]}?`,zh:pz+`\n\n哪一天最${g?'多':'少'}？`,a:DAYS[i],az:DAYZ[i],d:shuf(DAYS.map((d,j)=>[d,'who',`问的是最${g?'多（最高的点）':'少（最低的点）'}。`,DAYZ[j]]).filter((_,j)=>j!==i)),ex:`最${g?'高':'低'}的点在 ${DAYS[i]}（${DAYZ[i]}），是 ${vals[i]}。`});}
+  const i=ri(0,4);
+  return mk({p,fig,q:`How many ${it[2]} were there on ${DAYS[i]}?`,zh:pz+`\n\n${DAYZ[i]}有多少？`,a:vals[i],d:[[vals[i]+10,'place','从点往左看，对准横线读数。'],[vals[i]-10,'place','从点往左看，对准横线读数。'],[vals[(i+1)%5],'who','这是另一天的数。']],fill:{n:vals[i],step:10,f:S_},ex:`在 ${DAYS[i]} 上面找到点，往左对到 ${vals[i]}。`});});
+G('p4',T.p4t,2,.8,()=>{const it=pick(LGI),vals=shuf([10,20,30,40,50,60,70,80]).slice(0,5),fig=lineG(vals,DAYS);let [i,j]=shuf([0,1,2,3,4]).slice(0,2);if(vals[i]<vals[j])[i,j]=[j,i];const df=vals[i]-vals[j];
+  return mk({p:`The line graph shows the number of ${it[0]} from Monday to Friday.`,fig,q:`How many more ${it[2]} were there on ${DAYS[i]} than on ${DAYS[j]}?`,zh:`折线图是星期一到星期五${it[1]}的数量。\n\n${DAYZ[i]}比${DAYZ[j]}多多少？`,a:df,d:[[vals[i]+vals[j],'keyword','“多多少”要用减法。'],[vals[i],'step1',`这是 ${DAYS[i]} 的数，还要减去 ${DAYS[j]} 的。`],[vals[j],'who']],fill:{n:df,step:10,f:S_},ex:`${DAYS[i]} 是 ${vals[i]}，${DAYS[j]} 是 ${vals[j]}：${vals[i]} − ${vals[j]} = ${df}。`});});
+
+/* Ch5 fractions (I), easy */
+G('p4',T.p4fr,1,1,()=>{const b=pick([3,4,5,6,8]);
+  if(Math.random()<.5){const a=b+ri(1,b-1);return mk({q:'Which of these is an improper fraction?',zh:'哪一个是假分数？',a:`${a}/${b}`,d:[[`${a-b}/${b}`,'frac','分子比分母小，是真分数。'],[`${b}/${a}`,'frac','分子比分母小，是真分数。'],[`${b}/${a+1}`,'frac','分子比分母小，是真分数。'],[`1/${b}`,'frac','分子比分母小，是真分数。']],ex:`分子 ${a} 比分母 ${b} 大，所以 ${a}/${b} 是假分数。`});}
+  const ns=shuf([...Array(2*b-1)].map((_,i)=>i+1)).slice(0,4),g=Math.random()<.5,an=g?Math.max(...ns):Math.min(...ns);
+  return mk({q:`Which fraction is the ${g?'greatest':'smallest'}?`,zh:`哪一个分数${g?'最大':'最小'}？`,a:`${an}/${b}`,d:ns.filter(n=>n!==an).map(n=>[`${n}/${b}`,'frac','分母一样，比分子：分子越大，分数越大。']),ex:`分母都是 ${b}，比分子：${g?'最大':'最小'}的是 ${an}/${b}。`});});
+
+/* Ch6 fractions (II) */
+G('p4',T.p4fr2,1,1,()=>{const b=pick([3,4,5]),n=b*ri(3,8),a=ri(1,b-1),one=n/b;
+  return mk({q:`What is ${a}/${b} of ${n}?`,zh:`${n} 的 ${a}/${b} 是多少？`,a:one*a,d:[[one,'step1',`${one} 是 1/${b}，题目问的是 ${a}/${b}，还要 × ${a}。`],[n*a,'frac',`要先 ÷ ${b}。`],[n-a,'keyword']],fill:{n:one*a,step:1,f:S_},ex:`${b} 份 = ${n}，1 份 = ${n} ÷ ${b} = ${one}，${a} 份 = ${one} × ${a} = ${one*a}。`});});
+G('p4',T.p4fr2,2,1,()=>{const k=kid(),b=pick([3,4,5,6]),n=b*ri(3,7),a=ri(1,b-1),one=n/b,left=Math.random()<.5,ans=left?n-one*a:one*a;
+  return mk({q:`${k.n} had ${n} stickers. ${k.P} gave ${a}/${b} of them to a friend. How many stickers did ${k.p} ${left?'have left':'give away'}?`,zh:`${k.n} 有 ${n} 张贴纸，把 ${a}/${b} 送给朋友。${k.z}${left?'还剩几张':'送出了几张'}？`,a:ans,d:[[left?one*a:n-one*a,'who',left?'这是送出去的，题目问的是剩下的。':'这是剩下的，题目问的是送出去的。'],[one,'step1',`${one} 只是 1 份（1/${b}）。`],[n-a,'keyword','不是减去分子。']],fill:{n:ans,step:1,f:S_},ex:`1 份 = ${n} ÷ ${b} = ${one}；送出 ${a} 份 = ${one*a}${left?`；剩下 ${n} − ${one*a} = ${ans}`:''}。`});});
+G('p4',T.p4fr2,2,.9,()=>{const d1=pick([2,3,4,5]),k=d1<=4?pick([2,3]):2,d2=d1*k,a=ri(1,d1-1),add=Math.random()<.6;let c;
+  if(add)c=ri(1,d2-1);else{do{c=ri(1,d2-1);}while(c>=a*k);}
+  const n=add?a*k+c:a*k-c,ans=frS(n,d2);
+  const cand=[[add?a+c:Math.max(Math.abs(a-c),1),d1+d2,'frac','分母不能相加或相减。先把分母变成一样。'],[add?a+c:Math.max(Math.abs(a-c),1),d2,'frac',`先把 ${a}/${d1} 变成 ${a*k}/${d2}，再${add?'加':'减'}。`],[n+1,d2,'calc'],[n+2,d2,'calc'],[Math.max(n-1,1),d2,'calc'],[add?a*k-c:a*k+c,d2,'calc','看清楚是加还是减。'],[n+3,d2,'calc']].filter(([x,y])=>x*d2!==n*y).filter((x,i,arr)=>arr.findIndex(z=>z[0]*x[1]===x[0]*z[1])===i);
+  return mk({q:`${a}/${d1} ${add?'+':'−'} ${c}/${d2} = ___`,zh:`${a}/${d1} ${add?'+':'−'} ${c}/${d2} 等于多少？（最简分数；比 1 大就写成带分数）`,a:ans,d:cand.map(([x,y,e,w])=>[frS(x,y),e,w||null]),ex:`${a}/${d1} = ${a*k}/${d2}；${a*k}/${d2} ${add?'+':'−'} ${c}/${d2} = ${n}/${d2}${ans!==n+'/'+d2?` = ${ans}`:''}。`});});
+
+/* Ch7 angles with pictures */
+G('p4',T.p4a,1,1,()=>{const k=ri(0,2),dg=[ri(25,70),90,ri(110,160)][k],nm=['an acute angle','a right angle','an obtuse angle'],zm=['锐角','直角','钝角'];
+  return mk({fig:angG([[dg,90,'']]),q:'What kind of angle is this?',zh:'这是什么角？',a:nm[k],az:zm[k],d:[0,1,2].filter(x=>x!==k).map(x=>[nm[x],'place',k===1?'有小方块记号的是直角（90°）。':'和直角（90°）比一比：比它小是锐角，比它大是钝角。',zm[x]]).concat([['a straight angle','place','一条直线才是 180°（平角）。','平角']]),ex:k===1?'有小方块记号，是直角，90°。':`这个角${k===0?'比直角小，是锐角':'比直角大，是钝角'}。`});});
+G('p4',T.p4a,1,.9,()=>{let ds;do{ds=shuf([ri(20,45),ri(55,80),ri(95,130)]);}while(false);const big=Math.max(...ds),mi=ds.indexOf(big),labs=['a','b','c'];
+  return mk({fig:angG(ds.map((d,i)=>[d,d===big?42:ri(66,74),labs[i]])),q:'Which angle is the biggest?',zh:'哪一个角最大？',a:`Angle ${labs[mi]}`,az:`角 ${labs[mi]}`,d:[...labs.filter((_,i)=>i!==mi).map(l=>[`Angle ${l}`,'place','角的大小看两条边张开多少，不看边画得多长。',`角 ${l}`]),['They are the same.','place','张开的程度不一样。','一样大']],ex:`角 ${labs[mi]} 张得最开，所以最大。边画得短，角不一定小。`});});
+G('p4',T.p4a,2,.9,()=>{const P={A:[40,30],B:[250,20],C:[280,150],D:[20,140]},nm=['A','B','C','D'],v=ri(0,3),nb=i=>[nm[(i+3)%4],nm[i],nm[(i+1)%4]],ang=i=>'∠'+nb(i).join('');
+  const [pn,vn,rn]=nb(v),V=P[vn],u=n=>{const d=[P[n][0]-V[0],P[n][1]-V[1]],l=Math.hypot(d[0],d[1]);return [d[0]/l,d[1]/l];},u1=u(pn),u2=u(rn),sw=(u1[0]*u2[1]-u1[1]*u2[0])>0?1:0,R=24;
+  const fig=`<svg viewBox="0 0 310 175" role="img" aria-label="angle"><polygon points="${nm.map(n=>P[n].join(',')).join(' ')}" class="fg-ang"/><path d="M${(V[0]+R*u1[0]).toFixed(1)} ${(V[1]+R*u1[1]).toFixed(1)}A${R} ${R} 0 0 ${sw} ${(V[0]+R*u2[0]).toFixed(1)} ${(V[1]+R*u2[1]).toFixed(1)}" class="fg-arc"/>`+RCN([28,258,290,10],[24,14,166,156],nm)+'</svg>';
+  return mk({fig,q:'Name the marked angle.',zh:'标出来的角叫什么？',a:ang(v),d:[0,1,2,3].filter(i=>i!==v).map(i=>[ang(i),'place','中间的字母要是角的顶点（画弧线的那个点）。']),ex:`弧线在 ${vn} 点，${vn} 要写在中间：${ang(v)}（也可以写成 ∠${rn}${vn}${pn}）。`});});
+
+/* Ch8 rectangles and squares */
+const RSF=[
+ ['A rectangle has ___ right angles.','长方形有几个直角？',['4','2','3','1'],'长方形的 4 个角都是直角（90°）。'],
+ ['A square has ___ equal sides.','正方形有几条边一样长？',['4','2','3','0'],'正方形 4 条边都一样长。'],
+ ['In a rectangle, the opposite sides are ___.','长方形的对边怎么样？',['equal','different','longer','shorter'],'长方形的对边一样长。'],
+ ['Which is true for every square?','哪一句对所有正方形都成立？',['All 4 sides are equal and all 4 angles are right angles.','Only 2 sides are equal.','It has 3 right angles.','All its angles are 60°.'],'正方形：4 条边一样长，4 个角都是直角。'],
+ ['Each angle of a rectangle is ___.','长方形的每个角是多少度？',['90°','180°','60°','360°'],'每个角都是直角，90°。']];
+G('p4',T.p4rs,1,.7,()=>{const [q,zh,o,ex]=pick(RSF);return mk({q,zh,a:o[0],d:o.slice(1).map(x=>[x,'place']),ex});});
+G('p4',T.p4rs,1,1,()=>{const sq=Math.random()<.4,a=ri(6,15),b=sq?a:ri(3,a-2),askCD=sq?false:Math.random()<.5,ans=askCD?a:b;
+  const w=sq?120:180,h=sq?120:Math.min(140,Math.max(55,Math.round(180*b/a))),x0=40,y0=30,x1=x0+w,y1=y0+h,m=10;
+  let o=`<rect x="${x0}" y="${y0}" width="${w}" height="${h}" class="fg-ang"/>`+[[x0,y0,1,1],[x1,y0,-1,1],[x1,y1,-1,-1],[x0,y1,1,-1]].map(([x,y,sx,sy])=>`<path d="M${x+sx*m} ${y}V${y+sy*m}H${x}" class="fg-ax"/>`).join('')
+    +RCN([x0-12,x1+12,x1+12,x0-12],[y0-4,y0-4,y1+14,y1+14],['A','B','C','D'])+`<text x="${x0+w/2}" y="${y0-8}" text-anchor="middle" class="fg-s">${a} cm</text>`+(sq?'':`<text x="${x1+8}" y="${y0+h/2+4}" class="fg-s">${b} cm</text>`);
+  const fig=`<svg viewBox="0 0 ${x1+60} ${y1+24}" role="img" aria-label="${sq?'square':'rectangle'}">${o}</svg>`;
+  if(sq)return mk({fig,q:`ABCD is a square. AB = ${a} cm. What is the length of BC?`,zh:`ABCD 是正方形，AB = ${a} cm。BC 多长？`,a:a+' cm',d:[[a*4+' cm','perim','这是一圈的长度，题目只问一条边。'],[a*2+' cm','keyword'],[a+4+' cm','calc']],fill:{n:a,step:1,f:x=>x+' cm'},ex:`正方形 4 条边一样长：BC = AB = ${a} cm。`});
+  return mk({fig,q:`ABCD is a rectangle. AB = ${a} cm and BC = ${b} cm. What is the length of ${askCD?'CD':'AD'}?`,zh:`ABCD 是长方形，AB = ${a} cm，BC = ${b} cm。${askCD?'CD':'AD'} 多长？`,a:ans+' cm',d:[[(askCD?b:a)+' cm','who',`${askCD?'CD 和 AB':'AD 和 BC'} 是对边，对边一样长。`],[a+b+' cm','keyword','不用加起来，对边一样长。'],[2*ans+' cm','perim']],fill:{n:ans,step:1,f:x=>x+' cm'},ex:`长方形的对边一样长：${askCD?`CD = AB = ${a}`:`AD = BC = ${b}`} cm。`});});
+G('p4',T.p4rs,2,1,()=>{const t=pick([30,35,40,45,50,55,60,65]),x=90-t,px=20+130/Math.tan(t*Math.PI/180),lab=(r,an,tx)=>`<text x="${(20+r*Math.cos(an*Math.PI/180)).toFixed(1)}" y="${(154-r*Math.sin(an*Math.PI/180)).toFixed(1)}" text-anchor="middle" class="fg-l">${tx}</text>`;
+  const fig=`<svg viewBox="0 0 300 172" role="img" aria-label="rectangle"><rect x="20" y="20" width="260" height="130" class="fg-ang"/><line x1="20" y1="150" x2="${px.toFixed(1)}" y2="20" class="fg-ang"/>`+lab(54,t/2,t+'°')+lab(54,(t+90)/2,'x')+RCN([10,290,290,10],[16,16,166,166],['A','B','C','D'])+'</svg>';
+  return mk({fig,q:'ABCD is a rectangle. Find ∠x.',zh:'ABCD 是长方形。求 ∠x。',a:x+'°',d:[[(180-t)+'°','keyword','这里不是一条直线。D 是长方形的角，是 90°。'],[t+'°','who',`${t}° 是另一个角，题目问的是 x。`],[(90+t)+'°','calc','两个角合起来是 90°，要用减法。']],fill:{n:x,step:5,f:v=>v+'°'},ex:`长方形的每个角都是 90°：∠x = 90° − ${t}° = ${x}°。`});});
 
 /* ---------- word cards: maths words in English ---------- */
 /* a small bar model for a word card: rows of [name, [[units,label,style]...]], marks over or under a row */
@@ -911,6 +1024,24 @@ function bm(rows,marks){const U=34,X0=rows.some(r=>r[0])?64:8,H=28,G=26;const to
     else{const yy=ys[m.row]+H+6;out+=`<path d="M${x1} ${yy-4}V${yy}H${x2}V${yy-4}" class="bm-l"/><text x="${mid}" y="${yy+15}" text-anchor="middle" class="bm-t">${m.text}</text>`;bottom=Math.max(bottom,yy+20);}});
   return `<svg viewBox="0 0 ${maxx+8} ${bottom+6}" role="img" aria-label="bar model">${out}</svg>`;}
 const WORDSETS=[
+{title:'4A words 1',zh:'4A 常用词 1（第1–2章）',words:[
+ ['digit','数字（一位上的 0–9）','one of the numbers 0 to 9 in a bigger number','In 45 678, the **digit** 6 stands for 600.'],
+ ['round off','四舍五入','change a number to a close, easy number','**Round off** 4 362 to the nearest hundred: 4 400.'],
+ ['nearest','最接近的','the closest one','4 362 is **nearest** to 4 400.'],
+ ['factor','因数','a number that divides another number with no remainder','3 is a **factor** of 12 because 12 ÷ 3 = 4.'],
+ ['multiple','倍数','what you get when you multiply a number by 1, 2, 3 …','12 is a **multiple** of 3 because 3 × 4 = 12.']]},
+{title:'4A words 2',zh:'4A 常用词 2（第2–4章）',words:[
+ ['common','公共的（两个都有）','shared by two or more numbers','4 is a **common** factor of 8 and 12.'],
+ ['product','积（乘出来的数）','the answer to a multiplication','The **product** of 6 and 7 is 42.'],
+ ['quotient','商（除出来的数）','the answer to a division','In 17 ÷ 5 = 3 R 2, the **quotient** is 3.'],
+ ['remainder','余数','what is left over after dividing equally','In 17 ÷ 5 = 3 R 2, the **remainder** is 2.'],
+ ['line graph','折线图','a graph with points joined by straight lines','The **line graph** shows how many cups were sold each day.']]},
+{title:'4A words 3',zh:'4A 常用词 3（第5–8章）',words:[
+ ['improper fraction','假分数','a fraction whose top number is bigger than or equal to the bottom number','7/4 is an **improper fraction**.'],
+ ['mixed number','带分数','a whole number and a fraction together','1 3/4 is a **mixed number**.'],
+ ['acute angle','锐角','an angle smaller than a right angle','A 40° angle is an **acute angle**.'],
+ ['obtuse angle','钝角','an angle bigger than a right angle but smaller than 180°','A 120° angle is an **obtuse angle**.'],
+ ['opposite sides','对边','sides that face each other','In a rectangle, the **opposite sides** are equal.']]},
 {title:'Word problems 1',zh:'应用题常用词 1',words:[
  ['altogether','一共','all added together','How many sweets do they have **altogether**?',bm([['',[[2.5,'5','a'],[1.5,'3','b']]]],[{row:0,from:0,to:4,top:1,text:'altogether = ?'}])],
  ['left','剩下','what is still there after some are taken away','She ate 3 apples. How many apples are **left**?',bm([['',[[1.5,'ate 3','c'],[3.5,'left = ?','a']]]],[{row:0,from:0,to:5,top:1,text:'all the apples'}])],
@@ -971,9 +1102,11 @@ const WORDSETS=[
 const CATW={wp:.45,calc:.25,p4:.3};
 function wpick(arr,wf){let t=0;arr.forEach(x=>t+=wf(x));let r=Math.random()*t;for(const x of arr){r-=wf(x);if(r<=0)return x;}return arr[arr.length-1];}
 function pickCat(){return wpick(Object.keys(CATW),k=>CATW[k]);}
-function key(q){return (q.p||'')+'|'+q.q+'|'+q.opts.slice().sort().join('|');}
+function key(q){return (q.p||'')+'|'+q.q+(q.fig?'|'+hash(q.fig):'')+'|'+q.opts.slice().sort().join('|');}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
 function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.length)pool=GENS.filter(g=>g.c===c);let q;
+  const F=W.QB&&W.QB.focus;if(c==='p4'&&F){const ch=g=>+((/^Ch(\d)/.exec(g.t)||[])[1]||0),cur=GENS.filter(g=>g.c==='p4'&&ch(g)===F),lv=cur.filter(g=>g.l===l),prev=pool.filter(g=>ch(g)<F);
+    if(cur.length)pool=(Math.random()<.7||!prev.length)?(lv.length?lv:cur):prev;}
   const one=()=>{const g=wpick(pool,x=>x.w);const x=g.f();(Array.isArray(x)?x:[x]).forEach(y=>{y.c=c;y.t=g.t;y.l=g.l;});return x;};
   const k0=x=>key(Array.isArray(x)?x[x.length-1]:x);
   for(let k=0;k<60;k++){q=one();if(!fresh||fresh(k0(q)))return q;}
@@ -982,12 +1115,13 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
 /* every round: a calculation warm-up first, at most two harder items, an easy one to finish */
 function plan(mode){
   if(mode==='calc')return[['calc',1],['calc',1],['calc',2],['calc',2],['calc',1]];
-  if(mode==='p4')return[['calc',1],['p4',1],['p4',2],['p4',2],['p4',1]];
+  if(mode==='p4')return[['p4',1],['p4',1],['p4',2],['p4',2],['p4',1]];
   if(mode==='wp')return[['calc',1],['wp',1],['wp',3],['wp',2],['wp',1]];
-  return[['calc',1],[pick(['wp','p4']),1],['wp',3],[pick(['wp','p4','calc']),2],[pick(['wp','p4']),1]];}
+  /* the holiday is mainly a 4A preview: three 4A questions and two word problems */
+  return[['p4',1],['wp',1],['p4',2],['p4',2],['wp',2]];}
 function size(){return GENS.length;}
 /* write it down: the step-by-step problem from this round (or a fresh one), full working on paper */
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,lines:true};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,lines:true,CH};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -996,7 +1130,7 @@ W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,lines:t
 'use strict';
 const QB=window.QB,$=id=>document.getElementById(id);
 const KEY='xiaoxiao-math-v1',ROUND=5,GOAL=10,PER=25;
-const CATS={wp:'Word problems 应用题',calc:'Calculation 计算',p4:'P4 preview 四年级预习'};
+const CATS={wp:'Word problems 应用题',calc:'Calculation 计算',p4:'Preview 4A 预习 4A'};
 const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
@@ -1009,6 +1143,7 @@ for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
 delete S.auto;delete S.read;
 if(typeof S.snd!=='boolean')S.snd=false;delete S['sound'];
 if(!S.tk||typeof S.tk!=='object')S.tk={};
+if(QB.CH&&typeof S.ch!=='number')S.ch=0;
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
 norm();
@@ -1036,6 +1171,7 @@ function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.l
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 function home(){
   drawTasks();
+  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
   if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;
@@ -1057,7 +1193,7 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
   if(q.step&&!q.ask&&typeof q.p==='string'){q.p=q.p.replace(/\s*[^.?!]*\?\s*$/,'');if(typeof q.zh==='string'){const k=q.zh.indexOf('\n\n');if(k>0)q.zh=q.zh.slice(0,k).replace(/[^。？！]*？\s*$/,'')+q.zh.slice(k);}}
   ['p','q','ex'].forEach(f=>{if(typeof q[f]==='string')q[f]=q[f].replace(/\b([ap])\.m\.\./g,'$1.m.');});
   return q;}
-function startRound(mode){
+function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
@@ -1105,6 +1241,7 @@ function showQ(){
   let P=q.p,Q=q.q;
   if(QB.lines&&!P&&!q.ask){const ss=sents(Q);if(ss.length>1&&/\?\s*$/.test(ss[ss.length-1])){P=ss.slice(0,-1).join(' ');Q=ss[ss.length-1];}}
   $('qPass').hidden=!P;$('qPass').innerHTML=P?(QB.lines?lines(P):fmt(P)):'';
+  $('qFig').hidden=!q.fig;$('qFig').innerHTML=q.fig||'';
   $('qText').innerHTML=(QB.lines&&P&&!q.ask&&/\?\s*$/.test(Q)?'<span class="ask">问</span>':'')+(QB.lines?numB(fmt(Q)):fmt(Q));
   const tip=tipFor(q,P);$('qTip').hidden=!tip;$('qTip').textContent=tip;
   $('bHint').hidden=!q.zh;$('bHint').setAttribute('aria-pressed','false');$('qHint').hidden=true;$('qHint').textContent=(q.zh||'')+(q.zo?'\n'+q.zo.map((z,i)=>'('+(i+1)+') '+z).join('\n'):'');
@@ -1305,7 +1442,11 @@ function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
   $('meWords').innerHTML='<p class="me-t">单词 · Words</p>'+(wi.learned.length?`<p class="st-sub">学了 <b>${wi.learned.length}</b> 个词，记住了 <b>${wi.mast.length}</b> 个。${spelt?`自己拼对过 <b>${spelt}</b> 个。`:''}</p>`+(wi.mast.length?`<div class="chips2" style="margin-top:.5rem">${wi.mast.map(w=>`<span class="wchip s2">${esc(w.w)}</span>`).join('')}</div>`:''):'<p class="st-sub">去“单词卡”学第一组吧。</p>');
   const CH=['每天一点点，就是很大的进步。','做错没关系，改对了就是学会了。','Practice makes progress! 多练就会进步。','今天也很努力！'];
   $('meCheer').textContent=CH[new Date().getDate()%CH.length];}
-function statsView(){show('vStats');voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+/* 4A: which chapter the questions mostly come from this week (set on the child's device) */
+function chCard(){const el=$('chCard');if(!el)return;if(!QB.CH||REMOTE){el.hidden=true;return;}el.hidden=false;const c=S.ch||0;
+  el.innerHTML='<p class="me-t">这周预习第几章</p><p class="st-sub">“预习 4A”和每天的一轮里，四年级题多数出这一章，也会复习前面几章。选“全部”就 8 章都出。</p><div class="ch-list">'
+    +['全部'].concat(QB.CH.map((t,i)=>'第'+(i+1)+'章 '+t)).map((t,i)=>`<button class="ch-b${i===c?' on':''}" data-ch="${i}">${esc(t)}</button>`).join('')+'</div>';}
+function statsView(){show('vStats');chCard();voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
@@ -1387,6 +1528,7 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();const vch=()=>{if(!$('vStats').hidden)voiceCard();};if(speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',vch);else speechSynthesis.onvoiceschanged=vch;}catch(e){}}
+$('chCard').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b)return;S.ch=+b.dataset.ch;QB.focus=S.ch;save();chCard();});
 $('vcCard').addEventListener('click',e=>{const el=$('vcCard'),t=e.target.closest('[data-vtry],[data-vuse]');if(!t||!el._vs)return;
   const k=t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse,v=k==='sys'?null:el._vs[+k];if(k!=='sys'&&!v)return;
   if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v?(v.voiceURI||v.name):'sys');}catch(err){}voiceCard();}

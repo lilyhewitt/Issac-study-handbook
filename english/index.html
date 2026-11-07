@@ -115,6 +115,19 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .pass .num,.qtext .num{font-weight:800}
 .ask{display:inline-block;vertical-align:.1em;font-size:.78rem;font-weight:800;line-height:1.5;padding:0 0.4rem;margin-right:0.375rem;border-radius:0.375rem;background:var(--gram-tint);color:var(--gram-ink)}
 .qtip{margin:0;font-size:.92rem;line-height:1.5;color:var(--ink-2)}
+.qfig{display:flex;justify-content:center}
+.qfig svg{width:100%;max-width:26rem;height:auto}
+.fg-g{stroke:var(--line);stroke-width:1}
+.fg-ax{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.fg-ln{fill:none;stroke:var(--read);stroke-width:2.5}
+.fg-pt{fill:var(--read)}
+.fg-ang{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.fg-arc{fill:none;stroke:var(--read);stroke-width:2}
+.fg-s{font-size:12px;font-weight:700;fill:var(--ink-2)}
+.fg-l{font-size:15px;font-weight:800;fill:var(--ink)}
+.ch-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem}
+.ch-b{min-height:2.75rem;padding:0.375rem 0.75rem;border-radius:0.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.ch-b.on{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
 .qtext{margin:0;font-size:1.3rem;line-height:1.5;font-weight:700;overflow-wrap:anywhere}
 .qtext b,.pass b,.fbe b{background:var(--hl);padding:0 .2em;border-radius:5px}
 .blank{display:inline-block;width:3.2em;height:1em;border-bottom:3px solid var(--ink-2);margin:0 .12em;vertical-align:-.1em}
@@ -491,6 +504,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <button class="btn" id="bCopy">复制报告（可以发给家人）</button>
     <p class="st-note" id="copyMsg" role="status"></p>
     <textarea id="copyBox" readonly hidden aria-label="报告内容"></textarea>
+    <div class="stcard" id="chCard" hidden></div>
     <div class="stcard" id="vcCard" hidden></div>
   </section>
 
@@ -568,6 +582,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <div class="qcard">
       <div class="chips"><span class="chip" id="qChip">Grammar</span><span class="chip again" id="qAgain" hidden>Try again 再练一次</span></div>
       <div class="pass" id="qPass" hidden></div>
+      <div class="qfig" id="qFig" hidden></div>
       <p class="qtext" id="qText"></p>
       <p class="qtip" id="qTip" hidden></p>
       <div class="tools">
@@ -1441,6 +1456,7 @@ for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
 delete S.auto;delete S.read;
 if(typeof S.snd!=='boolean')S.snd=false;delete S['sound'];
 if(!S.tk||typeof S.tk!=='object')S.tk={};
+if(QB.CH&&typeof S.ch!=='number')S.ch=0;
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
 norm();
@@ -1468,6 +1484,7 @@ function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.l
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 function home(){
   drawTasks();
+  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
   if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;
@@ -1489,7 +1506,7 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
   if(q.step&&!q.ask&&typeof q.p==='string'){q.p=q.p.replace(/\s*[^.?!]*\?\s*$/,'');if(typeof q.zh==='string'){const k=q.zh.indexOf('\n\n');if(k>0)q.zh=q.zh.slice(0,k).replace(/[^。？！]*？\s*$/,'')+q.zh.slice(k);}}
   ['p','q','ex'].forEach(f=>{if(typeof q[f]==='string')q[f]=q[f].replace(/\b([ap])\.m\.\./g,'$1.m.');});
   return q;}
-function startRound(mode){
+function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
@@ -1537,6 +1554,7 @@ function showQ(){
   let P=q.p,Q=q.q;
   if(QB.lines&&!P&&!q.ask){const ss=sents(Q);if(ss.length>1&&/\?\s*$/.test(ss[ss.length-1])){P=ss.slice(0,-1).join(' ');Q=ss[ss.length-1];}}
   $('qPass').hidden=!P;$('qPass').innerHTML=P?(QB.lines?lines(P):fmt(P)):'';
+  $('qFig').hidden=!q.fig;$('qFig').innerHTML=q.fig||'';
   $('qText').innerHTML=(QB.lines&&P&&!q.ask&&/\?\s*$/.test(Q)?'<span class="ask">问</span>':'')+(QB.lines?numB(fmt(Q)):fmt(Q));
   const tip=tipFor(q,P);$('qTip').hidden=!tip;$('qTip').textContent=tip;
   $('bHint').hidden=!q.zh;$('bHint').setAttribute('aria-pressed','false');$('qHint').hidden=true;$('qHint').textContent=(q.zh||'')+(q.zo?'\n'+q.zo.map((z,i)=>'('+(i+1)+') '+z).join('\n'):'');
@@ -1737,7 +1755,11 @@ function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
   $('meWords').innerHTML='<p class="me-t">单词 · Words</p>'+(wi.learned.length?`<p class="st-sub">学了 <b>${wi.learned.length}</b> 个词，记住了 <b>${wi.mast.length}</b> 个。${spelt?`自己拼对过 <b>${spelt}</b> 个。`:''}</p>`+(wi.mast.length?`<div class="chips2" style="margin-top:.5rem">${wi.mast.map(w=>`<span class="wchip s2">${esc(w.w)}</span>`).join('')}</div>`:''):'<p class="st-sub">去“单词卡”学第一组吧。</p>');
   const CH=['每天一点点，就是很大的进步。','做错没关系，改对了就是学会了。','Practice makes progress! 多练就会进步。','今天也很努力！'];
   $('meCheer').textContent=CH[new Date().getDate()%CH.length];}
-function statsView(){show('vStats');voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+/* 4A: which chapter the questions mostly come from this week (set on the child's device) */
+function chCard(){const el=$('chCard');if(!el)return;if(!QB.CH||REMOTE){el.hidden=true;return;}el.hidden=false;const c=S.ch||0;
+  el.innerHTML='<p class="me-t">这周预习第几章</p><p class="st-sub">“预习 4A”和每天的一轮里，四年级题多数出这一章，也会复习前面几章。选“全部”就 8 章都出。</p><div class="ch-list">'
+    +['全部'].concat(QB.CH.map((t,i)=>'第'+(i+1)+'章 '+t)).map((t,i)=>`<button class="ch-b${i===c?' on':''}" data-ch="${i}">${esc(t)}</button>`).join('')+'</div>';}
+function statsView(){show('vStats');chCard();voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
@@ -1819,6 +1841,7 @@ function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
 if(canSay){try{speechSynthesis.getVoices();const vch=()=>{if(!$('vStats').hidden)voiceCard();};if(speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',vch);else speechSynthesis.onvoiceschanged=vch;}catch(e){}}
+$('chCard').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b)return;S.ch=+b.dataset.ch;QB.focus=S.ch;save();chCard();});
 $('vcCard').addEventListener('click',e=>{const el=$('vcCard'),t=e.target.closest('[data-vtry],[data-vuse]');if(!t||!el._vs)return;
   const k=t.dataset.vtry!=null?t.dataset.vtry:t.dataset.vuse,v=k==='sys'?null:el._vs[+k];if(k!=='sys'&&!v)return;
   if(t.dataset.vuse!=null){try{localStorage.setItem(VKEY,v?(v.voiceURI||v.name):'sys');}catch(err){}voiceCard();}
