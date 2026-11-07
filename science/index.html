@@ -1018,11 +1018,12 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   L.push({k:'round',name:'练一轮 · One round',done:!!t.round});
   if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
+  if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 function home(){
-  drawTasks();
+  drawTasks();if(typeof barNote==='function')barNote();
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
   if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
@@ -1423,7 +1424,7 @@ $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){C
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
-  if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();});
+  if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(k==='bar'&&typeof barStart==='function')barStart();});
 $('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);
