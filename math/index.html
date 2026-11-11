@@ -1196,7 +1196,7 @@ const BAR=[
      zh:`${J.n} 原来比 ${R.n} 多 ${d}。${J.n} 给了 ${R.n} ${g}。之后 ${R.n} 有 ${aft}。${J.n} 原来有多少？`,
      rows:[{n:R.n+' 后来',u:1,x:g,hx:1}],build:false,uv:rb,
      marks:[{v:g,at:'x:0',hint:`${g} 是 ${J.n} 给的，接在 ${R.n} 原来那段的后面。`},{v:aft,at:'row:0',hint:`${aft} 是 ${R.n} 后来一共有的，标整条。`}],
-     ask:{at:'unit:0',hint:`先求 ${R.n} 原来有多少，问号标在前面那段。`},
+     ask:{at:'unit:0',q:`题目问 ${J.n}，要先倒推 ${R.n} 原来有多少。${R.n} 原来的那段，问号标在哪里？`,hint:`${R.n} 原来的那段，就是收到 ${g} 之前、前面那一段。`},
      regions:['row:0','unit:0','x:0'],
      calc:[{q:`倒推：${R.n} 原来 = ${aft} − ${g} = ?`,a:rb,o:nopt(rb,[aft+g,aft,g])},
        {q:`${J.n} 原来比 ${R.n} 原来多 ${d}：${J.n} 原来 = ${rb} + ${d} = ?`,a:jb,o:nopt(jb,[rb-d,rb,jb+g])},
@@ -1374,8 +1374,11 @@ function barStart(ti){const st=barSt();if(typeof ti==='number')st.cur=ti;const L
 function barGeo(){const L=BR.L,rows=BR.step==='build'?BR.rows:L.rows.map(r=>({u:r.u,x:r.x||0})),n=rows.length;
   const maxX=Math.max(1,...L.rows.map(r=>r.x||0),...(L.xo||[0])),maxU=Math.max(...rows.map(r=>r.u),BR.step==='build'?4:1),hasX=rows.some(r=>r.x)||!!L.xo;
   const BU=Math.min(70,Math.floor(300/(maxU+(hasX?1.4:0)))),xw=rows.map(r=>r.x?Math.round(BU*(L.uv?Math.min(1.6,Math.max(.4,r.x/L.uv)):0.6+0.8*(r.x/maxX))):0),len=rows.map((r,j)=>r.u*BU+xw[j]);
-  const NL=78,TM=34,RH=32,RG=46,maxLen=Math.max(...len,BU*(maxU+(hasX?1.4:0))),W=NL+maxLen+92,H=TM+n*(RH+RG)-RG+34;
+  const NL=barNameW(L.rows.map(r=>r.n))+16,TM=34,RH=32,RG=46,maxLen=Math.max(...len,BU*(maxU+(hasX?1.4:0))),W=NL+maxLen+(L.regions.includes('all')?92:28),H=TM+n*(RH+RG)-RG+34;
   return {rows,n,BU,xw,len,NL,TM,RH,RG,maxLen,W,H,y:j=>TM+j*(RH+RG)};}
+/* width of the longest row name, measured with the page font (an estimate if the canvas is not available) */
+function barNameW(ns){let c=null;try{c=document.createElement('canvas').getContext('2d');c.font='800 15px '+getComputedStyle(document.body).fontFamily;}catch(e){c=null;}
+  return Math.ceil(Math.max(48,...ns.map(n=>c?c.measureText(n).width:[...n].reduce((a,ch)=>a+(/[\u3000-\u9fff]/.test(ch)?16:ch===' '?5:10),0))));}
 function barRects(id,g){const [k,s]=id.split(':'),i=+s;
   if(k==='row')return [[g.NL,g.y(i),g.len[i],g.RH]];
   if(k==='unit')return [[g.NL,g.y(i),g.BU,g.RH]];
@@ -1408,7 +1411,7 @@ function barDraw(){const L=BR.L,TY=barTypes(),st=barSt(),step=BR.step==='list'?B
   let h='';
   if(BR.step==='build')h=`<p class="br-p">照题目画：每人画几格？${L.xo?'谁后面要多一段？':''}</p>`+BR.rows.map((r,j)=>`<div class="br-row"><span class="br-rn">${esc(L.rows[j].n)}</span><button class="br-pm" data-bu="${j}" data-d="-1" aria-label="少一格">−</button><span class="br-cnt">${r.u} 格</span><button class="br-pm" data-bu="${j}" data-d="1" aria-label="多一格">+</button>${L.xo?`<button class="br-xb${r.x?' on':''}" data-bx="${j}">${r.x?'多一段 +'+r.x:'多一段？'}</button>`:''}</div>`).join('')+'<button class="sbtn" id="brDone">画好了 ✓</button>';
   else if(BR.step==='mark'||BR.step==='ask'){const m=BR.step==='mark'?L.marks[BR.mi]:null;
-    h=`<p class="br-p">${m?`「${esc(m.v)}」标在哪里？ · Where does ${esc(m.v)} go?`:'题目问的是哪一段？问号标在哪里？'}</p>${L.regions.includes('unit:0')?'':'<p class="br-zh">点图上的那一段，或者点下面的字。</p>'}<div class="br-opts">`+L.regions.map(id=>`<button class="br-o" data-br="${id}"${BR.used.includes(id)?' disabled':''}>${esc(regName(id))}</button>`).join('')+'</div>';}
+    h=`<p class="br-p">${m?`「${esc(m.v)}」标在哪里？ · Where does ${esc(m.v)} go?`:esc(L.ask.q||'题目问的是哪一段？问号标在哪里？')}</p>${L.regions.includes('unit:0')?'':'<p class="br-zh">点图上的那一段，或者点下面的字。</p>'}<div class="br-opts">`+L.regions.map(id=>`<button class="br-o" data-br="${id}"${BR.used.includes(id)?' disabled':''}>${esc(regName(id))}</button>`).join('')+'</div>';}
   else if(BR.step==='calc'){const c=L.calc[BR.ci];h=`<p class="br-p">${esc(c.q)}</p><div class="br-opts">`+c.o.map((x,i)=>`<button class="br-o" data-bo="${i}"${BR.used.includes(i)?' disabled':''}>${esc(x)}</button>`).join('')+'</div>';}
   else if(BR.step==='done')h=`<p class="br-sum">${esc(L.sum)}</p><p class="br-p">在纸上照这个图再画一遍。</p>`+(BR.note?`<p class="br-msg">${esc(BR.note)}</p>`:'')+'<button class="sbtn" id="brNext">再来一题</button><button class="br-other" id="brTypes2">换一种图</button><button class="br-other" id="brHome">回首页</button>';
   else if(BR.step==='list')h='<p class="br-p">6 种线段图</p><div class="br-list">'+TY.map((t,i)=>`<button class="br-li${i===st.cur?' cur':''}" data-bt="${i}"><span>${i+1}. ${esc(t.t)}</span><small>做了 ${st.n[i]||0} 题</small></button>`).join('')+'</div>'+(BR.prev!=='done'?'<button class="br-other" id="brBack">回到这一题</button>':'');
@@ -1500,7 +1503,8 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
 }
 function pips(){$('pips').innerHTML=R.qs.map((q,i)=>`<span class="pip ${R.res[i]===true?'ok':R.res[i]===false?'no':i===R.i?'now':''}"></span>`).join('');$('qNo').textContent=`${R.i+1}/${R.qs.length}`;}
 function sents(t){return String(t).replace(/([.!?])\s+(?=[A-Z$“"'(0-9])/g,'$1\u0001').split('\u0001').filter(x=>x.trim()).reduce((a,x)=>{if(a.length&&/\b(Mr|Mrs|Ms|Dr|St)\.$/.test(a[a.length-1]))a[a.length-1]+=' '+x;else a.push(x);return a;},[]);}
-function numB(h){return h.replace(/(\$?\d+(?:[.,:\/]\d+)*)/g,'<b class="num">$1</b>');}
+/* one highlight per number: 45 678 (a space between thousands) and 3 1/3 (a mixed number) stay together */
+function numB(h){return h.replace(/(\$?\d{1,3}(?:[ \u00a0]\d{3})+(?:\.\d+)?(?![\d\/])|\$?\d+ \d+\/\d+|\$?\d+(?:[.,:\/]\d+)*)/g,'<b class="num">$1</b>');}
 function lines(t){if(/\n/.test(t))return fmt(t);
   return sents(t).map(x=>/\?\s*$/.test(x)?`<span class="ln"><span class="ask">问</span>${numB(fmt(x))}</span>`:`<span class="ln">${numB(fmt(x))}</span>`).join('');}
 /* a short "how to think" line: feelings / why / evidence questions in English; say it in Chinese first for math and science problems */

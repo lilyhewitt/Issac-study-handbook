@@ -1541,7 +1541,8 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
 }
 function pips(){$('pips').innerHTML=R.qs.map((q,i)=>`<span class="pip ${R.res[i]===true?'ok':R.res[i]===false?'no':i===R.i?'now':''}"></span>`).join('');$('qNo').textContent=`${R.i+1}/${R.qs.length}`;}
 function sents(t){return String(t).replace(/([.!?])\s+(?=[A-Z$“"'(0-9])/g,'$1\u0001').split('\u0001').filter(x=>x.trim()).reduce((a,x)=>{if(a.length&&/\b(Mr|Mrs|Ms|Dr|St)\.$/.test(a[a.length-1]))a[a.length-1]+=' '+x;else a.push(x);return a;},[]);}
-function numB(h){return h.replace(/(\$?\d+(?:[.,:\/]\d+)*)/g,'<b class="num">$1</b>');}
+/* one highlight per number: 45 678 (a space between thousands) and 3 1/3 (a mixed number) stay together */
+function numB(h){return h.replace(/(\$?\d{1,3}(?:[ \u00a0]\d{3})+(?:\.\d+)?(?![\d\/])|\$?\d+ \d+\/\d+|\$?\d+(?:[.,:\/]\d+)*)/g,'<b class="num">$1</b>');}
 function lines(t){if(/\n/.test(t))return fmt(t);
   return sents(t).map(x=>/\?\s*$/.test(x)?`<span class="ln"><span class="ask">问</span>${numB(fmt(x))}</span>`:`<span class="ln">${numB(fmt(x))}</span>`).join('');}
 /* a short "how to think" line: feelings / why / evidence questions in English; say it in Chinese first for math and science problems */
