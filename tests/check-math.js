@@ -1,0 +1,23 @@
+const fs=require('fs');eval(fs.readFileSync(process.argv[2],'utf8'));const QB=globalThis.QB;
+const val=s=>{s=String(s).replace(/ /g,'');let m;
+  if(m=/^(\d+) (\d+)\/(\d+)$/.exec(s))return +m[1]+ +m[2]/+m[3];
+  if(m=/^(\d+)\/(\d+)$/.exec(s))return +m[1]/+m[2];
+  if(m=/^\$?(\d+(\.\d+)?)( (cm|m|ml|g|kg|ℓ|units?|cm²|m²))?$/.exec(s))return +m[1]+(m[4]||'');
+  return null;};
+let bad=0,total=0;const by={},cnt={};
+QB.GENS.forEach(g=>{by[g.c+' L'+g.l]=(by[g.c+' L'+g.l]||0)+1;
+ for(let i=0;i<400;i++){const r=g.f();const arr=Array.isArray(r)?r:[r];
+  arr.forEach(q=>{total++;const e=[];
+   if(q.opts.length!==4)e.push('n'+q.opts.length);
+   if(new Set(q.opts).size!==q.opts.length)e.push('dup');
+   if(q.ans<0||q.ans>3)e.push('ans');
+   for(const f of ['err','why','zo'])if(q[f]&&q[f].length!==q.opts.length)e.push(f+'len');
+   if(q.err&&q.err[q.ans])e.push('err-on-answer');
+   if(q.err)q.err.forEach(c=>{if(c&&!QB.ERRS[c])e.push('unknown err '+c);});
+   const s=JSON.stringify(q);if(/undefined|NaN|Infinity|null\/|\/null/.test(s.replace(/"(err|why|zo)":\[[^\]]*\]/g,'')))e.push('undef');
+   if(q.opts.some(o=>/^-|\$-|\s-\d/.test(o)))e.push('neg');
+   const av=val(q.opts[q.ans]);if(av!==null)q.opts.forEach((o,j)=>{if(j!==q.ans&&val(o)===av)e.push('same-value '+o+' = '+q.opts[q.ans]);});
+   if(!q.ex)e.push('noex');if(g.c==='wp'&&!q.zh)e.push('nozh');
+   if(e.length){bad++;cnt[g.t+' L'+g.l]=(cnt[g.t+' L'+g.l]||0)+1;if(bad<=12)console.log(g.t,'L'+g.l,e.join(';'),'|',q.q.slice(0,70),'|',q.opts.join(' / '));}
+  });}});
+console.log('generators',QB.GENS.length,'checked',total,'bad',bad,JSON.stringify(cnt));console.log(by);

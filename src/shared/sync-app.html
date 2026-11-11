@@ -1,0 +1,96 @@
+<script>
+/* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
+   under a family sync code; a parent's phone opens the app with ?remote=1 to read them, read-only.
+   An empty DB address turns all of this off. */
+(function(){
+  var DB='__DB__';
+  if(!/^(https:\/\/|http:\/\/localhost)/.test(DB)||!window.fetch||!window.JSON)return;
+  var m=location.pathname.match(/\/(english|science|math)\//);if(!m)return;
+  var APP=m[1],CK='xx-sync-code',TK='xx-sync-at-'+APP;
+  var remote=/[?&]remote=1(&|$)/.test(location.search);
+  function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function put(k,v){try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,String(v));}catch(e){}}
+  function clean(c){return String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');}
+  function code(){var c=clean(get(CK));return c.length===8?c:'';}
+  function pretty(c){return c.slice(0,4)+'-'+c.slice(4);}
+  function url(c,sub){return DB.replace(/\/+$/,'')+'/sync/'+c+'/'+APP+(sub?'/'+sub:'')+'.json';}
+  function when(t){if(!t)return '';var d=new Date(+t),n=new Date(),y=new Date();y.setDate(n.getDate()-1);
+    var p=function(x){return (x<10?'0':'')+x;},hm=p(d.getHours())+':'+p(d.getMinutes());
+    if(d.toDateString()===n.toDateString())return '今天 '+hm;
+    if(d.toDateString()===y.toDateString())return '昨天 '+hm;
+    return (d.getMonth()+1)+'/'+d.getDate()+' '+hm;}
+  function nlog(S){return S&&Array.isArray(S.log)?S.log.length:0;}
+  function slim(S){var o={};for(var k in S)if(k!=='seen'&&k!=='recent')o[k]=S[k];return o;}
+  function pull(c){return fetch(url(c),{cache:'no-store'}).then(function(r){if(r.status===401||r.status===403)throw 'rules';if(!r.ok)throw 0;return r.json();})
+    .then(function(x){return x&&x.v?{data:JSON.parse(x.v),at:x.at||0}:{data:null,at:0};});}
+
+  var last=null,timer=null,busy=false,dirty=false,api;
+  function flush(){var c=code();if(remote||!c||!last||busy)return;busy=true;dirty=false;var n=nlog(last);
+    /* never overwrite a copy in the cloud that has more answers than this one */
+    fetch(url(c,'n'),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(cn){
+      if((+cn||0)>n){api.stale=true;paint();return;}
+      var at=Date.now();
+      /* PATCH, not PUT: only these three fields change, so a setting the handbook put next to them (cfg) stays.
+         If PATCH is refused, fall back to PUT and carry the setting over. */
+      var body={at:at,n:n,v:JSON.stringify(slim(last))},H={'Content-Type':'application/json'};
+      return fetch(url(c),{method:'PATCH',headers:H,body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw 0;return r;})
+        .catch(function(){return fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+          .then(function(cf){if(cf)body.cfg=cf;return fetch(url(c),{method:'PUT',headers:H,body:JSON.stringify(body)});});})
+        .then(function(r){if(r&&r.ok){put(TK,at);api.stale=false;paint();}});
+    }).catch(function(){}).then(function(){busy=false;if(dirty){clearTimeout(timer);timer=setTimeout(flush,1500);}});}
+
+  /* a setting chosen in the parent handbook (math: this week's chapter), read when the app opens or comes back */
+  function cfgCheck(){var c=code();if(remote||!c||!api.oncfg)return;
+    fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(x){if(x&&typeof x.ch==='number')api.oncfg(x);}).catch(function(){});}
+  api={remote:remote,stale:false,state:'',at:0,restore:null,oncfg:null,cfgCheck:cfgCheck,linked:function(){return !!code();},
+    push:function(S){if(remote)return;last=S;dirty=true;clearTimeout(timer);timer=setTimeout(flush,1500);},
+    load:function(){var c=code();if(!c){api.state='nocode';paint();return Promise.resolve(null);}
+      api.state='loading';paint();
+      return pull(c).then(function(r){api.state=r.data?'ok':'empty';api.at=r.at;paint();return r.data;},
+                          function(e){api.state=e==='rules'?'rules':'net';paint();return null;});}};
+  window.xxSync=api;
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(timer);flush();}else cfgCheck();});
+  window.addEventListener('load',function(){setTimeout(cfgCheck,300);});
+
+  /* the card at the top of 家长看 */
+  function card(){var el=document.getElementById('syncCard');if(el)return el;
+    var v=document.getElementById('vStats');if(!v)return null;var q=v.querySelector('.qbar');if(!q)return null;
+    el=document.createElement('div');el.className='stcard';el.id='syncCard';q.insertAdjacentElement('afterend',el);
+    el.addEventListener('click',onClick);
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='syncIn'){e.preventDefault();link();}});
+    return el;}
+  function paint(){var el=card();if(!el)return;var c=code(),h;
+    if(remote){var s=api.state;
+      h='<div class="st-big">小小 iPad 上的记录</div><p class="st-sub">'+(
+        s==='loading'?'正在读取……':
+        s==='nocode'?'这台手机还没连上小小的 iPad。回家长手册，看“小小 iPad 的记录”。':
+        s==='net'?'现在连不上网络，等一下再打开。':
+        s==='rules'?'数据库不让读：Firebase 里的“规则”还没设置好。':
+        s==='empty'?'iPad 上这个 app 还没传过记录。':
+        '只能看，不能改 · 上次同步 '+when(api.at))+'</p>';
+      var t=document.querySelector('#vStats .st-h');if(t)t.textContent='小小的练习记录';
+    }else if(c){var t2=get(TK);
+      h='<div class="st-big">✓ 已同步到家长手机</div><p class="st-sub">同步码 <b>'+pretty(c)+'</b>'+(t2?' · 上次同步 '+when(t2):' · 做完下一轮就会传')+'</p>'+
+        (api.stale?'<p class="st-note">家长那边的记录比这里多，这里的就先不传，免得盖掉。</p>':'')+
+        '<button class="sbtn ghost" data-sync="off" style="margin-top:8px">断开</button>';
+    }else{
+      h='<div class="st-big">同步到家长手机</div><p class="st-sub">在家长手机的手册里点“生成同步码”，把 8 位码输在这里。</p>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><input id="syncIn" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="9" placeholder="比如 K7QM-3XPA" aria-label="同步码" '+
+        'style="flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-radius:.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase">'+
+        '<button class="sbtn" data-sync="go">连上</button></div><p class="st-note" id="syncMsg" role="status"></p>';
+    }
+    el.innerHTML=h;}
+  function msg(t){var e=document.getElementById('syncMsg');if(e)e.textContent=t;}
+  function link(){var i=document.getElementById('syncIn'),c=clean(i&&i.value);
+    if(c.length!==8){msg('同步码是 8 位，字母和数字。');return;}
+    msg('正在连……');
+    pull(c).then(function(r){put(CK,c);api.stale=false;
+      if(r.data&&nlog(r.data)>nlog(last)&&api.restore)api.restore(r.data);  /* a fresh copy picks up the records already in the cloud */
+      paint();if(last){clearTimeout(timer);flush();}cfgCheck();
+    },function(e){msg(e==='rules'?'数据库不让读写：Firebase 里的“规则”还没设置好。':'现在连不上网络，等一下再试。');});}
+  function onClick(e){var b=e.target.closest&&e.target.closest('[data-sync]');if(!b)return;
+    if(b.getAttribute('data-sync')==='go')link();
+    else{put(CK,null);put(TK,null);paint();}}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',paint);else paint();
+})();
+</script>

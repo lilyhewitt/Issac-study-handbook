@@ -1,0 +1,49 @@
+/* 画线段图: one column on a phone; on an iPad the problem and the picture sit on the left, the steps and buttons on the right, so nothing needs scrolling */
+.br-grid{display:flex;flex-direction:column;gap:0.75rem}
+.br-left,.br-right{display:flex;flex-direction:column;gap:0.75rem;min-width:0}
+.br-fig,.br-ctl{touch-action:manipulation}
+.br-tap{fill:transparent;cursor:pointer}
+#vBar .chips{display:none}
+@media (min-width:700px){
+  body.br-wide .app{max-width:68rem}
+  body.br-wide #vBar{max-width:none}
+  .br-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1.25rem;align-items:start}
+}
+@media (orientation:landscape) and (min-width:700px){
+  .br-fig svg{max-height:40vh}
+}
+.br-tt{flex:1;min-width:0;text-align:center;font-family:var(--f-display);font-weight:800}
+.br-other{min-height:2.75rem;padding:0 0.875rem;border-radius:0.75rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.br-zh{margin:0;color:var(--ink-2);line-height:1.6}
+.br-steps{display:flex;flex-wrap:wrap;gap:0.375rem;list-style:none;margin:0;padding:0}
+.br-steps li{font-size:.85rem;font-weight:700;padding:0.25rem 0.625rem;border-radius:99px;background:var(--track);color:var(--ink-2)}
+.br-steps li.on{background:var(--wp);color:var(--on-tile)}
+.br-steps li.ok{background:var(--wp-tint);color:var(--wp-ink)}
+.br-fig{background:var(--surface);border:2px solid var(--line);border-radius:1.125rem;padding:0.5rem;overflow-x:auto}
+.br-fig svg{display:block;width:100%;height:auto;max-width:34rem;margin:0 auto}
+.br-n{font-size:15px;font-weight:800;fill:var(--ink)}
+.br-u{fill:var(--wp-tint);stroke:var(--wp);stroke-width:1.5}
+.br-x{fill:var(--calc-tint);stroke:var(--calc);stroke-width:1.5}
+.br-xt{font-size:14px;font-weight:800;fill:var(--ink)}
+.br-hl{fill:var(--p4);opacity:.3}
+.br-bad{fill:var(--miss);opacity:.35}
+.br-b{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.br-l{font-size:16px;font-weight:800;fill:var(--ink)}
+.br-l.q{fill:var(--p4)}
+.br-msg{margin:0;min-height:1.5em;font-weight:700;line-height:1.5;color:var(--ink)}
+.br-ctl{display:flex;flex-direction:column;gap:0.625rem}
+.br-p{margin:0;font-weight:800;font-size:1.05rem;line-height:1.5}
+.br-row{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem;background:var(--surface);border:2px solid var(--line);border-radius:1rem;padding:0.5rem 0.75rem}
+.br-rn{flex:1 1 5rem;min-width:0;font-weight:800}
+.br-pm{width:2.75rem;height:2.75rem;border-radius:0.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);font-size:1.4rem;font-weight:800;cursor:pointer}
+.br-cnt{min-width:3.25rem;text-align:center;font-weight:800}
+.br-xb{min-height:2.75rem;padding:0 0.75rem;border-radius:0.75rem;border:2px dashed var(--calc);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.br-xb.on{border-style:solid;background:var(--calc-tint)}
+.br-opts{display:grid;gap:0.5rem;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr))}
+.br-o{min-height:3rem;padding:0.5rem 0.75rem;border-radius:0.875rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer}
+.br-o:disabled{opacity:.4;cursor:default}
+.br-sum{margin:0;background:var(--wp-tint);color:var(--wp-ink);border-radius:1rem;padding:0.75rem 0.875rem;line-height:1.6;font-weight:700}
+.br-list{display:flex;flex-direction:column;gap:0.5rem}
+.br-li{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;min-height:3rem;padding:0.5rem 0.875rem;border-radius:0.875rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.br-li.cur{border-color:var(--wp)}
+.br-li small{flex:none;color:var(--ink-2);font-weight:600}

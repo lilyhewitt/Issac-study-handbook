@@ -331,8 +331,8 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   function pull(c){return fetch(url(c),{cache:'no-store'}).then(function(r){if(r.status===401||r.status===403)throw 'rules';if(!r.ok)throw 0;return r.json();})
     .then(function(x){return x&&x.v?{data:JSON.parse(x.v),at:x.at||0}:{data:null,at:0};});}
 
-  var last=null,timer=null,busy=false,api;
-  function flush(){var c=code();if(remote||!c||!last||busy)return;busy=true;var n=nlog(last);
+  var last=null,timer=null,busy=false,dirty=false,api;
+  function flush(){var c=code();if(remote||!c||!last||busy)return;busy=true;dirty=false;var n=nlog(last);
     /* never overwrite a copy in the cloud that has more answers than this one */
     fetch(url(c,'n'),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(cn){
       if((+cn||0)>n){api.stale=true;paint();return;}
@@ -344,13 +344,13 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
         .catch(function(){return fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
           .then(function(cf){if(cf)body.cfg=cf;return fetch(url(c),{method:'PUT',headers:H,body:JSON.stringify(body)});});})
         .then(function(r){if(r&&r.ok){put(TK,at);api.stale=false;paint();}});
-    }).catch(function(){}).then(function(){busy=false;});}
+    }).catch(function(){}).then(function(){busy=false;if(dirty){clearTimeout(timer);timer=setTimeout(flush,1500);}});}
 
   /* a setting chosen in the parent handbook (math: this week's chapter), read when the app opens or comes back */
   function cfgCheck(){var c=code();if(remote||!c||!api.oncfg)return;
     fetch(url(c,'cfg'),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(x){if(x&&typeof x.ch==='number')api.oncfg(x);}).catch(function(){});}
   api={remote:remote,stale:false,state:'',at:0,restore:null,oncfg:null,cfgCheck:cfgCheck,linked:function(){return !!code();},
-    push:function(S){if(remote)return;last=S;clearTimeout(timer);timer=setTimeout(flush,1500);},
+    push:function(S){if(remote)return;last=S;dirty=true;clearTimeout(timer);timer=setTimeout(flush,1500);},
     load:function(){var c=code();if(!c){api.state='nocode';paint();return Promise.resolve(null);}
       api.state='loading';paint();
       return pull(c).then(function(r){api.state=r.data?'ok':'empty';api.at=r.at;paint();return r.data;},
@@ -1452,11 +1452,13 @@ W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,spell:true};
 (function(){
 'use strict';
 const QB=window.QB,$=id=>document.getElementById(id);
-const KEY='xiaoxiao-english-v1',ROUND=5,GOAL=10,PER=25;
+const KEY='xiaoxiao-english-v1',ROUND=5,PER=25;
 const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};
 const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
+/* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
+const HOOK={home:[],task:{}};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -1480,7 +1482,7 @@ const STAR='<svg viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/___/g,'<span class="blank" aria-label="blank"></span>').replace(/\n/g,'<br>');}
 
-function show(id){['vHome','vQuiz','vDone','vStats','vWords','vCard','vMe','vSpell'].forEach(v=>$(v).hidden=v!==id);$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
+function show(id){document.querySelectorAll('.view').forEach(v=>{v.hidden=v.id!==id;});$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
 function streak(){let n=0;const d=new Date();if(!S.days[dkey(d)])d.setDate(d.getDate()-1);while(S.days[dkey(d)]){n++;d.setDate(d.getDate()-1);}return n;}
 
 /* today's tasks: one round; today's word review if any is due; spell it (English) once words are learned. Done = done for the day. */
@@ -1494,7 +1496,7 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 function home(){
-  drawTasks();if(typeof barNote==='function')barNote();
+  drawTasks();HOOK.home.forEach(f=>f());
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
   if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
@@ -1531,7 +1533,8 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
       if(!q||keys.has(QB.key(q)))q=QB.make(c,l,k=>!seen.has(QB.hash(k))&&!keys.has(k),k=>!recent.has(k)&&!keys.has(k));
       (Array.isArray(q)?q:[q]).forEach(x=>{keys.add(QB.key(x));qs.push(x);});});
     /* words that are due for review take one or two of the easy slots */
-    const due=QB.shuf(dueWords());if(due.length)qs[0]=wordQ(due[0]);if(due.length>=3)qs[qs.length-1]=wordQ(due[1]);
+    const due=QB.shuf(dueWords()),free=qs.map((q,i)=>q.step?-1:i).filter(i=>i>=0);   /* never a step of a step-by-step problem */
+    if(due.length&&free.length)qs[free[0]]=wordQ(due[0]);if(due.length>=3&&free.length>1)qs[free[free.length-1]]=wordQ(due[1]);
   }
   if(!qs.length){home();return;}
   qs.forEach(q=>{const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
@@ -1561,7 +1564,7 @@ function hlKey(h){if(!QB.hl)return h;
 function showQ(){
   const q=R.qs[R.i];R.locked=false;
   try{speechSynthesis.cancel();}catch(e){}
-  $('qChip').textContent=q.t+(q.step?' · 第 '+q.step.split('/')[0]+' 步，共 '+q.step.split('/')[1]+' 步':'');$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
+  $('qChip').textContent=q.t+(q.step&&!q.again?' · 第 '+q.step.split('/')[0]+' 步，共 '+q.step.split('/')[1]+' 步':'');$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
   /* math and science: one sentence per line, numbers in bold, the question on its own line marked 问 */
   let P=q.p,Q=q.q;
   if(QB.lines&&!P&&!q.ask){const ss=sents(Q);if(ss.length>1&&/\?\s*$/.test(ss[ss.length-1])){P=ss.slice(0,-1).join(' ');Q=ss[ss.length-1];}}
@@ -1596,12 +1599,12 @@ function choose(i){
 }
 function next(){if(!R||!R.locked)return;R.i++;if(R.i>=R.qs.length)finish();else showQ();}
 function finish(){
-  const n=R.qs.length,s=R.score,perfect=s===n&&n===ROUND;
+  const n=R.qs.length,s=R.score,perfect=s===n&&n>=ROUND;
   if(perfect)S.stars+=2;save();
   show('vDone');
   $('dScore').innerHTML=`${s}<span>/${n}</span>`;
   $('dStars').innerHTML=R.res.map(ok=>STAR.replace('<svg','<svg class="'+(ok?'ico-star':'off')+'"')).join('');
-  const m=perfect?['Perfect round!','5 题全对，再奖励 +2 ★']:s>=n-1?['Great job!','很棒，只差一点点。']:s>=Math.ceil(n/2)?['Good work!','一半以上都对了。']:['Nice try!','每做一轮都在进步。'];
+  const m=perfect?['Perfect round!',n+' 题全对，再奖励 +2 ★']:s>=n-1?['Great job!','很棒，只差一点点。']:s>=Math.ceil(n/2)?['Good work!','一半以上都对了。']:['Nice try!','每做一轮都在进步。'];
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
@@ -1752,7 +1755,7 @@ function sessHTML(){return sessions().slice(0,30).map(x=>{const w=x.n-x.ok;
     return `<details class="st-w sess"><summary>${head}</summary>`+x.wrong.map(e=>`<div class="st-wi"><div class="st-wt"><span>${esc(e.t)}${e.k?' · '+esc(e.k):''}</span></div>${e.p?`<div class="st-p">${esc(e.p)}…</div>`:''}<div class="st-q">${esc(e.q)}</div><div class="st-a">他选：${esc(e.a)}　答案：<b>${esc(e.r)}</b></div></div>`).join('')+'</details>';}).join('')||'<p class="st-note">还没有记录。</p>';}
 /* the child's page: how much he has done, this week, what he can already do, what got better, words remembered */
 function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
-  const total=L.length,right=L.reduce((a,e)=>a+(e.ok?1:0),0),days=new Set(L.map(e=>e.d)).size,stk=streak();
+  const total=L.length,days=new Set(L.map(e=>e.d)).size,stk=streak();
   $('meHero').innerHTML=total?`<div class="me-big">${total} 题</div><p>你已经认真做了 ${total} 题！</p><div class="me-row"><span><svg class="ico ico-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg> ${S.stars} 颗星</span><span>练了 ${days} 天</span>${stk>1?`<span>连续 ${stk} 天</span>`:''}</div>`
     :'<div class="me-big">开始吧！</div><p>做完第一轮，这里就会记下你的进步。</p>';
   const wk=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dkey(d);wk.push({w:'日一二三四五六'[d.getDay()],on:!!S.days[k]||L.some(e=>e.d===k),today:!i});}
@@ -1854,7 +1857,8 @@ function voiceCard(){const el=$('vcCard');if(!el)return;if(!canSay||REMOTE){el.h
 function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
   let t=(q.p?q.p+'\n':'')+q.q.replace(/\*\*/g,'').replace(/___/g,' blank ').replace(/[①②]/g,'')+'\n';
   q.opts.forEach((o,i)=>{t+=`Number ${i+1}. ${o}.\n`;});
-  t=t.replace(/(\d)\u2009(?=\d)/g,'$1').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
+  /* 45 678 is one number; 3 1/3 is "3 and 1 over 3" */
+  t=t.replace(/(\d)[ \u00a0\u2009](?=\d{3}(?!\d))/g,'$1').replace(/(\d+) (\d+)\/(\d+)/g,'$1 and $2 over $3').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
   try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 function speakText(t){if(!canSay)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t));}catch(e){}}
 $('bSay').hidden=!canSay;$('cSay').hidden=!canSay;
@@ -1896,7 +1900,7 @@ $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){C
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
-  if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(k==='bar'&&typeof barStart==='function')barStart();});
+  if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
 $('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);

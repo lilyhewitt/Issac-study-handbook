@@ -1,0 +1,23 @@
+<script>
+/* Auto-update: when the page is opened or brought back to the front, ask the server whether a newer
+   version exists (Last-Modified is newer than this copy). If so, refresh the cached copy and reload.
+   Pages can veto a reload at a bad moment by defining window.canAutoReload(). */
+(function(){
+  function docTime(){var m=/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/.exec(document.lastModified||'');return m?new Date(+m[3],m[1]-1,+m[2],+m[4],+m[5],+m[6]).getTime():0;}
+  var mine=docTime(),last=0,url=location.pathname;
+  function check(){
+    if(!mine||!window.fetch||document.visibilityState==='hidden'||location.protocol==='file:')return;
+    var now=Date.now();if(now-last<30000)return;last=now;
+    fetch(url,{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=Date.parse(r.headers.get('last-modified')||'');
+      if(!r.ok||!lm||lm<=mine+1000)return;
+      if(window.canAutoReload&&!window.canAutoReload()){last=0;return;}
+      try{var t=+sessionStorage.getItem('auto-reload-at'+url)||0;if(now-t<60000)return;sessionStorage.setItem('auto-reload-at'+url,String(now));}catch(e){}
+      return fetch(url,{cache:'reload'}).then(function(){location.reload();});
+    }).catch(function(){});
+  }
+  document.addEventListener('visibilitychange',check);
+  window.addEventListener('focus',check);
+  window.addEventListener('pageshow',function(){setTimeout(check,800);});
+})();
+</script>
