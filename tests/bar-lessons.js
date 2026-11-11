@@ -38,7 +38,7 @@ ok(bl2.slice(6).every(e=>e.ok===0&&e.q),'help lessons recorded as needing help, 
 await p.click('#brHome');await p.waitForTimeout(150);ok((await txt('#tasks')).includes('✓')&&/画一题线段图/.test(await txt('#tasks')),'back home; task ticked');
 ok(S2.bar.cur>=0,'next type: '+(await txt('#brNote')));
 /* the daily round now has the four exam types */
-const seen=new Set();for(let r=0;r<12;r++){await p.click('#tMix');for(let k=0;k<12;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth=0');await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}if(await p.isVisible('#bHome'))await p.click('#bHome');else if(await p.isVisible('#bQuit'))await p.click('#bQuit');}
+const seen=new Set();for(let r=0;r<40;r++){await p.click("#tMix");for(let k=0;k<12;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth=0');await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}if(await p.isVisible('#bHome'))await p.click('#bHome');else if(await p.isVisible('#bQuit'))await p.click('#bQuit');}
 const S3=await p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-math-v1')));S3.log.forEach(e=>seen.add(e.t));
 ok(['几倍和相差','知道大的','三个量','前后变化'].filter(k=>[...seen].some(t=>t.includes(k))).length>=3,'mixed rounds include the exam types: '+[...seen].filter(t=>/几倍和相差|知道大的|三个量|前后变化/.test(t)).join(' / '));
 console.log(out.join('\n'));console.log('errors',errs);await b.close();})();
