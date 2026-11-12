@@ -13,7 +13,7 @@ run(){ echo "== $1"; shift; out=$("$@" 2>&1 | grep -v -E "agent-proxy|fonts.goog
 python3 tools/build.py >/dev/null || exit 1
 git diff --quiet -- english science math || echo "note: built apps differ from the committed ones (expected if you changed src/)"
 echo "== question banks"
-node tests/check-english.js english/index.html | grep -E "bad|checked" | head -3
+node tests/check-english.js english/index.html | grep -E "^generators|^phrases|bad" | head -6
 node tests/check-science.js src/science/bank.js | grep -E "^questions" | cut -c1-60
 node tests/check-math.js src/math/bank.js | grep "^generators"
 
@@ -37,5 +37,6 @@ if [ "${1:-}" != quick ]; then
   run "sync" node tests/sync.js
   run "chapter chosen in the handbook" node tests/chapter.js
   run "daily rounds" node tests/rounds.js
+  run "English phrases and grammar" node tests/phrases.js
 fi
 [ $fail = 0 ] && echo "ALL OK" || { echo "SOMETHING FAILED"; exit 1; }

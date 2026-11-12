@@ -1,0 +1,4 @@
+/* 介词词组: the small word to remember stands out */
+.pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
+.wchip .pp-k{text-decoration:none}

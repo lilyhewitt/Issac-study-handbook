@@ -63,6 +63,12 @@ def edition(app):
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
+    if app == 'english':                               # the phrases deck (介词词组)
+        s = rep(s, '  <section id="vSpell" class="view"', read('english', 'pp.html') + '  <section id="vSpell" class="view"')
+        s = rep(s, '    <button class="wtile" id="tSpell" hidden>', read('english', 'pp-tile.html') + '    <button class="wtile" id="tSpell" hidden>')
+        i = s.index('</style>')
+        s = s[:i] + read('english', 'pp.css') + s[i:]
+        s = rep(s, 'function home(){', read('english', 'pp.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         s = rep(s, '    <button class="wtile" id="tWords">', read('math', 'bar-tile.html') + '    <button class="wtile" id="tWords">')

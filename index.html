@@ -143,6 +143,13 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 .inrow button.hb{margin-top:0;}
 /* Tablets: sizes are in rem, so the whole page goes one size up. */
 @media (min-width:700px) and (min-height:700px){html{font-size:18px}}
+.pp-k{color:var(--accent);font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.pv .lo{color:var(--warn,#B7791F)}
+.tbl{overflow-x:auto;margin:.5rem 0}
+.tbl table{border-collapse:collapse;width:100%;font-size:.92rem;line-height:1.45}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:.45rem .5rem;border-bottom:1px solid var(--line)}
+.tbl th{font-weight:700;color:var(--muted,inherit);white-space:nowrap}
+.tbl td:first-child{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -364,7 +371,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li><b>从喜欢的东西开始</b>:游戏里本来就有很多词(<span class="en">collect · defeat · obstacle · unlock · explore</span>)。打完一关,用 <span class="q">First… Then… Finally…</span> 讲一遍。</li>
     <li><b>猜词游戏</b>:大人用中文说意思,孩子说英文词;也可以反过来。不懂英文的大人也能玩,发音用 app 的朗读听。</li>
   </ul></div></details>
-  <details class="more"><summary>英文单词卡 8 组(和 app 里一样)</summary><div class="body">
+  <details class="more"><summary>英文单词卡 17 组(和 app 里一样)</summary><div class="body">
     <p><b>第 1 组 · 感受 1</b><br><span class="en">delighted <span class="muted">很高兴的</span> · nervous <span class="muted">紧张的</span> · furious <span class="muted">非常生气的</span> · exhausted <span class="muted">筋疲力尽的</span> · curious <span class="muted">好奇的</span></span></p>
     <p><b>第 2 组 · 感受 2</b><br><span class="en">proud <span class="muted">自豪的</span> · worried <span class="muted">担心的</span> · relieved <span class="muted">松了一口气的</span> · lonely <span class="muted">孤单的</span> · frightened <span class="muted">害怕的</span></span></p>
     <p><b>第 3 组 · 怎么走、怎么跑</b><br><span class="en">rush <span class="muted">赶紧去</span> · creep <span class="muted">悄悄地走</span> · stumble <span class="muted">绊了一下</span> · wander <span class="muted">闲逛</span> · dash <span class="muted">猛冲</span></span></p>
@@ -373,7 +380,87 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p><b>第 6 组 · 形容东西</b><br><span class="en">enormous <span class="muted">巨大的</span> · tiny <span class="muted">很小的</span> · ancient <span class="muted">古老的</span> · fragile <span class="muted">易碎的</span> · filthy <span class="muted">很脏的</span></span></p>
     <p><b>第 7 组 · 形容人</b><br><span class="en">generous <span class="muted">大方的</span> · brave <span class="muted">勇敢的</span> · polite <span class="muted">有礼貌的</span> · stubborn <span class="muted">固执的</span> · clumsy <span class="muted">笨手笨脚的</span></span></p>
     <p><b>第 8 组 · 地方和天气</b><br><span class="en">crowded <span class="muted">拥挤的</span> · scorching <span class="muted">非常炎热的</span> · gloomy <span class="muted">阴沉的</span> · shallow <span class="muted">浅的</span> · damp <span class="muted">潮湿的</span></span></p>
+    <p><b>第 9 组 · 看的人</b> <span class="muted">People watching</span><br><span class="en">spectators <span class="muted">观众（看比赛的）</span> · audience <span class="muted">观众（看演出的）</span> · onlookers <span class="muted">围观的人</span> · witnesses <span class="muted">目击者</span> · pedestrians <span class="muted">行人</span></span></p>
+    <p><b>第 10 组 · 动物的“群”</b> <span class="muted">Animal groups</span><br><span class="en">herd <span class="muted">（牛、大象）群</span> · flock <span class="muted">（羊、鸟）群</span> · troop <span class="muted">（猴子）群</span> · swarm <span class="muted">（蜜蜂、昆虫）群</span> · pack <span class="muted">（狼、狗）群</span></span></p>
+    <p><b>第 11 组 · 怎么走 2</b> <span class="muted">Ways of walking</span><br><span class="en">limp <span class="muted">一瘸一拐地走</span> · trudge <span class="muted">拖着沉重的脚步走</span> · tiptoe <span class="muted">踮着脚走</span> · scurry <span class="muted">小步快跑</span> · shuffle <span class="muted">拖着脚走</span></span></p>
+    <p><b>第 12 组 · 怎么做</b> <span class="muted">How people do things</span><br><span class="en">cautiously <span class="muted">小心地</span> · reluctantly <span class="muted">不情愿地</span> · nervously <span class="muted">紧张地</span> · gracefully <span class="muted">优美地</span> · punctually <span class="muted">准时地</span></span></p>
+    <p><b>第 13 组 · 感受 3</b> <span class="muted">Feelings 3</span><br><span class="en">ashamed <span class="muted">羞愧的</span> · grateful <span class="muted">感激的</span> · terrified <span class="muted">非常害怕的</span> · thrilled <span class="muted">非常兴奋的</span> · annoyed <span class="muted">恼火的</span></span></p>
+    <p><b>第 14 组 · 结实还是不结实</b> <span class="muted">Strong or weak</span><br><span class="en">flimsy <span class="muted">单薄不结实的（东西）</span> · frail <span class="muted">虚弱的（老人）</span> · feeble <span class="muted">无力的（生病后）</span> · sturdy <span class="muted">结实的</span> · brittle <span class="muted">脆的、易断的</span></span></p>
+    <p><b>第 15 组 · 长得像的词</b> <span class="muted">Look-alike words</span><br><span class="en">recipe <span class="muted">食谱</span> · menu <span class="muted">菜单</span> · ingredients <span class="muted">原料</span> · fee <span class="muted">费用（门票、学费）</span> · fare <span class="muted">车费</span></span></p>
+    <p><b>第 16 组 · 习语</b> <span class="muted">Sayings</span><br><span class="en">as quiet as a mouse <span class="muted">非常安静</span> · as strong as an ox <span class="muted">非常强壮</span> · like two peas in a pod <span class="muted">长得一模一样</span> · butterflies in my stomach <span class="muted">心里发慌、很紧张</span> · stuck out like a sore thumb <span class="muted">特别显眼</span></span></p>
+    <p><b>第 17 组 · 难拼的词</b> <span class="muted">Tricky spellings</span><br><span class="en">embarrassed <span class="muted">难为情的</span> · immediately <span class="muted">马上</span> · beautiful <span class="muted">美丽的</span> · disappeared <span class="muted">消失了</span> · shelves <span class="muted">架子（复数）</span></span></p>
   </div></details>
+
+  <h2>语法:按格子练</h2>
+  <div class="card">
+    <p>P4 年终卷的语法选择题,每年几乎都是同样 10 个考点,顺序都差不多。把每个考点当成一“格”,一格一格练到稳。P3 卷还多考两格(反身代词、反问句尾)。</p>
+    <div class="tbl"><table>
+    <tr><th>格</th><th>考点</th><th>看哪个线索词</th><th>例子</th></tr>
+    <tr><td>1</td><td>介词</td><td>Monday / 3 o’clock / recess / the floor</td><td class="en"><b>on</b> Monday · <b>at</b> 3 o’clock · <b>during</b> recess</td></tr>
+    <tr><td>2</td><td>were</td><td>A and B · my sister and I · You · 很多个</td><td class="en">Ravi and Ben <b>were</b> tired.</td></tr>
+    <tr><td>3</td><td>was</td><td>一个人 · everyone · A, together with B · This box of…</td><td class="en">Everyone <b>was</b> quiet.</td></tr>
+    <tr><td>4</td><td>现在进行时</td><td>now · Look! · Keep quiet · at the moment</td><td class="en">“Keep quiet! The baby <b>is sleeping</b>.”</td></tr>
+    <tr><td>5</td><td>一般过去时</td><td>yesterday · last week · … ago</td><td class="en">Mei <b>flew</b> a kite last Sunday.</td></tr>
+    <tr><td>6</td><td>过去进行时</td><td>While… · As… · 另一件事突然发生</td><td class="en">I <b>was taking</b> my bath when the lights went out.</td></tr>
+    <tr><td>7</td><td>指示词</td><td>here / over there · 一个还是很多</td><td class="en"><b>Those</b> birds over there are noisy.</td></tr>
+    <tr><td>8</td><td>连词</td><td>原因在后 because / since · 结果在后 so · 相反 but</td><td class="en">Sam wore a jacket <b>because</b> it was cold.</td></tr>
+    <tr><td>9</td><td>可数的多少</td><td>students / days / friends</td><td class="en">There were only <b>a few</b> children.</td></tr>
+    <tr><td>10</td><td>不可数的多少</td><td>sugar / time / water / money</td><td class="en">It has too <b>much</b> sugar.</td></tr>
+    <tr><td>11</td><td>反身代词(P3)</td><td>谁自己做的</td><td class="en">The twins made it by <b>themselves</b>.</td></tr>
+    <tr><td>12</td><td>反问句尾(P3)</td><td>前肯后否,用前面那个小词</td><td class="en">She looked scared, <b>didn’t she</b>?</td></tr>
+    </table></div>
+    <p class="muted">练习 app 的英文“语法”就是按这些格子出题,答错时只给一句“看哪个线索词”。每格的正确率在<a href="#practice">练习</a>页的做题记录里。先用 P3 难度的题,每格到 80% 以后换成 P4 的题;目标是每格 95%。</p>
+  </div>
+  <div class="card warm"><p><b>最常见的四个陷阱</b>:<span class="en">Mr Lee, together with his grandsons, <b>was</b> …</span>(谓语跟前面那个人走);<span class="en">We <b>are watching</b> a movie tomorrow</span>(已经安排好的事用进行时);<span class="en">The soup was tasteless. Mum put too <b>little</b> salt.</span>(too 不一定配 much);<span class="en">He went out <b>since</b> he had finished</span>(since 也可以是“因为”)。</p></div>
+  <details class="more"><summary>代词和主谓一致(语法完形)</summary><div class="body">
+    <p>P4 语法完形固定两段:一段从框里选代词(4 空),一段在括号里二选一(主谓一致,4 空)。app 里代词完形是一段小短文,一个空一个空做。</p>
+    <ul>
+      <li><b>代词</b>:名词前面用 <span class="en">their / his / its</span>;动词、介词后面用 <span class="en">them / him / me</span>;说的是上一句的东西用 <span class="en">it</span>。</li>
+      <li><b>主谓一致</b>:先找真正的主语,中间的介词短语不算——<span class="en">The smell of the cookies <b>fills</b> …</span>;<span class="en">One of my friends <b>lives</b> …</span>;<span class="en">Everyone <b>knows</b> …</span></li>
+    </ul></div></details>
+
+  <h2>介词词组</h2>
+  <div class="card">
+    <p><span class="en">afraid of、good at、look forward to</span> 为什么用这个小词,没有道理可讲,只能整块记。中文也帮不上忙(“在”可以是 in、on、at)。这些小词又短,读的时候最容易被跳过。</p>
+    <p>所以当成一块一块的词组来学,从词组开始,一步一步到句子:</p>
+    <ol>
+      <li><b>整块认</b>:卡片上是整块 <span class="en">afraid <b class="pp-k">of</b></span>,要记的小词标了颜色,点喇叭听,整块读三遍。</li>
+      <li><b>补小词</b>:<span class="en">afraid ___</span>,从四个小词里选。</li>
+      <li><b>放进句子</b>:<span class="en">Mei is afraid ___ dogs.</span></li>
+      <li><b>放进小故事</b>:三四句的短文藏三个词组;熟了以后还会问“哪一句的小词用错了”。</li>
+    </ol>
+    <p class="muted">练习 app 英文首页的“Phrases 介词词组”,和单词卡分开。一周学两组,每组 5 个,6 周学完。学过的隔 2、5、10、21 天自动复习,答错的第二天再来。</p>
+  </div>
+  <div class="card say"><p><b>日常练法</b>:一起读书时,读到这类词组就停一下,让他说出后面那个小词。每天 2 到 3 个就够。</p></div>
+  <details class="more"><summary>时间和地点的小规则</summary><div class="body"><ul>
+    <li><span class="en"><b>on</b></span>:星期几、哪一天——<span class="en">on Monday、on my birthday</span></li>
+    <li><span class="en"><b>at</b></span>:几点、晚上、在家在学校——<span class="en">at 3 o’clock、at night、at home、at school</span></li>
+    <li><span class="en"><b>in</b></span>:月份、上午下午、在里面——<span class="en">in May、in the morning、in the room</span></li>
+    <li><span class="en"><b>during</b></span>:在……期间——<span class="en">during recess</span>;<span class="en"><b>since</b></span>:从……起一直——<span class="en">since two o’clock</span>;<span class="en"><b>for</b></span>:持续多久——<span class="en">for two hours</span></li>
+  </ul><p class="muted">其余各组没有规律,整块记。</p></div></details>
+  <details class="more"><summary>12 组词组(按 54 份真卷里出现的次数选)</summary><div class="body"><div class="tbl"><table>
+    <tr><th>组</th><th>类别</th><th>词组(颜色 = 要记的小词)</th></tr>
+    <tr><td>1</td><td>时间</td><td class="en"><b class="pp-k">during</b> recess · <b class="pp-k">at</b> night · <b class="pp-k">on</b> time · <b class="pp-k">on</b> Monday · <b class="pp-k">in</b> the morning</td></tr>
+    <tr><td>2</td><td>地点</td><td class="en"><b class="pp-k">at</b> home · <b class="pp-k">in</b> front of · <b class="pp-k">on</b> top of · <b class="pp-k">on</b> the floor · <b class="pp-k">at</b> school</td></tr>
+    <tr><td>3</td><td>多久、从什么时候</td><td class="en">late <b class="pp-k">for</b> · <b class="pp-k">since</b> two o’clock · <b class="pp-k">for</b> two hours · <b class="pp-k">at</b> the moment · <b class="pp-k">for</b> a while</td></tr>
+    <tr><td>4</td><td>地点 2</td><td class="en"><b class="pp-k">by</b> the river · <b class="pp-k">between</b> the two chairs · <b class="pp-k">across</b> the road · <b class="pp-k">behind</b> the door · <b class="pp-k">through</b> the window</td></tr>
+    <tr><td>5</td><td>形容词 + 介词</td><td class="en">proud <b class="pp-k">of</b> · filled <b class="pp-k">with</b> · afraid <b class="pp-k">of</b> · full <b class="pp-k">of</b> · kind <b class="pp-k">to</b></td></tr>
+    <tr><td>6</td><td>形容词 + 介词 2</td><td class="en">known <b class="pp-k">for</b> · suitable <b class="pp-k">for</b> · interested <b class="pp-k">in</b> · good <b class="pp-k">at</b> · angry <b class="pp-k">with</b></td></tr>
+    <tr><td>7</td><td>动词 + 介词</td><td class="en">look <b class="pp-k">at</b> · look <b class="pp-k">for</b> · wait <b class="pp-k">for</b> · play <b class="pp-k">with</b> · stare <b class="pp-k">at</b></td></tr>
+    <tr><td>8</td><td>动词 + 介词 2</td><td class="en">think <b class="pp-k">about</b> · take part <b class="pp-k">in</b> · take care <b class="pp-k">of</b> · live <b class="pp-k">in</b> · search <b class="pp-k">for</b></td></tr>
+    <tr><td>9</td><td>固定搭配</td><td class="en">instead <b class="pp-k">of</b> · look forward <b class="pp-k">to</b> · a sigh <b class="pp-k">of</b> relief · because <b class="pp-k">of</b> · get rid <b class="pp-k">of</b></td></tr>
+    <tr><td>10</td><td>带 of 的量词</td><td class="en">a lot <b class="pp-k">of</b> · a pair <b class="pp-k">of</b> · part <b class="pp-k">of</b> · the top <b class="pp-k">of</b> · sense <b class="pp-k">of</b> humour</td></tr>
+    <tr><td>11</td><td>短语动词</td><td class="en">pick <b class="pp-k">up</b> · wake <b class="pp-k">up</b> · put <b class="pp-k">on</b> · find <b class="pp-k">out</b> · sign <b class="pp-k">up</b></td></tr>
+    <tr><td>12</td><td>短语动词 2</td><td class="en">look <b class="pp-k">up</b> · put <b class="pp-k">out</b> · give <b class="pp-k">up</b> · break <b class="pp-k">down</b> · come up <b class="pp-k">with</b></td></tr>
+  </table></div></div></details>
+
+  <h2>要动笔的题型</h2>
+  <div class="card"><ul>
+    <li><b>开放式完形</b>:一半以上的空填小词,固定搭配最多(<span class="en">look forward to、instead of、a sigh of relief</span>),就是上面介词词组练的。读完空格前后各 5 个词,先问“这里缺的是什么词”。</li>
+    <li><b>改错的拼写</b>:常错的双写、y 变 i、f 变 ves,放在英文单词卡第 17 组“难拼的词”,学完会进“拼一拼”。</li>
+    <li><b>句子合并(P4 才多)</b>:开学后再练,每类先背一个标准句:
+      <span class="en">The girl <b>whose</b> bag was missing cried.</span> · <span class="en"><b>Neither</b> Ali <b>nor</b> his sister <b>likes</b> durian.</span> · <span class="en"><b>Unless</b> you finish your homework, you cannot go out.</span> · <span class="en">Mum said that <b>she was</b> tired.</span> · <span class="en">The kite <b>was flown</b> by Tom.</span></li>
+  </ul></div>
 
   <h2>需要时再查</h2>
   <details class="more"><summary>新加坡考试用的英文</summary><div class="body"><ul>
@@ -567,6 +654,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <details class="more"><summary>练习 app 里有什么</summary><div class="body"><ul>
     <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学分应用题、计算、P4 预习,应用题会拆成一步一步。</li>
     <li><b>今天的任务</b>:首页上 2–3 件事,做完一件亮一件,全亮就是今天做完了,可以停。</li>
+    <li><b>英文</b>:语法按格子出题(答错只给一句“看哪个线索词”);词汇有“找证据词”;代词完形一空一空做;首页“Phrases 介词词组”单独学,一周两组。</li>
     <li><b>画线段图</b>(数学):自己搭格子、标数字、标问号,再用图算。6 种:几倍(知道小的 / 知道大的)、几倍 + 相差、和差、三个量、前后变化倒推。每天的一轮里也有这几种的分步题,题目旁边带图。</li>
     <li><b>应用题</b>:数学、科学的题一句一行,数字加粗,问句前面标“问”;分步的题第一步先问“这题要你求什么”(选项是中文)。</li>
     <li><b>答错时</b>:不用红色,写“我们看一看”,再给正确答案和原因。声音默认关,首页右上角可以打开。</li>
@@ -584,6 +672,14 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.12 · 11 月 11 日</span><h3>英文按真题考点改</h3><ul>
+    <li>语法按 P4 年终卷固定的 10 个考点分“格子”出题,P3 另加反身代词、反问句尾两格;每格有一成多是真题里的陷阱。答错只给一句“看哪个线索词”。</li>
+    <li>新题型:找证据词(四个近义词,靠句子里一个词定答案)、代词完形(一段短文一空一空做)、主谓一致(二选一)。</li>
+    <li>单词卡多了 9 组(看比赛的人、动物的“群”、走路的样子、近义词、习语、难拼的词等),一共 17 组。</li>
+    <li>英文首页新加“Phrases 介词词组”:60 个词组分 12 组,一周两组;从整块认、补小词,到放进句子、小故事。</li>
+    <li>手册英文页:语法格子表、介词词组的学法和词组表、要动笔的题型;练习页的做题记录多了每格正确率和介词词组进度。</li>
+    <li>题目都是照真题考点改写的,没有用原卷句子。存档格式没变。</li>
+  </ul></div>
   <div class="card"><span class="tag">v4.11 · 11 月 11 日</span><h3>查了一遍代码,修 5 个问题</h3><ul>
     <li>数学每天一轮:有单词要复习时,分步应用题的最后一步会被单词题换掉,题做到一半就断了。现在单词题只换不分步的题。</li>
     <li>朗读:45 678 读成一个数,3 1/3 读成“3 and 1 over 3”。</li>
@@ -913,6 +1009,13 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     fetch(SYNC_DB.replace(/\/+$/,"")+"/sync/"+c+"/math/cfg.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)}).then(function(r){
       if(r.status===401||r.status===403||r.status===400)throw "rules";if(!r.ok)throw 0;cloud.cfg=v;chMsg="";renderSync();
     }).catch(function(e){chMsg=e==="rules"?(cloud&&cloud.math?"数据库不让保存。可以在 iPad 的数学 app → 我的进步 → 家长入口 里选。":"小小先在 iPad 上做一轮数学,这里才能选。"):"现在连不上网络,等一下再试。";renderSync();});}
+  /* English: each grammar cell's last 20 answers, and the phrases deck */
+  var CELLS=[["Prepositions · 介词","介词"],["were · 复数主语","were"],["was · 单数主语","was"],["Happening now · 进行时","进行时"],["Past tense · 过去式","过去时"],["While … · 过去进行时","过去进行时"],["this · that · these · those","指示词"],["Joining words · 连接词","连词"],["many · a few · 可数","可数"],["much · a little · 不可数","不可数"],["myself · themselves · 反身代词","反身代词"],["Question tags · 反问句尾","反问句尾"]];
+  function enRows(x){if(!x)return "";var L=Array.isArray(x.log)?x.log:[],out=[];
+    CELLS.forEach(function(c){var a=L.filter(function(e){return e.t===c[0];}).slice(-20);if(a.length>=5){var p=Math.round(a.filter(function(e){return e.ok;}).length/a.length*100);out.push((p<80?'<b class="lo">':'<b>')+c[1]+' '+p+'%</b>');}});
+    var pp=x.pp&&typeof x.pp==="object"?x.pp:{},n=0,m=0;for(var k in pp){n++;if(pp[k].box>=4)m++;}
+    return '<div class="pr"><span class="pl">英文语法</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">每格最近 20 题;到 80% 换 P4 的题,目标 95%</span>':'<span class="muted">每格做满 5 题后显示</span>')+'</span></div>'+
+      '<div class="pr"><span class="pl">介词词组</span><span class="pv">'+(n?'学过 <b>'+n+'</b>/60 个 · 记住了 <b>'+m+'</b> 个':'<span class="muted">还没开始 · 英文 app 首页的“Phrases”</span>')+'</span></div>';}
   function renderSync(){var sec=document.getElementById("syncSec"),box=document.getElementById("syncBox");if(!sec||!box)return;
     sec.hidden=!SYNC_ON;if(!SYNC_ON)return;var c=sget(),h;
     if(!c){
@@ -930,7 +1033,8 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
         '<div class="prog">'+APPS.map(function(a,i){var x=S3[i];
           return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
         (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
-             '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/8 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>':'')+'</div>'+
+             '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/17 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>'+
+             enRows(S3[0]):'')+'</div>'+
         chPick()+
         '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
         '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。家里别人想看,在他们手机的手册里输同一个码。</p>'+

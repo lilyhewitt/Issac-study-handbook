@@ -304,6 +304,10 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   #vQuiz .qbar{grid-column:1 / -1}
   .sheet-in{max-width:44rem}
 }
+/* 介词词组: the small word to remember stands out */
+.pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
+.wchip .pp-k{text-decoration:none}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -440,6 +444,10 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一周 5 个词</span></span>
       <span class="wt-r" id="wtNote">这周：Week 1</span>
     </button>
+    <button class="wtile" id="tPP">
+      <span><span class="tname">Phrases</span><span class="tsub">介词词组 · 一周两组</span></span>
+      <span class="wt-r" id="ppNote"></span>
+    </button>
     <button class="wtile" id="tSpell" hidden>
       <span><span class="tname">Spell it</span><span class="tsub">拼一拼 · 用字母块拼学过的词</span></span>
       <span class="wt-r" id="spNote"></span>
@@ -550,6 +558,34 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   </section>
 
   <!-- SPELL IT: build a learned word from letter tiles. Only correct spellings are ever shown. -->
+  <!-- PHRASES (介词词组): its own deck, separate from the word cards -->
+  <section id="vPP" class="view" aria-label="Phrases" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="ppBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 class="st-h">Phrases 介词词组</h2>
+    </div>
+    <div class="stcard" id="ppSum"></div>
+    <button class="btn" id="ppReview">复习今天的词组</button>
+    <p class="st-note">灰色 = 还没学 · 黄色 = 在复习 · 绿色 = 记住了 · 红色 = 最近答错，会再出现。颜色标出来的是要记住的小词。</p>
+    <div class="st-list" id="ppSets"></div>
+  </section>
+
+  <section id="vPPCard" class="view" aria-label="Phrase card" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="ppcQuit" aria-label="Back to phrases"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="pips" id="ppcPips"></div>
+    </div>
+    <div class="wcard">
+      <div class="wc-set" id="ppcSet"></div>
+      <div class="wc-word pp-word" id="ppcWord"></div>
+      <button class="tool" id="ppcSay"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6"/></svg>Listen</button>
+      <div class="wc-zh" id="ppcZh"></div>
+      <div class="wc-ex" id="ppcEx"></div>
+      <div class="wc-tip">整块读三遍，把颜色标出来的小词读重一点。<br>Say it three times as one piece.</div>
+    </div>
+    <button class="btn" id="ppcNext">Next 下一个</button>
+  </section>
+
   <section id="vSpell" class="view" aria-label="Spell it" hidden>
     <div class="qbar">
       <button class="iconbtn" id="spQuit" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -1427,24 +1463,388 @@ const WORDSETS=[
  ['gloomy','阴沉的','dark and grey','The sky was **gloomy** before the storm.'],
  ['shallow','浅的','not deep','The children played in the **shallow** water.'],
  ['damp','潮湿的','a little wet','The towel is still **damp**.']]},
+{title:'People watching',zh:'看的人',words:[
+ ['spectators','观众（看比赛的）','people who watch a sports event','The **spectators** cheered when Ali scored a goal.'],
+ ['audience','观众（看演出的）','people who watch a show or concert','The **audience** clapped at the end of the play.'],
+ ['onlookers','围观的人','people who stop to watch something happening','A crowd of **onlookers** watched the firemen at work.'],
+ ['witnesses','目击者','people who saw something happen','The police spoke to the **witnesses** of the accident.'],
+ ['pedestrians','行人','people walking on the road','**Pedestrians** must use the zebra crossing.']]},
+{title:'Animal groups',zh:'动物的“群”',words:[
+ ['herd','（牛、大象）群','a big group of cows or elephants','A **herd** of elephants walked to the river.'],
+ ['flock','（羊、鸟）群','a group of sheep or birds','A **flock** of sheep followed the farmer.'],
+ ['troop','（猴子）群','a group of monkeys','A **troop** of monkeys played in the trees.'],
+ ['swarm','（蜜蜂、昆虫）群','a big group of bees or insects','A **swarm** of bees flew out of the hive.'],
+ ['pack','（狼、狗）群','a group of wolves or wild dogs','A **pack** of wolves hunted at night.']]},
+{title:'Ways of walking',zh:'怎么走 2',words:[
+ ['limp','一瘸一拐地走','walk slowly because your leg is hurt','Ben had to **limp** home after he hurt his ankle.'],
+ ['trudge','拖着沉重的脚步走','walk slowly because you are tired','We had to **trudge** up the hill in the heat.'],
+ ['tiptoe','踮着脚走','walk quietly on your toes','I **tiptoe** past the baby’s room so I do not wake her.'],
+ ['scurry','小步快跑','run quickly with small steps','The mice **scurry** away when they see the cat.'],
+ ['shuffle','拖着脚走','walk without lifting your feet much','Grandpa likes to **shuffle** around the house in his slippers.']]},
+{title:'How people do things',zh:'怎么做',words:[
+ ['cautiously','小心地','carefully, to stay safe','Siti **cautiously** crossed the busy road.'],
+ ['reluctantly','不情愿地','doing something you do not want to do','Kai **reluctantly** shared his sweets with his brother.'],
+ ['nervously','紧张地','in a worried, scared way','Mei **nervously** walked up to the stage.'],
+ ['gracefully','优美地','moving in a smooth and beautiful way','The swan glided **gracefully** across the lake.'],
+ ['punctually','准时地','at exactly the right time, not late','Ravi always arrives **punctually** for his lessons.']]},
+{title:'Feelings 3',zh:'感受 3',words:[
+ ['ashamed','羞愧的','feeling bad about something wrong you did','Kumar felt **ashamed** after he lied to his mother.'],
+ ['grateful','感激的','wanting to thank someone','Mei was **grateful** to her friend for helping her.'],
+ ['terrified','非常害怕的','very, very scared','The little boy was **terrified** of the thunder.'],
+ ['thrilled','非常兴奋的','very excited and happy','Ali was **thrilled** to win the first prize.'],
+ ['annoyed','恼火的','a little angry','Dad was **annoyed** when the neighbour’s dog kept barking.']]},
+{title:'Strong or weak',zh:'结实还是不结实',words:[
+ ['flimsy','单薄不结实的（东西）','thin and easy to break','The **flimsy** paper bag tore open.'],
+ ['frail','虚弱的（老人）','old and weak','My **frail** great-grandmother walks with a stick.'],
+ ['feeble','无力的（生病后）','very weak, often after being ill','After his fever, Ben felt too **feeble** to play.'],
+ ['sturdy','结实的','strong and not easy to break','We sat on a **sturdy** wooden bench.'],
+ ['brittle','脆的、易断的','hard but breaks easily','Dry twigs are **brittle** and snap easily.']]},
+{title:'Look-alike words',zh:'长得像的词',words:[
+ ['recipe','食谱','the steps for cooking a dish','Mum followed the **recipe** to bake the cake.'],
+ ['menu','菜单','a list of food you can order','The waiter gave us the **menu**.'],
+ ['ingredients','原料','the things you mix to cook a dish','Flour and eggs are the **ingredients** for this cake.'],
+ ['fee','费用（门票、学费）','money you pay to enter or join something','We paid an entrance **fee** at the museum.'],
+ ['fare','车费','money you pay for a bus, train or taxi ride','The bus **fare** was two dollars.']]},
+{title:'Sayings',zh:'习语',words:[
+ ['as quiet as a mouse','非常安静','very quiet','The children were **as quiet as a mouse** during the test.'],
+ ['as strong as an ox','非常强壮','very strong','Uncle Raj is **as strong as an ox**.'],
+ ['like two peas in a pod','长得一模一样','looking almost the same','The twins are **like two peas in a pod**.'],
+ ['butterflies in my stomach','心里发慌、很紧张','feeling very nervous','I had **butterflies in my stomach** before my speech.'],
+ ['stuck out like a sore thumb','特别显眼','was very easy to see because it looked different','His red shirt **stuck out like a sore thumb** in the photo.']]},
+{title:'Tricky spellings',zh:'难拼的词',words:[
+ ['embarrassed','难为情的','feeling shy and silly in front of others','Ben was **embarrassed** when he fell on stage.'],
+ ['immediately','马上','right now, at once','Please come here **immediately**.'],
+ ['beautiful','美丽的','very pretty','The sunset was **beautiful**.'],
+ ['disappeared','消失了','could not be seen any more','The rabbit **disappeared** into its hole.'],
+ ['shelves','架子（复数）','more than one shelf','The **shelves** in the library are full of books.']]}
 ];
 
 /* ---------- write it down: one prompt after each round, answered on paper. [prompt, 中文, model answer] ---------- */
+
+
+/* ========== GRAMMAR CELLS (P3) ==========
+   The P3/P4 papers ask the same small set of grammar points again and again. Each point is one "cell" with its own topic name,
+   so the records show how each cell is going. Every explanation is one line: which clue word decides it. Level 2 = the traps. */
+function cell(t,w,items,zh){[1,2].forEach(l=>{const sub=items.filter(x=>x[3]===l);if(sub.length)G('gram',t,l,w,()=>{const [q,o,ex]=pick(sub);return mk({q,zh,a:o[0],d:o.slice(1),ex});});});}
+cell('were · 复数主语',.9,[
+['Ravi and Ben ___ tired after the race yesterday.',['were','was','is','be'],'Ravi and Ben = 两个人，yesterday = 过去 → **were**。',1],
+['My sister and I ___ at the beach last Sunday.',['were','was','am','is'],'my sister and I = 两个人，last Sunday = 过去 → **were**。',1],
+['The puppies ___ hungry when we came home.',['were','was','is','be'],'puppies = 很多只，came = 过去 → **were**。',1],
+['Mum and Dad ___ proud of me when I won the prize.',['were','was','is','be'],'Mum and Dad = 两个人，过去 → **were**。',1],
+['We ___ late for school this morning because the bus broke down.',['were','was','is','be'],'We = 很多人，过去 → **were**。',1],
+['There ___ many people at the zoo last Saturday.',['were','was','is','be'],'many people = 很多人，last Saturday = 过去 → **were**。',1],
+['The twins ___ excited about the school trip yesterday.',['were','was','is','be'],'twins = 两个人，yesterday = 过去 → **were**。',1],
+['You ___ very kind to help the old man just now.',['were','was','is','be'],'You 永远配 **were**（过去）。',2],
+['Both girls ___ happy with their presents last Christmas.',['were','was','is','be'],'Both = 两个人 → **were**。',2],
+['The books on the shelf ___ dusty when we cleaned the room.',['were','was','is','be'],'真正的主语是 books（很多本），不是 shelf → **were**。',2],
+['Yesterday, buckets of water ___ poured on the small fire.',['were','was','is','be'],'主语是 buckets（很多桶）→ **were**。',2],
+['The children in my class ___ quiet during the test.',['were','was','is','be'],'主语是 children（很多人），不是 class → **were**。',2],
+],'先找真正做事的人：一个，还是很多个？');
+cell('was · 单数主语',.9,[
+['Siti ___ sick yesterday, so she stayed at home.',['was','were','is','are'],'Siti 一个人，yesterday = 过去 → **was**。',1],
+['The weather ___ very hot last Monday.',['was','were','is','are'],'weather 一个，last Monday = 过去 → **was**。',1],
+['I ___ very hungry after the swimming lesson.',['was','were','is','are'],'I 在过去用 **was**。',1],
+['The cake ___ delicious. Everyone wanted more.',['was','were','is','are'],'cake 一个，wanted = 过去 → **was**。',1],
+['My teacher ___ happy with my work yesterday.',['was','were','is','are'],'My teacher 一个人，yesterday = 过去 → **was**。',1],
+['The library ___ closed last Sunday.',['was','were','is','are'],'library 一个，last Sunday = 过去 → **was**。',1],
+['Everyone ___ quiet when the principal walked in.',['was','were','is','are'],'everyone 算一个 → **was**。',2],
+['Mr Lee, together with his grandsons, ___ at the park yesterday.',['was','were','is','are'],'together with … 不算进主语，主语是 Mr Lee → **was**。',2],
+['This box of crayons ___ given to me by my aunt.',['was','were','is','are'],'主语是 box（一盒），不是 crayons → **was**。',2],
+['The furniture ___ delivered yesterday.',['was','were','is','are'],'furniture 不能数，算一个 → **was**。',2],
+['Nobody ___ at home when the postman came.',['was','were','is','are'],'nobody 算一个 → **was**。',2],
+['Collecting stamps ___ Grandpa’s hobby when he was young.',['was','were','is','are'],'Collecting stamps 是一件事 → **was**。',2],
+],'先找真正做事的人：一个，还是很多个？');
+cell('Happening now · 进行时',.7,[
+['"Keep quiet! The baby ___," said Mum.',['is sleeping','sleeps','slept','was sleeping'],'Keep quiet = 现在正在发生 → **is sleeping**。',2],
+['"Please call back later. Dad ___ a shower at the moment."',['is taking','takes','took','was taking'],'at the moment = 现在 → **is taking**。',2],
+['"Don’t disturb Mei. She ___ for her test now."',['is studying','studies','studied','are studying'],'now = 现在正在，Mei 一个人 → **is studying**。',2],
+['"Listen! Someone ___ the piano."',['is playing','plays','played','was playing'],'Listen! = 现在正在发生 → **is playing**。',2],
+['My brother and I ___ a movie tomorrow. We already have the tickets.',['are watching','watch','watched','were watching'],'已经安排好的事（tomorrow、买了票）也用 **are watching**。',2],
+['"I ___ football with Ravi later!" said Ben happily.',['am playing','play','played','was playing'],'later 已经约好的事 → **am playing**。',2],
+],'现在正在发生的事（now / Look! / Keep quiet），用 is / are + ing。');
+cell('While … · 过去进行时',1,[
+['I ___ my bath when the lights went out.',['was taking','took','am taking','were taking'],'洗澡正在做，灯突然灭了 → **was taking**。',1],
+['The children ___ in the field when it started to rain.',['were playing','played','are playing','was playing'],'正在玩，突然下雨；children 很多人 → **were playing**。',1],
+['Mum ___ dinner when the phone rang.',['was cooking','cooked','is cooking','were cooking'],'正在煮，电话突然响 → **was cooking**。',1],
+['We ___ TV when we heard a loud bang.',['were watching','watched','are watching','was watching'],'正在看，突然一声响；We → **were watching**。',1],
+['Ali ___ his bicycle when he fell.',['was riding','rode','is riding','were riding'],'正在骑，突然摔倒 → **was riding**。',1],
+['The baby ___ when the doorbell rang.',['was sleeping','slept','is sleeping','were sleeping'],'正在睡，门铃突然响 → **was sleeping**。',1],
+['While Siti ___ her homework, her brother played games.',['was doing','did','does','were doing'],'While + 正在做的事 → **was doing**。',2],
+['As the boys ___ to school, they saw a rainbow.',['were walking','walked','walk','was walking'],'As + 正在做的事，boys 很多人 → **were walking**。',2],
+['While everyone ___ lunch, Kai went to the library.',['was eating','ate','were eating','eats'],'While + 正在做；everyone 算一个 → **was eating**。',2],
+['Grandma ___ in the garden when it began to rain.',['was working','worked','works','were working'],'正在干活，突然下雨 → **was working**。',2],
+['While Dad ___ the car, I washed the windows.',['was washing','washed','washes','were washing'],'While + 正在做的事 → **was washing**。',2],
+['The birds ___ loudly when we woke up this morning.',['were singing','sang','sing','was singing'],'我们醒来时鸟正在叫；birds 很多只 → **were singing**。',2],
+],'一件事正在做，另一件事突然发生：正在做的那件用 was / were + ing。');
+cell('many · a few · 可数',1,[
+['There were ___ children at the playground.',['many','much','a little','little'],'children 能数，很多 → **many**。',1],
+['How ___ books did you borrow?',['many','much','a little','little'],'books 能数 → How **many**。',1],
+['I have ___ friends in my new class.',['many','much','little','a little'],'friends 能数，很多 → **many**。',1],
+['There are only ___ sweets left in the jar.',['a few','a little','much','many'],'sweets 能数，only 后面 → **a few**。',1],
+['Can you wait for ___ minutes? I am almost ready.',['a few','a little','much','little'],'minutes 能数，几分钟 → **a few**。',1],
+['There were too ___ people on the bus, so we waited for the next one.',['many','much','little','a little'],'people 能数，太多 → **many**。',1],
+['Very ___ pupils came to school on the stormy day. The class was almost empty.',['few','a few','little','much'],'pupils 能数，很少、不够 → **few**。',2],
+['We are going away for ___ days. We will be back on Sunday.',['a few','a little','much','little'],'days 能数，几天 → **a few**。',2],
+['The stall is popular. There are ___ customers every day.',['many','much','a little','little'],'customers 能数，很多 → **many**。',2],
+['Ben made ___ mistakes because he was careless.',['many','much','a little','little'],'mistakes 能数，很多 → **many**。',2],
+['Only ___ pupils knew the answer.',['a few','a little','much','little'],'pupils 能数，only 后面 → **a few**。',2],
+],'后面的东西能不能一个一个数？是多还是少？');
+cell('much · a little · 不可数',1,[
+['The tea is too sweet. It has too ___ sugar.',['much','many','a few','few'],'sugar 不能数，太甜 = 太多 → too **much**。',1],
+['Hurry up! We do not have ___ time.',['much','many','a few','few'],'time 不能数，否定句 → **much**。',1],
+['How ___ money do you have?',['much','many','a few','few'],'money 不能数 → How **much**。',1],
+['Please add ___ salt to the soup.',['some','many','a few','few'],'add 一些，salt 不能数 → **some**。',1],
+['There is ___ milk left. We need to buy more.',['little','few','many','a few'],'milk 不能数，不够了 → **little**。',1],
+['Could I have ___ water, please?',['some','many','few','a few'],'请求“一些”，water 不能数 → **some**。',1],
+['The soup was tasteless because Mum put too ___ salt in it.',['little','much','many','few'],'tasteless 没味道 = 盐太少 → too **little**。',2],
+['There isn’t ___ rice left in the pot.',['much','many','little','few'],'否定句，rice 不能数 → **much**。',2],
+['I have ___ homework today, so I will finish it quickly.',['a little','a few','many','few'],'homework 不能数，一点点 → **a little**。',2],
+['Too ___ sun is bad for your skin.',['much','many','a few','few'],'sun 不能数，太多 → too **much**。',2],
+['There was ___ food left after the party. What a waste!',['a lot of','many','a few','few'],'What a waste = 剩了很多，food 不能数 → **a lot of**。',2],
+],'后面的东西能不能一个一个数？是多还是少？');
+cell('myself · themselves · 反身代词',.6,[
+['The twins made the cake by ___.',['themselves','himself','herself','ourselves'],'twins = 他们两个 → **themselves**。',1],
+['Mei hurt ___ when she fell.',['herself','himself','themselves','myself'],'Mei 是女孩 → **herself**。',1],
+['I can tie my shoelaces by ___.',['myself','himself','yourself','ourselves'],'I → **myself**。',1],
+['Ravi taught ___ to swim.',['himself','herself','themselves','myself'],'Ravi 是男孩 → **himself**。',1],
+['Dad and I painted the room by ___.',['ourselves','themselves','himself','myself'],'Dad and I = 我们 → **ourselves**。',1],
+['"Children, please help ___ to the food," said Mrs Tan.',['yourselves','yourself','themselves','ourselves'],'对很多孩子说“你们自己” → **yourselves**。',2],
+['The cat cleaned ___ after eating.',['itself','himself','herself','themselves'],'一只猫 → **itself**。',2],
+['"Be careful, Ben, or you will cut ___!"',['yourself','yourselves','himself','myself'],'对 Ben 一个人说“你自己” → **yourself**。',2],
+['The girls looked at ___ in the mirror.',['themselves','herself','ourselves','yourselves'],'girls 很多人 → **themselves**。',2],
+],'是谁自己做的？一个人还是很多人？');
+cell('Question tags · 反问句尾',.6,[
+['Mei is your sister, ___?',['isn’t she','is she','doesn’t she','wasn’t she'],'前面是 is（肯定）→ 后面 **isn’t she**。',1],
+['You like chocolate, ___?',['don’t you','do you','aren’t you','didn’t you'],'like 是现在的动词 → **don’t you**。',1],
+['Ben can swim, ___?',['can’t he','can he','doesn’t he','isn’t he'],'前面是 can → 后面 **can’t he**。',1],
+['They are late, ___?',['aren’t they','are they','don’t they','weren’t they'],'前面是 are → 后面 **aren’t they**。',1],
+['It will rain later, ___?',['won’t it','will it','isn’t it','doesn’t it'],'前面是 will → 后面 **won’t it**。',1],
+['Siti went to the zoo, ___?',['didn’t she','did she','wasn’t she','doesn’t she'],'went 是过去的动词 → **didn’t she**。',1],
+['She looked scared, ___?',['didn’t she','wasn’t she','did she','doesn’t she'],'looked 是过去的动词（不是 was）→ **didn’t she**。',2],
+['Jun does not eat fish, ___?',['does he','doesn’t he','is he','isn’t he'],'前面是否定（does not）→ 后面肯定 **does he**。',2],
+['You were at home yesterday, ___?',['weren’t you','were you','didn’t you','aren’t you'],'前面是 were → 后面 **weren’t you**。',2],
+['Your mother isn’t a teacher, ___?',['is she','isn’t she','does she','was she'],'前面是否定（isn’t）→ 后面肯定 **is she**。',2],
+['We should leave now, ___?',['shouldn’t we','should we','don’t we','aren’t we'],'前面是 should → 后面 **shouldn’t we**。',2],
+],'前面肯定，后面就否定；前面否定，后面就肯定。用前面的那个小词（is / can / did…）。');
+cell('this · that · these · those',.4,[
+['"___ books on the top shelf over there are mine."',['Those','These','That','This'],'over there（远）+ 很多本 → **Those**。',2],
+['"___ cup I am holding is very hot."',['This','That','These','Those'],'在我手上（近）+ 一个 → **This**。',2],
+['"Look at ___ monkeys over there!"',['those','these','that','this'],'over there（远）+ 很多只 → **those**。',2],
+['"___ shoes here are too small for me."',['These','Those','This','That'],'here（近）+ 一双（复数）→ **These**。',2],
+],'近还是远（here / over there）？一个还是很多？');
+cell('Joining words · 连接词',.5,[
+['Henry went out to play ___ he had finished his homework.',['since','but','or','until'],'后半句是原因 → **since**（since 也可以是“因为”）。',2],
+['Sam wore a jacket ___ it was cold.',['because','but','or','so'],'后半句是原因 → **because**。',2],
+['It was raining, ___ we stayed indoors.',['so','because','but','or'],'后半句是结果 → **so**。',2],
+['Ali likes durian ___ his sister does not.',['but','so','because','or'],'前后相反 → **but**。',2],
+['You can have juice ___ milk.',['or','but','so','because'],'两样选一样 → **or**。',2],
+['Both Mei ___ Siti are in the choir.',['and','or','but','so'],'both … **and** …。',2],
+],'两部分是什么关系：原因、结果、相反，还是选一个？');
+
+/* ---------- subject and verb: the real subject, two choices ---------- */
+const SVA=[
+['The smell of the cookies ___ the kitchen.',['fills','fill'],'真正的主语是 smell（一个），不是 cookies → **fills**。'],
+['One of my friends ___ near the school.',['lives','live'],'one of … = 一个 → **lives**。'],
+['Every child ___ a turn on the swing.',['gets','get'],'every child = 每一个 → **gets**。'],
+['The boys in the band ___ every Friday.',['practise','practises'],'主语是 boys（很多人）→ **practise**。'],
+['There ___ many ways to save water.',['are','is'],'There ___ 看后面：many ways（很多）→ **are**。'],
+['There ___ a small path behind the house.',['is','are'],'There ___ 看后面：a small path（一条）→ **is**。'],
+['Each of the girls ___ a red ribbon.',['wears','wear'],'each of … = 每一个 → **wears**。'],
+['The noise from the cars ___ the baby.',['wakes','wake'],'真正的主语是 noise（一个），不是 cars → **wakes**。'],
+['Baby elephants that ___ lost need help.',['are','is'],'that 前面是 elephants（很多）→ **are**。'],
+['Mr Tan, as well as his sons, ___ fishing.',['loves','love'],'as well as … 不算进主语，主语是 Mr Tan → **loves**。'],
+['Everyone in the class ___ the answer.',['knows','know'],'everyone 算一个 → **knows**。'],
+['The leaves on that tree ___ yellow in autumn.',['turn','turns'],'主语是 leaves（很多片），不是 tree → **turn**。'],
+];
+G('gram','Subject and verb · 主谓一致',2,.8,()=>{const [q,o,ex]=pick(SVA);return mk({q,zh:'先找真正的主语（中间的介词短语不算），一个还是很多？',a:o[0],d:o.slice(1),ex});});
+
+/* ---------- pronoun cloze: a short story on top, one blank at a time ---------- */
+const PCL=[
+['Mei and Jun went to the beach. {They} built a big sandcastle. A wave came and washed {it} away. Mei laughed and said, "Let’s build {it} again!"',
+ ['开头做事的是 Mei and Jun 两个人 → They。','被冲走的是 sandcastle（一个东西）→ it。','再建的还是那个 sandcastle → it。']],
+['Ravi has a little dog. {Its} name is Lucky. Every evening, Ravi takes {him} for a walk. Lucky always wags {his} tail when he sees Ravi.',
+ ['“它的”名字，名词 name 前面 → Its。','Ravi 带“他”（Lucky）去散步，放在动词后面 → him。','“他的”尾巴，名词 tail 前面 → his。']],
+['Grandma lives with {us}. She tells my brother and {me} stories every night. {We} love her stories very much.',
+ ['住在“我们”家，放在 with 后面 → us。','my brother and ___ 放在动词后面 → me。','开头做事的是我和弟弟 → We。']],
+['The children found a bird with a broken wing. {They} put {it} in a box. Their teacher helped {them} to take care of the bird.',
+ ['开头做事的是 children → They。','放进盒子的是 bird（一只）→ it。','老师帮助“他们”，放在动词后面 → them。']],
+['Mum said to my sister and me, "{You} must tidy {your} room before dinner." We tidied {it} quickly.',
+ ['妈妈对我们说“你们” → You。','“你们的”房间，名词 room 前面 → your。','收拾的是 room（一个房间）→ it。']],
+['Kai and his father went fishing. {They} caught three fish. Kai’s mother cooked {them} for dinner. {She} is a very good cook.',
+ ['开头做事的是 Kai and his father → They。','煮的是 fish（三条）→ them。','Kai 的妈妈是女的，做事的人 → She。']],
+['The cat climbed up a tall tree. {It} could not come down. A kind man used {his} ladder to reach {it}.',
+ ['爬树的是 cat → It。','“他的”梯子，名词 ladder 前面 → his。','够到的是 cat → it。']],
+];
+const PRONS=['he','she','it','they','we','you','i','him','her','them','us','me','his','its','their','our','your','my'];
+function pclOpts(a){const A=a.toLowerCase();const fam={he:['him','his','she'],she:['her','hers','he'],it:['its','they','them'],they:['them','their','it'],we:['us','our','they'],you:['your','yours','them'],i:['me','my','we'],him:['he','his','them'],her:['she','hers','him'],them:['they','their','it'],us:['we','our','them'],me:['i','my','us'],his:['he','him','her'],its:['it','it’s','their'],their:['they','them','there'],our:['we','us','their'],your:['you','yours','their'],my:['me','i','mine']}[A]||['it','they','them'];
+  const up=/^[A-Z]/.test(a)||A==='i';return [a,...fam.map(x=>up?cap(x):x)];}
+G('gram','Pronoun cloze · 代词完形',2,.8,()=>{const [text,why]=pick(PCL);const ans=[];let k=0;
+  const p=text.replace(/\{([^}]+)\}/g,(m,x)=>{ans.push(x);k++;return `___(${k})`;});
+  return ans.map((a,i)=>{const q=mk({q:`What goes in blank (${i+1})?`,p,zh:'空格要的是：做事的人（they）、被做的人（them），还是“…的”（their）？',a,d:pclOpts(a).slice(1),ex:why[i]});q.step=(i+1)+'/'+ans.length;return q;});});
+
+/* ---------- clue words: four words that all look possible; one word in the sentence decides ---------- */
+const CLUE=[
+['Ali had hurt his knee, so he ___ slowly to the classroom.',['limped','marched','skipped','dashed'],'hurt his knee','受伤了，走路一瘸一拐 → limped。'],
+['The vase is very ___. Please hold it with both hands.',['fragile','flimsy','frail','feeble'],'vase','东西容易碎 → fragile。'],
+['Grandma is old and ___, so she walks with a stick.',['frail','fragile','flimsy','sturdy'],'old','老人身体虚弱 → frail。'],
+['The paper plate was too ___ to hold the heavy curry.',['flimsy','fragile','frail','sturdy'],'paper plate … too … to hold','东西单薄、不结实 → flimsy。'],
+['Mei ___ into the room so that she would not wake the baby.',['tiptoed','stomped','marched','raced'],'would not wake the baby','怕吵醒人，踮着脚走 → tiptoed。'],
+['After the long hike, the tired boys ___ back to the bus.',['trudged','skipped','raced','tiptoed'],'tired … long hike','累了，脚步沉重 → trudged。'],
+['The mice ___ into their hole when they saw the cat.',['scurried','strolled','trudged','marched'],'saw the cat','看到猫，小步飞快地跑 → scurried。'],
+['The old man ___ along the corridor in his slippers.',['shuffled','sprinted','skipped','leapt'],'old man … slippers','老人拖着脚走 → shuffled。'],
+['Thousands of ___ cheered as the runners crossed the finish line.',['spectators','audience','witnesses','passengers'],'runners … finish line','看比赛的人 → spectators。'],
+['The ___ clapped loudly at the end of the concert.',['audience','spectators','witnesses','pedestrians'],'concert','看演出的人 → audience。'],
+['The police asked the ___ what they had seen at the accident.',['witnesses','audience','spectators','customers'],'what they had seen','看到事情发生的人 → witnesses。'],
+['The ___ waited at the traffic light before crossing the road.',['pedestrian','passenger','driver','spectator'],'crossing the road','走路过马路的人 → pedestrian。'],
+['A ___ of cows was eating grass in the field.',['herd','flock','troop','swarm'],'cows','一群牛 → herd。'],
+['A ___ of sheep followed the farmer.',['flock','herd','troop','swarm'],'sheep','一群羊 → flock。'],
+['A ___ of monkeys swung from tree to tree.',['troop','flock','herd','swarm'],'monkeys','一群猴子 → troop。'],
+['A ___ of bees flew out of the hive.',['swarm','troop','flock','herd'],'bees','一群蜜蜂 → swarm。'],
+['Kai did not want to share his toys, so he gave them to his sister ___.',['reluctantly','eagerly','happily','proudly'],'did not want to','不想做但还是做了 → reluctantly。'],
+['The cat moved ___ towards the bird so that it would not fly away.',['stealthily','noisily','carelessly','cheerfully'],'so that it would not fly away','悄悄地，不让鸟发现 → stealthily。'],
+['The dancer moved ___ across the stage like a swan.',['gracefully','clumsily','angrily','lazily'],'like a swan','像天鹅一样优美 → gracefully。'],
+['Siti always arrives ___. She is never late.',['punctually','lazily','slowly','rudely'],'never late','准时 → punctually。'],
+['Mum followed the ___ carefully to bake the cake.',['recipe','menu','ingredients','receipt'],'followed … to bake','做菜的步骤 → recipe。'],
+['The waiter gave us the ___ so that we could choose our food.',['menu','recipe','ingredients','fee'],'choose our food','选菜用的菜单 → menu。'],
+['Flour, eggs and sugar are the ___ for this cake.',['ingredients','recipe','menu','fare'],'Flour, eggs and sugar','做菜的原料 → ingredients。'],
+['The bus ___ to the zoo was two dollars.',['fare','fee','menu','recipe'],'bus','坐车的钱 → fare。'],
+['We paid an entrance ___ to visit the museum.',['fee','fare','menu','recipe'],'entrance','进门、上课要交的钱 → fee。'],
+['Ben felt ___ when he wore odd socks to school and everyone laughed.',['embarrassed','grateful','relieved','curious'],'everyone laughed','大家笑他，很难为情 → embarrassed。'],
+['Mei was ___ when she found her lost puppy.',['relieved','ashamed','annoyed','curious'],'found her lost puppy','找到了，松了一口气 → relieved。'],
+['Ravi was ___ to his neighbour for helping him fix his bicycle.',['grateful','ashamed','curious','annoyed'],'for helping him','感谢别人帮忙 → grateful。'],
+['Kumar felt ___ after he lied to his mother.',['ashamed','grateful','relieved','thrilled'],'lied','做错事，觉得羞愧 → ashamed。'],
+];
+G('word','Clue words · 找证据词',2,1,()=>{const [q,o,c,why]=pick(CLUE);return mk({q,zh:'四个词都像对的。先在句子里找一个能定答案的词。',a:o[0],d:o.slice(1),ex:`证据词：**${c}** → ${why}`});});
+
+/* ========== PHRASES (介词词组): 12 groups of 5, from the phrases that came up most in 54 P3/P4 papers ==========
+   [phrase with the key small word in {}, 中文, example with the phrase in **, words that would ALSO be right here (never offered)]
+   story: 3-4 sentences, the key words in {} become blanks. */
+const PPG=[
+{t:'Time',zh:'时间',pool:['in','on','at','during','for','since','by'],w:[
+ ['{during} recess','课间休息的时候','We eat our snacks **during recess**.',['at']],
+ ['{at} night','在晚上','Owls hunt **at night**.',[]],
+ ['{on} time','准时','The bus came **on time** today.',['in']],
+ ['{on} Monday','在星期一','We have PE **on Monday**.',[]],
+ ['{in} the morning','在早上','I brush my teeth **in the morning**.',[]]],
+ story:'Ben gets up early {4} the morning. His school bus always comes {2} time. He plays football with his friends {0} recess.'},
+{t:'Places',zh:'地点',pool:['in','on','at','by','for','of','with'],w:[
+ ['{at} home','在家','Dad is working **at home** today.',['in']],
+ ['{in} front of','在……前面','Ravi sat **in front of** me.',[]],
+ ['{on} top of','在……上面','The cat slept **on top of** the cupboard.',[]],
+ ['{on} the floor','在地上','Do not leave your toys **on the floor**.',[]],
+ ['{at} school','在学校','We learn many things **at school**.',['in']]],
+ story:'Mei left her shoes {3} the floor. Her mum asked her to put them {1} front of the door. Mei’s cat was sleeping {2} top of the shoe rack.'},
+{t:'Since, for, late',zh:'多久、从什么时候',pool:['for','since','at','in','on','to','from'],w:[
+ ['late {for}','……迟到','Ben was **late for** school today.',[]],
+ ['{since} two o’clock','从两点起（一直）','We have been waiting **since two o’clock**.',['from']],
+ ['{for} two hours','（持续）两个小时','We swam **for two hours**.',[]],
+ ['{at} the moment','现在、此刻','Mum is busy **at the moment**.',[]],
+ ['{for} a while','一会儿','Let’s rest **for a while**.',[]]],
+ story:'Ravi was late {0} his piano lesson. His teacher had been waiting {1} four o’clock. Ravi said sorry and practised {2} two hours.'},
+{t:'Places 2',zh:'地点 2',pool:['by','between','across','behind','through','under','over','along'],w:[
+ ['{by} the river','在河边','We had a picnic **by the river**.',['along']],
+ ['{between} the two chairs','在两张椅子中间','The cat hid **between the two chairs**.',[]],
+ ['{across} the road','过马路','Hold my hand when we walk **across the road**.',['along']],
+ ['{behind} the door','在门后面','Kai hid **behind the door**.',[]],
+ ['{through} the window','透过窗户','The sun shone **through the window**.',[]]],
+ story:'We had a picnic {0} the river. A duck walked {2} the path. Then it hid {3} a big rock.'},
+{t:'Feelings and words',zh:'形容词 + 介词',pool:['of','with','to','at','in','for','about'],w:[
+ ['proud {of}','为……骄傲','Siti is **proud of** her drawing.',[]],
+ ['filled {with}','装满了','The box was **filled with** toys.',[]],
+ ['afraid {of}','害怕','My sister is **afraid of** the dark.',[]],
+ ['full {of}','满是','The bag is **full of** books.',[]],
+ ['kind {to}','对……友善','Please be **kind to** animals.',[]]],
+ story:'Siti’s basket was filled {1} mangoes. She was proud {0} her little garden. She was kind {4} her neighbours and gave them some fruit.'},
+{t:'Feelings and words 2',zh:'形容词 + 介词 2',pool:['for','in','at','with','of','to','about'],w:[
+ ['known {for}','因……出名','Singapore is **known for** its food.',[]],
+ ['suitable {for}','适合','This film is **suitable for** children.',[]],
+ ['interested {in}','对……感兴趣','Kumar is **interested in** dinosaurs.',[]],
+ ['good {at}','擅长','Hui Min is **good at** swimming.',[]],
+ ['angry {with}','生……的气','Mum was **angry with** me for being rude.',['at']]],
+ story:'Kumar is interested {2} dinosaurs. He is good {3} drawing them. The new dinosaur museum is suitable {1} children like him.'},
+{t:'Doing words',zh:'动词 + 介词',pool:['at','for','with','to','in','on','of'],w:[
+ ['look {at}','看','**Look at** the rainbow!',[]],
+ ['look {for}','找','I am **looking for** my pencil.',[]],
+ ['wait {for}','等','We **waited for** the bus.',[]],
+ ['play {with}','和……玩','The puppy likes to **play with** a ball.',[]],
+ ['stare {at}','盯着看','The baby **stared at** the balloons.',[]]],
+ story:'Jun Jie was looking {1} his cat. He waited {2} an hour. Then he looked {0} the tree and saw her on a branch!'},
+{t:'Doing words 2',zh:'动词 + 介词 2',pool:['about','in','of','for','at','with','to'],w:[
+ ['think {about}','想（关于）','I often **think about** my holiday.',['of']],
+ ['take part {in}','参加','Ali will **take part in** the race.',[]],
+ ['take care {of}','照顾','Siti **takes care of** her little brother.',[]],
+ ['live {in}','住在','My cousins **live in** Malaysia.',[]],
+ ['search {for}','寻找','The boys **searched for** the lost ball.',[]]],
+ story:'My aunt lives {3} a small town. She takes care {2} three dogs. This year, she will take part {1} a dog show.'},
+{t:'Fixed phrases',zh:'固定搭配',pool:['of','to','for','with','in','at','from'],w:[
+ ['instead {of}','而不是、代替','Let’s walk **instead of** taking the bus.',[]],
+ ['look forward {to}','盼望','I **look forward to** the school holidays.',[]],
+ ['a sigh {of} relief','松了一口气','Mei gave **a sigh of relief** when she found her keys.',[]],
+ ['because {of}','因为（后面接东西）','The match was cancelled **because of** the rain.',[]],
+ ['get rid {of}','去掉、扔掉','We need to **get rid of** the old newspapers.',[]]],
+ story:'It rained, so we watched a movie instead {0} going to the beach. We look forward {1} going next week. When the rain stopped, Mum gave a sigh {2} relief.'},
+{t:'Words with of',zh:'带 of 的量词',pool:['of','for','with','to','in','at'],w:[
+ ['a lot {of}','很多','There are **a lot of** fish in the pond.',[]],
+ ['a pair {of}','一双、一副','Dad bought **a pair of** shoes.',[]],
+ ['part {of}','……的一部分','Reading is **part of** my homework.',[]],
+ ['the top {of}','……的顶上','We climbed to **the top of** the hill.',[]],
+ ['sense {of} humour','幽默感','Our teacher has a great **sense of humour**.',[]]],
+ story:'Dad bought a pair {1} hiking shoes. We walked to the top {3} the hill. There were a lot {0} birds there.'},
+{t:'Two-word verbs',zh:'短语动词',pool:['up','on','out','down','off','in','away'],w:[
+ ['pick {up}','捡起','Please **pick up** the rubbish.',[]],
+ ['wake {up}','醒来','I **wake up** at six o’clock.',[]],
+ ['put {on}','穿上','**Put on** your jacket. It is cold.',[]],
+ ['find {out}','查出、发现','Let’s **find out** who took the cake.',[]],
+ ['sign {up}','报名','I **signed up** for the art club.',[]]],
+ story:'I wake {1} at six o’clock. I put {2} my school uniform. After school, I signed {4} for the chess club.'},
+{t:'Two-word verbs 2',zh:'短语动词 2',pool:['up','out','down','with','off','in','away'],w:[
+ ['look {up}','查（字典）','**Look up** the word in the dictionary.',[]],
+ ['put {out}','扑灭','The firemen **put out** the fire.',[]],
+ ['give {up}','放弃','Never **give up**!',[]],
+ ['break {down}','坏了（车、机器）','Our car **broke down** on the way home.',[]],
+ ['come up {with}','想出','Siti **came up with** a good idea.',[]]],
+ story:'Our car broke {3} on the way home. Dad looked {0} the phone number of a tow truck. He never gives {2}!'},
+];
+/* every phrase: id (the phrase without braces), the key word, the phrase with a blank, the example with a blank */
+const PP=[];
+PPG.forEach((g,gi)=>g.w.forEach(([ph,zh,ex,also])=>{const key=ph.match(/\{([^}]+)\}/)[1],id=ph.replace(/[{}]/g,'');
+  const stem=/^\{/.test(ph)?'':ph.split('{')[0].trim().split(' ')[0];   /* look at / look for share "look"; phrases that start with the small word have none */
+  const exB=ex.replace(/\*\*(.+?)\*\*/,(m,x)=>{const ms=[...x.matchAll(new RegExp('\\b'+key+'\\b','gi'))],k=ms[ms.length-1].index;return '**'+x.slice(0,k)+'___'+x.slice(k+key.length)+'**';});
+  PP.push({id,key,zh,ex,exB,blank:ph.replace(/\{[^}]+\}/,'___'),also,g:gi,stem});}));
+/* never offer a word that makes another phrase with the same first word (look at / look for / look up) */
+function ppOpts(p){const same=new Set(PP.filter(x=>x.stem&&x.stem===p.stem&&x.id!==p.id).map(x=>x.key));
+  const no=new Set([p.key,...p.also,...same]);return [p.key,...shuf(PPG[p.g].pool.filter(x=>!no.has(x))).slice(0,3)];}
+const ppQ=(p,q,zh,ex,t)=>{const o=ppOpts(p),r=mk({q,zh,a:o[0],d:o.slice(1),ex});r.c='word';r.t=t;r.l=1;r.pp=p.id;return r;};
+const PPX={
+  /* step 2: the phrase with the small word missing (with its meaning, so look at / look for are clear) */
+  word:p=>ppQ(p,`${p.blank}（${p.zh}）`,'整块记：这个词组里缺的是哪个小词？',`**${p.id}** = ${p.zh}\n例句：${p.ex}`,'Phrases · 词组'),
+  /* step 3: the same small word inside a short sentence */
+  sentence:p=>ppQ(p,p.exB.replace(/\*\*/g,''),`中文：${p.zh}`,`**${p.id}** = ${p.zh}\n例句：${p.ex}`,'Phrases in sentences · 词组放进句子'),
+  /* step 4: a short story, one blank at a time */
+  story:gi=>{const g=PPG[gi],ws=PP.filter(x=>x.g===gi),its=[];let k=0;
+    const p=g.story.replace(/\{(\d)\}/g,(m,n)=>{its.push(ws[+n]);k++;return `___(${k})`;});
+    return its.map((ph,i)=>{const q=ppQ(ph,`What goes in blank (${i+1})?`,'小故事：看空格前后的词，想一想是哪个词组。',`**${ph.id}** = ${ph.zh}`,'Phrases in a story · 小故事');q.p=p;q.step=(i+1)+'/'+its.length;return q;});},
+  /* also step 4: which sentence has the wrong small word? */
+  wrong:list=>{const four=shuf(list).slice(0,4);if(four.length<4)return null;const bad=four[0],o=ppOpts(bad);
+    const sent=x=>x.ex.replace(/\*\*/g,'');const wrongS=bad.exB.replace(/\*\*/g,'').replace('___',o[1]);
+    const opts=shuf([wrongS,...four.slice(1).map(sent)]);
+    const r={q:'Which sentence has a wrong small word?',p:null,zh:'四句里有一句的小词用错了。',opts,ans:opts.indexOf(wrongS),ex:`应该是 **${bad.id}**（${bad.zh}）：${bad.ex}`,c:'word',t:'Phrases: spot the mistake · 找错',l:2,pp:bad.id};return r;}};
 
 /* ---------- engine ---------- */
 const CATW={gram:.33,word:.3,read:.37};
 function wpick(arr,wf){let t=0;arr.forEach(x=>t+=wf(x));let r=Math.random()*t;for(const x of arr){r-=wf(x);if(r<=0)return x;}return arr[arr.length-1];}
 function pickCat(){return wpick(Object.keys(CATW),k=>CATW[k]);}
-function key(q){return (q.p||'')+'|'+q.q+'|'+q.opts.slice().sort().join('|');}
+function key(q){if(Array.isArray(q))q=q[0];   /* a step-by-step question is known by its first step */
+  return (q.p||'')+'|'+q.q+'|'+q.opts.slice().sort().join('|');}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
 /* fresh: never seen before; ok2: at least not seen recently */
 function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.length)pool=GENS.filter(g=>g.c===c);let q;
-  const one=()=>{const g=wpick(pool,x=>x.w);const x=g.f();x.c=c;x.t=g.t;x.l=g.l;return x;};
+  const one=()=>{const g=wpick(pool,x=>x.w);const x=g.f();(Array.isArray(x)?x:[x]).forEach(y=>{y.c=c;y.t=g.t;y.l=g.l;});return x;};
   for(let k=0;k<80;k++){q=one();if(!fresh||fresh(key(q)))return q;}
   if(ok2)for(let k=0;k<40;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return PAST.length+PF.length*18+CF.length*14+BE.length+PRON.length+PREP.length+QUANT.length+CONJ.length+DEM.length+PLUR.length+SYN.length+VOC.length+OPP.length+SPELL.length+FILL.length+QW.length*4+RD.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,spell:true};
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,spell:true,PPG,PP,PPX};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 
@@ -1458,7 +1858,7 @@ const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
 /* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
-const HOOK={home:[],task:{}};
+const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -1492,9 +1892,65 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
   if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
+  HOOK.tasks.forEach(f=>{const x=f(t);if(x)L.push(x);});
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
+/* ---------- 介词词组: its own deck, two groups a week. Learning = cards, then "which small word is missing?".
+   Review moves on as a phrase gets known: the phrase → a sentence → a short story (and "spot the wrong small word"). ---------- */
+const PPD=QB.PPG||[],PPL=QB.PP||[];
+function ppSt(){if(!S.pp||typeof S.pp!=='object')S.pp={};if(!S.ppg||typeof S.ppg!=='object')S.ppg={};}
+function ppDue(){ppSt();const t=dkey(new Date());return PPL.filter(p=>S.pp[p.id]&&S.pp[p.id].due<=t);}
+function ppNext(){ppSt();return PPD.map((g,i)=>i).filter(i=>!S.ppg[PPD[i].t]||PPL.some(p=>p.g===i&&!S.pp[p.id])).slice(0,2);}
+function ppStatus(id){const s=S.pp[id];return !s?'':s.box>=4?'s2':s.box===0?'s0':'s1';}
+function ppHTML(p){const t=esc(p.id),re=new RegExp('\\b'+p.key+'\\b','g');let last=-1,m;while((m=re.exec(t)))last=m.index;
+  return last<0?t:t.slice(0,last)+'<b class="pp-k">'+p.key+'</b>'+t.slice(last+p.key.length);}
+function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`这周：${PPD[nx[0]].zh}`:'全部学完了';}
+function ppView(){ppSt();show('vPP');const due=ppDue(),nx=ppNext(),learned=PPL.filter(p=>S.pp[p.id]).length,mast=PPL.filter(p=>ppStatus(p.id)==='s2').length;
+  $('ppSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词组学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学两组，每组 5 个。复习时先补词组里的小词，熟了放进句子，再放进小故事。</p>`;
+  $('ppReview').disabled=!due.length;$('ppReview').textContent=due.length?`复习今天的词组（${due.length} 个）`:'今天没有要复习的词组';
+  $('ppSets').innerHTML=PPD.map((g,i)=>{const done=!!S.ppg[g.t],isNext=nx.includes(i);
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+      +`<div class="chips2">${PPL.filter(p=>p.g===i).map(p=>`<span class="wchip ${ppStatus(p.id)}">${ppHTML(p)}</span>`).join('')}</div>`
+      +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-pplearn="${i}">${done?'再看一遍':'学这 5 个词组'}</button>`:'')+'</div>';}).join('');}
+let PPC=null;
+function ppCards(gi){PPC={gi,i:0,list:PPL.filter(p=>p.g===gi)};show('vPPCard');ppCard();}
+function ppCard(){const p=PPC.list[PPC.i],g=PPD[PPC.gi];
+  $('ppcSet').textContent=`${g.t} · ${g.zh} · ${PPC.i+1}/${PPC.list.length}`;
+  $('ppcWord').innerHTML=ppHTML(p);$('ppcZh').textContent=p.zh;$('ppcEx').innerHTML=fmt(p.ex);
+  $('ppcNext').textContent=PPC.i<PPC.list.length-1?'Next 下一个':'Check! 考考自己';
+  $('ppcPips').innerHTML=PPC.list.map((x,j)=>`<span class="pip ${j<PPC.i?'ok':j===PPC.i?'now':''}"></span>`).join('');window.scrollTo(0,0);}
+/* rounds, answers, tasks and the end of a round go through the shared app's HOOK */
+HOOK.round=mode=>{
+  if(/^pplearn:\d+$/.test(mode)){const gi=+mode.slice(8);ppSt();if(!S.ppg[PPD[gi].t])S.ppg[PPD[gi].t]=dkey(new Date());return QB.shuf(PPL.filter(p=>p.g===gi)).map(p=>QB.PPX.word(p));}
+  if(mode==='ppreview'){const qs=[];let story=false;
+    QB.shuf(ppDue()).slice(0,ROUND).forEach(p=>{const b=S.pp[p.id].box;
+      if(b>=4&&!story&&Math.random()<.5){story=true;qs.push(...QB.PPX.story(p.g));}
+      else qs.push(b<=1?QB.PPX.word(p):QB.PPX.sentence(p));});
+    const learned=PPL.filter(p=>S.pp[p.id]);
+    if(learned.length>=8&&qs.length&&ppDue().some(p=>S.pp[p.id].box>=3)){const w=QB.PPX.wrong(learned);if(w)qs.push(w);}
+    return qs;}
+  return null;};
+HOOK.answer.push((q,ok)=>{if(!q.pp)return;ppSt();const t=dkey(new Date()),s=S.pp[q.pp]||(S.pp[q.pp]={box:0,due:t,n:0,bad:0});s.n++;
+  if(ok){s.box=Math.min(s.box+1,INTV.length-1);s.due=addDays(INTV[s.box]);}else{s.bad++;s.box=0;s.due=addDays(1);}});
+HOOK.side=mode=>mode==='ppreview'?{label:'Phrases 回介词词组',task:'pp',sub:' 答对的词组会隔更久再考，熟了会放进句子和小故事。',back:ppView}
+  :/^pplearn:/.test(mode)?{label:'Phrases 回介词词组',task:'ppnew',sub:' 这几个词组过两天会再考一次。',back:ppView}:null;
+HOOK.tasks.push(t=>{const due=ppDue().length;
+  if(due||t.pp)return {k:'pp',name:'复习今天的词组 · Phrases'+(due?'（'+due+' 个）':''),done:!due&&!!t.pp};
+  const thisWeek=Object.values(S.ppg||{}).filter(d=>d>=addDays(-6)).length;
+  if(t.ppnew||(thisWeek<2&&ppNext().length))return {k:'ppnew',name:'学一组新词组 · New phrases',done:!!t.ppnew};
+  return null;});
+HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
+HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
+HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
+$('tPP').addEventListener('click',ppView);
+$('ppBack').addEventListener('click',home);
+$('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
+$('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
+$('ppcQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}ppView();});
+$('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p.id}. ${p.ex.replace(/\*\*/g,'')}`);});
+$('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
+
 function home(){
   drawTasks();HOOK.home.forEach(f=>f());
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
@@ -1520,10 +1976,11 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
   ['p','q','ex'].forEach(f=>{if(typeof q[f]==='string')q[f]=q[f].replace(/\b([ap])\.m\.\./g,'$1.m.');});
   return q;}
 function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
-  const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
+  const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);let hq=null;
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6),stt=WS[si].title;if(!S.sets[stt])S.sets[stt]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
+  else if(HOOK.round&&(hq=HOOK.round(mode)))qs.push(...hq);   /* an edition's own kind of round (English: phrases) */
   else{
     /* a round = 5 slots [category, level]; an app's bank can supply its own plan; a slot may return a chain of step questions */
     const plan=QB.plan?QB.plan(mode):[1,1,2,2,1].map(l=>[mode==='mix'?QB.pickCat():mode,l]);
@@ -1586,8 +2043,8 @@ function choose(i){
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const k=QB.key(q);
   if(ok){by[1]++;S.stars++;R.score++;if(q.again)S.misses=S.misses.filter(m=>QB.key(m)!==k);}
-  else if(!q.wd&&!S.misses.some(m=>QB.key(m)===k)){const m=JSON.parse(JSON.stringify(q));delete m.again;S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
-  logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);
+  else if(!q.wd&&!q.pp&&!S.misses.some(m=>QB.key(m)===k)){const m=JSON.parse(JSON.stringify(q));delete m.again;S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
+  logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);HOOK.answer.forEach(f=>f(q,ok));
   save();beep(ok);pips();
   const sh=$('sheet');sh.className='sheet'+(ok?'':' miss');
   $('fbT').innerHTML=ok?`${pick(['Correct!','Nice one!','You got it!','Well done!'])} <svg class="ico ico-star" viewBox="0 0 24 24" style="width:26px;height:26px"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`:pick(['我们看一看 · Let\'s look','差一点 · Almost','再想想 · Good try']);
@@ -1608,8 +2065,9 @@ function finish(){
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
-  const wordRound=/^learn:|^review$/.test(R.mode);
-  {const t=tkDay();if(R.mode==='review')t.words=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
+  const side=HOOK.side&&HOOK.side(R.mode),wordRound=/^learn:|^review$/.test(R.mode)||!!side;
+  {const t=tkDay();if(R.mode==='review')t.words=1;else if(side)t[side.task]=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
+  if(side){$('bAgain').dataset.mode='side';HOOK.sideBack=side.back;$('bAgain').textContent=side.label;$('dSub').textContent=m[1]+side.sub;if(s>=n-1&&n>1)confetti();return;}
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
   if(s>=n-1&&n>1)confetti();
@@ -1657,7 +2115,7 @@ function wordsView(){show('vWords');const due=dueWords(),nx=nextSet();
 /* ===== spell it: 4 learned words a round, letter tiles plus 2 extra letters; a miss shows the right spelling and he copies it once ===== */
 const SP_N=4,CONF={b:'d',d:'b',p:'q',m:'n',n:'m',u:'n',a:'e',e:'a',i:'e',o:'u',t:'f',f:'t',h:'n',g:'q',c:'s',s:'c'};
 let SP=null;
-function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]);
+function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]&&/^[a-z]+$/i.test(w.w));
   const due=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t)),fresh=QB.shuf(learned.filter(w=>!S.sp[w.w])),
         rest=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due>t)).sort((a,b)=>S.sp[a.w].box-S.sp[b.w].box);
   return due.concat(fresh,rest).slice(0,SP_N);}
@@ -1704,7 +2162,7 @@ function spNextWord(){if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
   $('spDoneBig').textContent=SP.score===SP.list.length?'全拼对了！':`拼对 ${SP.score} 个`;
   $('spDoneSub').textContent=SP.score?`又多了 ${SP.score} 颗星。拼过的词，过几天会再来。`:'每个词都照着拼了一次，过几天会再来。';
   $('spNo').textContent='';}
-function spNote(){const n=WL.filter(w=>S.wd[w.w]).length,t=dkey(new Date()),due=WL.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t).length;
+function spNote(){const n=WL.filter(w=>S.wd[w.w]&&/^[a-z]+$/i.test(w.w)).length,t=dkey(new Date()),due=WL.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t).length;
   return !n?'先学一组单词卡':due?`今天 ${due} 个要拼`:`学过 ${n} 个词`;}
 let CARD=null;
 function startCards(si){CARD={si,i:0};show('vCard');showCard();}
@@ -1889,7 +2347,7 @@ $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
-$('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='words')wordsView();else startRound(m);});
+$('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
 $('tWords').addEventListener('click',wordsView);
 $('bWordsBack').addEventListener('click',home);
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});

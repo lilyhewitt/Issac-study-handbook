@@ -531,7 +531,7 @@ const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
 /* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
-const HOOK={home:[],task:{}};
+const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -565,6 +565,7 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
   if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
+  HOOK.tasks.forEach(f=>{const x=f(t);if(x)L.push(x);});
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
@@ -593,10 +594,11 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
   ['p','q','ex'].forEach(f=>{if(typeof q[f]==='string')q[f]=q[f].replace(/\b([ap])\.m\.\./g,'$1.m.');});
   return q;}
 function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
-  const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);
+  const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);let hq=null;
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6),stt=WS[si].title;if(!S.sets[stt])S.sets[stt]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
+  else if(HOOK.round&&(hq=HOOK.round(mode)))qs.push(...hq);   /* an edition's own kind of round (English: phrases) */
   else{
     /* a round = 5 slots [category, level]; an app's bank can supply its own plan; a slot may return a chain of step questions */
     const plan=QB.plan?QB.plan(mode):[1,1,2,2,1].map(l=>[mode==='mix'?QB.pickCat():mode,l]);
@@ -659,8 +661,8 @@ function choose(i){
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const k=QB.key(q);
   if(ok){by[1]++;S.stars++;R.score++;if(q.again)S.misses=S.misses.filter(m=>QB.key(m)!==k);}
-  else if(!q.wd&&!S.misses.some(m=>QB.key(m)===k)){const m=JSON.parse(JSON.stringify(q));delete m.again;S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
-  logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);
+  else if(!q.wd&&!q.pp&&!S.misses.some(m=>QB.key(m)===k)){const m=JSON.parse(JSON.stringify(q));delete m.again;S.misses.push(m);if(S.misses.length>40)S.misses.shift();}
+  logAnswer(q,i,ok);if(q.wd)srs(q.wd,ok);HOOK.answer.forEach(f=>f(q,ok));
   save();beep(ok);pips();
   const sh=$('sheet');sh.className='sheet'+(ok?'':' miss');
   $('fbT').innerHTML=ok?`${pick(['Correct!','Nice one!','You got it!','Well done!'])} <svg class="ico ico-star" viewBox="0 0 24 24" style="width:26px;height:26px"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`:pick(['我们看一看 · Let\'s look','差一点 · Almost','再想想 · Good try']);
@@ -681,8 +683,9 @@ function finish(){
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
-  const wordRound=/^learn:|^review$/.test(R.mode);
-  {const t=tkDay();if(R.mode==='review')t.words=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
+  const side=HOOK.side&&HOOK.side(R.mode),wordRound=/^learn:|^review$/.test(R.mode)||!!side;
+  {const t=tkDay();if(R.mode==='review')t.words=1;else if(side)t[side.task]=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
+  if(side){$('bAgain').dataset.mode='side';HOOK.sideBack=side.back;$('bAgain').textContent=side.label;$('dSub').textContent=m[1]+side.sub;if(s>=n-1&&n>1)confetti();return;}
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
   if(s>=n-1&&n>1)confetti();
@@ -730,7 +733,7 @@ function wordsView(){show('vWords');const due=dueWords(),nx=nextSet();
 /* ===== spell it: 4 learned words a round, letter tiles plus 2 extra letters; a miss shows the right spelling and he copies it once ===== */
 const SP_N=4,CONF={b:'d',d:'b',p:'q',m:'n',n:'m',u:'n',a:'e',e:'a',i:'e',o:'u',t:'f',f:'t',h:'n',g:'q',c:'s',s:'c'};
 let SP=null;
-function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]);
+function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]&&/^[a-z]+$/i.test(w.w));
   const due=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t)),fresh=QB.shuf(learned.filter(w=>!S.sp[w.w])),
         rest=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due>t)).sort((a,b)=>S.sp[a.w].box-S.sp[b.w].box);
   return due.concat(fresh,rest).slice(0,SP_N);}
@@ -777,7 +780,7 @@ function spNextWord(){if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
   $('spDoneBig').textContent=SP.score===SP.list.length?'全拼对了！':`拼对 ${SP.score} 个`;
   $('spDoneSub').textContent=SP.score?`又多了 ${SP.score} 颗星。拼过的词，过几天会再来。`:'每个词都照着拼了一次，过几天会再来。';
   $('spNo').textContent='';}
-function spNote(){const n=WL.filter(w=>S.wd[w.w]).length,t=dkey(new Date()),due=WL.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t).length;
+function spNote(){const n=WL.filter(w=>S.wd[w.w]&&/^[a-z]+$/i.test(w.w)).length,t=dkey(new Date()),due=WL.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t).length;
   return !n?'先学一组单词卡':due?`今天 ${due} 个要拼`:`学过 ${n} 个词`;}
 let CARD=null;
 function startCards(si){CARD={si,i:0};show('vCard');showCard();}
@@ -962,7 +965,7 @@ $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
-$('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='words')wordsView();else startRound(m);});
+$('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
 $('tWords').addEventListener('click',wordsView);
 $('bWordsBack').addEventListener('click',home);
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
