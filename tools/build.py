@@ -65,7 +65,16 @@ def edition(app):
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     if app == 'english':                               # the phrases deck (介词词组)
         s = rep(s, '  <section id="vSpell" class="view"', read('english', 'pp.html') + '  <section id="vSpell" class="view"')
-        s = rep(s, '    <button class="wtile" id="tSpell" hidden>', read('english', 'pp-tile.html') + '    <button class="wtile" id="tSpell" hidden>')
+        def cut(s, start):                            # take a home-page block out, return (block, page without it)
+            a = s.index(start); b = s.index('</button>\n', a) + len('</button>\n')
+            return s[a:b], s[:a] + s[b:]
+        words, s = cut(s, '    <button class="wtile" id="tWords">')     # word cards, phrases and spell it move off the home page
+        spell, s = cut(s, '    <button class="wtile" id="tSpell" hidden>')
+        spell = spell.replace(' hidden>', '>', 1)
+        t0, t1 = s.index('<div class="tiles">'), s.index('<button class="redo"')   # four tiles: cards, words, grammar, reading (no Mix)
+        s = s[:t0] + read('english', 'tiles.html') + s[t1:]
+        hub = read('english', 'hub.html').replace('__WORDS__\n', words).replace('__PP__\n', read('english', 'pp-tile.html')).replace('__SPELL__\n', spell)
+        s = rep(s, '  <section id="vSpell" class="view"', hub + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
         s = s[:i] + read('english', 'pp.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'pp.js') + '\nfunction home(){')

@@ -2,3 +2,9 @@
 .pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
 .wchip .pp-k{text-decoration:none}
+.tile[data-mode="cards"]{--c:var(--mix);--cd:var(--mix-deep);color:var(--on-mix)}
+.hub .wtile+.wtile{margin-top:0.75rem}
+.hub-cards .wtile{border-color:var(--mix);box-shadow:0 4px 0 var(--mix-deep)}
+.hub-cards .wtile:active{box-shadow:0 1px 0 var(--mix-deep)}
+.hub-word .wtile{border-color:var(--word);box-shadow:0 4px 0 var(--word-deep)}
+.hub-word .wtile:active{box-shadow:0 1px 0 var(--word-deep)}

@@ -5,7 +5,11 @@ const {chromium,devices}=require('playwright');const H=process.argv[2]||'http://
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(H+'/english/');await p.waitForTimeout(300);
 const S=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-english-v1')||'{}'));
-ok(await p.isVisible('#tPP'),'home has the Phrases tile: '+(await p.innerText('#tPP')).replace(/\n/g,' '));
+const tiles=await p.$$eval('#vHome .tile',a=>a.map(e=>e.id));ok(tiles.join()==='tCards,tWord,tGram,tRead','home has four tiles in order: '+tiles.join());
+ok(!(await p.isVisible('#tPP'))&&!(await p.isVisible('#tSpell'))&&!(await p.isVisible('#tWords')),'word cards, phrases and spell it are not on home');
+await p.click('#tCards');await p.waitForTimeout(80);ok(await p.isVisible('#vCHub')&&await p.isVisible('#tWords')&&await p.isVisible('#tPP'),'Word cards tile opens word cards + phrases: '+(await p.innerText('#vCHub')).replace(/\n/g,' '));await p.click('#chBack');
+await p.click('#tWord');await p.waitForTimeout(80);ok(await p.isVisible('#vWHub')&&await p.isVisible('#tWQuiz')&&await p.isVisible('#tSpell'),'Words tile opens word questions + spell it');await p.click('#whBack');
+await p.click('#tCards');await p.click('#tWords');ok((await p.$$('#wSets [data-learn]')).length===(await p.evaluate(()=>QB.WORDSETS.length))&&!(await p.innerText('#wSets')).includes('Week'),'every word set can be learned, no weeks');await p.click('#bWordsBack');ok(await p.isVisible('#vCHub'),'back from word cards goes to the hub');await p.click('#chBack');
 ok((await p.innerText('#tasks')).includes('学一组新词组'),'today’s tasks offer a new group of phrases');
 /* answer a phrase question right: find the phrase the question is about */
 const right=async()=>p.evaluate(()=>{const qt=document.querySelector('#qText').innerText.trim().replace(/\s+/g,' '),norm=x=>x.replace(/___/g,'').replace(/\s+/g,' ').trim(),pt=(document.querySelector('#qPass')||{}).innerText||'',chip=document.querySelector('#qChip').innerText;
@@ -15,8 +19,8 @@ const right=async()=>p.evaluate(()=>{const qt=document.querySelector('#qText').i
     if(g){const idx=[...g.story.matchAll(/\{(\d)\}/g)].map(m=>+m[1]);const gi=QB.PPG.indexOf(g);k=P.filter(x=>x.g===gi)[idx[n-1]].key;}}
   const bs=[...document.querySelectorAll('#opts .opt')];const t=bs.find(b=>b.querySelector('.otext').innerText.trim()===k);return t?+t.dataset.i:-1;});
 const play=async(allRight)=>{let n=0,miss=0;while(await p.isVisible('#opts')&&n<20){n++;let i=allRight?await right():0;if(i<0){miss++;i=0;}await p.click('#opt'+i);await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}return {n,miss};};
-await p.click('#tPP');await p.waitForTimeout(100);
-const list=await p.innerText('#ppSets');ok((list.match(/这周学这组/g)||[]).length===2,'two groups marked for this week');
+await p.click('#tCards');await p.click('#tPP');await p.waitForTimeout(100);
+const list=await p.innerText('#ppSets');ok((list.match(/下一组/g)||[]).length===2,'two groups marked for this week');
 await p.click('[data-pplearn="0"]');for(let i=0;i<5;i++){ok(i>0||(await p.innerHTML('#ppcWord')).includes('pp-k'),'card shows the phrase with the small word marked');await p.click('#ppcNext');}
 const r1=await play(true);ok(r1.n===5&&r1.miss===0,'learning round: 5 “which small word” questions, all answerable ('+JSON.stringify(r1)+')');
 ok((await p.innerText('#bAgain')).includes('介词词组'),'end of round leads back to the phrases');
@@ -29,12 +33,12 @@ await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-
 await p.reload();await p.waitForTimeout(200);
 ok((await p.innerText('#tasks')).includes('复习今天的词组'),'task: review today’s phrases');
 const kinds=new Set();for(let k=0;k<6;k++){await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-v1'));Object.values(S.pp).forEach(x=>{x.due='2026-01-01';x.box=Math.max(x.box,4);});localStorage.setItem('xiaoxiao-english-v1',JSON.stringify(S));});
-  await p.reload();await p.waitForTimeout(150);await p.click('#tPP');await p.click('#ppReview');
+  await p.reload();await p.waitForTimeout(150);await p.click('#tCards');await p.click('#tPP');await p.click('#ppReview');
   while(await p.isVisible('#opts')){kinds.add((await p.innerText('#qChip')).split(' · 第')[0]);let i=await right();if(i<0)i=0;await p.click('#opt'+i);await p.waitForTimeout(25);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(25);}
   await p.click('#bAgain');}
 ok(kinds.has('Phrases in sentences · 词组放进句子')&&kinds.has('Phrases in a story · 小故事')&&kinds.has('Phrases: spot the mistake · 找错'),'review moves on to sentences, stories and spot-the-mistake: '+[...kinds].join(' / '));
 /* grammar rounds: the new cells and the step-by-step pronoun cloze */
-await p.click('#ppBack');const topics=new Set();let broken=0;
+await p.click('#ppBack');await p.click('#chBack');const topics=new Set();let broken=0;
 for(let r=0;r<30;r++){await p.click('.tile[data-mode="gram"]');const chips=[];while(await p.isVisible('#opts')){chips.push(await p.innerText('#qChip'));await p.click('#opt0');await p.waitForTimeout(20);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(20);}
   chips.forEach(c=>topics.add(c.split(' · 第')[0]));for(let i=0;i<chips.length;i++){const m=chips[i].match(/第 1 步，共 (\d) 步/);if(m)for(let k=1;k<+m[1];k++)if(!new RegExp('第 '+(k+1)+' 步').test(chips[i+k]||''))broken++;}
   if(await p.isVisible('#bHome'))await p.click('#bHome');await p.waitForTimeout(30);}
@@ -43,6 +47,11 @@ ok(want.every(w=>topics.has(w)),'grammar rounds include the new cells: '+want.fi
 ok(broken===0,'pronoun cloze steps stay together');
 /* spell it never offers a saying */
 await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-v1'));S.wd=S.wd||{};QB.WORDSETS.find(s=>s.title==='Sayings').words.forEach(w=>S.wd[w[0]]={box:1,due:'2030-01-01',n:1,bad:0});localStorage.setItem('xiaoxiao-english-v1',JSON.stringify(S));});
-await p.reload();await p.waitForTimeout(150);ok(!(await p.isVisible('#tSpell'))||!(await p.innerText('#spNote')).match(/学过 [1-9]/),'only sayings learned → nothing to spell');
+await p.reload();await p.waitForTimeout(150);await p.click('#tWord');ok(!(await p.innerText('#spNote')).match(/学过 [1-9]/),'only sayings learned → nothing to spell: '+(await p.innerText('#spNote')));await p.click('#whBack');
+/* words due today: grammar, reading and word rounds stay on their own kind (no word-card question slipped in) */
+await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-v1'));QB.WORDSETS[0].words.forEach(w=>S.wd[w[0]]={box:1,due:'2026-01-01',n:1,bad:0});localStorage.setItem('xiaoxiao-english-v1',JSON.stringify(S));});
+await p.reload();await p.waitForTimeout(150);let wc=0,firsts=[];
+for(const t of ['#tGram','#tRead','#tGram','#tRead']){await p.click(t);let k=0;while(await p.isVisible('#opts')&&k<12){const c=await p.innerText('#qChip');if(!k)firsts.push(c.slice(0,20));if(/单词卡/.test(c))wc++;await p.click('#opt0');await p.waitForTimeout(25);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(25);k++;}if(await p.isVisible('#bHome'))await p.click('#bHome');await p.waitForTimeout(60);}
+ok(wc===0,'grammar and reading rounds have no word-card questions even with words due (first: '+firsts.join(' / ')+')');
 await p.screenshot({path:'/tmp/pp-home.png'});
 console.log(out.join('\n'));console.log('errors',errs);await b.close();})();

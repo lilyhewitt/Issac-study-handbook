@@ -8,7 +8,7 @@ set -u
 cd "$(dirname "$0")/.."
 T=$(mktemp -d); trap 'kill $(jobs -p) 2>/dev/null; rm -rf "$T"; rm -f bar-build.png bar-done-*.png phone-transfer.png' EXIT
 fail=0
-run(){ echo "== $1"; shift; out=$("$@" 2>&1 | grep -v -E "agent-proxy|fonts.googleapis|Allowed domains|For details"); echo "$out" | grep -E "^(FAIL|PASS)|bad|errors|cut off|Error" | grep -v "^PASS" ; echo "   $(echo "$out" | grep -c '^PASS') passed, $(echo "$out" | grep -c '^FAIL') failed"; echo "$out" | grep -q -E "^FAIL|Error:|errors \[[^]]" && fail=1; }
+run(){ echo "== $1"; shift; out=$("$@" 2>&1 | grep -v -E "agent-proxy|fonts.googleapis|Allowed domains|For details"); echo "$out" | grep -E "^(FAIL|PASS)|bad|errors|cut off|Error" | grep -v "^PASS" ; echo "   $(echo "$out" | grep -c '^PASS') passed, $(echo "$out" | grep -c '^FAIL') failed"; echo "$out" | grep -q -E "^FAIL|Error:|TimeoutError|errors \[[^]]" && fail=1; }
 
 python3 tools/build.py >/dev/null || exit 1
 git diff --quiet -- english science math || echo "note: built apps differ from the committed ones (expected if you changed src/)"

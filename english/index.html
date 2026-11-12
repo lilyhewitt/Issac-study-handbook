@@ -308,6 +308,12 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 .pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
 .wchip .pp-k{text-decoration:none}
+.tile[data-mode="cards"]{--c:var(--mix);--cd:var(--mix-deep);color:var(--on-mix)}
+.hub .wtile+.wtile{margin-top:0.75rem}
+.hub-cards .wtile{border-color:var(--mix);box-shadow:0 4px 0 var(--mix-deep)}
+.hub-cards .wtile:active{box-shadow:0 1px 0 var(--mix-deep)}
+.hub-word .wtile{border-color:var(--word);box-shadow:0 4px 0 var(--word-deep)}
+.hub-word .wtile:active{box-shadow:0 1px 0 var(--word-deep)}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -440,39 +446,28 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 
     <div class="tasks" id="tasks"></div>
 
-    <button class="wtile" id="tWords">
-      <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一周 5 个词</span></span>
-      <span class="wt-r" id="wtNote">这周：Week 1</span>
-    </button>
-    <button class="wtile" id="tPP">
-      <span><span class="tname">Phrases</span><span class="tsub">介词词组 · 一周两组</span></span>
-      <span class="wt-r" id="ppNote"></span>
-    </button>
-    <button class="wtile" id="tSpell" hidden>
-      <span><span class="tname">Spell it</span><span class="tsub">拼一拼 · 用字母块拼学过的词</span></span>
-      <span class="wt-r" id="spNote"></span>
-    </button>
 
     <div class="tiles">
-      <button class="tile" data-mode="gram" id="tGram">
-        <span class="glyph">+ed</span>
-        <span><span class="tname">Grammar</span><span class="tsub">语法 · tenses, words that join</span></span>
+      <button class="tile" data-mode="cards" id="tCards">
+        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
+        <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 介词词组</span></span>
       </button>
       <button class="tile" data-mode="word" id="tWord">
         <span class="glyph">Aa</span>
-        <span><span class="tname">Words</span><span class="tsub">词汇 · meaning, spelling</span></span>
+        <span><span class="tname">Words</span><span class="tsub">词汇 · 词汇题、拼一拼</span></span>
+      </button>
+      <button class="tile" data-mode="gram" id="tGram">
+        <span class="glyph">+ed</span>
+        <span><span class="tname">Grammar</span><span class="tsub">语法 · tenses, words that join</span></span>
       </button>
       <button class="tile" data-mode="read" id="tRead">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M20 9c-4-3-10-4-16-3v24c6-1 12 0 16 3 4-3 10-4 16-3V6c-6-1-12 0-16 3z"/><path d="M20 9v24"/></svg></span>
         <span><span class="tname">Reading</span><span class="tsub">阅读 · short stories</span></span>
       </button>
-      <button class="tile" data-mode="mix" id="tMix">
-        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="7" y="5" width="28" height="28" rx="6"/><circle cx="14" cy="12" r="1.6" fill="currentColor"/><circle cx="28" cy="12" r="1.6" fill="currentColor"/><circle cx="21" cy="19" r="1.6" fill="currentColor"/><circle cx="14" cy="26" r="1.6" fill="currentColor"/><circle cx="28" cy="26" r="1.6" fill="currentColor"/></svg></span>
-        <span><span class="tname">Mix</span><span class="tsub">随便来 · a bit of everything</span></span>
-      </button>
     </div>
 
-    <button class="redo" id="bRedo" hidden>
+    
+<button class="redo" id="bRedo" hidden>
       <span>Try my misses again 错题再练<small>做对一次就从这里消掉</small></span>
       <span class="count" id="redoN">0</span>
     </button>
@@ -584,6 +579,37 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <div class="wc-tip">整块读三遍，把颜色标出来的小词读重一点。<br>Say it three times as one piece.</div>
     </div>
     <button class="btn" id="ppcNext">Next 下一个</button>
+  </section>
+
+  <!-- WORD CARDS HUB: the yellow tile opens the word cards and the phrases (介词词组) -->
+  <section id="vCHub" class="view hub hub-cards" aria-label="Word cards" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="chBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 class="st-h">单词卡 · 介词词组</h2>
+    </div>
+    <button class="wtile" id="tWords">
+      <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一组 5 个词</span></span>
+      <span class="wt-r" id="wtNote"></span>
+    </button>
+    <button class="wtile" id="tPP">
+      <span><span class="tname">Phrases</span><span class="tsub">介词词组 · 一周两组</span></span>
+      <span class="wt-r" id="ppNote"></span>
+    </button>
+  </section>
+
+  <!-- WORDS HUB: the orange Words tile opens the word questions and spell it -->
+  <section id="vWHub" class="view hub hub-word" aria-label="Words" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="whBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 class="st-h">Words 词汇</h2>
+    </div>
+    <button class="wtile" id="tWQuiz">
+      <span><span class="tname">Word questions</span><span class="tsub">词汇题 · 每轮 5 题</span></span>
+    </button>
+    <button class="wtile" id="tSpell">
+      <span><span class="tname">Spell it</span><span class="tsub">拼一拼 · 用字母块拼学过的词</span></span>
+      <span class="wt-r" id="spNote"></span>
+    </button>
   </section>
 
   <section id="vSpell" class="view" aria-label="Spell it" hidden>
@@ -1858,7 +1884,7 @@ const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
 /* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
-const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null};
+const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null,tile:{},wordsBack:null};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -1905,12 +1931,12 @@ function ppNext(){ppSt();return PPD.map((g,i)=>i).filter(i=>!S.ppg[PPD[i].t]||PP
 function ppStatus(id){const s=S.pp[id];return !s?'':s.box>=4?'s2':s.box===0?'s0':'s1';}
 function ppHTML(p){const t=esc(p.id),re=new RegExp('\\b'+p.key+'\\b','g');let last=-1,m;while((m=re.exec(t)))last=m.index;
   return last<0?t:t.slice(0,last)+'<b class="pp-k">'+p.key+'</b>'+t.slice(last+p.key.length);}
-function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`这周：${PPD[nx[0]].zh}`:'全部学完了';}
+function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`下一组：${PPD[nx[0]].zh}`:'全部学完了';}
 function ppView(){ppSt();show('vPP');const due=ppDue(),nx=ppNext(),learned=PPL.filter(p=>S.pp[p.id]).length,mast=PPL.filter(p=>ppStatus(p.id)==='s2').length;
   $('ppSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词组学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学两组，每组 5 个。复习时先补词组里的小词，熟了放进句子，再放进小故事。</p>`;
   $('ppReview').disabled=!due.length;$('ppReview').textContent=due.length?`复习今天的词组（${due.length} 个）`:'今天没有要复习的词组';
   $('ppSets').innerHTML=PPD.map((g,i)=>{const done=!!S.ppg[g.t],isNext=nx.includes(i);
-    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">下一组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
       +`<div class="chips2">${PPL.filter(p=>p.g===i).map(p=>`<span class="wchip ${ppStatus(p.id)}">${ppHTML(p)}</span>`).join('')}</div>`
       +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-pplearn="${i}">${done?'再看一遍':'学这 5 个词组'}</button>`:'')+'</div>';}).join('');}
 let PPC=null;
@@ -1944,12 +1970,20 @@ HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
 HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
 HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
 $('tPP').addEventListener('click',ppView);
-$('ppBack').addEventListener('click',home);
+$('ppBack').addEventListener('click',()=>cardsHub());
 $('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
 $('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
 $('ppcQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}ppView();});
 $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p.id}. ${p.ex.replace(/\*\*/g,'')}`);});
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
+
+/* Home: four tiles. The yellow Word cards tile opens the word cards and the phrases; the orange Words tile opens the word questions and spell it. */
+function cardsHub(){const dn=dueWords().length,nx=nextSet();$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';$('ppNote').textContent=ppNote();show('vCHub');}
+function wordsHub(){$('spNote').textContent=spNote();show('vWHub');}
+HOOK.tile.cards=cardsHub;HOOK.tile.word=wordsHub;HOOK.wordsBack=cardsHub;
+$('chBack').addEventListener('click',home);
+$('whBack').addEventListener('click',home);
+$('tWQuiz').addEventListener('click',()=>startRound('word'));
 
 function home(){
   drawTasks();HOOK.home.forEach(f=>f());
@@ -1965,7 +1999,7 @@ function home(){
   $('mini').innerHTML=Object.keys(CATS).filter(k=>S.by[k][0]).map(k=>`<span>${CATS[k]} · ${S.by[k][0]} 题 · 对 ${Math.round(S.by[k][1]/S.by[k][0]*100)}%</span>`).join('');
   $('bSound').setAttribute('aria-pressed',String(!!S.snd));
   const dn=dueWords().length,nx=nextSet();
-  $('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`这周：Week ${nx+1}`:'全部学完了';
+  $('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';
 }
 
 /* round */
@@ -1989,8 +2023,9 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
       if(i===missSlot){const pool=S.misses.filter(m=>mode==='mix'||m.c===mode);if(pool.length&&Math.random()<.6)q=again(pick(pool));}
       if(!q||keys.has(QB.key(q)))q=QB.make(c,l,k=>!seen.has(QB.hash(k))&&!keys.has(k),k=>!recent.has(k)&&!keys.has(k));
       (Array.isArray(q)?q:[q]).forEach(x=>{keys.add(QB.key(x));qs.push(x);});});
-    /* words that are due for review take one or two of the easy slots */
-    const due=QB.shuf(dueWords()),free=qs.map((q,i)=>q.step?-1:i).filter(i=>i>=0);   /* never a step of a step-by-step problem */
+    /* in a mixed round (today's "one round"), words that are due for review take one or two of the easy slots;
+       a grammar or reading round stays all grammar or reading */
+    const due=mode==='mix'?QB.shuf(dueWords()):[],free=qs.map((q,i)=>q.step?-1:i).filter(i=>i>=0);   /* never a step of a step-by-step problem */
     if(due.length&&free.length)qs[free[0]]=wordQ(due[0]);if(due.length>=3&&free.length>1)qs[free[free.length-1]]=wordQ(due[1]);
   }
   if(!qs.length){home();return;}
@@ -2105,12 +2140,12 @@ function wordQ(w,first){const s=S.wd[w.w],box=s?s.box:0;
   return{q,p:null,zh:hint,opts,ans:opts.indexOf(a),ex:`**${w.w}** = ${w.zh}（${w.def}）\n例句：${w.ex}`,c:'card',t:'Word cards · 单词卡',l:1,wd:w.w};}
 function wordsView(){show('vWords');const due=dueWords(),nx=nextSet();
   const learned=WL.filter(w=>S.wd[w.w]).length,mast=WL.filter(w=>wStatus(w.w)==='s2').length;
-  $('wSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学一组。学完会自动再考：两天后、五天后、十天后……连续答对 4 次就算记住了。</p>`;
+  $('wSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一组 5 个词，哪组都可以先学。学完会自动再考：两天后、五天后、十天后……连续答对 4 次就算记住了。</p>`;
   $('bReview').disabled=!due.length;$('bReview').textContent=due.length?`复习今天的词（${due.length} 个）`:'今天没有要复习的词';
   $('wSets').innerHTML=WS.map((s,i)=>{const done=!!S.sets[s.title],isNext=i===nx;
-    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>Week ${i+1} · ${esc(s.title)} <small>${esc(s.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.sets[s.title].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${esc(s.title)} <small>${esc(s.zh)}</small></span>${isNext?'<span class="wt-r">下一组</span>':done?`<small>${esc(S.sets[s.title].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
       +`<div class="chips2">${s.words.map(w=>`<span class="wchip ${wStatus(w.w)}">${esc(w.w)}</span>`).join('')}</div>`
-      +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-learn="${i}">${done?'再看一遍':'学这 5 个词'}</button>`:'')+'</div>';}).join('');
+      +`<button class="sbtn${done?' ghost':''}" data-learn="${i}">${done?'再看一遍':'学这 5 个词'}</button>`+'</div>';}).join('');
 }
 /* ===== spell it: 4 learned words a round, letter tiles plus 2 extra letters; a miss shows the right spelling and he copies it once ===== */
 const SP_N=4,CONF={b:'d',d:'b',p:'q',m:'n',n:'m',u:'n',a:'e',e:'a',i:'e',o:'u',t:'f',f:'t',h:'n',g:'q',c:'s',s:'c'};
@@ -2167,7 +2202,7 @@ function spNote(){const n=WL.filter(w=>S.wd[w.w]&&/^[a-z]+$/i.test(w.w)).length,
 let CARD=null;
 function startCards(si){CARD={si,i:0};show('vCard');showCard();}
 function showCard(){const s=WS[CARD.si],w=s.words[CARD.i];
-  $('cSet').textContent=`Week ${CARD.si+1} · ${s.title} · ${CARD.i+1}/${s.words.length}`;
+  $('cSet').textContent=`${s.title} · ${CARD.i+1}/${s.words.length}`;
   $('cWord').textContent=w.w;$('cZh').textContent=w.zh;$('cDef').textContent=w.def;$('cEx').innerHTML=fmt(w.ex);$('cX').innerHTML=w.x||'';$('cX').hidden=!w.x;
   $('cNext').textContent=CARD.i<s.words.length-1?'Next word 下一个':'Check! 考考自己';
   $('cPips').innerHTML=s.words.map((x,j)=>`<span class="pip ${j<CARD.i?'ok':j===CARD.i?'now':''}"></span>`).join('');
@@ -2342,14 +2377,14 @@ function confetti(){
 }
 
 /* events */
-document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>startRound(b.dataset.mode)));
+document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{const m=b.dataset.mode;if(HOOK.tile[m])HOOK.tile[m]();else startRound(m);}));
 $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
 $('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
 $('tWords').addEventListener('click',wordsView);
-$('bWordsBack').addEventListener('click',home);
+$('bWordsBack').addEventListener('click',()=>{if(HOOK.wordsBack)HOOK.wordsBack();else home();});
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
 $('wSets').addEventListener('click',e=>{const b=e.target.closest('[data-learn]');if(b)startCards(+b.dataset.learn);});
 $('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}wordsView();});

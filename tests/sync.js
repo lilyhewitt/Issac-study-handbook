@@ -14,7 +14,7 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  await mom.screenshot({path:D+'/sync-mom-linked-empty.png',fullPage:true});
  // kid's iPad, english: practise first, then link
  const [ck,kid]=await newCtx(b,'iPad (gen 7)');await kid.goto(H+'/english/');await kid.waitForTimeout(300);
- const n1=await round(kid,'#tMix');
+ const n1=await round(kid,'#tGram');
  await kid.click('#bStats');await kid.click('#bParent');ok(await kid.isVisible('#syncCard'),'iPad 家长看 shows sync card');
  await kid.screenshot({path:D+'/sync-kid-unlinked.png'});
  await kid.fill('#syncIn','abc');await kid.click('[data-sync="go"]');ok(/8 位/.test(await kid.innerText('#syncMsg')),'short code rejected');
@@ -47,7 +47,7 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  const [cr,kid2]=await newCtx(b,'iPad (gen 7)');await kid2.goto(H+'/english/');await kid2.waitForTimeout(300);
  const card2=await link(kid2,code);const tot=(await kid2.innerText('#stSum')).replace(/\n+/g,' ');ok(new RegExp(n1+' 题').test(tot),'fresh copy restored: '+tot);
  // stale guard: the first iPad copy plays more; the restored copy plays 1 question and must not overwrite
- await kid.goto(H+'/english/');await kid.waitForTimeout(300);const n4=await round(kid,'#tMix');await kid.waitForTimeout(2000);
+ await kid.goto(H+'/english/');await kid.waitForTimeout(300);const n4=await round(kid,'#tGram');await kid.waitForTimeout(2000);
  d=await dump();const after=d.sync[c].english.n;ok(after===n1+n4,'cloud english n='+after);
  await kid2.click('#bStatsBack');await kid2.click('#bMeBack');await kid2.click('#tGram');await kid2.click('#opt0');await kid2.click('#bNext');await kid2.click('#bQuit');await kid2.waitForTimeout(2200);
  d=await dump();ok(d.sync[c].english.n===after,'stale copy did not overwrite (cloud n='+d.sync[c].english.n+')');

@@ -7,12 +7,12 @@ function ppNext(){ppSt();return PPD.map((g,i)=>i).filter(i=>!S.ppg[PPD[i].t]||PP
 function ppStatus(id){const s=S.pp[id];return !s?'':s.box>=4?'s2':s.box===0?'s0':'s1';}
 function ppHTML(p){const t=esc(p.id),re=new RegExp('\\b'+p.key+'\\b','g');let last=-1,m;while((m=re.exec(t)))last=m.index;
   return last<0?t:t.slice(0,last)+'<b class="pp-k">'+p.key+'</b>'+t.slice(last+p.key.length);}
-function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`这周：${PPD[nx[0]].zh}`:'全部学完了';}
+function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`下一组：${PPD[nx[0]].zh}`:'全部学完了';}
 function ppView(){ppSt();show('vPP');const due=ppDue(),nx=ppNext(),learned=PPL.filter(p=>S.pp[p.id]).length,mast=PPL.filter(p=>ppStatus(p.id)==='s2').length;
   $('ppSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词组学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学两组，每组 5 个。复习时先补词组里的小词，熟了放进句子，再放进小故事。</p>`;
   $('ppReview').disabled=!due.length;$('ppReview').textContent=due.length?`复习今天的词组（${due.length} 个）`:'今天没有要复习的词组';
   $('ppSets').innerHTML=PPD.map((g,i)=>{const done=!!S.ppg[g.t],isNext=nx.includes(i);
-    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">这周学这组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
+    return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">下一组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
       +`<div class="chips2">${PPL.filter(p=>p.g===i).map(p=>`<span class="wchip ${ppStatus(p.id)}">${ppHTML(p)}</span>`).join('')}</div>`
       +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-pplearn="${i}">${done?'再看一遍':'学这 5 个词组'}</button>`:'')+'</div>';}).join('');}
 let PPC=null;
@@ -46,9 +46,17 @@ HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
 HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
 HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
 $('tPP').addEventListener('click',ppView);
-$('ppBack').addEventListener('click',home);
+$('ppBack').addEventListener('click',()=>cardsHub());
 $('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
 $('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
 $('ppcQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}ppView();});
 $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p.id}. ${p.ex.replace(/\*\*/g,'')}`);});
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
+
+/* Home: four tiles. The yellow Word cards tile opens the word cards and the phrases; the orange Words tile opens the word questions and spell it. */
+function cardsHub(){const dn=dueWords().length,nx=nextSet();$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';$('ppNote').textContent=ppNote();show('vCHub');}
+function wordsHub(){$('spNote').textContent=spNote();show('vWHub');}
+HOOK.tile.cards=cardsHub;HOOK.tile.word=wordsHub;HOOK.wordsBack=cardsHub;
+$('chBack').addEventListener('click',home);
+$('whBack').addEventListener('click',home);
+$('tWQuiz').addEventListener('click',()=>startRound('word'));
