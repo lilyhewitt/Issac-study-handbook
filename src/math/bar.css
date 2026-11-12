@@ -47,3 +47,4 @@
 .br-li{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;min-height:3rem;padding:0.5rem 0.875rem;border-radius:0.875rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;text-align:left;cursor:pointer}
 .br-li.cur{border-color:var(--wp)}
 .br-li small{flex:none;color:var(--ink-2);font-weight:600}
+.tile[data-mode="bar"]{--c:#12965F;--cd:#0B6E45}

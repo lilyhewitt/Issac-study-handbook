@@ -1,6 +1,7 @@
 /* Daily rounds: step-by-step problems must stay whole even when word cards are due for review,
    and a round with every answer right gets the bonus. Usage: node tests/rounds.js [baseURL] */
 const {chromium,devices}=require('playwright');const H=process.argv[2]||'http://localhost:8767';
+async function mixRound(p){if(await p.isVisible('#bAgain')&&await p.isVisible('#vDone'))await p.click('#bAgain');else{if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');if(await p.$('[data-tk="round"].tk-ok')){await p.evaluate(()=>{for(const k of Object.keys(localStorage))if(/^xiaoxiao-/.test(k)){const S=JSON.parse(localStorage.getItem(k));S.tk={};localStorage.setItem(k,JSON.stringify(S));}});await p.reload();await p.waitForTimeout(250);}await p.click('[data-tk="round"]');}}
 (async()=>{const b=await chromium.launch();const out=[],errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(H+'/math/');await p.waitForTimeout(300);
@@ -9,7 +10,7 @@ await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-math-v1'
   QB.WORDSETS[0].words.forEach(w=>{S.wd[w[0]]={box:1,due:'2026-01-01',n:1,bad:0};});S.sets={[QB.WORDSETS[0].title]:'2026-01-01'};S.setk=1;localStorage.setItem('xiaoxiao-math-v1',JSON.stringify(S));});
 await p.reload();await p.waitForTimeout(300);
 let broken=0,chains=0,words=0,rounds=0;
-for(let r=0;r<25;r++){await p.click('#tMix');rounds++;const chips=[];
+for(let r=0;r<25;r++){await mixRound(p);rounds++;const chips=[];
   while(await p.isVisible('#opts')){chips.push(await p.innerText('#qChip'));await p.click('#opts button >> nth=0');await p.waitForTimeout(25);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(25);if(chips.length>20)break;}
   /* every "第 k 步，共 n 步" run must go 1..n without a gap */
   for(let i=0;i<chips.length;i++){const m=chips[i].match(/第 (\d+) 步，共 (\d+) 步/);if(!m||m[1]!=='1')continue;chains++;const n=+m[2];

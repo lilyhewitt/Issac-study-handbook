@@ -304,11 +304,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   #vQuiz .qbar{grid-column:1 / -1}
   .sheet-in{max-width:44rem}
 }
-/* 介词词组: the small word to remember stands out */
-.pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
-.pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
-.wchip .pp-k{text-decoration:none}
-/* English home: six square tiles — word cards, phrases, words (+ spell it), grammar, reading, try again */
+/* Home in every app: square tiles (word cards first, try again last), board + tasks + my progress on the left on iPad */
 :root{--pp:#7A4FE0;--pp-deep:#5233A6}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pp:#8460EA;--pp-deep:#4A2E96}}
 :root[data-theme="dark"]{--pp:#8460EA;--pp-deep:#4A2E96}
@@ -334,6 +330,10 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   .tiles6 .tname{font-size:1.3rem}
 }
 @media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* 介词词组: the small word to remember stands out */
+.pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
+.wchip .pp-k{text-decoration:none}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -1919,6 +1919,13 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
+/* Home tiles shared by every app: word cards open from their tile; try again shows how many are left.
+   The small note on a tile only says what is due today, nothing otherwise. */
+function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今天复习 ${dn} 个`:'';
+  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
+HOOK.tile.cards=wordsView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
+HOOK.home.push(homeTiles);
+
 /* ---------- 介词词组: its own deck, two groups a week. Learning = cards, then "which small word is missing?".
    Review moves on as a phrase gets known: the phrase → a sentence → a short story (and "spot the wrong small word"). ---------- */
 const PPD=QB.PPG||[],PPL=QB.PP||[];
@@ -1973,16 +1980,12 @@ $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
 
 /* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
-function tileNotes(){
-  /* only what is due today, nothing when nothing is due (no scores, no progress) */
-  const dn=dueWords().length,pd=ppDue().length;$('wtNote').textContent=dn?`今天复习 ${dn} 个`:'';$('ppNote').textContent=pd?`今天复习 ${pd} 个`:'';
-  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
-HOOK.tile.cards=wordsView;HOOK.tile.pp=ppView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
-HOOK.home.push(tileNotes);
+function tileNotes(){const pd=ppDue().length;$('ppNote').textContent=pd?`今天复习 ${pd} 个`:'';}
+HOOK.tile.pp=ppView;HOOK.home.push(tileNotes);
 
 function home(){
   drawTasks();
-  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
+  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第 '+S.ch+' 章':'';}
   if(QB.spell&&$('tSpell')){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;

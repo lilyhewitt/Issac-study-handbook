@@ -1,19 +1,27 @@
-<div class="tiles">
+<div class="tiles tiles6">
+      <button class="tile" data-mode="cards" id="tCards">
+        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
+        <span><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></span>
+      </button>
+      <button class="tile" data-mode="bar" id="tBar">
+        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="4" y="8" width="20" height="8" rx="2"/><rect x="24" y="8" width="12" height="8" rx="2"/><rect x="4" y="22" width="32" height="8" rx="2"/></svg></span>
+        <span><span class="tname">Bar models</span><span class="tsub">画线段图</span></span>
+      </button>
       <button class="tile" data-mode="wp" id="tWp">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M5 33h9v-8h9v-8h9V9h4"/><path d="M30 5l6 4-6 4"/></svg></span>
-        <span><span class="tname">Word problems</span><span class="tsub">应用题 · 一步一步想</span></span>
+        <span><span class="tname">Word problems</span><span class="tsub">应用题</span></span>
       </button>
       <button class="tile" data-mode="calc" id="tCalc">
         <span class="glyph">+ ×</span>
-        <span><span class="tname">Calculation</span><span class="tsub">计算 · 口算、竖式、换算</span></span>
+        <span><span class="tname">Calculation</span><span class="tsub">计算</span></span>
       </button>
       <button class="tile" data-mode="p4" id="tP4">
         <span class="glyph">4A</span>
-        <span><span class="tname">Preview 4A</span><span class="tsub" id="tP4s">预习 4A 课本 · 第1–8章</span></span>
+        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
       </button>
-      <button class="tile" data-mode="mix" id="tMix">
-        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="7" y="5" width="28" height="28" rx="6"/><circle cx="14" cy="12" r="1.6" fill="currentColor"/><circle cx="28" cy="12" r="1.6" fill="currentColor"/><circle cx="21" cy="19" r="1.6" fill="currentColor"/><circle cx="14" cy="26" r="1.6" fill="currentColor"/><circle cx="28" cy="26" r="1.6" fill="currentColor"/></svg></span>
-        <span><span class="tname">Mix</span><span class="tsub">随便来 · a bit of everything</span></span>
+      <button class="tile" data-mode="redo" id="tRedo">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
+        <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
     </div>
 

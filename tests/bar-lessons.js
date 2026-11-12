@@ -1,4 +1,5 @@
 const {chromium,devices}=require('playwright');
+async function mixRound(p){if(await p.isVisible('#bAgain')&&await p.isVisible('#vDone'))await p.click('#bAgain');else{if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');if(await p.$('[data-tk="round"].tk-ok')){await p.evaluate(()=>{for(const k of Object.keys(localStorage))if(/^xiaoxiao-/.test(k)){const S=JSON.parse(localStorage.getItem(k));S.tk={};localStorage.setItem(k,JSON.stringify(S));}});await p.reload();await p.waitForTimeout(250);}await p.click('[data-tk="round"]');}}
 (async()=>{const b=await chromium.launch();const out=[];const errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto('http://localhost:8767/math/');await p.waitForTimeout(300);
@@ -36,9 +37,9 @@ for(let ti=0;ti<6;ti++){const r=await solve(ti,false,false);ok(r.done,`type ${ti
 const S2=await p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-math-v1')));const bl2=S2.log.filter(e=>e.t==='Bar models · 画线段图');
 ok(bl2.slice(6).every(e=>e.ok===0&&e.q),'help lessons recorded as needing help, with the problem text');
 await p.click('#brHome');await p.waitForTimeout(150);ok((await txt('#tasks')).includes('✓')&&/画一题线段图/.test(await txt('#tasks')),'back home; task ticked');
-ok(S2.bar.cur>=0,'next type: '+(await txt('#brNote')));
+ok(S2.bar.cur>=0,'next type set');
 /* the daily round now has the four exam types */
-const seen=new Set();for(let r=0;r<40;r++){await p.click("#tMix");for(let k=0;k<12;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth=0');await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}if(await p.isVisible('#bHome'))await p.click('#bHome');else if(await p.isVisible('#bQuit'))await p.click('#bQuit');}
+const seen=new Set();for(let r=0;r<40;r++){await mixRound(p);for(let k=0;k<12;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth=0');await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}if(!(await p.isVisible('#vDone'))&&await p.isVisible('#bQuit'))await p.click('#bQuit');}
 const S3=await p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-math-v1')));S3.log.forEach(e=>seen.add(e.t));
 ok(['几倍和相差','知道大的','三个量','前后变化'].filter(k=>[...seen].some(t=>t.includes(k))).length>=3,'mixed rounds include the exam types: '+[...seen].filter(t=>/几倍和相差|知道大的|三个量|前后变化/.test(t)).join(' / '));
 console.log(out.join('\n'));console.log('errors',errs);await b.close();})();

@@ -304,6 +304,32 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   #vQuiz .qbar{grid-column:1 / -1}
   .sheet-in{max-width:44rem}
 }
+/* Home in every app: square tiles (word cards first, try again last), board + tasks + my progress on the left on iPad */
+:root{--pp:#7A4FE0;--pp-deep:#5233A6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pp:#8460EA;--pp-deep:#4A2E96}}
+:root[data-theme="dark"]{--pp:#8460EA;--pp-deep:#4A2E96}
+.tiles6 .tile{aspect-ratio:1/1;min-height:0;max-width:100%;justify-content:space-between}
+.tiles6 .tsub{font-size:1rem;margin-top:0.25rem}
+.tnote{display:table;margin-top:0.375rem;font-size:.85rem;font-weight:700;line-height:1.3;background:rgba(0,0,0,.18);border-radius:0.75rem;padding:0.25rem 0.5rem}
+.tnote:empty{display:none}
+.tile[data-mode="cards"]{--c:var(--mix);--cd:var(--mix-deep);color:var(--on-mix)}
+.tile[data-mode="cards"] .tnote{background:rgba(0,0,0,.1)}
+.tile[data-mode="pp"]{--c:var(--pp);--cd:var(--pp-deep)}
+.tile[data-mode="redo"]{background:var(--surface);color:var(--ink);border:2px dashed var(--calc);box-shadow:0 5px 0 var(--line)}
+.tile[data-mode="redo"] .tnote{background:var(--calc);color:#fff}
+.tile[data-mode="redo"].empty{opacity:.6}
+#bRedo,#mini,#vHome .foot,.hello-sub{display:none!important}
+/* 我的进步 is a box */
+#bStats{align-self:stretch;display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:1.125rem;padding:0.875rem 1rem;text-decoration:none;color:var(--ink);font-size:1.05rem}
+/* iPad: scoreboard, today's tasks and my progress on the left; the six tiles on the right */
+@media (min-width:700px){
+  .app{max-width:64rem}
+  #vHome{max-width:none;display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);grid-template-areas:"top top" "board tiles" "tasks tiles" "me tiles" ". tiles";grid-template-rows:auto auto auto auto 1fr;align-items:start;gap:1rem 1.25rem}
+  #vHome>.top{grid-area:top}#vHome>.board{grid-area:board;grid-template-columns:1fr 1fr}#vHome>.board .lv{grid-column:1 / -1;order:3}
+  #vHome>.tasks{grid-area:tasks}#vHome>#bStats{grid-area:me}#vHome>.tiles{grid-area:tiles}
+  .tiles6 .tname{font-size:1.3rem}
+}
+@media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* 画线段图: one column on a phone; on an iPad the problem and the picture sit on the left, the steps and buttons on the right, so nothing needs scrolling */
 .br-grid{display:flex;flex-direction:column;gap:0.75rem}
 .br-left,.br-right{display:flex;flex-direction:column;gap:0.75rem;min-width:0}
@@ -353,6 +379,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 .br-li{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;min-height:3rem;padding:0.5rem 0.875rem;border-radius:0.875rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;text-align:left;cursor:pointer}
 .br-li.cur{border-color:var(--wp)}
 .br-li small{flex:none;color:var(--ink-2);font-weight:600}
+.tile[data-mode="bar"]{--c:#12965F;--cd:#0B6E45}
 </style>
 <style>
 /* maths palette: violet = word problems, teal = calculation, orange = P4 preview */
@@ -491,35 +518,35 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 
     <div class="tasks" id="tasks"></div>
 
-    <button class="wtile" id="tBar">
-      <span><span class="tname">Bar models</span><span class="tsub">画线段图 · 自己画格子、标数字</span></span>
-      <span class="wt-r" id="brNote"></span>
-    </button>
-    <button class="wtile" id="tWords">
-      <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一组 5 个词</span></span>
-      <span class="wt-r" id="wtNote"></span>
-    </button>
     <button class="wtile" id="tSpell" hidden>
       <span><span class="tname">Spell it</span><span class="tsub">拼一拼 · 用字母块拼学过的词</span></span>
       <span class="wt-r" id="spNote"></span>
     </button>
 
-    <div class="tiles">
+    <div class="tiles tiles6">
+      <button class="tile" data-mode="cards" id="tCards">
+        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
+        <span><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></span>
+      </button>
+      <button class="tile" data-mode="bar" id="tBar">
+        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="4" y="8" width="20" height="8" rx="2"/><rect x="24" y="8" width="12" height="8" rx="2"/><rect x="4" y="22" width="32" height="8" rx="2"/></svg></span>
+        <span><span class="tname">Bar models</span><span class="tsub">画线段图</span></span>
+      </button>
       <button class="tile" data-mode="wp" id="tWp">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M5 33h9v-8h9v-8h9V9h4"/><path d="M30 5l6 4-6 4"/></svg></span>
-        <span><span class="tname">Word problems</span><span class="tsub">应用题 · 一步一步想</span></span>
+        <span><span class="tname">Word problems</span><span class="tsub">应用题</span></span>
       </button>
       <button class="tile" data-mode="calc" id="tCalc">
         <span class="glyph">+ ×</span>
-        <span><span class="tname">Calculation</span><span class="tsub">计算 · 口算、竖式、换算</span></span>
+        <span><span class="tname">Calculation</span><span class="tsub">计算</span></span>
       </button>
       <button class="tile" data-mode="p4" id="tP4">
         <span class="glyph">4A</span>
-        <span><span class="tname">Preview 4A</span><span class="tsub" id="tP4s">预习 4A 课本 · 第1–8章</span></span>
+        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
       </button>
-      <button class="tile" data-mode="mix" id="tMix">
-        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="7" y="5" width="28" height="28" rx="6"/><circle cx="14" cy="12" r="1.6" fill="currentColor"/><circle cx="28" cy="12" r="1.6" fill="currentColor"/><circle cx="21" cy="19" r="1.6" fill="currentColor"/><circle cx="14" cy="26" r="1.6" fill="currentColor"/><circle cx="28" cy="26" r="1.6" fill="currentColor"/></svg></span>
-        <span><span class="tname">Mix</span><span class="tsub">随便来 · a bit of everything</span></span>
+      <button class="tile" data-mode="redo" id="tRedo">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
+        <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
     </div>
 
@@ -1366,11 +1393,18 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
+/* Home tiles shared by every app: word cards open from their tile; try again shows how many are left.
+   The small note on a tile only says what is due today, nothing otherwise. */
+function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今天复习 ${dn} 个`:'';
+  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
+HOOK.tile.cards=wordsView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
+HOOK.home.push(homeTiles);
+
 /* ---------- 画线段图: he builds the bar model himself (units, extra pieces), puts the numbers and the ? on it, then uses it ---------- */
 let BR=null;
 function barTypes(){return QB.BAR||[];}
 function barSt(){if(!S.bar||typeof S.bar!=='object')S.bar={};if(!S.bar.n||typeof S.bar.n!=='object')S.bar.n={};if(!(S.bar.cur>=0&&S.bar.cur<barTypes().length))S.bar.cur=0;return S.bar;}
-function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const t=barTypes()[barSt().cur];el.textContent=t?t.t:'';}}
+function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const t=barTypes()[barSt().cur];el.textContent=t?'下一个：'+t.t:'';}}
 function barStart(ti){const st=barSt();if(typeof ti==='number')st.cur=ti;const L=barTypes()[st.cur].f(),pre=L.build===false;
   BR={ti:st.cur,L,step:pre?'mark':'build',rows:L.rows.map(r=>({u:pre?r.u:1,x:pre?(r.x||0):0})),mi:0,ci:0,tries:0,help:0,lab:[],used:[],zh:false,sel:null,msg:pre?'这一种图已经画好了：先看懂它，再标数字。':''};
   show('vBar');document.body.classList.add('br-wide');barDraw();}
@@ -1456,12 +1490,12 @@ $('vBar').addEventListener('click',e=>{const t=e.target.closest('button,[data-br
   if(d.bx!=null){const r=BR.rows[+d.bx],op=[0].concat(BR.L.xo||[]);r.x=op[(op.indexOf(r.x)+1)%op.length];BR.msg='';barDraw();return;}
   if(d.br!=null){barPick(d.br);return;}
   if(d.bo!=null){barCalc(+d.bo);}});
-$('tBar').addEventListener('click',()=>barStart());
+HOOK.tile.bar=()=>barStart();
 HOOK.home.push(barNote);HOOK.task.bar=()=>barStart();
 
 function home(){
   drawTasks();
-  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
+  if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第 '+S.ch+' 章':'';}
   if(QB.spell&&$('tSpell')){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;

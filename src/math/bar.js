@@ -2,7 +2,7 @@
 let BR=null;
 function barTypes(){return QB.BAR||[];}
 function barSt(){if(!S.bar||typeof S.bar!=='object')S.bar={};if(!S.bar.n||typeof S.bar.n!=='object')S.bar.n={};if(!(S.bar.cur>=0&&S.bar.cur<barTypes().length))S.bar.cur=0;return S.bar;}
-function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const t=barTypes()[barSt().cur];el.textContent=t?t.t:'';}}
+function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const t=barTypes()[barSt().cur];el.textContent=t?'下一个：'+t.t:'';}}
 function barStart(ti){const st=barSt();if(typeof ti==='number')st.cur=ti;const L=barTypes()[st.cur].f(),pre=L.build===false;
   BR={ti:st.cur,L,step:pre?'mark':'build',rows:L.rows.map(r=>({u:pre?r.u:1,x:pre?(r.x||0):0})),mi:0,ci:0,tries:0,help:0,lab:[],used:[],zh:false,sel:null,msg:pre?'这一种图已经画好了：先看懂它，再标数字。':''};
   show('vBar');document.body.classList.add('br-wide');barDraw();}
@@ -88,5 +88,5 @@ $('vBar').addEventListener('click',e=>{const t=e.target.closest('button,[data-br
   if(d.bx!=null){const r=BR.rows[+d.bx],op=[0].concat(BR.L.xo||[]);r.x=op[(op.indexOf(r.x)+1)%op.length];BR.msg='';barDraw();return;}
   if(d.br!=null){barPick(d.br);return;}
   if(d.bo!=null){barCalc(+d.bo);}});
-$('tBar').addEventListener('click',()=>barStart());
+HOOK.tile.bar=()=>barStart();
 HOOK.home.push(barNote);HOOK.task.bar=()=>barStart();

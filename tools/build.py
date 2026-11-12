@@ -53,8 +53,6 @@ def edition(app):
         s = rep(s, '/* Layout: one phone-width column.', '/* %s edition of the English practice app. Layout: one phone-width column.' % c['edition'])
         i = s.index('</style>') + len('</style>\n')
         s = s[:i] + read(app, 'palette.html') + s[i:]
-        t0, t1 = s.index('<div class="tiles">'), s.index('<button class="redo"')
-        s = s[:t0] + read(app, 'tiles.html') + s[t1:]
         s = rep(s, 'Tap 🔊 Listen to hear the question. Tap 提示 for a Chinese hint.', c['help'])
         s, n = re.subn(r'<button class="tool" id="bHint" aria-pressed="false">.*?</button>', lambda m: read('shared', 'hint-zh.html'), s, count=1, flags=re.S)
         assert n == 1
@@ -63,21 +61,28 @@ def edition(app):
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
+    # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
+    a = s.index('    <button class="wtile" id="tWords">'); b = s.index('</button>\n', a) + len('</button>\n')
+    s = s[:a] + s[b:]
+    t0, t1 = s.index('<div class="tiles">'), s.index('<button class="redo"')
+    s = s[:t0] + read(app, 'tiles.html') + s[t1:]
+    i = s.index('</style>')
+    css = read('shared', 'home6.css')
+    for a, b in (c['tokens'] if app != 'english' else []):   # same colour-token renames as the template
+        css = css.replace(a, b)
+    s = s[:i] + css + s[i:]
+    s = rep(s, 'function home(){', read('shared', 'home6.js') + '\nfunction home(){')
     if app == 'english':                               # the phrases deck (介词词组)
         s = rep(s, '  <section id="vSpell" class="view"', read('english', 'pp.html') + '  <section id="vSpell" class="view"')
         def cut(s, start):                            # take a home-page block out, return the page without it
             a = s.index(start); b = s.index('</button>\n', a) + len('</button>\n')
             return s[:a] + s[b:]
-        s = cut(s, '    <button class="wtile" id="tWords">')     # word cards, phrases, spell it and try again become home tiles
-        s = cut(s, '    <button class="wtile" id="tSpell" hidden>')
-        t0, t1 = s.index('<div class="tiles">'), s.index('<button class="redo"')   # six square tiles (no Mix)
-        s = s[:t0] + read('english', 'tiles.html') + s[t1:]
+        s = cut(s, '    <button class="wtile" id="tSpell" hidden>')   # spell it is mixed into the Words round
         i = s.index('</style>')
         s = s[:i] + read('english', 'pp.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'pp.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
-        s = rep(s, '    <button class="wtile" id="tWords">', read('math', 'bar-tile.html') + '    <button class="wtile" id="tWords">')
         i = s.index('</style>')
         s = s[:i] + read('math', 'bar.css') + s[i:]
         s = rep(s, 'function home(){', read('math', 'bar.js') + '\nfunction home(){')

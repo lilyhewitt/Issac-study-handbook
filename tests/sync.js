@@ -25,11 +25,11 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  ok(!JSON.parse(d.sync[c].english.v).seen,'seen list not uploaded');
  // science: link first, then practise (push after round)
  await kid.goto(H+'/science/');await kid.waitForTimeout(300);await link(kid,code);await kid.click('#bStatsBack');await kid.click('#bMeBack');
- const n2=await round(kid,'#tMix');await kid.waitForTimeout(2000);
+ const n2=await round(kid,'#tLife');await kid.waitForTimeout(2000);
  d=await dump();ok(d.sync[c].science&&d.sync[c].science.n===n2,'cloud has science n='+(d.sync[c].science&&d.sync[c].science.n));
  // math: word card round too
  await kid.goto(H+'/math/');await kid.waitForTimeout(300);await link(kid,code);await kid.click('#bStatsBack');await kid.click('#bMeBack');
- const n3=await round(kid,'#tWp');await kid.click('#tWords');await kid.click('[data-learn="0"]');for(let i=0;i<5;i++)await kid.click('#cNext');for(let i=0;i<5;i++){await kid.click('#opt0');await kid.click('#bNext');}
+ const n3=await round(kid,'#tWp');await kid.click('#tCards');await kid.click('[data-learn="0"]');for(let i=0;i<5;i++)await kid.click('#cNext');for(let i=0;i<5;i++){await kid.click('#opt0');await kid.click('#bNext');}
  await kid.waitForTimeout(2000);d=await dump();ok(d.sync[c].math&&d.sync[c].math.n===n3+5,'cloud has math n='+(d.sync[c].math&&d.sync[c].math.n)+' expected '+(n3+5));
  // mom's phone sees it
  await mom.reload();await mom.waitForTimeout(800);
