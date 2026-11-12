@@ -1382,17 +1382,16 @@ function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/___
 function show(id){document.querySelectorAll('.view').forEach(v=>{v.hidden=v.id!==id;});$('sheet').hidden=true;document.querySelector('.app').style.paddingBottom='';window.scrollTo(0,0);}
 function streak(){let n=0;const d=new Date();if(!S.days[dkey(d)])d.setDate(d.getDate()-1);while(S.days[dkey(d)]){n++;d.setDate(d.getDate()-1);}return n;}
 
-/* today's tasks: one round; today's word review if any is due; spell it (English) once words are learned. Done = done for the day. */
+/* today's tasks: word review if any is due; spell it (English) once words are learned. Done = done for the day. */
 function tkDay(){const k=dkey(new Date());const t=S.tk[k]||(S.tk[k]={});const keep=Object.keys(S.tk).sort().slice(-14);Object.keys(S.tk).forEach(d=>{if(!keep.includes(d))delete S.tk[d];});return t;}
 function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.wd[w.w]),L=[];
-  L.push({k:'round',name:'练一轮 · One round',done:!!t.round});
   if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
   if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
   HOOK.tasks.forEach(f=>{const x=f(t);if(x)L.push(x);});
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
-  $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
+  $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(!L.length?'<p class="tk-all">今天没有要复习的，选一个方块练练吧。</p>':all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
 /* Home tiles shared by every app: word cards open from their tile; try again shows how many are left.
    The small note on a tile only says what is due today, nothing otherwise. */
 function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今天复习 ${dn} 个`:'';

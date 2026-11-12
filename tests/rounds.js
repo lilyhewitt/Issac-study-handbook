@@ -1,7 +1,7 @@
 /* Daily rounds: step-by-step problems must stay whole even when word cards are due for review,
    and a round with every answer right gets the bonus. Usage: node tests/rounds.js [baseURL] */
 const {chromium,devices}=require('playwright');const H=process.argv[2]||'http://localhost:8767';
-async function mixRound(p){if(await p.isVisible('#bAgain')&&await p.isVisible('#vDone'))await p.click('#bAgain');else{if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');if(await p.$('[data-tk="round"].tk-ok')){await p.evaluate(()=>{for(const k of Object.keys(localStorage))if(/^xiaoxiao-/.test(k)){const S=JSON.parse(localStorage.getItem(k));S.tk={};localStorage.setItem(k,JSON.stringify(S));}});await p.reload();await p.waitForTimeout(250);}await p.click('[data-tk="round"]');}}
+let MIXI=0;async function mixRound(p){if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');await p.click(['#tWp','#tCalc','#tP4'][MIXI++%3]);}
 (async()=>{const b=await chromium.launch();const out=[],errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(H+'/math/');await p.waitForTimeout(300);
@@ -21,5 +21,5 @@ for(let r=0;r<25;r++){await mixRound(p);rounds++;const chips=[];
   await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-math-v1'));Object.values(S.wd).forEach(w=>w.due='2026-01-01');localStorage.setItem('xiaoxiao-math-v1',JSON.stringify(S));});await p.reload();await p.waitForTimeout(150);}
 ok(chains>5,'step-by-step problems appeared: '+chains+' in '+rounds+' rounds; word-card questions: '+words);
 ok(broken===0,'no step-by-step problem was cut short by a word-card question (cut short: '+broken+')');
-ok(words>0,'due words still get reviewed inside rounds');
+ok(words===0,'subject rounds stay on their own questions (word-card questions: '+words+')');
 console.log(out.join('\n'));console.log('errors',errs);await b.close();})();
