@@ -9,7 +9,7 @@ const tiles=await p.$$eval('#vHome .tile',a=>a.map(e=>e.id));ok(tiles.join()==='
 const sq=await p.$$eval('#vHome .tile',a=>a.map(e=>Math.abs(e.offsetWidth-e.offsetHeight)<=2));ok(sq.every(Boolean),'tiles are square (phone)');
 {const g=await p.evaluate(()=>{const r=e=>document.querySelector(e).getBoundingClientRect();return {tiles:r('.tiles').left,tasks:r('#tasks').right,me:r('#bStats').left,board:r('.board').left,glyph:document.querySelectorAll('#vHome .glyph').length,sub:getComputedStyle(document.querySelector('.hello-sub')).display};});
  ok(g.tiles>g.tasks&&Math.abs(g.me-g.board)<2,'iPad: board, tasks and my progress on the left, tiles on the right '+JSON.stringify(g));ok(g.glyph===0&&g.sub==='none','no icons on the tiles, no “Pick one” line');
- const notes=await p.$$eval('#vHome .tnote',a=>a.map(e=>e.innerText));ok(notes.length===6&&notes.every(Boolean),'every tile shows its progress: '+notes.join(' | '));}
+ const notes=await p.$$eval('#vHome .tnote',a=>a.map(e=>e.innerText));ok(notes.length===1&&notes[0]==='现在没有错题','only the try-again tile shows a note: '+notes.join(' | '));}
 ok(!(await p.isVisible('#mini'))&&!(await p.isVisible('#vHome .foot'))&&!(await p.isVisible('#bRedo')),'no score line, no tip line, no old try-again bar');
 await p.click('#tCards');ok(await p.isVisible('#vWords'),'Word cards tile opens the word cards');
 ok((await p.$$('#wSets [data-learn]')).length===(await p.evaluate(()=>QB.WORDSETS.length))&&!(await p.innerText('#wSets')).includes('Week'),'every word set can be learned, no weeks');await p.click('#bWordsBack');ok(await p.isVisible('#vHome'),'back from word cards goes home');
