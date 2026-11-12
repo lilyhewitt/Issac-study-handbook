@@ -1460,7 +1460,7 @@ $('tBar').addEventListener('click',()=>barStart());
 HOOK.home.push(barNote);HOOK.task.bar=()=>barStart();
 
 function home(){
-  drawTasks();HOOK.home.forEach(f=>f());
+  drawTasks();
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
   if(QB.spell&&$('tSpell')){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
@@ -1473,7 +1473,8 @@ function home(){
   $('mini').innerHTML=Object.keys(CATS).filter(k=>S.by[k][0]).map(k=>`<span>${CATS[k]} · ${S.by[k][0]} 题 · 对 ${Math.round(S.by[k][1]/S.by[k][0]*100)}%</span>`).join('');
   $('bSound').setAttribute('aria-pressed',String(!!S.snd));
   const dn=dueWords().length,nx=nextSet();
-  $('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';
+  if($('wtNote'))$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';
+  HOOK.home.forEach(f=>f());
 }
 
 /* round */

@@ -44,7 +44,6 @@ HOOK.tasks.push(t=>{const due=ppDue().length;
   return null;});
 HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
 HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
-HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
 $('ppBack').addEventListener('click',home);
 $('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
 $('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
@@ -53,6 +52,12 @@ $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
 
 /* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
-function redoTile(){const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'现在没有错题';$('tRedo').classList.toggle('empty',!n);}
+function tileNotes(){const by=c=>{const x=S.by[c]||[0,0];return x[0]?`${x[0]} 题 · 对 ${Math.round(x[1]/x[0]*100)}%`:'还没做';};
+  const L=WL.filter(w=>S.wd[w.w]).length,dn=dueWords().length,nx=nextSet();
+  $('tnCards').textContent=dn?`今天复习 ${dn} 个`:L?`学过 ${L}/${WL.length}`:nx>=0?`下一组：${WS[nx].title}`:'';
+  ppSt();const pl=PPL.filter(p=>S.pp[p.id]).length,pd=ppDue().length,pn=ppNext();
+  $('tnPP').textContent=pd?`今天复习 ${pd} 个`:pl?`学过 ${pl}/${PPL.length}`:pn.length?`下一组：${PPD[pn[0]].zh}`:'';
+  $('tnWord').textContent=by('word');$('tnGram').textContent=by('gram');$('tnRead').textContent=by('read');
+  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'现在没有错题';$('tRedo').classList.toggle('empty',!n);}
 HOOK.tile.cards=wordsView;HOOK.tile.pp=ppView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
-HOOK.home.push(redoTile);
+HOOK.home.push(tileNotes);
