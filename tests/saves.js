@@ -5,7 +5,7 @@ const ctx=await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1});c
 const play=async(tile,rounds)=>{for(let r=0;r<rounds;r++){await p.click(tile);for(let k=0;k<9;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth='+(k%2?1:0));await p.waitForTimeout(40);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(40);}
   if(await p.isVisible('#bHome'))await p.click('#bHome');else if(await p.isVisible('#bQuit'))await p.click('#bQuit');await p.waitForTimeout(80);}};
 const get=k=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),k);
-for(const [app,key,tile,tileNew] of [['math','xiaoxiao-math-v1','#tMix','#tWp'],['english','xiaoxiao-english-v1','#tGram','#tGram'],['science','xiaoxiao-science-v1','#tMix','#tLife']]){
+for(const [app,key,tile,tileNew] of [['math','xiaoxiao-math-v1','#tWp','#tWp'],['english','xiaoxiao-english-v1','#tGram','#tGram'],['science','xiaoxiao-science-v1','#tLife','#tLife']]){
   await p.goto(U+'old/'+app+'.html');await p.waitForTimeout(250);await play(tile,2);
   /* the old app marks the first word set learned: S.sets[0]=date, its words in S.wd */
   await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sets={[QB.WORDSETS[0]["title"]]:'2026-11-06'};QB.WORDSETS[0].words.forEach(w=>{S.wd[w[0]]={box:1,due:'2026-11-07',n:1,bad:0};});localStorage.setItem(k,JSON.stringify(S));},key);
