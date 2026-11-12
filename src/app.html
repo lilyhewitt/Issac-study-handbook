@@ -572,7 +572,7 @@ function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.l
 function home(){
   drawTasks();HOOK.home.forEach(f=>f());
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
-  if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
+  if(QB.spell&&$('tSpell')){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;
   $('hStars').textContent=S.stars;$('hLevel').textContent=lvl;
@@ -611,9 +611,13 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
        a grammar or reading round stays all grammar or reading */
     const due=mode==='mix'?QB.shuf(dueWords()):[],free=qs.map((q,i)=>q.step?-1:i).filter(i=>i>=0);   /* never a step of a step-by-step problem */
     if(due.length&&free.length)qs[free[0]]=wordQ(due[0]);if(due.length>=3&&free.length>1)qs[free[free.length-1]]=wordQ(due[1]);
+    /* English Words round: two of the five are spell-it (learned words), mixed in at places 2 and 4 */
+    if(mode==='word'&&QB.spell){const sw=spPick().slice(0,2);
+      sw.forEach(()=>{for(let j=qs.length-1;j>=0;j--)if(!qs[j].step){qs.splice(j,1);break;}});
+      sw.forEach((w,j)=>qs.splice(Math.min(1+2*j,qs.length),0,{sp:w,c:'word',t:'Spell it · 拼一拼'}));}
   }
   if(!qs.length){home();return;}
-  qs.forEach(q=>{const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
+  qs.forEach(q=>{if(q.sp)return;const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
   S.recent=S.recent.slice(-300);if(S.seen.length>5000)S.seen=S.seen.slice(-5000);save();
   R={mode,qs,i:0,score:0,res:[],locked:false};
   show('vQuiz');showQ();
@@ -639,6 +643,8 @@ function hlKey(h){if(!QB.hl)return h;
   return h.split(/(<[^>]+>)/).map(seg=>seg.startsWith('<')?seg:seg.replace(/（([A-Za-z][A-Za-z \-]*)）/g,'（<b>$1</b>）').replace(KWRE,'<b>$1</b>')).join('');}
 function showQ(){
   const q=R.qs[R.i];R.locked=false;
+  if(q.sp){spInRound(q);return;}
+  if($('vQuiz').hidden)show('vQuiz');
   try{speechSynthesis.cancel();}catch(e){}
   $('qChip').textContent=q.t+(q.step&&!q.again?' · 第 '+q.step.split('/')[0]+' 步，共 '+q.step.split('/')[1]+' 步':'');$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
   /* math and science: one sentence per line, numbers in bold, the question on its own line marked 问 */
@@ -738,6 +744,9 @@ function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]&&/^[a-
   const due=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t)),fresh=QB.shuf(learned.filter(w=>!S.sp[w.w])),
         rest=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due>t)).sort((a,b)=>S.sp[a.w].box-S.sp[b.w].box);
   return due.concat(fresh,rest).slice(0,SP_N);}
+/* a spell-it question inside a Words round: the spell screen, with the round's dots */
+function spInRound(q){SP={list:[q.sp],i:0,res:[],score:0,round:true};show('vSpell');$('spPlay').hidden=false;$('spDone').hidden=true;spShow();spRoundBar();}
+function spRoundBar(){pips();$('spPips').innerHTML=$('pips').innerHTML;$('spNo').textContent=$('qNo').textContent;}
 function spellStart(){const list=spPick();if(!list.length){wordsView();return;}
   SP={list,i:0,res:[],score:0};show('vSpell');$('spPlay').hidden=false;$('spDone').hidden=true;spShow();}
 function spShow(){const w=SP.list[SP.i];SP.w=w;SP.got=[];SP.mode='try';SP.done=false;
@@ -745,7 +754,7 @@ function spShow(){const w=SP.list[SP.i];SP.w=w;SP.got=[];SP.mode='try';SP.done=f
   for(const c of QB.shuf(pool)){if(extra.length===2)break;if(!extra.includes(c))extra.push(c);}
   SP.tiles=QB.shuf(w.w.split('').concat(extra)).map(c=>({c,used:false}));
   $('spZh').textContent=w.zh;$('spEx').innerHTML=fmt(w.ex.replace(/\*\*(.+?)\*\*/,'___'));
-  $('spModel').hidden=true;$('spMsg').textContent='';$('spNext').hidden=true;$('spCopy').hidden=true;$('spBack').hidden=false;
+  $('spModel').hidden=true;$('spMsg').textContent='';$('spNext').hidden=true;$('spNext').textContent='Next 下一个';$('spCopy').hidden=true;$('spBack').hidden=false;
   $('spNo').textContent=`${SP.i+1}/${SP.list.length}`;
   $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');
   spDraw();window.scrollTo(0,0);}
@@ -760,7 +769,7 @@ function spUndo(at){if(SP.done||!SP.got.length)return;const k=at==null?SP.got.le
   SP.got.splice(k).forEach(g=>SP.tiles[g.t].used=false);spDraw();}
 function spCheck(){const w=SP.w,word=w.w,typed=SP.got.map(g=>SP.tiles[g.t].c).join('');
   if(SP.mode==='copy'){SP.mode='ok';SP.done=true;spDraw();$('spMsg').textContent='好了！这次是对的。';$('spCopy').hidden=true;$('spModel').hidden=true;$('spBack').hidden=true;$('spNext').hidden=false;speakText(word);return;}
-  const ok=typed===word;SP.res[SP.i]=ok;
+  const ok=typed===word;SP.res[SP.i]=ok;if(SP.round){R.res[R.i]=ok;if(ok)R.score++;}
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const r=S.sp[word]||(S.sp[word]={box:0,due:dk,n:0,good:0});r.n++;
   if(ok){r.good++;r.box=Math.min(r.box+1,INTV.length-1);r.due=addDays(INTV[r.box]);S.stars++;SP.score++;}else{r.box=0;r.due=addDays(1);}
@@ -773,9 +782,11 @@ function spCheck(){const w=SP.w,word=w.w,typed=SP.got.map(g=>SP.tiles[g.t].c).jo
     SP.done=true;SP.got.forEach(g=>SP.tiles[g.t].used=false);SP.got=[];spDraw();
     $('spModel').textContent=word;$('spModel').hidden=false;
     $('spMsg').textContent=(right?`对了 ${right} 个字母。`:'')+'看一看正确的拼法：';$('spBack').hidden=true;$('spCopy').hidden=false;speakText(word);}
-  $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');}
+  $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');
+  if(SP.round){spRoundBar();$('spNext').textContent=R.i===R.qs.length-1?'See my score 看成绩':'Next 下一题';}}
 function spCopyStart(){SP.mode='copy';SP.done=false;$('spCopy').hidden=true;$('spBack').hidden=false;$('spMsg').textContent='照着上面的，一个一个拼。';spDraw();}
-function spNextWord(){if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
+function spNextWord(){if(SP.round){tkDay().spell=1;save();SP=null;R.locked=true;next();return;}
+  if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
   tkDay().spell=1;save();
   $('spPlay').hidden=true;$('spDone').hidden=false;
   $('spDoneBig').textContent=SP.score===SP.list.length?'全拼对了！':`拼对 ${SP.score} 个`;
@@ -967,7 +978,7 @@ $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)cho
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
 $('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
-$('tWords').addEventListener('click',wordsView);
+if($('tWords'))$('tWords').addEventListener('click',wordsView);
 $('bWordsBack').addEventListener('click',()=>{if(HOOK.wordsBack)HOOK.wordsBack();else home();});
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
 $('wSets').addEventListener('click',e=>{const b=e.target.closest('[data-learn]');if(b)startCards(+b.dataset.learn);});
@@ -978,7 +989,7 @@ $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
   if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
-$('tSpell').addEventListener('click',spellStart);
+if($('tSpell'))$('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);
 $('spSay').addEventListener('click',()=>{if(SP&&SP.w)speakText(SP.w.w);});

@@ -308,12 +308,24 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 .pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
 .wchip .pp-k{text-decoration:none}
+/* English home: six square tiles — word cards, phrases, words (+ spell it), grammar, reading, try again */
+:root{--pp:#7A4FE0;--pp-deep:#5233A6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pp:#8460EA;--pp-deep:#4A2E96}}
+:root[data-theme="dark"]{--pp:#8460EA;--pp-deep:#4A2E96}
+.tiles6 .tile{aspect-ratio:1/1;min-height:0;max-width:100%}
+.tiles6 .tsub{font-size:.95rem}
+.tnote{display:inline-block;margin-top:0.375rem;font-size:.8rem;font-weight:700;line-height:1.25;background:rgba(0,0,0,.18);border-radius:0.75rem;padding:0.1875rem 0.5rem}
+.tnote:empty{display:none}
 .tile[data-mode="cards"]{--c:var(--mix);--cd:var(--mix-deep);color:var(--on-mix)}
-.hub .wtile+.wtile{margin-top:0.75rem}
-.hub-cards .wtile{border-color:var(--mix);box-shadow:0 4px 0 var(--mix-deep)}
-.hub-cards .wtile:active{box-shadow:0 1px 0 var(--mix-deep)}
-.hub-word .wtile{border-color:var(--word);box-shadow:0 4px 0 var(--word-deep)}
-.hub-word .wtile:active{box-shadow:0 1px 0 var(--word-deep)}
+.tile[data-mode="cards"] .tnote{background:rgba(0,0,0,.1)}
+.tile[data-mode="pp"]{--c:var(--pp);--cd:var(--pp-deep)}
+.tile[data-mode="redo"]{background:var(--surface);color:var(--ink);border:2px dashed var(--word);box-shadow:0 5px 0 var(--line)}
+.tile[data-mode="redo"] .glyph{color:var(--word)}
+.tile[data-mode="redo"] .tnote{background:var(--word);color:#fff}
+.tile[data-mode="redo"].empty{opacity:.6}
+#bRedo,#mini,#vHome .foot{display:none!important}
+@media (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}.tiles6 .tname{font-size:1.2rem}.tiles6 .tile{gap:0.375rem}}
+@media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}.tiles6 .tile{aspect-ratio:16/9}}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -447,22 +459,30 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     <div class="tasks" id="tasks"></div>
 
 
-    <div class="tiles">
+    <div class="tiles tiles6">
       <button class="tile" data-mode="cards" id="tCards">
         <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
-        <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 介词词组</span></span>
+        <span><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></span>
+      </button>
+      <button class="tile" data-mode="pp" id="tPP">
+        <span class="glyph">at·in</span>
+        <span><span class="tname">Phrases</span><span class="tsub">介词词组</span><span class="tnote" id="ppNote"></span></span>
       </button>
       <button class="tile" data-mode="word" id="tWord">
         <span class="glyph">Aa</span>
-        <span><span class="tname">Words</span><span class="tsub">词汇 · 词汇题、拼一拼</span></span>
+        <span><span class="tname">Words</span><span class="tsub">词汇题 · 拼一拼</span></span>
       </button>
       <button class="tile" data-mode="gram" id="tGram">
         <span class="glyph">+ed</span>
-        <span><span class="tname">Grammar</span><span class="tsub">语法 · tenses, words that join</span></span>
+        <span><span class="tname">Grammar</span><span class="tsub">语法</span></span>
       </button>
       <button class="tile" data-mode="read" id="tRead">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M20 9c-4-3-10-4-16-3v24c6-1 12 0 16 3 4-3 10-4 16-3V6c-6-1-12 0-16 3z"/><path d="M20 9v24"/></svg></span>
-        <span><span class="tname">Reading</span><span class="tsub">阅读 · short stories</span></span>
+        <span><span class="tname">Reading</span><span class="tsub">阅读</span></span>
+      </button>
+      <button class="tile" data-mode="redo" id="tRedo">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
+        <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
     </div>
 
@@ -579,37 +599,6 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <div class="wc-tip">整块读三遍，把颜色标出来的小词读重一点。<br>Say it three times as one piece.</div>
     </div>
     <button class="btn" id="ppcNext">Next 下一个</button>
-  </section>
-
-  <!-- WORD CARDS HUB: the yellow tile opens the word cards and the phrases (介词词组) -->
-  <section id="vCHub" class="view hub hub-cards" aria-label="Word cards" hidden>
-    <div class="qbar">
-      <button class="iconbtn" id="chBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <h2 class="st-h">单词卡 · 介词词组</h2>
-    </div>
-    <button class="wtile" id="tWords">
-      <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 一组 5 个词</span></span>
-      <span class="wt-r" id="wtNote"></span>
-    </button>
-    <button class="wtile" id="tPP">
-      <span><span class="tname">Phrases</span><span class="tsub">介词词组 · 一周两组</span></span>
-      <span class="wt-r" id="ppNote"></span>
-    </button>
-  </section>
-
-  <!-- WORDS HUB: the orange Words tile opens the word questions and spell it -->
-  <section id="vWHub" class="view hub hub-word" aria-label="Words" hidden>
-    <div class="qbar">
-      <button class="iconbtn" id="whBack" aria-label="Back to home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <h2 class="st-h">Words 词汇</h2>
-    </div>
-    <button class="wtile" id="tWQuiz">
-      <span><span class="tname">Word questions</span><span class="tsub">词汇题 · 每轮 5 题</span></span>
-    </button>
-    <button class="wtile" id="tSpell">
-      <span><span class="tname">Spell it</span><span class="tsub">拼一拼 · 用字母块拼学过的词</span></span>
-      <span class="wt-r" id="spNote"></span>
-    </button>
   </section>
 
   <section id="vSpell" class="view" aria-label="Spell it" hidden>
@@ -1969,26 +1958,22 @@ HOOK.tasks.push(t=>{const due=ppDue().length;
 HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
 HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
 HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
-$('tPP').addEventListener('click',ppView);
-$('ppBack').addEventListener('click',()=>cardsHub());
+$('ppBack').addEventListener('click',home);
 $('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
 $('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
 $('ppcQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}ppView();});
 $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p.id}. ${p.ex.replace(/\*\*/g,'')}`);});
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
 
-/* Home: four tiles. The yellow Word cards tile opens the word cards and the phrases; the orange Words tile opens the word questions and spell it. */
-function cardsHub(){const dn=dueWords().length,nx=nextSet();$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';$('ppNote').textContent=ppNote();show('vCHub');}
-function wordsHub(){$('spNote').textContent=spNote();show('vWHub');}
-HOOK.tile.cards=cardsHub;HOOK.tile.word=wordsHub;HOOK.wordsBack=cardsHub;
-$('chBack').addEventListener('click',home);
-$('whBack').addEventListener('click',home);
-$('tWQuiz').addEventListener('click',()=>startRound('word'));
+/* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
+function redoTile(){const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'现在没有错题';$('tRedo').classList.toggle('empty',!n);}
+HOOK.tile.cards=wordsView;HOOK.tile.pp=ppView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
+HOOK.home.push(redoTile);
 
 function home(){
   drawTasks();HOOK.home.forEach(f=>f());
   if(QB.CH){QB.focus=S.ch||0;if($('tP4s'))$('tP4s').textContent=S.ch?'这周：第'+S.ch+'章 '+QB.CH[S.ch-1]:'预习 4A 课本 · 第1–8章';}
-  if(QB.spell){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
+  if(QB.spell&&$('tSpell')){$('tSpell').hidden=false;$('spNote').textContent=spNote();}
   show('vHome');
   const lvl=Math.floor(S.stars/PER)+1;
   $('hStars').textContent=S.stars;$('hLevel').textContent=lvl;
@@ -2027,9 +2012,13 @@ function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
        a grammar or reading round stays all grammar or reading */
     const due=mode==='mix'?QB.shuf(dueWords()):[],free=qs.map((q,i)=>q.step?-1:i).filter(i=>i>=0);   /* never a step of a step-by-step problem */
     if(due.length&&free.length)qs[free[0]]=wordQ(due[0]);if(due.length>=3&&free.length>1)qs[free[free.length-1]]=wordQ(due[1]);
+    /* English Words round: two of the five are spell-it (learned words), mixed in at places 2 and 4 */
+    if(mode==='word'&&QB.spell){const sw=spPick().slice(0,2);
+      sw.forEach(()=>{for(let j=qs.length-1;j>=0;j--)if(!qs[j].step){qs.splice(j,1);break;}});
+      sw.forEach((w,j)=>qs.splice(Math.min(1+2*j,qs.length),0,{sp:w,c:'word',t:'Spell it · 拼一拼'}));}
   }
   if(!qs.length){home();return;}
-  qs.forEach(q=>{const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
+  qs.forEach(q=>{if(q.sp)return;const k=QB.key(q),h=QB.hash(k);S.recent.push(k);if(!seen.has(h)){S.seen.push(h);seen.add(h);}});
   S.recent=S.recent.slice(-300);if(S.seen.length>5000)S.seen=S.seen.slice(-5000);save();
   R={mode,qs,i:0,score:0,res:[],locked:false};
   show('vQuiz');showQ();
@@ -2055,6 +2044,8 @@ function hlKey(h){if(!QB.hl)return h;
   return h.split(/(<[^>]+>)/).map(seg=>seg.startsWith('<')?seg:seg.replace(/（([A-Za-z][A-Za-z \-]*)）/g,'（<b>$1</b>）').replace(KWRE,'<b>$1</b>')).join('');}
 function showQ(){
   const q=R.qs[R.i];R.locked=false;
+  if(q.sp){spInRound(q);return;}
+  if($('vQuiz').hidden)show('vQuiz');
   try{speechSynthesis.cancel();}catch(e){}
   $('qChip').textContent=q.t+(q.step&&!q.again?' · 第 '+q.step.split('/')[0]+' 步，共 '+q.step.split('/')[1]+' 步':'');$('qChip').dataset.c=q.c;$('qAgain').hidden=!q.again;
   /* math and science: one sentence per line, numbers in bold, the question on its own line marked 问 */
@@ -2154,6 +2145,9 @@ function spPick(){const t=dkey(new Date()),learned=WL.filter(w=>S.wd[w.w]&&/^[a-
   const due=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due<=t)),fresh=QB.shuf(learned.filter(w=>!S.sp[w.w])),
         rest=QB.shuf(learned.filter(w=>S.sp[w.w]&&S.sp[w.w].due>t)).sort((a,b)=>S.sp[a.w].box-S.sp[b.w].box);
   return due.concat(fresh,rest).slice(0,SP_N);}
+/* a spell-it question inside a Words round: the spell screen, with the round's dots */
+function spInRound(q){SP={list:[q.sp],i:0,res:[],score:0,round:true};show('vSpell');$('spPlay').hidden=false;$('spDone').hidden=true;spShow();spRoundBar();}
+function spRoundBar(){pips();$('spPips').innerHTML=$('pips').innerHTML;$('spNo').textContent=$('qNo').textContent;}
 function spellStart(){const list=spPick();if(!list.length){wordsView();return;}
   SP={list,i:0,res:[],score:0};show('vSpell');$('spPlay').hidden=false;$('spDone').hidden=true;spShow();}
 function spShow(){const w=SP.list[SP.i];SP.w=w;SP.got=[];SP.mode='try';SP.done=false;
@@ -2161,7 +2155,7 @@ function spShow(){const w=SP.list[SP.i];SP.w=w;SP.got=[];SP.mode='try';SP.done=f
   for(const c of QB.shuf(pool)){if(extra.length===2)break;if(!extra.includes(c))extra.push(c);}
   SP.tiles=QB.shuf(w.w.split('').concat(extra)).map(c=>({c,used:false}));
   $('spZh').textContent=w.zh;$('spEx').innerHTML=fmt(w.ex.replace(/\*\*(.+?)\*\*/,'___'));
-  $('spModel').hidden=true;$('spMsg').textContent='';$('spNext').hidden=true;$('spCopy').hidden=true;$('spBack').hidden=false;
+  $('spModel').hidden=true;$('spMsg').textContent='';$('spNext').hidden=true;$('spNext').textContent='Next 下一个';$('spCopy').hidden=true;$('spBack').hidden=false;
   $('spNo').textContent=`${SP.i+1}/${SP.list.length}`;
   $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');
   spDraw();window.scrollTo(0,0);}
@@ -2176,7 +2170,7 @@ function spUndo(at){if(SP.done||!SP.got.length)return;const k=at==null?SP.got.le
   SP.got.splice(k).forEach(g=>SP.tiles[g.t].used=false);spDraw();}
 function spCheck(){const w=SP.w,word=w.w,typed=SP.got.map(g=>SP.tiles[g.t].c).join('');
   if(SP.mode==='copy'){SP.mode='ok';SP.done=true;spDraw();$('spMsg').textContent='好了！这次是对的。';$('spCopy').hidden=true;$('spModel').hidden=true;$('spBack').hidden=true;$('spNext').hidden=false;speakText(word);return;}
-  const ok=typed===word;SP.res[SP.i]=ok;
+  const ok=typed===word;SP.res[SP.i]=ok;if(SP.round){R.res[R.i]=ok;if(ok)R.score++;}
   const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   const r=S.sp[word]||(S.sp[word]={box:0,due:dk,n:0,good:0});r.n++;
   if(ok){r.good++;r.box=Math.min(r.box+1,INTV.length-1);r.due=addDays(INTV[r.box]);S.stars++;SP.score++;}else{r.box=0;r.due=addDays(1);}
@@ -2189,9 +2183,11 @@ function spCheck(){const w=SP.w,word=w.w,typed=SP.got.map(g=>SP.tiles[g.t].c).jo
     SP.done=true;SP.got.forEach(g=>SP.tiles[g.t].used=false);SP.got=[];spDraw();
     $('spModel').textContent=word;$('spModel').hidden=false;
     $('spMsg').textContent=(right?`对了 ${right} 个字母。`:'')+'看一看正确的拼法：';$('spBack').hidden=true;$('spCopy').hidden=false;speakText(word);}
-  $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');}
+  $('spPips').innerHTML=SP.list.map((x,j)=>`<span class="pip ${SP.res[j]===true?'ok':SP.res[j]===false?'no':j===SP.i?'now':''}"></span>`).join('');
+  if(SP.round){spRoundBar();$('spNext').textContent=R.i===R.qs.length-1?'See my score 看成绩':'Next 下一题';}}
 function spCopyStart(){SP.mode='copy';SP.done=false;$('spCopy').hidden=true;$('spBack').hidden=false;$('spMsg').textContent='照着上面的，一个一个拼。';spDraw();}
-function spNextWord(){if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
+function spNextWord(){if(SP.round){tkDay().spell=1;save();SP=null;R.locked=true;next();return;}
+  if(SP.i<SP.list.length-1){SP.i++;spShow();return;}
   tkDay().spell=1;save();
   $('spPlay').hidden=true;$('spDone').hidden=false;
   $('spDoneBig').textContent=SP.score===SP.list.length?'全拼对了！':`拼对 ${SP.score} 个`;
@@ -2383,7 +2379,7 @@ $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)cho
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
 $('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
-$('tWords').addEventListener('click',wordsView);
+if($('tWords'))$('tWords').addEventListener('click',wordsView);
 $('bWordsBack').addEventListener('click',()=>{if(HOOK.wordsBack)HOOK.wordsBack();else home();});
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
 $('wSets').addEventListener('click',e=>{const b=e.target.closest('[data-learn]');if(b)startCards(+b.dataset.learn);});
@@ -2394,7 +2390,7 @@ $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
   if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
-$('tSpell').addEventListener('click',spellStart);
+if($('tSpell'))$('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);
 $('spSay').addEventListener('click',()=>{if(SP&&SP.w)speakText(SP.w.w);});

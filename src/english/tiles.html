@@ -1,19 +1,27 @@
-<div class="tiles">
+<div class="tiles tiles6">
       <button class="tile" data-mode="cards" id="tCards">
         <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
-        <span><span class="tname">Word cards</span><span class="tsub">单词卡 · 介词词组</span></span>
+        <span><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></span>
+      </button>
+      <button class="tile" data-mode="pp" id="tPP">
+        <span class="glyph">at·in</span>
+        <span><span class="tname">Phrases</span><span class="tsub">介词词组</span><span class="tnote" id="ppNote"></span></span>
       </button>
       <button class="tile" data-mode="word" id="tWord">
         <span class="glyph">Aa</span>
-        <span><span class="tname">Words</span><span class="tsub">词汇 · 词汇题、拼一拼</span></span>
+        <span><span class="tname">Words</span><span class="tsub">词汇题 · 拼一拼</span></span>
       </button>
       <button class="tile" data-mode="gram" id="tGram">
         <span class="glyph">+ed</span>
-        <span><span class="tname">Grammar</span><span class="tsub">语法 · tenses, words that join</span></span>
+        <span><span class="tname">Grammar</span><span class="tsub">语法</span></span>
       </button>
       <button class="tile" data-mode="read" id="tRead">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M20 9c-4-3-10-4-16-3v24c6-1 12 0 16 3 4-3 10-4 16-3V6c-6-1-12 0-16 3z"/><path d="M20 9v24"/></svg></span>
-        <span><span class="tname">Reading</span><span class="tsub">阅读 · short stories</span></span>
+        <span><span class="tname">Reading</span><span class="tsub">阅读</span></span>
+      </button>
+      <button class="tile" data-mode="redo" id="tRedo">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
+        <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
     </div>
 

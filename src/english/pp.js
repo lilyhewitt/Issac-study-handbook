@@ -45,18 +45,14 @@ HOOK.tasks.push(t=>{const due=ppDue().length;
 HOOK.task.pp=()=>{if(ppDue().length)startRound('ppreview');else ppView();};
 HOOK.task.ppnew=()=>{const nx=ppNext();if(nx.length)ppCards(nx[0]);else ppView();};
 HOOK.home.push(()=>{$('ppNote').textContent=ppNote();});
-$('tPP').addEventListener('click',ppView);
-$('ppBack').addEventListener('click',()=>cardsHub());
+$('ppBack').addEventListener('click',home);
 $('ppReview').addEventListener('click',()=>{if(ppDue().length)startRound('ppreview');});
 $('ppSets').addEventListener('click',e=>{const b=e.target.closest('[data-pplearn]');if(b)ppCards(+b.dataset.pplearn);});
 $('ppcQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}ppView();});
 $('ppcSay').addEventListener('click',()=>{const p=PPC.list[PPC.i];speakText(`${p.id}. ${p.ex.replace(/\*\*/g,'')}`);});
 $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;ppCard();}else startRound('pplearn:'+PPC.gi);});
 
-/* Home: four tiles. The yellow Word cards tile opens the word cards and the phrases; the orange Words tile opens the word questions and spell it. */
-function cardsHub(){const dn=dueWords().length,nx=nextSet();$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';$('ppNote').textContent=ppNote();show('vCHub');}
-function wordsHub(){$('spNote').textContent=spNote();show('vWHub');}
-HOOK.tile.cards=cardsHub;HOOK.tile.word=wordsHub;HOOK.wordsBack=cardsHub;
-$('chBack').addEventListener('click',home);
-$('whBack').addEventListener('click',home);
-$('tWQuiz').addEventListener('click',()=>startRound('word'));
+/* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
+function redoTile(){const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'现在没有错题';$('tRedo').classList.toggle('empty',!n);}
+HOOK.tile.cards=wordsView;HOOK.tile.pp=ppView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
+HOOK.home.push(redoTile);

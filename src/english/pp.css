@@ -2,9 +2,21 @@
 .pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
 .wchip .pp-k{text-decoration:none}
+/* English home: six square tiles — word cards, phrases, words (+ spell it), grammar, reading, try again */
+:root{--pp:#7A4FE0;--pp-deep:#5233A6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pp:#8460EA;--pp-deep:#4A2E96}}
+:root[data-theme="dark"]{--pp:#8460EA;--pp-deep:#4A2E96}
+.tiles6 .tile{aspect-ratio:1/1;min-height:0;max-width:100%}
+.tiles6 .tsub{font-size:.95rem}
+.tnote{display:inline-block;margin-top:0.375rem;font-size:.8rem;font-weight:700;line-height:1.25;background:rgba(0,0,0,.18);border-radius:0.75rem;padding:0.1875rem 0.5rem}
+.tnote:empty{display:none}
 .tile[data-mode="cards"]{--c:var(--mix);--cd:var(--mix-deep);color:var(--on-mix)}
-.hub .wtile+.wtile{margin-top:0.75rem}
-.hub-cards .wtile{border-color:var(--mix);box-shadow:0 4px 0 var(--mix-deep)}
-.hub-cards .wtile:active{box-shadow:0 1px 0 var(--mix-deep)}
-.hub-word .wtile{border-color:var(--word);box-shadow:0 4px 0 var(--word-deep)}
-.hub-word .wtile:active{box-shadow:0 1px 0 var(--word-deep)}
+.tile[data-mode="cards"] .tnote{background:rgba(0,0,0,.1)}
+.tile[data-mode="pp"]{--c:var(--pp);--cd:var(--pp-deep)}
+.tile[data-mode="redo"]{background:var(--surface);color:var(--ink);border:2px dashed var(--word);box-shadow:0 5px 0 var(--line)}
+.tile[data-mode="redo"] .glyph{color:var(--word)}
+.tile[data-mode="redo"] .tnote{background:var(--word);color:#fff}
+.tile[data-mode="redo"].empty{opacity:.6}
+#bRedo,#mini,#vHome .foot{display:none!important}
+@media (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}.tiles6 .tname{font-size:1.2rem}.tiles6 .tile{gap:0.375rem}}
+@media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}.tiles6 .tile{aspect-ratio:16/9}}
