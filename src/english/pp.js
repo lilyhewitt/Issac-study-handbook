@@ -53,6 +53,8 @@ $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;p
 
 /* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
 function tileNotes(){
-  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'现在没有错题';$('tRedo').classList.toggle('empty',!n);}
+  /* only what is due today, nothing when nothing is due (no scores, no progress) */
+  const dn=dueWords().length,pd=ppDue().length;$('wtNote').textContent=dn?`今天复习 ${dn} 个`:'';$('ppNote').textContent=pd?`今天复习 ${pd} 个`:'';
+  const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
 HOOK.tile.cards=wordsView;HOOK.tile.pp=ppView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
 HOOK.home.push(tileNotes);
