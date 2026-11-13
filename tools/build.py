@@ -81,6 +81,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('english', 'pp.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'pp.js') + '\nfunction home(){')
+        # the word map (单词地图): sets along a road, reviews, chests and badges; new sentences for the chests
+        s = rep(s, '  <section id="vSpell" class="view"', read('shared', 'map.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('shared', 'map.css') + s[i:]
+        s = rep(s, 'function home(){', read('english', 'sent.js') + '\n' + read('shared', 'map.js') + '\nfunction home(){')
     if app == 'science':                               # 答题本领 answer-skill questions
         sk = read('science', 'skill.js').replace('/*__CARDS__*/[]', read('science', 'cards.json').strip())
         s = rep(s, 'function home(){', sk + '\nfunction home(){')

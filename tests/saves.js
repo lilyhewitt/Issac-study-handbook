@@ -12,9 +12,10 @@ for(const [app,key,tile,tileNew] of [['math','xiaoxiao-math-v1','#tWp','#tWp'],[
   const firstOld=await p.evaluate(()=>QB.WORDSETS[0].title);const A=await get(key);
   await p.goto(U+'new/'+app+'.html');await p.waitForTimeout(250);
   const raw=await get(key);ok(JSON.stringify(raw)===JSON.stringify(A),app+': opening the new version changes nothing by itself');
-  if(await p.isVisible('#tCards'))await p.click('#tCards');else await p.click('#tWords');await p.waitForTimeout(100);const wl=await p.innerText('#wSets');
-  const heads=await p.$$eval('#wSets .wset-h',a=>a.map(e=>e.innerText.replace(/\s+/g,' ')));ok(heads.some(h=>h.includes(firstOld)&&/学的/.test(h)),app+': "'+firstOld+'" still shows as learned');
-  await p.click('#bWordsBack');await p.waitForTimeout(80);if(await p.isVisible('#chBack'))await p.click('#chBack');
+  if(await p.isVisible('#tCards'))await p.click('#tCards');else await p.click('#tWords');await p.waitForTimeout(100);
+  if(await p.isVisible('#vMap')){const lv=await p.$$eval('.mn-t',(a,t)=>a.some(e=>e.textContent.includes(t)&&!e.classList.contains('off')),firstOld);ok(lv,app+': "'+firstOld+'" still shows as learned (on the map)');await p.click('#mBack');}
+  else{const heads=await p.$$eval('#wSets .wset-h',a=>a.map(e=>e.innerText.replace(/\s+/g,' ')));ok(heads.some(h=>h.includes(firstOld)&&/学的/.test(h)),app+': "'+firstOld+'" still shows as learned');
+  await p.click('#bWordsBack');}await p.waitForTimeout(80);if(await p.isVisible('#chBack'))await p.click('#chBack');
   await play(tileNew,1);const B=await get(key);
   ok(B.stars>=A.stars&&B.stars<=A.stars+5,app+': stars kept ('+A.stars+' → '+B.stars+')');
   ok(Object.keys(A.days).every(d=>B.days[d]),app+': days kept');

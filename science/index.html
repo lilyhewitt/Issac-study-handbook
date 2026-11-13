@@ -1033,7 +1033,7 @@ const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
 /* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
-const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null,tile:{},wordsBack:null};
+const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null,tile:{},wordsBack:null,learnMode:null,finish:null,quit:null,cardBack:null,noWordTasks:false,statsExtra:[],meExtra:[]};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -1063,8 +1063,8 @@ function streak(){let n=0;const d=new Date();if(!S.days[dkey(d)])d.setDate(d.get
 /* today's tasks: word review if any is due; spell it (English) once words are learned. Done = done for the day. */
 function tkDay(){const k=dkey(new Date());const t=S.tk[k]||(S.tk[k]={});const keep=Object.keys(S.tk).sort().slice(-14);Object.keys(S.tk).forEach(d=>{if(!keep.includes(d))delete S.tk[d];});return t;}
 function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.wd[w.w]),L=[];
-  if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
-  if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});
+  if(!HOOK.noWordTasks){if(due||t.words)L.push({k:'words',name:'复习今天的词 · Word review'+(due?'（'+due+' 个）':''),done:!due&&!!t.words});
+  if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});}
   if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
   HOOK.tasks.forEach(f=>{const x=f(t);if(x)L.push(x);});
   return L;}
@@ -1262,6 +1262,7 @@ function showQ(){
   if(QB.lines&&!P&&!q.ask){const ss=sents(Q);if(ss.length>1&&/\?\s*$/.test(ss[ss.length-1])){P=ss.slice(0,-1).join(' ');Q=ss[ss.length-1];}}
   $('qPass').hidden=!P;$('qPass').innerHTML=P?(QB.lines?lines(P):fmt(P)):'';
   $('qFig').hidden=!q.fig;$('qFig').innerHTML=q.fig||'';
+  if(q.say)setTimeout(()=>speakText(q.say),250);
   $('qText').innerHTML=(QB.lines&&P&&!q.ask&&/\?\s*$/.test(Q)?'<span class="ask">问</span>':'')+(QB.lines?numB(fmt(Q)):fmt(Q));
   const tip=tipFor(q,P);$('qTip').hidden=!tip;$('qTip').textContent=tip;
   $('bHint').hidden=!q.zh;$('bHint').setAttribute('aria-pressed','false');$('qHint').hidden=true;$('qHint').textContent=(q.zh||'')+(q.zo?'\n'+q.zo.map((z,i)=>'('+(i+1)+') '+z).join('\n'):'');
@@ -1293,6 +1294,7 @@ function next(){if(!R||!R.locked)return;R.i++;if(R.i>=R.qs.length)finish();else 
 function finish(){
   const n=R.qs.length,s=R.score,perfect=s===n&&n>=ROUND;
   if(perfect)S.stars+=2;save();
+  if(HOOK.finish&&HOOK.finish(n,s))return;   /* an edition's own result screen (English: the word map) */
   show('vDone');
   $('dScore').innerHTML=`${s}<span>/${n}</span>`;
   $('dStars').innerHTML=R.res.map(ok=>STAR.replace('<svg','<svg class="'+(ok?'ico-star':'off')+'"')).join('');
@@ -1452,7 +1454,7 @@ function sessHTML(){return sessions().slice(0,30).map(x=>{const w=x.n-x.ok;
     if(!x.wrong.length)return `<div class="st-w sess">${head}</div>`;
     return `<details class="st-w sess"><summary>${head}</summary>`+x.wrong.map(e=>`<div class="st-wi"><div class="st-wt"><span>${esc(e.t)}${e.k?' · '+esc(e.k):''}</span></div>${e.p?`<div class="st-p">${esc(e.p)}…</div>`:''}<div class="st-q">${esc(e.q)}</div><div class="st-a">他选：${esc(e.a)}　答案：<b>${esc(e.r)}</b></div></div>`).join('')+'</details>';}).join('')||'<p class="st-note">还没有记录。</p>';}
 /* the child's page: how much he has done, this week, what he can already do, what got better, words remembered */
-function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
+function meView(){show('vMe');HOOK.meExtra.forEach(f=>f());const L=Array.isArray(S.log)?S.log:[];
   const total=L.length,days=new Set(L.map(e=>e.d)).size,stk=streak();
   $('meHero').innerHTML=total?`<div class="me-big">${total} 题</div><p>你已经认真做了 ${total} 题！</p><div class="me-row"><span><svg class="ico ico-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg> ${S.stars} 颗星</span><span>练了 ${days} 天</span>${stk>1?`<span>连续 ${stk} 天</span>`:''}</div>`
     :'<div class="me-big">开始吧！</div><p>做完第一轮，这里就会记下你的进步。</p>';
@@ -1478,7 +1480,7 @@ function meView(){show('vMe');const L=Array.isArray(S.log)?S.log:[];
 function chCard(){const el=$('chCard');if(!el)return;if(!QB.CH||REMOTE){el.hidden=true;return;}el.hidden=false;const c=S.ch||0;
   el.innerHTML='<p class="me-t">这周预习第几章</p><p class="st-sub">“预习 4A”和每天的一轮里，四年级题多数出这一章，也会复习前面几章。选“全部”就 8 章都出。家长手册的“练习”页也能选。</p><div class="ch-list">'
     +['全部'].concat(QB.CH.map((t,i)=>'第'+(i+1)+'章 '+t)).map((t,i)=>`<button class="ch-b${i===c?' on':''}" data-ch="${i}">${esc(t)}</button>`).join('')+'</div>';}
-function statsView(){show('vStats');chCard();voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
+function statsView(){show('vStats');HOOK.statsExtra.forEach(f=>f());chCard();voiceCard();$('copyBox').hidden=true;$('copyMsg').textContent='';const st=stats();
   const wi=wordInfo();
   $('stWords').innerHTML=wi.learned.length?`<div class="st-big"><b>${wi.learned.length}</b> 个词学过 · <b>${wi.mast.length}</b> 个记住了</div><p class="st-sub">今天要复习 ${wi.due.length} 个。“记住了”= 隔开几天连续答对 4 次。</p>`
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
@@ -1553,6 +1555,7 @@ function voiceCard(){const el=$('vcCard');if(!el)return;if(!canSay||REMOTE){el.h
     +`<p class="st-note">这台设备一共读到：英国 ${gb.length} 个、美国 ${us.length} 个、新加坡 ${sg.length} 个。</p>`;
   el._vs=vs;}
 function say(){const q=R&&R.qs[R.i];if(!q||!canSay)return;
+  if(q.say){speakText(q.say);return;}   /* a listening question: say only the word */
   let t=(q.p?q.p+'\n':'')+q.q.replace(/\*\*/g,'').replace(/___/g,' blank ').replace(/[①②]/g,'')+'\n';
   /* 45 678 is one number; 3 1/3 is "3 and 1 over 3" */
   t=t.replace(/(\d)[ \u00a0\u2009](?=\d{3}(?!\d))/g,'$1').replace(/(\d+) (\d+)\/(\d+)/g,'$1 and $2 over $3').replace(/(\d+)\/(\d+)/g,'$1 over $2').replace(/−/g,' minus ').replace(/×/g,' times ').replace(/÷/g,' divided by ');
@@ -1585,21 +1588,21 @@ document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{co
 $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
-$('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}R=null;home();});
+$('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}const m=R&&R.mode;R=null;if(HOOK.quit&&HOOK.quit(m))return;home();});
 $('bAgain').addEventListener('click',()=>{const m=$('bAgain').dataset.mode||'mix';if(m==='side'&&HOOK.sideBack)HOOK.sideBack();else if(m==='words')wordsView();else startRound(m);});
 if($('tWords'))$('tWords').addEventListener('click',wordsView);
 $('bWordsBack').addEventListener('click',()=>{if(HOOK.wordsBack)HOOK.wordsBack();else home();});
 $('bReview').addEventListener('click',()=>{if(dueWords().length)startRound('review');});
 $('wSets').addEventListener('click',e=>{const b=e.target.closest('[data-learn]');if(b)startCards(+b.dataset.learn);});
-$('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}wordsView();});
+$('bCardQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}if(HOOK.cardBack)HOOK.cardBack();else wordsView();});
 $('cSay').addEventListener('click',()=>{const w=WS[CARD.si].words[CARD.i];speakText(`${w.w}. ${w.ex.replace(/\*\*/g,'')}`);});
-$('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound('learn:'+CARD.si);});
+$('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){CARD.i++;showCard();}else startRound(HOOK.learnMode?HOOK.learnMode(CARD.si):'learn:'+CARD.si);});
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
   if(k==='round')startRound('mix');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
 if($('tSpell'))$('tSpell').addEventListener('click',spellStart);
-$('spQuit').addEventListener('click',home);$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
+$('spQuit').addEventListener('click',()=>{const m=SP&&SP.round&&R?R.mode:null;SP=null;if(m){R=null;if(HOOK.quit&&HOOK.quit(m))return;}home();});$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);
 $('spSay').addEventListener('click',()=>{if(SP&&SP.w)speakText(SP.w.w);});
 $('spTiles').addEventListener('click',e=>{const b=e.target.closest('[data-tile]');if(b)spTap(+b.dataset.tile);});

@@ -38,5 +38,6 @@ if [ "${1:-}" != quick ]; then
   run "chapter chosen in the handbook" node tests/chapter.js
   run "daily rounds" node tests/rounds.js
   run "English phrases and grammar" node tests/phrases.js
+  run "English word map" node tests/map.js
 fi
 [ $fail = 0 ] && echo "ALL OK" || { echo "SOMETHING FAILED"; exit 1; }

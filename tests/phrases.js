@@ -11,9 +11,7 @@ const sq=await p.$$eval('#vHome .tile',a=>a.map(e=>Math.abs(e.offsetWidth-e.offs
  ok(g.tiles>g.tasks&&Math.abs(g.me-g.board)<2,'iPad: board, tasks and my progress on the left, tiles on the right '+JSON.stringify(g));ok(g.glyph===6&&g.sub==='none','icons on the tiles, no “Pick one” line');
  const notes=await p.$$eval('#vHome .tnote',a=>a.map(e=>e.innerText));ok(notes.filter(Boolean).length===0,'nothing due → no small notes on the tiles: '+notes.join(' | '));}
 ok(!(await p.isVisible('#mini'))&&!(await p.isVisible('#vHome .foot'))&&!(await p.isVisible('#bRedo')),'no score line, no tip line, no old try-again bar');
-await p.click('#tCards');ok(await p.isVisible('#vWords'),'Word cards tile opens the word cards');
-ok((await p.$$('#wSets [data-learn]')).length===(await p.evaluate(()=>QB.WORDSETS.length))&&!(await p.innerText('#wSets')).includes('Week'),'every word set can be learned, no weeks');await p.click('#bWordsBack');ok(await p.isVisible('#vHome'),'back from word cards goes home');
-await p.click('#tPP');ok(await p.isVisible('#vPP'),'Phrases tile opens the phrases');await p.click('#ppBack');
+await p.click('#tCards');ok(await p.isVisible('#vMap'),'Word cards tile opens the word map');await p.click('#mBack');ok(await p.isVisible('#vHome'),'back from the map goes home');
 await p.click('#tRedo');ok(await p.isVisible('#vHome'),'try again with no misses stays home: '+(await p.innerText('#tRedo')).replace(/\n/g,' '));
 ok((await p.innerText('#tasks')).includes('学一组新词组'),'today’s tasks offer a new group of phrases');
 /* answer a phrase question right: find the phrase the question is about */
@@ -25,11 +23,11 @@ const right=async()=>p.evaluate(()=>{const qt=document.querySelector('#qText').i
   const bs=[...document.querySelectorAll('#opts .opt')];const t=bs.find(b=>b.querySelector('.otext').innerText.trim()===k);return t?+t.dataset.i:-1;});
 const play=async(allRight)=>{let n=0,miss=0;while(await p.isVisible('#opts')&&n<20){n++;let i=allRight?await right():0;if(i<0){miss++;i=0;}await p.click('#opt'+i);await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}return {n,miss};};
 await p.click('#tPP');await p.waitForTimeout(100);
-const list=await p.innerText('#ppSets');ok((list.match(/下一组/g)||[]).length===2,'two groups marked for this week');
-await p.click('[data-pplearn="0"]');for(let i=0;i<5;i++){ok(i>0||(await p.innerHTML('#ppcWord')).includes('pp-k'),'card shows the phrase with the small word marked');await p.click('#ppcNext');}
+ok(await p.isVisible('#vMap'),'phrases tile opens the phrase map');
+await p.click('.mn[data-i="0"]',{force:true});for(let i=0;i<5;i++){ok(i>0||(await p.innerHTML('#ppcWord')).includes('pp-k'),'card shows the phrase with the small word marked');await p.click('#ppcNext');}
 const r1=await play(true);ok(r1.n===5&&r1.miss===0,'learning round: 5 “which small word” questions, all answerable ('+JSON.stringify(r1)+')');
-ok((await p.innerText('#bAgain')).includes('介词词组'),'end of round leads back to the phrases');
-await p.click('#bAgain');let s=await S();
+ok(await p.isVisible('#mRes'),'end of round shows the result on the phrase map');
+await p.click('#mrGo');let s=await S();
 ok(Object.keys(s.pp||{}).length===5&&Object.values(s.pp).every(x=>x.box===1),'5 phrases learned, all at the first step');
 ok((s.misses||[]).length===0,'phrases are not added to the wrong-answer list');
 ok(Object.keys(s.ppg||{}).length===1,'group recorded as learned');
@@ -38,7 +36,7 @@ await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-
 await p.reload();await p.waitForTimeout(200);
 ok((await p.innerText('#tasks')).includes('复习今天的词组'),'task: review today’s phrases');
 const kinds=new Set();for(let k=0;k<6;k++){await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-v1'));Object.values(S.pp).forEach(x=>{x.due='2026-01-01';x.box=Math.max(x.box,4);});localStorage.setItem('xiaoxiao-english-v1',JSON.stringify(S));});
-  await p.reload();await p.waitForTimeout(150);await p.click('#tPP');await p.click('#ppReview');
+  await p.reload();await p.waitForTimeout(150);await p.click('[data-tk="pp"]');
   while(await p.isVisible('#opts')){kinds.add((await p.innerText('#qChip')).split(' · 第')[0]);let i=await right();if(i<0)i=0;await p.click('#opt'+i);await p.waitForTimeout(25);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(25);}
   await p.click('#bAgain');}
 ok(kinds.has('Phrases in sentences · 词组放进句子')&&kinds.has('Phrases in a story · 小故事')&&kinds.has('Phrases: spot the mistake · 找错'),'review moves on to sentences, stories and spot-the-mistake: '+[...kinds].join(' / '));
