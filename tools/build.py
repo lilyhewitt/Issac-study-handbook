@@ -81,6 +81,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('english', 'pp.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'pp.js') + '\nfunction home(){')
+    if app == 'science':                               # 答题本领 answer-skill questions
+        sk = read('science', 'skill.js').replace('/*__CARDS__*/[]', read('science', 'cards.json').strip())
+        s = rep(s, 'function home(){', sk + '\nfunction home(){')
+        i = s.index('</style>')
+        s = s[:i] + read('science', 'skill.css') + s[i:]
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')

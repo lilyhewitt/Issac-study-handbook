@@ -503,9 +503,28 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 
 <!-- ===== 科学 ===== -->
 <section class="view" id="v-science" hidden>
-  <div class="card soft"><p class="big">一个主题一个主题来:<br>先听或读 → 出门看或动手 → 说三句,写一句</p></div>
-  <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题,按家里的安排一个一个来。</p></div>
-  <h2>6 个科学主题</h2>
+  <div class="card soft"><p class="big">放假科学 · 每天 15 分钟<br>5 张问答卡 → 1 轮 app → 说一句魔法句</p></div>
+  <div class="card"><span class="tag">每天怎么做</span><ol>
+    <li><b>5 分钟 · 问答卡</b>:用“头脑测试科学篇”或纸卡,做这周单元的 5 张。翻面前先说答案。</li>
+    <li><b>7 分钟 · 1 轮 app</b>:科学练习里点这周的方块做 5 题;一、三、五点紫色“答题本领”。</li>
+    <li><b>3 分钟 · 说一句魔法句</b>:从下面这周的魔法句里挑一句,不看说出来,再写在本子上。关键词写对就算过。</li>
+  </ol><a class="btn" href="https://lilyhewitt.github.io/brain-quest-science/">头脑测试科学篇 · 问答卡</a><a class="btn" href="science/?from=handbook">科学练习 app</a></div>
+
+  <h2>答题 4 条规矩</h2>
+  <div class="card say">
+    <p><b>1. 不留空</b>:不会也写一句,用题目里的词 + because。</p>
+    <p><b>2. 先圈方向词</b>:<span class="en">NOT · increase · decrease · more · less · nearer · further</span>,圈完再答。</p>
+    <p><b>3. Based only on…</b>:只用图表和题目里有的信息;图上没有的选 <span class="en">Not possible to tell</span>。</p>
+    <p><b>4. 变量三问</b>:<span class="en">What do I change? What do I measure? What must I keep the same?</span></p>
+  </div>
+  <p class="muted">app 的“答题本领”就练这 4 条:圈方向词、拼魔法句、变量分类、读图表。</p>
+
+  <h2>6 周安排</h2>
+  <div id="sciPlan" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="muted">每周做完点“这周完成”。最后几天:错题重练 + 抽 P3、P4 每个单元 2 张卡。打勾只存在这台设备上。</p>
+
+  <h2>P4 主题书单和动手做</h2>
+  <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题是借书、出门的参考,跟上面 6 周一起用。</p></div>
   <div class="card warm">
     <p><b>书去哪找:</b>每个主题列了 3 本,从简单到难,<b>找到一本就行</b>。点书名会在 NLB 图书馆目录里搜这本,实体书或 Libby 里的电子书都行。三本都借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
   </div>
@@ -672,6 +691,11 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.18 · 11 月 12 日</span><h3>科学放假计划和“答题本领”</h3><ul>
+    <li>手册科学页最上面:每天 15 分钟怎么做、答题 4 条规矩、6 周安排(每周的魔法句、换问法、易错点)。原来的 6 个 P4 主题和打勾都保留。</li>
+    <li>科学 app 首页加紫色“答题本领”:圈方向词、拼魔法句、变量分类、读图表;生物、材料、P4 每轮也会混进一题。</li>
+    <li>按课本改了几道题的说法(真菌的食物、青蛙三个阶段、occupies space、electronic balance 等)。之前的存档不受影响。</li>
+  </ul></div>
   <div class="card"><span class="tag">v4.17 · 11 月 12 日</span><h3>去掉“练一轮”任务</h3><ul>
     <li>三个 app 的“今天的任务”里不再有“练一轮”。只剩到期的复习(单词卡、词组、拼一拼、线段图),没有任务时提示选一个方块练。</li>
     <li>之前的存档不受影响。</li>
@@ -976,6 +1000,29 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     cb.addEventListener("change",function(){mdone[id]=cb.checked;mark();try{localStorage.setItem(MKEY,JSON.stringify(mdone));}catch(e){}renderProg();});
   });
 
+
+  var SP=[
+   {t:"动物和植物的一生",u:"P3 植物的一生 · P3 动物的一生",m:["A cockroach has **3 stages**: egg, **nymph**, adult.","A butterfly has **4 stages**: egg, **larva**, **pupa**, adult.","A seed needs **water**, **air** and **warmth** to **germinate**."],ask:["What is the young of a cockroach called? = 蟑螂幼体叫什么","Which stage does not feed? = pupa(蛹不吃东西)"],trap:"蟑螂、蚱蜢没有蛹;发芽不需要光。"},
+   {t:"分类、真菌和细菌",u:"P3 生物与非生物 · P3 真菌和细菌",m:["Fungi **cannot make their own food**.","Fungi **reproduce by spores**.","Bacteria can only be seen under a **microscope**."],ask:["How do fungi get food? = from the things they grow on","Why is bread kept in the fridge? = fungi grow slowly in the cold"],trap:"蘑菇不是植物;真菌不能自己制造食物。"},
+   {t:"磁铁和材料",u:"P3 磁铁 · P3 材料",m:["**Like poles repel**, **unlike poles attract**.","**More turns of wire** make the electromagnet **stronger**.","Metal is a **good conductor of heat**."],ask:["Which is NOT magnetic? = 先圈 NOT","How to test if X is a magnet? = 看它会不会和磁铁互相排斥(repel)"],trap:"只有排斥(repel)才能证明是磁铁;铜、铝不是磁性材料。"},
+   {t:"光和植物系统",u:"P4 光 · P4 植物各部分",m:["We see an object when **light** from it **enters our eyes**.","**Opaque** objects **block light** completely.","The **roots absorb water** and **mineral salts** from the soil."],ask:["Why can we see the book? = light reflected from the book enters our eyes","The Moon is a light source? = No, it reflects light"],trap:"月亮不是光源;烟花是人造光源。"},
+   {t:"人体和影子",u:"P4 消化系统 · P4 影子",m:["**Digestion** breaks down food into **simpler substances**.","Digested food is **absorbed** in the **small intestine**.","A shadow forms when an **opaque** object **blocks light**."],ask:["Where is digestion completed? = small intestine","Object nearer to the torch → shadow? = bigger"],trap:"大肠吸收的是水,不是养分;影子在物体背着光的那一边。"},
+   {t:"物质和热",u:"P4 物质 · P4 热",m:["Matter has **mass** and **occupies space**.","Heat flows from a **hotter** to a **colder** object.","When heated, most things **expand**; when cooled, they **contract**."],ask:["Why does the air in the balloon show it is matter? = it occupies space","Why is the pot handle made of plastic? = poor conductor of heat"],trap:"温度不是热;空气有质量,也占空间。"}
+  ];
+  var PK="xx-sci-plan",pd={};try{pd=JSON.parse(localStorage.getItem(PK)||"{}")||{};}catch(e){pd={};}
+  var pb=document.getElementById("sciPlan");
+  function bb(x){return x.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");}
+  SP.forEach(function(w,i){var id="sp"+(i+1),d=document.createElement("details");d.className="week";
+    d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">第 '+(i+1)+' 周 · '+w.t+'</span><span class="ok" data-ok></span></summary><div class="body">'+
+     '<p><span class="lbl">问答卡单元</span>'+w.u+'</p>'+
+     '<p><span class="lbl">这周的魔法句(加粗是关键词)</span>'+w.m.map(function(a){return '<span class="en">'+bb(a)+'</span>';}).join('<br>')+'</p>'+
+     '<p><span class="lbl">大人换个问法考他</span>'+w.ask.join('<br>')+'</p>'+
+     '<p><span class="lbl">易错点</span>'+w.trap+'</p>'+
+     '<label class="done"><input type="checkbox"> 这周完成</label></div>';
+    pb.appendChild(d);var cb=d.querySelector("input"),ok=d.querySelector("[data-ok]");
+    function mk(){ok.textContent=pd[id]?"✓":"";}cb.checked=!!pd[id];mk();
+    cb.addEventListener("change",function(){pd[id]=cb.checked;mk();try{localStorage.setItem(PK,JSON.stringify(pd));}catch(e){}});
+  });
   var KEY="xx-holiday-weeks", done={};
   try{done=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){done={};}
   var box=document.getElementById("weeks");

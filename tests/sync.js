@@ -2,7 +2,12 @@ const {chromium,devices}=require('playwright');const D='/tmp/claude-0/-home-clau
 const H='http://localhost:8767';const dump=async()=>JSON.parse(await (await fetch('http://localhost:8766/__dump')).text());
 const out=[];const errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 async function newCtx(b,dev){const ctx=await b.newContext({...devices[dev],deviceScaleFactor:1});const p=await ctx.newPage();p.on('pageerror',e=>errs.push(dev+': '+e.message));return [ctx,p];}
-async function round(p,tile){await p.click(tile);let n=0;while(await p.isVisible('#vQuiz')&&n<14){n++;await p.click('#opt0');await p.click('#bNext');}await p.click('#bHome');return n;}
+async function answer(p){/* science 答题本领 widgets have no #opt0 at first */
+ if(await p.$('.skword'))await p.evaluate(()=>document.querySelectorAll('.skword').forEach(x=>x.click()));
+ if(await p.$('.skbank')){const n=(await p.$$('.skbank .skchip')).length;for(let j=0;j<n;j++)await p.click('.skbank .skchip:not([disabled])');return;}
+ if(await p.$('.sksort')){for(const r of await p.$$('.skbins'))await (await r.$('.skbin')).click();await p.click('.skgo');return;}
+ await p.click('#opt0');}
+async function round(p,tile){await p.click(tile);let n=0;while(await p.isVisible('#vQuiz')&&n<14){n++;await answer(p);await p.click('#bNext');}await p.click('#bHome');return n;}
 async function link(p,code){await p.click('#bStats');await p.click('#bParent');await p.waitForTimeout(200);if(!(await p.isVisible('#syncIn'))){out.push('  (already linked in this container)');return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}await p.fill('#syncIn',code);await p.click('[data-sync="go"]');await p.waitForTimeout(600);return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}
 (async()=>{const b=await chromium.launch();
  // mom's phone: generate a code

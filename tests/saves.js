@@ -2,7 +2,7 @@ const {chromium,devices}=require('playwright');
 const U='http://localhost:8770/';
 (async()=>{const b=await chromium.launch();const out=[];const errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 const ctx=await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1});const p=await ctx.newPage();p.on('pageerror',e=>errs.push(p.url()+' '+e.message));
-const play=async(tile,rounds)=>{for(let r=0;r<rounds;r++){await p.click(tile);for(let k=0;k<9;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth='+(k%2?1:0));await p.waitForTimeout(40);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(40);}
+const play=async(tile,rounds)=>{for(let r=0;r<rounds;r++){await p.click(tile);for(let k=0;k<9;k++){if(!await p.isVisible('#opts'))break;if(await p.$('.skword'))await p.evaluate(()=>document.querySelectorAll('.skword').forEach(x=>x.click()));if(await p.$('.skbank')){const n=(await p.$$('.skbank .skchip')).length;for(let j=0;j<n;j++)await p.click('.skbank .skchip:not([disabled])');}else if(await p.$('.sksort')){for(const r of await p.$$('.skbins'))await (await r.$('.skbin')).click();await p.click('.skgo');}else await p.click('#opts .opt:visible >> nth='+(k%2?1:0));await p.waitForTimeout(40);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(40);}
   if(await p.isVisible('#bHome'))await p.click('#bHome');else if(await p.isVisible('#bQuit'))await p.click('#bQuit');await p.waitForTimeout(80);}};
 const get=k=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),k);
 for(const [app,key,tile,tileNew] of [['math','xiaoxiao-math-v1','#tWp','#tWp'],['english','xiaoxiao-english-v1','#tGram','#tGram'],['science','xiaoxiao-science-v1','#tLife','#tLife']]){
