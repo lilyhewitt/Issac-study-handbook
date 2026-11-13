@@ -25,6 +25,7 @@ function ppCard(){const p=PPC.list[PPC.i],g=PPD[PPC.gi];
 /* rounds, answers, tasks and the end of a round go through the shared app's HOOK */
 HOOK.round=mode=>{
   if(/^pplearn:\d+$/.test(mode)){const gi=+mode.slice(8);ppSt();if(!S.ppg[PPD[gi].t])S.ppg[PPD[gi].t]=dkey(new Date());return QB.shuf(PPL.filter(p=>p.g===gi)).map(p=>QB.PPX.word(p));}
+  if(mode==='ppall'){return QB.shuf(PPL.filter(p=>S.pp[p.id])).sort((x,y)=>(S.pp[y.id].bad||0)-(S.pp[x.id].bad||0)).slice(0,ROUND).map(p=>S.pp[p.id].box<=1?QB.PPX.word(p):QB.PPX.sentence(p));}
   if(mode==='ppreview'){const qs=[];let story=false;
     QB.shuf(ppDue()).slice(0,ROUND).forEach(p=>{const b=S.pp[p.id].box;
       if(b>=4&&!story&&Math.random()<.5){story=true;qs.push(...QB.PPX.story(p.g));}
@@ -35,7 +36,7 @@ HOOK.round=mode=>{
   return null;};
 HOOK.answer.push((q,ok)=>{if(!q.pp)return;ppSt();const t=dkey(new Date()),s=S.pp[q.pp]||(S.pp[q.pp]={box:0,due:t,n:0,bad:0});s.n++;
   if(ok){s.box=Math.min(s.box+1,INTV.length-1);s.due=addDays(INTV[s.box]);}else{s.bad++;s.box=0;s.due=addDays(1);}});
-HOOK.side=mode=>mode==='ppreview'?{label:'Phrases 回介词词组',task:'pp',sub:' 答对的词组会隔更久再考，熟了会放进句子和小故事。',back:ppView}
+HOOK.side=mode=>mode==='ppall'?{label:'回首页',task:'ppall',sub:'',back:home}:mode==='ppreview'?{label:'Phrases 回介词词组',task:'pp',sub:' 答对的词组会隔更久再考，熟了会放进句子和小故事。',back:ppView}
   :/^pplearn:/.test(mode)?{label:'Phrases 回介词词组',task:'ppnew',sub:' 这几个词组过两天会再考一次。',back:ppView}:null;
 HOOK.tasks.push(t=>{const due=ppDue().length;
   if(due||t.pp)return {k:'pp',name:'复习今天的词组 · Phrases'+(due?'（'+due+' 个）':''),done:!due&&!!t.pp};
@@ -54,3 +55,6 @@ $('ppcNext').addEventListener('click',()=>{if(PPC.i<PPC.list.length-1){PPC.i++;p
 /* Home: six square tiles. Word cards, phrases and try-again open from their tile; Words is a round with spell-it mixed in. */
 function tileNotes(){const pd=ppDue().length;$('ppNote').textContent=pd?`今天复习 ${pd} 个`:'';}
 HOOK.tile.pp=ppView;HOOK.home.push(tileNotes);
+
+HOOK.fill.push(t=>PPL.some(p=>(S.pp||{})[p.id])?{k:'ppall',name:'复习学过的词组 · Phrase review',done:!!t.ppall}:null);
+HOOK.task.ppall=()=>startRound('ppall');

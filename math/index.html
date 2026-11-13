@@ -1507,7 +1507,7 @@ const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let S={stars:0,days:{},misses:[],recent:[],snd:false,by:{}};
 /* an edition's extra screen (maths: bar models) plugs in here: things to refresh on the home screen, and what its task in “今天的任务” starts */
-const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null,tile:{},wordsBack:null,learnMode:null,finish:null,quit:null,cardBack:null,noWordTasks:false,statsExtra:[],meExtra:[]};
+const HOOK={home:[],task:{},tasks:[],answer:[],round:null,side:null,sideBack:null,tile:{},wordsBack:null,learnMode:null,finish:null,quit:null,cardBack:null,noWordTasks:false,statsExtra:[],meExtra:[],fill:[]};
 /* records sync, only in the GitHub copy (window.xxSync): the child's device pushes its records; REMOTE = a parent's phone reading them, read-only */
 const SYNC=window.xxSync||null,REMOTE=!!(SYNC&&SYNC.remote);
 if(!REMOTE)try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object')S=Object.assign(S,x);}catch(e){}
@@ -1541,10 +1541,11 @@ function taskList(){const t=tkDay(),due=dueWords().length,learned=WL.some(w=>S.w
   if(QB.spell&&learned)L.push({k:'spell',name:'拼一拼 · Spell it',done:!!t.spell});}
   if(QB.BAR)L.push({k:'bar',name:'画一题线段图 · Bar model',done:!!t.bar});
   HOOK.tasks.forEach(f=>{const x=f(t);if(x)L.push(x);});
-  /* always three tasks: fill with mistakes and the weakest tiles, chosen once per day */
-  if(L.length<3){if(!Array.isArray(t.fill)){const acc=k=>S.by[k][0]?S.by[k][1]/S.by[k][0]:-1+Math.random()*.1;
-      const c=(S.misses.length?['redo']:[]).concat(Object.keys(CATS).sort((a,b)=>acc(a)-acc(b)).map(k=>'c:'+k));t.fill=c.slice(0,3-L.length);}
-    t.fill.forEach(f=>{if(L.length>=3)return;L.push(f==='redo'?{k:'redo',name:'错题重练 · Fix mistakes',done:!!t.redo||!S.misses.length}:{k:f,name:CATS[f.slice(2)]+' · 做一组',done:!!t[f]});});}
+  /* always three tasks when there is something to practise: mistakes, then reviews of everything learned */
+  if(L.length<3){const F=[];if(S.misses.length||t.redo)F.push({k:'redo',name:'错题重练 · Fix mistakes（'+Math.min(S.misses.length,ROUND)+' 题）',done:!!t.redo&&!S.misses.length});
+    if(!HOOK.noWordTasks&&learned)F.push({k:'wall',name:'复习学过的词 · Word review',done:!!t.wall});
+    HOOK.fill.forEach(f=>{const x=f(t);if(x)F.push(x);});
+    F.filter(x=>!L.some(y=>y.k===x.k)).slice(0,3-L.length).forEach(x=>L.push(x));}
   return L;}
 function drawTasks(){const L=taskList(),n=L.filter(x=>x.done).length,all=n===L.length,today=S.days[dkey(new Date())]||0;
   $('tasks').innerHTML=`<div class="tk-h"><span>今天的任务</span><small>${n}/${L.length}</small></div>`+L.map(x=>`<button class="tk${x.done?' tk-ok':''}" data-tk="${x.k}"${x.done?' aria-disabled="true"':''}><i>${x.done?'✓':''}</i><span>${x.name}</span></button>`).join('')+(!L.length?'<p class="tk-all">今天没有要复习的，选一个方块练练吧。</p>':all?'<p class="tk-all">今天完成了！可以休息了。</p>':'')+(today?`<p class="tk-n">今天做了 ${today} 题</p>`:'');}
@@ -1680,6 +1681,7 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
 function startRound(mode){if(QB.CH)QB.focus=S.ch||0;
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);let hq=null;
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
+  else if(mode==='wall'){QB.shuf(WL.filter(w=>S.wd[w.w])).sort((x,y)=>(S.wd[y.w].bad||0)-(S.wd[x.w].bad||0)).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6),stt=WS[si].title;if(!S.sets[stt])S.sets[stt]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
   else if(HOOK.round&&(hq=HOOK.round(mode)))qs.push(...hq);   /* an edition's own kind of round (English: phrases) */
@@ -1776,8 +1778,8 @@ function finish(){
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
-  const side=HOOK.side&&HOOK.side(R.mode),wordRound=/^learn:|^review$/.test(R.mode)||!!side;
-  {const t=tkDay();if(R.mode==='redo')t.redo=1;if(CATS[R.mode])t['c:'+R.mode]=1;if(R.mode==='review')t.words=1;else if(side)t[side.task]=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
+  const side=HOOK.side&&HOOK.side(R.mode),wordRound=/^learn:|^review$|^wall$/.test(R.mode)||!!side;
+  {const t=tkDay();if(R.mode==='redo')t.redo=1;if(R.mode==='wall')t.wall=1;if(R.mode==='review')t.words=1;else if(side)t[side.task]=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
   if(side){$('bAgain').dataset.mode='side';HOOK.sideBack=side.back;$('bAgain').textContent=side.label;$('dSub').textContent=m[1]+side.sub;if(s>=n-1&&n>1)confetti();return;}
   if(wordRound){$('bAgain').dataset.mode='words';$('dSub').textContent=m[1]+(R.mode==='review'?' 答对的词会隔更久再考，答错的明天再来。':' 这几个词过两天会再考一次。');}
   $('bAgain').textContent=wordRound?'Word cards 回单词卡':'One more round 再来一轮';
@@ -2074,7 +2076,7 @@ $('cNext').addEventListener('click',()=>{if(CARD.i<WS[CARD.si].words.length-1){C
 $('bHome').addEventListener('click',home);
 $('bStats').addEventListener('click',meView);
 $('tasks').addEventListener('click',e=>{const b=e.target.closest('[data-tk]');if(!b||b.classList.contains('tk-ok'))return;const k=b.dataset.tk;
-  if(k==='round')startRound('mix');else if(k==='redo')startRound('redo');else if(k.startsWith('c:'))startRound(k.slice(2));else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
+  if(k==='round')startRound('mix');else if(k==='redo')startRound('redo');else if(k==='wall')startRound('wall');else if(k==='words')startRound('review');else if(k==='spell')spellStart();else if(HOOK.task[k])HOOK.task[k]();});
 if($('tSpell'))$('tSpell').addEventListener('click',spellStart);
 $('spQuit').addEventListener('click',()=>{const m=SP&&SP.round&&R?R.mode:null;SP=null;if(m){R=null;if(HOOK.quit&&HOOK.quit(m))return;}home();});$('spHome').addEventListener('click',home);$('spAgain').addEventListener('click',spellStart);
 $('spBack').addEventListener('click',()=>spUndo());$('spCopy').addEventListener('click',spCopyStart);$('spNext').addEventListener('click',spNextWord);
