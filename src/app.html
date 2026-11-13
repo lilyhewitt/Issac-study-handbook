@@ -68,6 +68,8 @@ html{touch-action:manipulation}
 .goal .fill{background:var(--good)}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 .tile{--c:var(--gram);--cd:var(--gram-deep);background:var(--c);color:var(--on-tile);border-radius:1.375rem;padding:0.875rem 0.875rem 1rem;min-height:8.625rem;display:flex;flex-direction:column;justify-content:space-between;gap:0.625rem;box-shadow:0 5px 0 var(--cd);transition:transform .08s ease,box-shadow .08s ease}
+.tile{position:relative}
+.tile .nw{position:absolute;top:-0.5rem;right:-0.375rem;z-index:2;background:#FFC93C;color:#2B2250;font:900 0.75rem/1 var(--f-display),system-ui,sans-serif;letter-spacing:.06em;padding:0.3rem 0.55rem;border-radius:999px;border:2.5px solid #fff;box-shadow:0 3px 8px rgba(40,30,90,.25);transform:rotate(6deg);pointer-events:none}
 .tile:active{transform:translateY(4px);box-shadow:0 1px 0 var(--cd)}
 .tile[data-mode="word"]{--c:var(--word);--cd:var(--word-deep)}
 .tile[data-mode="read"]{--c:var(--read);--cd:var(--read-deep)}
@@ -526,6 +528,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 'use strict';
 const QB=window.QB,$=id=>document.getElementById(id);
 const KEY='xiaoxiao-english-v1',ROUND=5,PER=25;
+const NEWV={cards:1,pp:1};   /* raise a tile's number when it gets new content: shows NEW until he taps it */
 const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};
 const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -541,6 +544,7 @@ for(const k in CATS)if(!Array.isArray(S.by[k]))S.by[k]=[0,0];
 delete S.auto;delete S.read;
 if(typeof S.snd!=='boolean')S.snd=false;delete S['sound'];
 if(!S.tk||typeof S.tk!=='object')S.tk={};
+if(!S.nv||typeof S.nv!=='object')S.nv={};
 if(QB.CH&&typeof S.ch!=='number')S.ch=0;
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
@@ -588,6 +592,7 @@ function home(){
   $('bSound').setAttribute('aria-pressed',String(!!S.snd));
   const dn=dueWords().length,nx=nextSet();
   if($('wtNote'))$('wtNote').textContent=dn?`今天复习 ${dn} 个`:nx>=0?`下一组：${WS[nx].title}`:'全部学完了';
+  document.querySelectorAll('#vHome .tile').forEach(b=>{const m=b.dataset.mode,on=!!NEWV[m]&&(S.nv[m]||0)<NEWV[m];let e=b.querySelector('.nw');if(on&&!e)b.insertAdjacentHTML('beforeend','<span class="nw">NEW</span>');else if(!on&&e)e.remove();});
   HOOK.home.forEach(f=>f());
 }
 
@@ -980,7 +985,7 @@ function confetti(){
 }
 
 /* events */
-document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{const m=b.dataset.mode;if(HOOK.tile[m])HOOK.tile[m]();else startRound(m);}));
+document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{const m=b.dataset.mode;if(NEWV[m]&&(S.nv[m]||0)<NEWV[m]){S.nv[m]=NEWV[m];save();}if(HOOK.tile[m])HOOK.tile[m]();else startRound(m);}));
 $('bRedo').addEventListener('click',()=>startRound('redo'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);

@@ -10,7 +10,10 @@ await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('xiaoxiao-english-
   QB.WORDSETS.slice(0,5).forEach((s,i)=>{S.sets[s.title]='2026-11-0'+(i+1);s.words.forEach(w=>S.wd[w[0]]={box:i%4,due:'2026-11-20',n:2,bad:i%2});});localStorage.setItem('xiaoxiao-english-v1',JSON.stringify(S));});
 await p.reload();await p.waitForTimeout(300);
 const tasks=await p.innerText('#tasks');ok(tasks.includes('复习单词')&&!tasks.includes('拼一拼')&&!tasks.includes('复习今天的词'),'tasks: one word review, no spell-it, no old word task: '+tasks.replace(/\n/g,' '));
+ok(await p.isVisible('#tCards .nw')&&await p.isVisible('#tPP .nw')&&!(await p.isVisible('.tile[data-mode="gram"] .nw')),'NEW on word cards and phrases only');
 await p.click('#tCards');await p.waitForTimeout(300);ok(await p.isVisible('#vMap'),'word cards tile opens the map');
+await p.click('#mBack');ok(!(await p.$('#tCards .nw'))&&await p.isVisible('#tPP .nw'),'NEW gone after tapping, phrases still NEW');await p.reload();await p.waitForTimeout(300);ok(!(await p.$('#tCards .nw')),'NEW stays gone after reload');
+await p.click('#tCards');await p.waitForTimeout(300);
 let st=await S();ok(Object.keys(st.map.w.lv).length===5&&st.map.w.rv[0]===0,'old save: 5 learned sets walked, first review counted');
 const n=await p.$$eval('.mn',a=>a.map(e=>e.classList.contains('lock')));ok(n.filter(x=>!x).length===7,'7 stops open (5 sets + 1 review + the next one)');
 /* play the next level */

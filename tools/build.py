@@ -59,6 +59,7 @@ def edition(app):
     s = rep(s, '/*__BANK__*/', read(app, 'bank.js'))
     if app != 'english':
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
+        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{bar:1,wp:1}' if app == 'math' else '{}'))
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
