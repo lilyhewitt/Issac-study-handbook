@@ -82,7 +82,7 @@ const ITEMS=[['a storybook','一本故事书'],['a water bottle','一个水壶']
 
 const T={pv:'Place value · 数位',as:'Add & subtract · 加减',md:'Times & divide · 乘除',mon:'Money · 钱',fr:'Fractions · 分数',meas:'Measures · 单位换算',tm:'Time · 时间',
  one:'One-step problems · 一步应用题',left:'Left & sold · 剩下和卖掉',pour:'Pouring · 倒满几杯',round:'Going round · 绕一圈',sd:'Sum & difference · 和差',times:'Times as many · 几倍',
- cmp:'More & fewer · 比多比少',grp:'Groups · 分组',wtime:'Time problems · 时间应用题',wmon:'Money problems · 钱的应用题',mass:'Mass problems · 质量应用题',ap:'Area & perimeter · 面积周长',btd:'Times & difference · 几倍和相差',bbs:'Bigger to smaller · 知道大的求小的',b3:'Three amounts · 三个量',bba:'Before & after · 前后变化',sense:'Does it make sense? · 说得通吗',
+ cmp:'More & fewer · 比多比少',grp:'Groups · 分组',wtime:'Time problems · 时间应用题',wmon:'Money problems · 钱的应用题',mass:'Mass problems · 质量应用题',len:'Length problems · 长度应用题',ap:'Area & perimeter · 面积周长',btd:'Times & difference · 几倍和相差',bbs:'Bigger to smaller · 知道大的求小的',b3:'Three amounts · 三个量',bba:'Before & after · 前后变化',sense:'Does it make sense? · 说得通吗',
  p4n:'Ch1 Numbers to 100 000 · 第1章 十万以内的数',p4pat:'Ch1 Number patterns · 第1章 数的规律',p4r:'Ch1 Rounding · 第1章 四舍五入',p4f:'Ch2 Factors & multiples · 第2章 因数和倍数',
  p4m:'Ch3 Multiplication · 第3章 乘法',p4d:'Ch3 Division · 第3章 除法',p4t:'Ch4 Tables & line graphs · 第4章 表格和折线图',p4fr:'Ch5 Fractions (I) · 第5章 分数（一）',p4fr2:'Ch6 Fractions (II) · 第6章 分数（二）',
  p4a:'Ch7 Angles · 第7章 角',p4rs:'Ch8 Rectangles & squares · 第8章 长方形和正方形'};
@@ -183,7 +183,7 @@ G('wp',T.wtime,2,.8,()=>{const k=kid(),A=pick([['reading','read','看书'],['dra
   do{t0=pick([ri(96,138)*5,ri(156,210)*5]);d=ri(5,33)*5;}while((t0<720&&t0+d>=720)||((t0%60+d%60)<60&&Math.random()<.6));const t1=t0+d;
   const a24=Math.floor(t1/60)*100+t1%60,b24=Math.floor(t0/60)*100+t0%60,x=a24-b24,nv=x%100>=60?`${Math.floor(x/100)} h ${x%100} min`:null,m1=(60-t0%60)%60;
   return mk({q:`${k.n} started ${A[0]} at ${t12(t0)} and stopped at ${t12(t1)}. How long did ${k.p} ${A[1]}?`,zh:`${k.n} ${t12(t0)} 开始${A[2]}，${t12(t1)} 停下。${k.z}${A[2]}了多久？`,a:dur(d),d:[[nv,'time','分钟不能超过 60：借 1 小时 = 60 分钟。'],[dur(d+15),'calc'],[dur(d>15?d-15:d+30),'calc'],[dur(d+60),'time']],ex:m1&&m1<d?`从 ${t12(t0)} 到 ${t12(t0+m1)} 是 ${m1} min，再到 ${t12(t1)} 是 ${dur(d-m1)}，一共 ${dur(d)}。`:`${t12(t0)} 到 ${t12(t1)} 是 ${dur(d)}。`});});
-G('wp',T.round,2,.7,()=>{const k=kid(),m=ri(3,6),cut=ri(105,m*100-60),ans=m*100-cut;
+G('wp',T.len,2,.7,()=>{const k=kid(),m=ri(3,6),cut=ri(105,m*100-60),ans=m*100-cut;
   return mk({q:`${k.n} had a ribbon ${m} m long. ${k.P} cut off ${cut} cm. How long was the ribbon left, in centimetres?`,zh:`${k.n} 有一条 ${m} m 长的丝带，剪掉了 ${cut} cm。还剩多少 cm？`,a:`${ans} cm`,d:[[cut-m>0?`${cut-m} cm`:null,'unit',`${m} m 要先换成 ${m*100} cm，再减。`],[`${m*100+cut} cm`,'leftadd','剪掉了会变少，要减。'],[`${cut} cm`,'who','这是剪掉的，题目问剩下多少。']],fill:{n:ans,step:5,f:x=>x+' cm'},ex:`${m} m = ${m*100} cm。${m*100} − ${cut} = ${ans} cm。`});});
 /* does the answer make sense? */
 G('wp',T.sense,2,1,()=>{const k=kid(),v=ri(0,3),good=Math.random()<.45;
@@ -736,7 +736,7 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
 function plan(mode){
   if(mode==='calc')return[['calc',1],['calc',1],['calc',2],['calc',2],['calc',1]];
   if(mode==='p4')return[['p4',1],['p4',1],['p4',2],['p4',2],['p4',1]];
-  if(mode==='wp')return[['calc',1],['wp',1],['wp',3],['wp',2],['wp',1]];
+  if(mode==='wp')return[['wp',1],['wp',1],['wp',3],['wp',2],['wp',1]];
   /* the holiday is mainly a 4A preview: three 4A questions and two word problems */
   return[['p4',1],['wp',2],['p4',2],['p4',2],['wp',3]];}
 function size(){return GENS.length;}
