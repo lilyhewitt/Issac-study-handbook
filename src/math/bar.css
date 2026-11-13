@@ -48,3 +48,11 @@
 .br-li.cur{border-color:var(--wp)}
 .br-li small{flex:none;color:var(--ink-2);font-weight:600}
 .tile[data-mode="bar"]{--c:#12965F;--cd:#0B6E45}
+/* new question pictures: three bar pictures to choose from, a scale to read */
+.pics{display:grid;gap:0.5rem;width:100%}
+.pics figure{margin:0;display:flex;align-items:center;gap:0.625rem}
+.pics figure b{font-size:1.25rem;min-width:1.5rem}
+.pics figure svg{width:auto;max-width:15rem;height:auto;flex:1 1 auto}
+.sc-l{stroke:var(--ink);stroke-width:2}
+.sc-t{font-size:14px;font-weight:800;fill:var(--ink)}
+.sc-p{fill:var(--word)}

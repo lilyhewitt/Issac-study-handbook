@@ -381,6 +381,14 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 .br-li.cur{border-color:var(--wp)}
 .br-li small{flex:none;color:var(--ink-2);font-weight:600}
 .tile[data-mode="bar"]{--c:#12965F;--cd:#0B6E45}
+/* new question pictures: three bar pictures to choose from, a scale to read */
+.pics{display:grid;gap:0.5rem;width:100%}
+.pics figure{margin:0;display:flex;align-items:center;gap:0.625rem}
+.pics figure b{font-size:1.25rem;min-width:1.5rem}
+.pics figure svg{width:auto;max-width:15rem;height:auto;flex:1 1 auto}
+.sc-l{stroke:var(--ink);stroke-width:2}
+.sc-t{font-size:14px;font-weight:800;fill:var(--ink)}
+.sc-p{fill:var(--word)}
 </style>
 <style>
 /* maths palette: violet = word problems, teal = calculation, orange = P4 preview */
@@ -773,7 +781,8 @@ const ERRS={
  sense:'没检查答案说不说得通',
  place:'数位、四舍五入看错位',
  frac:'分数：分子分母弄混',
- fm:'因数和倍数弄混'
+ fm:'因数和倍数弄混',
+ gap:'间隔：段数和个数差 1'
 };
 
 /* options: a = answer; d = list of [value, mistake, why-in-Chinese, Chinese option text] */
@@ -782,6 +791,8 @@ function mk(o){
   for(const x of (o.d||[])){const [v,e,w,z]=Array.isArray(x)?x:[x];if(v===null||v===undefined)continue;const s=S_(v);
     if(s===''||/NaN|undefined|Infinity/.test(s)||/^-|\s-\d|\$-|\(-/.test(s)||seen.has(s))continue;
     seen.add(s);all.push([s,e||null,w||null,z||null]);if(all.length===4)break;}
+  /* not enough different wrong answers: make near numbers in the same form ($, units) */
+  if(all.length<4&&!o.fill){const m=/^(\$?)(\d+)(\D*)$/.exec(a);if(m){const v=+m[2];o.fill={n:v,step:v>=40&&v%5===0?5:1,f:x=>m[1]+x+m[3]};}}
   if(all.length<4&&o.fill){let k=1;while(all.length<4&&k<80){for(const v of [o.fill.n+k*o.fill.step,o.fill.n-k*o.fill.step]){if(all.length<4&&v>0){const s=o.fill.f(v);if(!seen.has(s)){seen.add(s);all.push([s,null,null,null]);}}}k++;}}
   const idx=shuf(all.map((_,i)=>i));
   const dot=t=>typeof t==='string'?t.replace(/\b([ap])\.m\.\./g,'$1.m.'):t; /* "2.40 p.m.." -> "2.40 p.m." */
@@ -1160,6 +1171,112 @@ G('wp',T.bba,3,1.5,()=>{const [J,R]=two(),it=pick(STK),d=ri(10,40),rb=ri(40,150)
 
 /* ---------- 画线段图: lessons where he builds the model himself, labels it, then uses it ---------- */
 function nopt(a,ws){const s=new Set([a]);(ws||[]).forEach(w=>{if(s.size<4&&w>0&&Number.isInteger(w))s.add(w);});let k=1;while(s.size<4){if(a+k>0)s.add(a+k);if(s.size<4&&a-k>0)s.add(a-k);k++;}return shuf([...s]).map(String);}
+/* ======== from the 2024–25 P3/P4 papers: the kinds that keep coming back ======== */
+Object.assign(T,{pic:'Which picture? · 哪张图画对了',op:'Add, subtract, times or divide? · 用哪种算法',most:'Most & how many more · 最多几个',assume:'Cars and bikes · 假设法',gap:'Gaps · 间隔',two:'Two sets of prices · 两组价钱',deal:'Offers · 优惠',gave:'Gave some away · 给出以后',same:'Same at first · 一开始一样多',scale:'Reading a scale · 读刻度',tfn:'Ch4 True, False or Not possible to tell · 第4章 对、错、看不出'});
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+const OPS=[['Add +','加 +'],['Subtract −','减 −'],['Multiply ×','乘 ×'],['Divide ÷','除 ÷']];
+const opQ=(p,pz,k,why)=>mk({p,zh:pz+'\n\n用哪种算法？',q:'Which do you use?',a:OPS[k][0],az:OPS[k][1],d:OPS.filter((_,j)=>j!==k).map(o=>[o[0],'keyword',why,o[1]]),ex:why});
+/* a short sentence about two people, and three bar pictures: which one is drawn right? */
+G('wp',T.pic,1,1.3,()=>{const [A,B]=two(),it=pick(STK),v=ri(0,2),k=ri(2,4),d=ri(5,40);
+  const u=n=>Array(n).fill([1,'','a']),pics=[];let s,sz,ok,why;
+  if(v===0){s=`${A.n} has ${tws(k)} as many ${it[0]} as ${B.n}.`;sz=`${A.n} 的${it[0]==='marbles'?'弹珠':'数量'}是 ${B.n} 的 ${k} 倍。`;
+    pics.push([[A.n,u(k)],[B.n,u(1)]],[[A.n,u(1)],[B.n,u(k)]],[[A.n,u(k+1)],[B.n,u(1)]]);why=`${A.n} 是 ${B.n} 的 ${k} 倍：${B.n} 1 格，${A.n} ${k} 格。“as many as”后面的人画 1 格。`;}
+  else if(v===1){s=`${A.n} has ${d} more ${it[0]} than ${B.n}.`;sz=`${A.n} 比 ${B.n} 多 ${d}。`;
+    pics.push([[A.n,[[2,'','a'],[1.3,'+'+d,'b']]],[B.n,[[2,'','a']]]],[[A.n,[[2,'','a']]],[B.n,[[2,'','a'],[1.3,'+'+d,'b']]]],[[A.n,[[2,'','a'],[1.3,'+'+d,'b']]],[B.n,[[2,'','a'],[1.3,'+'+d,'b']]]]);why=`${A.n} 多，${A.n} 那条长出 ${d}。`;}
+  else{s=`${A.n} has ${d} fewer ${it[0]} than ${B.n}.`;sz=`${A.n} 比 ${B.n} 少 ${d}。`;
+    pics.push([[A.n,[[2,'','a']]],[B.n,[[2,'','a'],[1.3,'+'+d,'b']]]],[[A.n,[[2,'','a'],[1.3,'+'+d,'b']]],[B.n,[[2,'','a']]]],[[A.n,[[2,'','a'],[1.3,'−'+d,'b']]],[B.n,[[2,'','a']]]]);why=`${A.n} 少 ${d}，就是 ${B.n} 多 ${d}：${B.n} 那条长。`;}
+  const ord=shuf([0,1,2]),L=['①','②','③'],fig='<div class="pics">'+ord.map((pi,j)=>`<figure><b>${L[j]}</b>${bm(pics[pi])}</figure>`).join('')+'</div>',ai=ord.indexOf(0);
+  return mk({fig,q:s+'\nWhich picture shows this?',zh:sz+'\n\n哪张图画对了？',a:L[ai],d:L.filter((_,j)=>j!==ai).map(x=>[x,'keyword',why]).concat([['都不对','keyword',why]]),ex:why});});
+/* which operation: the sentence decides, not the key word */
+G('wp',T.op,1,1.2,()=>{const [A,B]=two(),it=pick(STK),a=ri(30,90),g=ri(5,25),n=ri(3,9),m=ri(4,12),v=ri(0,6);
+  if(v===0)return opQ(`${A.n} had ${a} ${it[0]}. ${A.P} gave ${g} ${it[0]} to ${B.n}. How many ${it[0]} does ${A.n} have now?`,`${A.n} 有 ${a}，给了 ${B.n} ${g}。${A.n} 现在有多少？`,1,`${A.n} 给出去，自己的变少：减。`);
+  if(v===1)return opQ(`${A.n} had ${a} ${it[0]}. ${B.n} gave ${A.z==='他'?'him':'her'} ${g} more. How many ${it[0]} does ${A.n} have now?`,`${A.n} 有 ${a}，${B.n} 又给了${A.z} ${g}。${A.n} 现在有多少？`,0,`别人给${A.z}，${A.n} 的变多：加。`);
+  if(v===2)return opQ(`There are ${n} boxes. Each box has ${m} ${it[0]}. How many ${it[0]} are there altogether?`,`${n} 个盒子，每盒 ${m}。一共多少？`,2,'每份一样多，有几份：乘。');
+  if(v===3)return opQ(`${n*m} ${it[0]} are shared equally among ${n} children. How many ${it[0]} does each child get?`,`${n*m} 平均分给 ${n} 个孩子。每人几个？`,3,'平均分给几个人：除。');
+  if(v===4)return opQ(`${A.n} has ${g} fewer ${it[0]} than ${B.n}. ${B.n} has ${a}. How many ${it[0]} does ${A.n} have?`,`${A.n} 比 ${B.n} 少 ${g}。${B.n} 有 ${a}。${A.n} 有多少？`,1,`${A.n} 比 ${B.n} 少，${A.n} 是小的：减。`);
+  if(v===5)return opQ(`${A.n} has ${g} fewer ${it[0]} than ${B.n}. ${A.n} has ${a}. How many ${it[0]} does ${B.n} have?`,`${A.n} 比 ${B.n} 少 ${g}。${A.n} 有 ${a}。${B.n} 有多少？`,0,`句子里有 fewer，可是问的是多的那个人 ${B.n}：加。看到 fewer 不一定减。`);
+  return opQ(`${A.n} has ${tws(n>4?3:n)} as many ${it[0]} as ${B.n}. ${A.n} has ${a*(n>4?3:n)}. How many ${it[0]} does ${B.n} have?`,`${A.n} 是 ${B.n} 的 ${n>4?3:n} 倍。${A.n} 有 ${a*(n>4?3:n)}。${B.n} 有多少？`,3,`知道大的（${A.n}），求 1 格（${B.n}）：除。看到 times 不一定乘。`);});
+/* most you can make / how many more for one more */
+G('wp',T.most,2,1,()=>{const k=kid(),g=pick([4,5,6,7,8]);let n;do{n=ri(30,99);}while(n%g===0);const q=Math.floor(n/g),r=n%g,v=Math.random()<.5;
+  if(v)return mk({q:`A baker has ${n} eggs. He needs ${g} eggs to bake a cake. What is the greatest number of cakes he can bake?`,zh:`有 ${n} 个蛋，每个蛋糕要 ${g} 个。最多能做几个蛋糕？`,a:q,d:[[q+1,'round',`剩下 ${r} 个蛋不够做一个蛋糕，不能多加一个。`],[`${q} R ${r}`,'round','蛋糕个数不写余数。'],[n-g,'keyword','“每个要几个”用除法。']],ex:`${n} ÷ ${g} = ${q} R ${r}。剩 ${r} 个不够，最多 ${q} 个。“最多能做”去掉余数；“至少要几个盒子”才要多加一个。`});
+  return mk({q:`A baker has ${n} eggs. He needs ${g} eggs to bake a cake. He bakes as many cakes as he can. How many more eggs does he need to bake 1 more cake?`,zh:`有 ${n} 个蛋，每个蛋糕要 ${g} 个，能做几个就做几个。再做 1 个还要几个蛋？`,a:g-r,d:[[r,'step1',`${r} 是剩下的蛋，还差 ${g} − ${r}。`],[g,'step1','已经有剩下的蛋了，不用 ${g} 个都买。'],[q+1,'who','问的是蛋，不是蛋糕。']],ex:`${n} ÷ ${g} = ${q} R ${r}。剩 ${r} 个，再做 1 个要 ${g} 个：${g} − ${r} = ${g-r}。`});});
+/* assume: all of one kind first */
+const ASM=[['cars','motorcycles','wheels',4,2,'汽车','摩托车','轮子'],['tricycles','bicycles','wheels',3,2,'三轮车','自行车','轮子'],['squares','triangles','sides',4,3,'正方形','三角形','条边'],['$5 notes','$2 notes','dollars',5,2,'5 元纸币','2 元纸币','元']];
+G('wp',T.assume,3,1,()=>{const [bN,sN,uN,b,s,bz,sz,uz]=pick(ASM),n=ri(10,30),nb=ri(3,n-3),tot=nb*b+(n-nb)*s,money=uN==='dollars',askB=Math.random()<.6;
+  const P=money?`A wallet has ${n} notes. They are $${b} notes and $${s} notes. They are worth $${tot} altogether. How many ${askB?bN:sN} are there?`:`There are ${n} ${bN} and ${sN} altogether. There are ${tot} ${uN} in total. How many ${askB?bN:sN} are there?`;
+  const PZ=money?`钱包里有 ${n} 张 ${b} 元和 ${s} 元的纸币，一共 ${tot} 元。${askB?bz:sz}有几张？`:`${bz}和${sz}一共 ${n} 个，一共 ${tot} ${uz}。${askB?bz:sz}有几个？`;
+  const all=n*s,ex=tot-all,per=b-s;
+  return chain(P,PZ,[
+    {q:`Pretend they are all ${sN}. How many ${uN} would that be?`,qz:`先假设全是${sz}：一共多少？`,a:all,d:[[n*b,'who',`假设全是${sz}，每个 ${s}。`],[tot,'step1','这是真正的总数，不是假设的。'],[n+s,'calc','要乘：个数 × 每个几。']],ex:`${n} × ${s} = ${all}。`},
+    {q:`How many more ${uN} are there really?`,qz:`真正的比假设的多多少？`,a:ex,d:[[tot+all,'leftadd','求多出来多少，要减。'],[all,'step1','这是假设的总数。'],[ex+per,'calc']],ex:`${tot} − ${all} = ${ex}。`},
+    {q:`Each ${bN.replace(/s$/,'').replace(/notes?$/,'note')} has ${per} more than each ${sN.replace(/s$/,'').replace(/notes?$/,'note')}. How many ${askB?bN:sN} are there?`,qz:`每换成一个${bz}多 ${per}。${askB?bz:sz}有几个？`,a:askB?nb:n-nb,d:[[askB?n-nb:nb,'who',`问的是${askB?bz:sz}。`],[ex,'step1',`还要 ÷ ${per}。`],[Math.floor(ex/b),'calc',`每换一个多 ${per}，不是 ${b}。`]],ex:`${ex} ÷ ${per} = ${nb} 个${bz}。`+(askB?'':`${sz}：${n} − ${nb} = ${n-nb}。`)}]);});
+/* gaps: posts and pieces */
+G('wp',T.gap,2,1,()=>{const v=ri(0,2);
+  if(v===0){const n=ri(5,15),d=pick([4,5,6,8,10,12]);return mk({q:`${n} lamp posts stand in a straight row. They are ${d} m apart. What is the distance between the first and the last lamp post?`,zh:`一排 ${n} 根路灯，每两根相距 ${d} m。第一根到最后一根多远？`,a:`${(n-1)*d} m`,d:[[`${n*d} m`,'gap',`${n} 根灯之间只有 ${n-1} 段。`],[`${(n-2)*d} m`,'gap','少算了一段。'],[`${n+d} m`,'calc']],ex:`画几根灯数一数：${n} 根灯之间有 ${n-1} 段，${n-1} × ${d} = ${(n-1)*d} m。`});}
+  if(v===1){const n=ri(4,9),g=pick([12,15,18,20,24,25,30]),L=(n-1)*g;return mk({q:`${n} balloons are tied on a string ${L} cm long, from one end to the other. They are an equal distance apart. What is the distance between two balloons next to each other?`,zh:`一根 ${L} cm 的绳子上，从头到尾等距系了 ${n} 个气球。相邻两个气球相距多少？`,a:`${g} cm`,d:[[`${Math.round(L/n)} cm`,'gap',`${n} 个气球之间是 ${n-1} 段，要 ÷ ${n-1}。`],[`${L-n} cm`,'keyword','平均分要除。'],[`${g+3} cm`,'calc']],ex:`${n} 个气球之间有 ${n-1} 段：${L} ÷ ${n-1} = ${g} cm。`});}
+  const c=ri(2,6),g=pick([15,20,25,30,40,45]),L=(c+1)*g;return mk({q:`A ribbon is ${L} cm long. It is cut ${c} times into pieces of equal length. How long is each piece?`,zh:`一条 ${L} cm 的丝带剪了 ${c} 刀，剪成同样长的几段。每段多长？`,a:`${g} cm`,d:[[`${L/c} cm`,'gap',`剪 ${c} 刀是 ${c+1} 段。`],[`${L-c} cm`,'keyword','平均分要除。'],[`${(c+2)>0&&L%(c+2)===0?L/(c+2):g+5} cm`,'gap']],ex:`剪 ${c} 刀变成 ${c+1} 段：${L} ÷ ${c+1} = ${g} cm。`});});
+/* two sets of prices: take away what is the same */
+const TWO=[['whistle','whistles','哨子'],['cap','caps','帽子'],['book','books','书'],['bag','bags','书包'],['pen','pens','笔'],['file','files','文件夹'],['T-shirt','T-shirts','T 恤'],['pair of shorts','pairs of shorts','短裤']];
+G('wp',T.two,3,1,()=>{let [X,Y]=shuf(TWO).slice(0,2);const a=ri(1,4),b1=ri(3,6),b2=ri(1,b1-1),x=ri(3,20),y=ri(2,15),P1=a*x+b1*y,P2=a*x+b2*y,db=b1-b2,dp=P1-P2;
+  const nm=(n,w)=>`${n} ${n===1?w[0]:w[1]}`;
+  const P=`${cap(nm(a,X))} and ${nm(b1,Y)} cost $${P1}. ${cap(nm(a,X))} and ${nm(b2,Y)} cost $${P2}. How much does 1 ${Y[0]} cost?`,PZ=`${a} 个${X[2]}和 ${b1} 个${Y[2]}一共 $${P1}。${a} 个${X[2]}和 ${b2} 个${Y[2]}一共 $${P2}。1 个${Y[2]}多少钱？`;
+  return chain(P,PZ,[
+    {q:`Both lists have ${nm(a,X)}. How many more ${Y[1]} are in the first list?`,qz:`两组都有 ${a} 个${X[2]}。第一组多几个${Y[2]}？`,a:db,d:[[b1+b2,'leftadd','求多几个，要减。'],[b1,'step1','要和第二组比。'],[db+a,'calc']],ex:`一样的部分（${a} 个${X[2]}）去掉，只差${Y[2]}：${b1} − ${b2} = ${db}。`},
+    {q:`How much more does the first list cost?`,qz:'第一组贵多少？',a:'$'+dp,d:[['$'+(P1+P2),'leftadd','求贵多少，要减。'],['$'+P1,'step1','要和第二组比。'],['$'+(dp+10),'calc']],ex:`$${P1} − $${P2} = $${dp}。这 $${dp} 就是多出来的 ${db} 个${Y[2]}的钱。`},
+    {q:`How much does 1 ${Y[0]} cost?`,qz:`1 个${Y[2]}多少钱？`,a:'$'+y,d:[['$'+dp,'step1',`$${dp} 是 ${db} 个的钱，还要 ÷ ${db}。`],['$'+(dp*db),'keyword',`${db} 个 $${dp}，求 1 个要除。`],['$'+(y+1),'calc']],ex:`$${dp} ÷ ${db} = $${y}。`}]);});
+/* buy 3, get 1 free */
+G('wp',T.deal,2,.8,()=>{const k=kid(),p=pick([4,5,6,7,9]),g=ri(2,6),n=4*g,it=pick([['cookies','块饼干'],['pencils','支铅笔'],['erasers','块橡皮']]);
+  return mk({q:`A shop sells 3 ${it[0]} for $${p}. For every 3 ${it[0]} bought, you get 1 more free. ${k.n} went home with ${n} ${it[0]}. How much did ${k.p} pay?`,zh:`3 ${it[1].slice(1)}卖 $${p}，每买 3 个送 1 个。${k.n} 带回家 ${n} 个，付了多少钱？`,a:'$'+g*p,d:[['$'+Math.round(n/3*p),'keyword','送的不用付钱：4 个一组只付 3 个的钱。'],['$'+n*p,'keyword',`$${p} 是 3 个的价钱，不是 1 个。`],['$'+(g+1)*p,'calc']],ex:`买 3 送 1，4 个一组付 $${p}。${n} ÷ 4 = ${g} 组，${g} × $${p} = $${g*p}。`});});
+/* gave some away: the difference gets smaller twice */
+G('wp',T.gave,2,1.2,()=>{const [A,B]=two(),it=pick(STK),d=ri(20,90),g=ri(3,Math.floor((d-2)/2)),ans=d-2*g;
+  const fig=bm([[A.n+' first',[[2,'','a'],[2.8,'+'+d,'b']]],[B.n+' first',[[2,'','a']]],[A.n+' end',[[2.9,'','a'],[1,'?','b'],[0.9,'−'+g,'g']]],[B.n+' end',[[2,'','a'],[0.9,'+'+g,'b']]]]);
+  return mk({fig,q:`${A.n} had ${d} more ${it[0]} than ${B.n}. ${A.n} gave ${g} ${it[0]} to ${B.n}. How many more ${it[0]} did ${A.n} have than ${B.n} in the end?`,zh:`${A.n} 比 ${B.n} 多 ${d}。${A.n} 给了 ${B.n} ${g}。最后 ${A.n} 比 ${B.n} 多几个？`,a:ans,d:[[d-g,'step1',`${A.n} 少了 ${g}，${B.n} 也多了 ${g}：差要减两次。`],[d+g,'leftadd','给出去，差变小。'],[d,'step1','给了以后差会变。']],ex:`${A.n} 少 ${g}，${B.n} 多 ${g}，差少了 ${g} + ${g} = ${2*g}。${d} − ${2*g} = ${ans}。`});});
+/* same at first, then one gets more, the other gives some away: k times */
+G('wp',T.same,3,1,()=>{const [A,B]=two(),it=pick(STK),k=ri(2,4);let u,bb,aa;do{u=ri(6,20);bb=ri(3,u);aa=(k-1)*u-bb;}while(aa<3);const first=u+bb;
+  const P=`${A.n} and ${B.n} had the same number of ${it[0]} at first. ${A.n} bought ${aa} more ${it[0]} and ${B.n} gave away ${bb} ${it[0]}. Then ${A.n} had ${tws(k)} as many ${it[0]} as ${B.n}. How many ${it[0]} did each of them have at first?`,PZ=`${A.n} 和 ${B.n} 原来一样多。${A.n} 又买了 ${aa}，${B.n} 送出 ${bb}。这时 ${A.n} 是 ${B.n} 的 ${k} 倍。原来每人有多少？`;
+  const fig=bm([[A.n+' end',Array(k).fill([1.5,'','a'])],[B.n+' end',[[1.5,'','a'],[1.5*(k-1),`${bb} + ${aa}`,'g']]]]);
+  return chain(P,PZ,[
+    {fig,q:`In the end, ${A.n} is ${k} units and ${B.n} is 1 unit. Put back the ${bb} ${B.n} gave away and take off the ${aa} ${A.n} bought. Now they are the same. How many units is ${bb} + ${aa}?`,qz:`最后 ${A.n} ${k} 格，${B.n} 1 格。${B.n} 加回送出的 ${bb}，${A.n} 去掉买的 ${aa}，两人又一样多。${bb} + ${aa} 是几格？`,a:k-1,d:[[k,'who','两人都有 1 格是一样的，多出来的是 ${k} − 1 格。'],[1,'step1',`${A.n} 比 ${B.n} 多 ${k-1} 格。`],[k+1,'calc']],ex:`${A.n} ${k} 格，${B.n} 1 格，差 ${k-1} 格，这 ${k-1} 格就是 ${bb} + ${aa} = ${aa+bb}。`},
+    {fig,q:'What is 1 unit?',qz:'1 格是多少？',a:u,d:[[aa+bb,'step1',`${aa+bb} 是 ${k-1} 格，还要 ÷ ${k-1}。`],[Math.round((aa+bb)/k),'calc',`是 ${k-1} 格，不是 ${k} 格。`],[u+bb,'step1','这一步只求 1 格。']],ex:`(${bb} + ${aa}) ÷ ${k-1} = ${aa+bb} ÷ ${k-1} = ${u}。`},
+    {fig,q:'How many did each of them have at first?',qz:'原来每人有多少？',a:first,d:[[u,'step1',`1 格是 ${B.n} 最后的，原来还要加回送出的 ${bb}。`],[u-bb>0?u-bb:u*k,'leftadd',`送出去之前更多：加回 ${bb}。`],[u*k,'who',`${u*k} 是 ${A.n} 最后的。`]],ex:`${B.n} 最后 ${u}，加回送出的 ${bb}：${u} + ${bb} = ${first}。两人原来都是 ${first}。`}]);});
+/* reading a scale: first the small mark */
+function scaleSvg(mx,maj,sub,val,unit){const W=320,L=20,R=20,y=60,sx=(W-L-R)/mx;let o=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" class="sc-l"/>`;const st=maj/sub;
+  for(let v=0;v<=mx+1e-9;v+=st){const x=L+v*sx,big=Math.abs(v/maj-Math.round(v/maj))<1e-6;o+=`<line x1="${x.toFixed(1)}" y1="${y}" x2="${x.toFixed(1)}" y2="${y-(big?16:8)}" class="sc-l"/>`;if(big)o+=`<text x="${x.toFixed(1)}" y="${y+18}" text-anchor="middle" class="sc-t">${N(Math.round(v))}</text>`;}
+  const px=L+val*sx;o+=`<path d="M${px.toFixed(1)} ${y-18}l-7 -14h14z" class="sc-p"/><text x="${W-R}" y="${y+36}" text-anchor="end" class="sc-t">${unit}</text>`;
+  return `<svg viewBox="0 0 ${W} 100" role="img" aria-label="scale">${o}</svg>`;}
+G('calc',T.scale,2,1,()=>{const [maj,sub,unit,zu,what]=pick([[100,5,'g','g','a bag of nuts'],[100,4,'g','g','a bag of beans'],[200,4,'mℓ','mℓ','the water in a jug'],[100,2,'mℓ','mℓ','the juice in a cup'],[1000,5,'g','g','a bag of rice'],[50,5,'cm','cm','a stick']]);
+  const mx=maj*ri(4,5),st=maj/sub;let val;do{val=st*ri(1,mx/st-1);}while(val%maj===0);const fig=scaleSvg(mx,maj,sub,val,unit),p=`The scale shows ${what}.`,pz=`刻度显示的是${what.replace(/^(a|the) /,'')}。`;
+  return chain(p+' What is the reading?',pz+'读数是多少？',[
+    {fig,q:`Each small mark stands for how many ${unit}?`,qz:'先看：1 小格是多少？',a:`${N(st)} ${unit}`,d:[['1 '+unit,'place',`一大格 ${N(maj)} 分成 ${sub} 小格。`],[`${N(maj)} ${unit}`,'place','这是一大格。'],[`${N(maj/(sub+1)|0)} ${unit}`,'place','数“格”，不是数刻度线。']],ex:`两个数字之间是 ${N(maj)} ${unit}，分成 ${sub} 小格：${N(maj)} ÷ ${sub} = ${N(st)} ${unit}。`},
+    {fig,q:'What is the reading?',qz:'读数是多少？',a:`${N(val)} ${unit}`,d:[[`${N(Math.floor(val/maj)*maj+(val%maj)/st)} ${unit}`,'place',`每小格是 ${N(st)}，不是 1。`],[`${N(val+st)} ${unit}`,'place','多数了一格。'],[`${N(val-st)} ${unit}`,'place','少数了一格。']],ex:`从 ${N(Math.floor(val/maj)*maj)} 往后数 ${(val%maj)/st} 小格，每格 ${N(st)}：${N(val)} ${unit}。`}]);});
+/* line graph: true, false or not possible to tell */
+const TFN=[['True','对'],['False','错'],['Not possible to tell','看不出']];
+G('p4',T.tfn,2,1,()=>{const it=pick(LGI),vals=shuf([10,20,30,40,50,60,70]).slice(0,5),fig=lineG(vals,DAYS),p=`The line graph shows the number of ${it[0]} from Monday to Friday.`,pz=`折线图是星期一到星期五${it[1]}的数量。`;
+  const v=ri(0,2);let s,sz,k,ex;
+  if(v<2){const [i,j]=shuf([0,1,2,3,4]).slice(0,2),t=vals[i]>vals[j];k=t===(v===0)?0:1;s=`There were ${v===0?'more':'fewer'} ${it[2]} on ${DAYS[i]} than on ${DAYS[j]}.`;sz=`${DAYZ[i]}比${DAYZ[j]}${v===0?'多':'少'}。`;ex=`${DAYS[i]} 是 ${vals[i]}，${DAYS[j]} 是 ${vals[j]}，所以这句话${k===0?'对':'错'}。`;}
+  else{const [i,j]=shuf([0,1,2,3,4]).slice(0,2);k=2;const o=pick([[`More boys than girls came on ${DAYS[i]}.`,`${DAYZ[i]}来的男生比女生多。`,'图上没有分男生女生'],[`It rained on ${DAYS[i]}.`,`${DAYZ[i]}下雨了。`,'图上没有天气'],[`There were more ${it[2]} on Saturday than on ${DAYS[i]}.`,`星期六比${DAYZ[i]}多。`,'图上没有星期六']]);s=o[0];sz=o[1];ex=o[2]+'，所以是 Not possible to tell（看不出）。';}
+  const q=mk({p,fig,q:s+'\nTrue, False or Not possible to tell?',zh:pz+'\n\n'+sz+' 对、错，还是看不出？',a:TFN[k][0],az:TFN[k][1],d:TFN.filter((_,j)=>j!==k).map(o=>[o[0],k===2?'sense':'place',ex,o[1]]),ex});
+  return q;});
+/* Ch6: fraction left, in simplest form */
+G('p4',T.p4fr2,2,1,()=>{const k=kid(),n=pick([12,15,16,18,20,24,30,36]);let a,b,l;do{a=ri(1,n/2|0);b=ri(1,n/2|0);l=n-a-b;}while(l<1||gcd(l,n)===1);
+  const it=pick([['grapes','颗葡萄'],['sweets','颗糖'],['stickers','张贴纸']]);
+  return mk({q:`${k.n} had ${n} ${it[0]}. ${k.P} gave ${a} to ${k.h} brother and ${b} to ${k.h} sister. What fraction of the ${it[0]} did ${k.p} have left? Give your answer in the simplest form.`,zh:`${k.n} 有 ${n} ${it[1]}，给哥哥 ${a}，给姐姐 ${b}。剩下的是几分之几？写成最简分数。`,a:frS(l,n),d:[[`${l}/${n}`,'frac',`${l}/${n} 还能约分。题目要 simplest form。`],[frS(a+b,n),'who','这是给出去的部分，问的是剩下的。'],[frS(l,n-a)===frS(l,n)?`${l}/${n-l}`:frS(l,n-a),'frac','分母是全部的个数。'],[frS(n,l).includes(' ')||frS(n,l)===S_(n/l)?`${l+1}/${n}`:`${n}/${l}`,'frac','分子是剩下的，分母是全部。']],ex:`剩下 ${n} − ${a} − ${b} = ${l}，是 ${l}/${n}，约分得 ${frS(l,n)}。写完问一句：还能约分吗？`});});
+/* Ch7: angles on a straight line */
+G('p4',T.p4a,2,1,()=>{const x=ri(25,155),y=180-x,a=x*Math.PI/180,X=150+110*Math.cos(a),Y=150-110*Math.sin(a);
+  const fig=`<svg viewBox="0 0 300 170" role="img" aria-label="angles on a straight line"><line x1="20" y1="150" x2="280" y2="150" class="fg-ang"/><line x1="150" y1="150" x2="${X.toFixed(1)}" y2="${Y.toFixed(1)}" class="fg-ang"/><text x="${(150+42*Math.cos(a/2)).toFixed(1)}" y="${(150-42*Math.sin(a/2)+5).toFixed(1)}" text-anchor="middle" class="sc-t">${x}°</text><text x="${(150+42*Math.cos((a+Math.PI)/2)).toFixed(1)}" y="${(150-42*Math.sin((a+Math.PI)/2)+5).toFixed(1)}" text-anchor="middle" class="sc-t">y</text></svg>`;
+  return mk({fig,q:'The two angles are on a straight line. Find ∠y.',zh:'两个角在一条直线上。求 ∠y。',a:y+'°',d:[[(90-x>0?90-x:x+90)+'°','place','直线是 180°，不是 90°。'],[x+'°','who','这是已知的角。'],[(360-x)+'°','place','一条直线上合起来是 180°。']],ex:`一条直线是 180°：180° − ${x}° = ${y}°。`});});
+/* Ch8: perimeter back to a side; path around a field; square from its area */
+G('p4',T.p4rs,2,1,()=>{const v=ri(0,2);
+  if(v===0){const b=ri(4,15),l=b+ri(3,30),P=2*(l+b);return mk({q:`A rectangle is ${b} cm wide. Its perimeter is ${P} cm. What is its length?`,zh:`长方形宽 ${b} cm，周长 ${P} cm。长是多少？`,a:l+' cm',d:[[(P-b)+' cm','step1','周长里有两条宽。'],[(P/2)+' cm','step1',`${P/2} 是一条长加一条宽，还要减宽。`],[(P-2*b)+' cm','step1','还要 ÷ 2：剩下的是两条长。']],ex:`周长 ÷ 2 = 一条长 + 一条宽：${P} ÷ 2 = ${P/2}，${P/2} − ${b} = ${l} cm。`});}
+  if(v===1){const w=pick([1,2]),B=ri(8,20),L=B+ri(4,20),inA=(L-2*w)*(B-2*w),ans=L*B-inA;return mk({q:`A rectangular field is ${L} m by ${B} m. There is a path ${w} m wide all around the inside edge of the field. What is the area of the path?`,zh:`长方形场地 ${L} m × ${B} m，沿着场地里面四周有一条宽 ${w} m 的小路。小路的面积是多少？`,a:ans+' m²',d:[[(L*B-(L-w)*(B-w))+' m²','step1',`路在两边都有：里面是 ${L} − ${2*w}、${B} − ${2*w}。`],[inA+' m²','who','这是里面草地的面积，问的是路。'],[(2*(L+B)*w)+' m²','calc','四个角被算了两次。']],ex:`里面：${L} − ${2*w} = ${L-2*w}，${B} − ${2*w} = ${B-2*w}，面积 ${inA} m²。路 = ${L*B} − ${inA} = ${ans} m²。`});}
+  const s=ri(4,12);return mk({q:`A square has an area of ${s*s} cm². What is its perimeter?`,zh:`正方形面积 ${s*s} cm²。周长是多少？`,a:4*s+' cm',d:[[s+' cm','step1',`${s} cm 是一条边，周长是 4 条边。`],[(s*s/4)+' cm','calc','面积不是 4 条边。'],[4*s+' cm²','place','周长用 cm，不是 cm²。']],ex:`几乘几得 ${s*s}？${s} × ${s}，边长 ${s} cm。周长 4 × ${s} = ${4*s} cm。`});});
+/* time: a slow watch, and past midnight */
+G('wp',T.wtime,3,.8,()=>{const k=kid(),v=Math.random()<.5;
+  if(v){const slow=pick([5,10,15,20]),d=ri(5,14)*10,show=ri(16*12,20*12)*5,real=show+slow,start=real-d;
+    return mk({q:`${k.n}'s watch is ${slow} minutes slow. ${k.P} finished a run when ${k.h} watch showed ${t12(show)}. The run lasted ${dur(d)}. What was the actual time ${k.p} started?`,zh:`${k.n} 的手表慢 ${slow} 分钟。跑完时手表显示 ${t12(show)}，跑了 ${dur(d)}。真正开始的时间是几点？`,a:t12(start),d:[[t12(show-d),'time',`手表慢 ${slow} 分钟：真正的时间要加 ${slow}。`],[t12(start-2*slow),'time','手表慢，真正的时间比手表晚，要加。'],[t12(real),'step1','这是真正结束的时间，还要往前推。']],ex:`手表慢 ${slow} 分钟，真正结束 = ${t12(show)} + ${slow} 分钟 = ${t12(real)}。往前推 ${dur(d)}：${t12(start)}。`});}
+  const s=ri(22*12+6,23*12+10)*5,d=ri(9,25)*10,e=(s+d)%1440,h=t=>`${pad(Math.floor(t/60)%24)} ${pad(t%60)}`;
+  return mk({q:`A match started at ${h(s)} and ended at ${h(e)} the next day. How long was the match?`,zh:`比赛 ${h(s)} 开始，第二天 ${h(e)} 结束。比赛多长时间？`,a:dur(d),d:[[dur(1440-d),'time','过了午夜，不能大减小。'],[dur(d+60),'time','先算到 24 00，再加上第二天的。'],[dur(d-20>0?d-20:d+20),'time']],ex:`${h(s)} 到 24 00 是 ${dur(1440-s)}，再到 ${h(e)} 是 ${dur(e)}，一共 ${dur(d)}。`});});
+
 const BAR=[
  {t:'几倍 · 知道小的',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(2,5),b=ri(6,25),tot=Math.random()<.4,ans=tot?b*(k+1):b*k;
    return {p:`${B.n} has ${b} ${it[0]}. ${A.n} has ${tws(k)} as many ${it[0]} as ${B.n}. How many ${it[0]} ${tot?'do they have altogether':`does ${A.n} have`}?`,
@@ -1229,11 +1346,45 @@ const BAR=[
      calc:[{q:`倒推：${R.n} 原来 = ${aft} − ${g} = ?`,a:rb,o:nopt(rb,[aft+g,aft,g])},
        {q:`${J.n} 原来比 ${R.n} 原来多 ${d}：${J.n} 原来 = ${rb} + ${d} = ?`,a:jb,o:nopt(jb,[rb-d,rb,jb+g])},
        {q:'题目里每个数都用上了吗？ · Did you use every number?',a:`${d}、${g}、${aft} 都用上了`,o:shuf([`${d}、${g}、${aft} 都用上了`,`只用了 ${g} 和 ${aft}`,`只用了 ${aft}`])}],
-     sum:`倒推：${R.n} 原来 = ${aft} − ${g} = ${rb}；${J.n} 原来比他多 ${d}：${rb} + ${d} = ${jb}。`};}}];
+     sum:`倒推：${R.n} 原来 = ${aft} − ${g} = ${rb}；${J.n} 原来比他多 ${d}：${rb} + ${d} = ${jb}。`};}},
+ {t:'给多少才一样多',f:()=>{const [A,B]=two(),it=pick(STK);
+   if(Math.random()<.5){const b=ri(30,300),h=ri(8,90),d=2*h,a=b+d;
+     return {p:`${A.n} has ${a} ${it[0]}. ${B.n} has ${b} ${it[0]}. How many ${it[0]} must ${A.n} give ${B.n} so that they have the same number of ${it[0]}?`,
+       zh:`${A.n} 有 ${a}，${B.n} 有 ${b}。${A.n} 要给 ${B.n} 多少，两人才一样多？`,
+       rows:[{n:A.n,u:1,x:d},{n:B.n,u:1,x:0}],xo:[d],uv:b,hint:`${A.n} 多：两人都画 1 格，${A.n} 后面再多一段。`,
+       marks:[{v:a,at:'row:0',hint:`${a} 是 ${A.n} 一共有的，标在 ${A.n} 整条。`},{v:b,at:'row:1',hint:`${b} 是 ${B.n} 的，标在 ${B.n} 那一条。`}],
+       ask:{at:'x:0',q:`先找 ${A.n} 比 ${B.n} 多出来的那段。问号标在哪里？`,hint:`${A.n} 多出来的那段，就是要分一半给 ${B.n} 的地方。`},
+       regions:['row:0','row:1','x:0','all'],
+       calc:[{q:`多出来的那段 = ${a} − ${b} = ?`,a:d,o:nopt(d,[a+b,h,d+10])},
+         {q:`多出来的那段平分两半，给 ${B.n} 一半就一样长：${d} ÷ 2 = ?`,a:h,o:nopt(h,[d,h+b,2*d])},
+         {q:`给了以后每人有多少？ ${b} + ${h} = ?`,a:b+h,o:nopt(b+h,[a-d,b,a])}],
+       sum:`多出来 ${a} − ${b} = ${d}。给一半：${d} ÷ 2 = ${h}。两人都变成 ${b+h}。`};}
+   const k=ri(2,5),u=2*ri(3,25),T2=u*(k+1),df=u*(k-1),g=df/2;
+   return {p:`${A.n} has ${tws(k)} as many ${it[0]} as ${B.n}. They have ${T2} ${it[0]} altogether. How many ${it[0]} must ${A.n} give ${B.n} so that they have the same number of ${it[0]}?`,
+     zh:`${A.n} 的是 ${B.n} 的 ${k} 倍，两人一共 ${T2}。${A.n} 要给 ${B.n} 多少，两人才一样多？`,
+     rows:[{n:A.n,u:k,x:0},{n:B.n,u:1,x:0}],hint:`${k} 倍：${B.n} 画 1 格，${A.n} 画 ${k} 格。`,
+     marks:[{v:T2,at:'all',hint:`${T2} 是两人一共的，标在“全部合起来”。`}],
+     ask:{at:'diff',q:`要给的，跟 ${A.n} 比 ${B.n} 多出来的那段有关。先在图上找到这段，问号标在哪里？`,hint:`${A.n} 比 ${B.n} 长出来的 ${k-1} 格。`},
+     regions:['row:0','row:1','diff','all'],
+     calc:[{q:`一共几格？1 格 = ${T2} ÷ ${k+1} = ?`,a:u,o:nopt(u,[T2/k|0,T2,u*k])},
+       {q:`多出来 ${k-1} 格 = ${k-1} × ${u} = ?`,a:df,o:nopt(df,[u*k,u,df+u])},
+       {q:`给一半，两人就一样长：${df} ÷ 2 = ?`,a:g,o:nopt(g,[df,u,g+u])}],
+     sum:`1 格 = ${T2} ÷ ${k+1} = ${u}。多出来 ${k-1} 格 = ${df}。给一半：${g}。`};}},
+ {t:'买了以后反过来多',f:()=>{const [A,B]=two(),it=pick(STK),a=ri(100,900),b=a+ri(50,700),d=ri(20,300),fin=b+d,buy=fin-a;
+   return {p:`${A.n} had ${a} ${it[0]}. ${B.n} had ${b} ${it[0]}. Then ${A.n} bought some more ${it[0]}. In the end, ${A.n} had ${d} more ${it[0]} than ${B.n}. How many ${it[0]} did ${A.n} buy?`,
+     zh:`${A.n} 有 ${a}，${B.n} 有 ${b}。${A.n} 又买了一些，最后 ${A.n} 比 ${B.n} 多 ${d}。${A.n} 买了多少？`,
+     rows:[{n:B.n,u:1,x:0},{n:A.n+' 最后',u:1,x:d}],xo:[d],uv:b,hint:`最后 ${A.n} 比 ${B.n} 多 ${d}：两人都画 1 格，${A.n} 最后那条再多一段。`,
+     marks:[{v:b,at:'row:0',hint:`${b} 是 ${B.n} 的，${B.n} 没有变。`},{v:d,at:'x:1',hint:`多 ${d}，就是 ${A.n} 最后比 ${B.n} 长出来的那段。`}],
+     ask:{at:'row:1',q:`先求 ${A.n} 最后有多少。问号标在哪里？`,hint:`${A.n} 最后的整条。`},
+     regions:['row:0','row:1','x:1','all'],
+     calc:[{q:`${A.n} 最后 = ${b} + ${d} = ?`,a:fin,o:nopt(fin,[b-d,b,a+d])},
+       {q:`${A.n} 原来有 ${a}，买了多少？ ${fin} − ${a} = ?`,a:buy,o:nopt(buy,[fin+a,b-a,d])},
+       {q:'题目里每个数都用上了吗？ · Did you use every number?',a:`${a}、${b}、${d} 都用上了`,o:shuf([`${a}、${b}、${d} 都用上了`,`只用了 ${b} 和 ${d}`,`只用了 ${a} 和 ${b}`])}],
+     sum:`${A.n} 最后 = ${b} + ${d} = ${fin}。买了 ${fin} − ${a} = ${buy}。`};}}];
 
 /* ---------- word cards: maths words in English ---------- */
 /* a small bar model for a word card: rows of [name, [[units,label,style]...]], marks over or under a row */
-function bm(rows,marks){const U=34,X0=rows.some(r=>r[0])?64:8,H=28,G=26;const top=(marks||[]).some(m=>m.top&&m.row===0)?24:4;
+function bm(rows,marks){const U=34,X0=rows.some(r=>r[0])?Math.max(64,Math.max(...rows.map(r=>(r[0]||'').length))*8+12):8,H=28,G=26;const top=(marks||[]).some(m=>m.top&&m.row===0)?24:4;
   let y=top,out='',maxx=0;const ys=[];
   rows.forEach(([name,parts])=>{ys.push(y);let x=X0;if(name)out+=`<text x="${X0-8}" y="${y+H/2+5}" text-anchor="end" class="bm-n">${name}</text>`;
     parts.forEach(([w,t,c])=>{out+=`<rect x="${x}" y="${y}" width="${w*U}" height="${H}" rx="4" class="bm-${c||'a'}"/>`;if(t)out+=`<text x="${x+w*U/2}" y="${y+H/2+5}" text-anchor="middle" class="bm-t">${t}</text>`;x+=w*U;});
@@ -1454,7 +1605,7 @@ function barDraw(){const L=BR.L,TY=barTypes(),st=barSt(),step=BR.step==='list'?B
     h=`<p class="br-p">${m?`「${esc(m.v)}」标在哪里？ · Where does ${esc(m.v)} go?`:esc(L.ask.q||'题目问的是哪一段？问号标在哪里？')}</p>${L.regions.includes('unit:0')?'':'<p class="br-zh">点图上的那一段，或者点下面的字。</p>'}<div class="br-opts">`+L.regions.map(id=>`<button class="br-o" data-br="${id}"${BR.used.includes(id)?' disabled':''}>${esc(regName(id))}</button>`).join('')+'</div>';}
   else if(BR.step==='calc'){const c=L.calc[BR.ci];h=`<p class="br-p">${esc(c.q)}</p><div class="br-opts">`+c.o.map((x,i)=>`<button class="br-o" data-bo="${i}"${BR.used.includes(i)?' disabled':''}>${esc(x)}</button>`).join('')+'</div>';}
   else if(BR.step==='done')h=`<p class="br-sum">${esc(L.sum)}</p><p class="br-p">在纸上照这个图再画一遍。</p>`+(BR.note?`<p class="br-msg">${esc(BR.note)}</p>`:'')+'<button class="sbtn" id="brNext">再来一题</button><button class="br-other" id="brTypes2">换一种图</button><button class="br-other" id="brHome">回首页</button>';
-  else if(BR.step==='list')h='<p class="br-p">6 种线段图</p><div class="br-list">'+TY.map((t,i)=>`<button class="br-li${i===st.cur?' cur':''}" data-bt="${i}"><span>${i+1}. ${esc(t.t)}</span><small>做了 ${st.n[i]||0} 题</small></button>`).join('')+'</div>'+(BR.prev!=='done'?'<button class="br-other" id="brBack">回到这一题</button>':'');
+  else if(BR.step==='list')h='<p class="br-p">'+TY.length+' 种线段图</p><div class="br-list">'+TY.map((t,i)=>`<button class="br-li${i===st.cur?' cur':''}" data-bt="${i}"><span>${i+1}. ${esc(t.t)}</span><small>做了 ${st.n[i]||0} 题</small></button>`).join('')+'</div>'+(BR.prev!=='done'?'<button class="br-other" id="brBack">回到这一题</button>':'');
   $('brCtl').innerHTML=h;}
 function barCheck(){const L=BR.L,bad=BR.rows.findIndex((r,j)=>r.u!==L.rows[j].u||(r.x||0)!==(L.rows[j].x||0));
   if(bad<0){BR.step='mark';BR.tries=0;BR.msg='画对了！';}
