@@ -330,6 +330,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   .tiles6 .tname{font-size:1.3rem}
 }
 @media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tiles6{align-items:start;grid-auto-rows:auto}
 /* 画线段图: one column on a phone; on an iPad the problem and the picture sit on the left, the steps and buttons on the right, so nothing needs scrolling */
 .br-grid{display:flex;flex-direction:column;gap:0.75rem}
 .br-left,.br-right{display:flex;flex-direction:column;gap:0.75rem;min-width:0}
@@ -1398,6 +1399,9 @@ function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今�
   const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
 HOOK.tile.cards=wordsView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
 HOOK.home.push(homeTiles);
+/* iPhone Safari keeps the old row heights of square tiles after turning the phone; redraw the tiles after a turn */
+(function(){let t;function relayout(){clearTimeout(t);t=setTimeout(()=>{document.querySelectorAll('.tiles6').forEach(g=>{g.style.display='none';void g.offsetHeight;g.style.display='';});},250);}
+addEventListener('resize',relayout);addEventListener('orientationchange',relayout);if(screen.orientation)screen.orientation.addEventListener('change',relayout);})();
 
 /* ---------- 画线段图: he builds the bar model himself (units, extra pieces), puts the numbers and the ? on it, then uses it ---------- */
 let BR=null;

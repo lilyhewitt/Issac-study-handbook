@@ -330,6 +330,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   .tiles6 .tname{font-size:1.3rem}
 }
 @media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tiles6{align-items:start;grid-auto-rows:auto}
 /* 介词词组: the small word to remember stands out */
 .pp-k{color:var(--read);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .pp-word{font-size:clamp(1.9rem,8vw,2.6rem);text-align:center;line-height:1.25}
@@ -1924,6 +1925,9 @@ function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今�
   const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
 HOOK.tile.cards=wordsView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
 HOOK.home.push(homeTiles);
+/* iPhone Safari keeps the old row heights of square tiles after turning the phone; redraw the tiles after a turn */
+(function(){let t;function relayout(){clearTimeout(t);t=setTimeout(()=>{document.querySelectorAll('.tiles6').forEach(g=>{g.style.display='none';void g.offsetHeight;g.style.display='';});},250);}
+addEventListener('resize',relayout);addEventListener('orientationchange',relayout);if(screen.orientation)screen.orientation.addEventListener('change',relayout);})();
 
 /* ---------- 介词词组: its own deck, two groups a week. Learning = cards, then "which small word is missing?".
    Review moves on as a phrase gets known: the phrase → a sentence → a short story (and "spot the wrong small word"). ---------- */

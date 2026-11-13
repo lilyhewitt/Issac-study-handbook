@@ -330,6 +330,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
   .tiles6 .tname{font-size:1.3rem}
 }
 @media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tiles6{align-items:start;grid-auto-rows:auto}
 .skw{margin-bottom:.6rem}.skh{color:var(--muted,#777);font-size:.95rem;margin:.2rem 0 .4rem}
 .skwords{display:flex;flex-wrap:wrap;gap:.35rem}.skword{padding:.35rem .55rem;border-radius:.6rem;border:2px solid var(--line);background:var(--surface);font-size:1.05rem;font-weight:700}
 .skword.on{border-color:var(--pp,#8b5cf6);background:rgba(139,92,246,.15)}.skword.nope{animation:skshake .4s}
@@ -1075,6 +1076,9 @@ function homeTiles(){const dn=dueWords().length;$('wtNote').textContent=dn?`今�
   const n=S.misses.length;$('redoNote').textContent=n?n+' 题':'';$('tRedo').classList.toggle('empty',!n);}
 HOOK.tile.cards=wordsView;HOOK.tile.redo=()=>{if(S.misses.length)startRound('redo');};
 HOOK.home.push(homeTiles);
+/* iPhone Safari keeps the old row heights of square tiles after turning the phone; redraw the tiles after a turn */
+(function(){let t;function relayout(){clearTimeout(t);t=setTimeout(()=>{document.querySelectorAll('.tiles6').forEach(g=>{g.style.display='none';void g.offsetHeight;g.style.display='';});},250);}
+addEventListener('resize',relayout);addEventListener('orientationchange',relayout);if(screen.orientation)screen.orientation.addEventListener('change',relayout);})();
 
 /* 答题本领 Answer skills: four kinds of science questions that train how to answer, not just what.
    dir   — tap the direction word first (increase / decrease / NOT ...), then choose.

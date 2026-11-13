@@ -24,3 +24,4 @@
   .tiles6 .tname{font-size:1.3rem}
 }
 @media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tiles6{align-items:start;grid-auto-rows:auto}
