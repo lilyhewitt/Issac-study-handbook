@@ -5,21 +5,21 @@ function ppSt(){if(!S.pp||typeof S.pp!=='object')S.pp={};if(!S.ppg||typeof S.ppg
 function ppDue(){ppSt();const t=dkey(new Date());return PPL.filter(p=>S.pp[p.id]&&S.pp[p.id].due<=t);}
 function ppNext(){ppSt();return PPD.map((g,i)=>i).filter(i=>!S.ppg[PPD[i].t]||PPL.some(p=>p.g===i&&!S.pp[p.id])).slice(0,2);}
 function ppStatus(id){const s=S.pp[id];return !s?'':s.box>=4?'s2':s.box===0?'s0':'s1';}
-function ppHTML(p){const t=esc(p.id),re=new RegExp('\\b'+p.key+'\\b','g');let last=-1,m;while((m=re.exec(t)))last=m.index;
+function ppHTML(p){if(p.pre!=null)return esc(p.pre)+'<b class="pp-k">'+esc(p.key)+'</b>'+esc(p.post);const t=esc(p.id),re=new RegExp('\\b'+p.key+'\\b','g');let last=-1,m;while((m=re.exec(t)))last=m.index;
   return last<0?t:t.slice(0,last)+'<b class="pp-k">'+p.key+'</b>'+t.slice(last+p.key.length);}
 function ppNote(){const d=ppDue().length,nx=ppNext();return d?`今天复习 ${d} 个`:nx.length?`下一组：${PPD[nx[0]].zh}`:'全部学完了';}
 function ppView(){ppSt();show('vPP');const due=ppDue(),nx=ppNext(),learned=PPL.filter(p=>S.pp[p.id]).length,mast=PPL.filter(p=>ppStatus(p.id)==='s2').length;
-  $('ppSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词组学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">一周学两组，每组 5 个。复习时先补词组里的小词，熟了放进句子，再放进小故事。</p>`;
+  $('ppSum').innerHTML=`<div class="st-big"><b>${learned}</b> 个词组学过 · <b>${mast}</b> 个记住了</div><p class="st-sub">每组 4–7 张介词卡，句子和纸卡一样。学的时候有提示，复习时不给提示。</p>`;
   $('ppReview').disabled=!due.length;$('ppReview').textContent=due.length?`复习今天的词组（${due.length} 个）`:'今天没有要复习的词组';
   $('ppSets').innerHTML=PPD.map((g,i)=>{const done=!!S.ppg[g.t],isNext=nx.includes(i);
     return `<div class="wset${isNext?' next':''}"><div class="wset-h"><span>${i+1}. ${esc(g.t)} <small>${esc(g.zh)}</small></span>${isNext?'<span class="wt-r">下一组</span>':done?`<small>${esc(S.ppg[g.t].slice(5).replace('-','/'))} 学的</small>`:''}</div>`
       +`<div class="chips2">${PPL.filter(p=>p.g===i).map(p=>`<span class="wchip ${ppStatus(p.id)}">${ppHTML(p)}</span>`).join('')}</div>`
-      +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-pplearn="${i}">${done?'再看一遍':'学这 5 个词组'}</button>`:'')+'</div>';}).join('');}
+      +(done||isNext?`<button class="sbtn${done?' ghost':''}" data-pplearn="${i}">${done?'再看一遍':'学这一组'}</button>`:'')+'</div>';}).join('');}
 let PPC=null;
 function ppCards(gi){PPC={gi,i:0,list:PPL.filter(p=>p.g===gi)};show('vPPCard');ppCard();}
 function ppCard(){const p=PPC.list[PPC.i],g=PPD[PPC.gi];
   $('ppcSet').textContent=`${g.t} · ${g.zh} · ${PPC.i+1}/${PPC.list.length}`;
-  $('ppcWord').innerHTML=ppHTML(p);$('ppcZh').textContent=p.zh;$('ppcEx').innerHTML=fmt(p.ex);
+  $('ppcWord').innerHTML=ppHTML(p);$('ppcZh').textContent=p.zh;$('ppcEx').innerHTML=p.pre!=null?'':fmt(p.ex);$('ppcEx').hidden=p.pre!=null;
   $('ppcNext').textContent=PPC.i<PPC.list.length-1?'Next 下一个':'Check! 考考自己';
   $('ppcPips').innerHTML=PPC.list.map((x,j)=>`<span class="pip ${j<PPC.i?'ok':j===PPC.i?'now':''}"></span>`).join('');window.scrollTo(0,0);}
 /* rounds, answers, tasks and the end of a round go through the shared app's HOOK */
@@ -28,7 +28,7 @@ HOOK.round=mode=>{
   if(mode==='ppall'){return QB.shuf(PPL.filter(p=>S.pp[p.id])).sort((x,y)=>(S.pp[y.id].bad||0)-(S.pp[x.id].bad||0)).slice(0,ROUND).map(p=>S.pp[p.id].box<=1?QB.PPX.word(p):QB.PPX.sentence(p));}
   if(mode==='ppreview'){const qs=[];let story=false;
     QB.shuf(ppDue()).slice(0,ROUND).forEach(p=>{const b=S.pp[p.id].box;
-      if(b>=4&&!story&&Math.random()<.5){story=true;qs.push(...QB.PPX.story(p.g));}
+      if(b>=4&&!story&&PPD[p.g].story&&Math.random()<.5){story=true;qs.push(...QB.PPX.story(p.g));}
       else qs.push(b<=1?QB.PPX.word(p):QB.PPX.sentence(p));});
     const learned=PPL.filter(p=>S.pp[p.id]);
     if(learned.length>=8&&qs.length&&ppDue().some(p=>S.pp[p.id].box>=3)){const w=QB.PPX.wrong(learned);if(w)qs.push(w);}

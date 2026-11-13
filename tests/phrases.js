@@ -24,11 +24,11 @@ const right=async()=>p.evaluate(()=>{const qt=document.querySelector('#qText').i
 const play=async(allRight)=>{let n=0,miss=0;while(await p.isVisible('#opts')&&n<20){n++;let i=allRight?await right():0;if(i<0){miss++;i=0;}await p.click('#opt'+i);await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}return {n,miss};};
 await p.click('#tPP');await p.waitForTimeout(100);
 ok(await p.isVisible('#vMap'),'phrases tile opens the phrase map');
-await p.click('.mn[data-i="0"]',{force:true});for(let i=0;i<5;i++){ok(i>0||(await p.innerHTML('#ppcWord')).includes('pp-k'),'card shows the phrase with the small word marked');await p.click('#ppcNext');}
-const r1=await play(true);ok(r1.n===5&&r1.miss===0,'learning round: 5 “which small word” questions, all answerable ('+JSON.stringify(r1)+')');
+await p.click('.mn[data-i="0"]',{force:true});for(let i=0;i<6;i++){ok(i>0||(await p.innerHTML('#ppcWord')).includes('pp-k'),'card shows the phrase with the small word marked');await p.click('#ppcNext');}
+const r1=await play(true);ok(r1.n===6&&r1.miss===0,'learning round: 6 card questions, all answerable ('+JSON.stringify(r1)+')');
 ok(await p.isVisible('#mRes'),'end of round shows the result on the phrase map');
 await p.click('#mrGo');let s=await S();
-ok(Object.keys(s.pp||{}).length===5&&Object.values(s.pp).every(x=>x.box===1),'5 phrases learned, all at the first step');
+ok(Object.keys(s.pp||{}).length===6&&Object.values(s.pp).every(x=>x.box===1),'6 cards learned, all at the first step');
 ok((s.misses||[]).length===0,'phrases are not added to the wrong-answer list');
 ok(Object.keys(s.ppg||{}).length===1,'group recorded as learned');
 /* a few weeks on: everything due and well known → sentences, a story, spot-the-mistake */
@@ -39,7 +39,7 @@ const kinds=new Set();for(let k=0;k<6;k++){await p.evaluate(()=>{const S=JSON.pa
   await p.reload();await p.waitForTimeout(150);await p.click('[data-tk="pp"]');
   while(await p.isVisible('#opts')){kinds.add((await p.innerText('#qChip')).split(' · 第')[0]);let i=await right();if(i<0)i=0;await p.click('#opt'+i);await p.waitForTimeout(25);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(25);}
   await p.click('#bAgain');}
-ok(kinds.has('Phrases in sentences · 词组放进句子')&&kinds.has('Phrases in a story · 小故事')&&kinds.has('Phrases: spot the mistake · 找错'),'review moves on to sentences, stories and spot-the-mistake: '+[...kinds].join(' / '));
+ok(kinds.has('Prepositions · 介词卡')&&kinds.has('Prepositions: spot the mistake · 找错'),'review: card sentences and spot-the-mistake: '+[...kinds].join(' / '));
 /* grammar rounds: the new cells and the step-by-step pronoun cloze */
 await p.click('#ppBack');const topics=new Set();let broken=0;
 for(let r=0;r<30;r++){await p.click('.tile[data-mode="gram"]');const chips=[];while(await p.isVisible('#opts')){chips.push(await p.innerText('#qChip'));await p.click('#opt0');await p.waitForTimeout(20);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(20);}

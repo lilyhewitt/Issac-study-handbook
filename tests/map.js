@@ -60,7 +60,7 @@ await p.click('#tPP');ok(await p.isVisible('#vMap')&&await p.evaluate(()=>__map.
 const pcur=await p.$$eval('.mn',a=>a.findIndex(e=>e.querySelector('.mn-pulse')));await p.click(`.mn[data-i="${pcur}"]`,{force:true});ok(await p.isVisible('#vPPCard'),'phrase stop opens the phrase cards');
 await p.click('#ppcQuit');ok(await p.isVisible('#vMap'),'back from phrase cards returns to the map');
 /* quit in the middle returns to the map */
-await p.click(`.mn[data-i="${pcur}"]`,{force:true});for(let i=0;i<5;i++)await p.click('#ppcNext');ok(await p.isVisible('#vQuiz'),'phrase level round');
+await p.click(`.mn[data-i="${pcur}"]`,{force:true});for(let i=0;i<9&&await p.isVisible('#ppcNext');i++)await p.click('#ppcNext');ok(await p.isVisible('#vQuiz'),'phrase level round');
 await p.click('#bQuit');ok(await p.isVisible('#vMap'),'quit a level: back to the map');
 ok(!errs.length,'no page errors '+errs.join(' | '));
 console.log(`\n${pass} passed, ${fail} failed`);await b.close();process.exit(fail?1:0);})();

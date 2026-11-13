@@ -1048,119 +1048,55 @@ const CLUE=[
 ];
 G('word','Clue words · 找证据词',2,1,()=>{const [q,o,c,why]=pick(CLUE);return mk({q,zh:'四个词都像对的。先在句子里找一个能定答案的词。',a:o[0],d:o.slice(1),ex:`证据词：**${c}** → ${why}`});});
 
-/* ========== PHRASES (介词词组): 12 groups of 5, from the phrases that came up most in 54 P3/P4 papers ==========
-   [phrase with the key small word in {}, 中文, example with the phrase in **, words that would ALSO be right here (never offered)]
-   story: 3-4 sentences, the key words in {} become blanks. */
+/* ========== PHRASES (介词卡): the 143 cards of 英文介词卡_题目清单, in 25 groups.
+   Groups 1–6: common phrases; 7–13: grammar MCQ; 14–17: grammar cloze; 18–22: open cloze; 23–25: two-word verbs.
+   Each card: [sentence with the answer in {}, 用法, words that would ALSO be right here (never offered)]. ========== */
 const PPG=[
-{t:'Time',zh:'时间',pool:['in','on','at','during','for','since','by'],w:[
- ['{during} recess','课间休息的时候','We eat our snacks **during recess**.',['at']],
- ['{at} night','在晚上','Owls hunt **at night**.',[]],
- ['{on} time','准时','The bus came **on time** today.',['in']],
- ['{on} Monday','在星期一','We have PE **on Monday**.',[]],
- ['{in} the morning','在早上','I brush my teeth **in the morning**.',[]]],
- story:'Ben gets up early {4} the morning. His school bus always comes {2} time. He plays football with his friends {0} recess.'},
-{t:'Places',zh:'地点',pool:['in','on','at','by','for','of','with'],w:[
- ['{at} home','在家','Dad is working **at home** today.',['in']],
- ['{in} front of','在……前面','Ravi sat **in front of** me.',[]],
- ['{on} top of','在……上面','The cat slept **on top of** the cupboard.',[]],
- ['{on} the floor','在地上','Do not leave your toys **on the floor**.',[]],
- ['{at} school','在学校','We learn many things **at school**.',['in']]],
- story:'Mei left her shoes {3} the floor. Her mum asked her to put them {1} front of the door. Mei’s cat was sleeping {2} top of the shoe rack.'},
-{t:'Since, for, late',zh:'多久、从什么时候',pool:['for','since','at','in','on','to','from'],w:[
- ['late {for}','……迟到','Ben was **late for** school today.',[]],
- ['{since} two o’clock','从两点起（一直）','We have been waiting **since two o’clock**.',['from']],
- ['{for} two hours','（持续）两个小时','We swam **for two hours**.',[]],
- ['{at} the moment','现在、此刻','Mum is busy **at the moment**.',[]],
- ['{for} a while','一会儿','Let’s rest **for a while**.',[]]],
- story:'Ravi was late {0} his piano lesson. His teacher had been waiting {1} four o’clock. Ravi said sorry and practised {2} two hours.'},
-{t:'Places 2',zh:'地点 2',pool:['by','between','across','behind','through','under','over','along'],w:[
- ['{by} the river','在河边','We had a picnic **by the river**.',['along']],
- ['{between} the two chairs','在两张椅子中间','The cat hid **between the two chairs**.',[]],
- ['{across} the road','过马路','Hold my hand when we walk **across the road**.',['along']],
- ['{behind} the door','在门后面','Kai hid **behind the door**.',[]],
- ['{through} the window','透过窗户','The sun shone **through the window**.',[]]],
- story:'We had a picnic {0} the river. A duck walked {2} the path. Then it hid {3} a big rock.'},
-{t:'Feelings and words',zh:'形容词 + 介词',pool:['of','with','to','at','in','for','about'],w:[
- ['proud {of}','为……骄傲','Siti is **proud of** her drawing.',[]],
- ['filled {with}','装满了','The box was **filled with** toys.',[]],
- ['afraid {of}','害怕','My sister is **afraid of** the dark.',[]],
- ['full {of}','满是','The bag is **full of** books.',[]],
- ['kind {to}','对……友善','Please be **kind to** animals.',[]]],
- story:'Siti’s basket was filled {1} mangoes. She was proud {0} her little garden. She was kind {4} her neighbours and gave them some fruit.'},
-{t:'Feelings and words 2',zh:'形容词 + 介词 2',pool:['for','in','at','with','of','to','about'],w:[
- ['known {for}','因……出名','Singapore is **known for** its food.',[]],
- ['suitable {for}','适合','This film is **suitable for** children.',[]],
- ['interested {in}','对……感兴趣','Kumar is **interested in** dinosaurs.',[]],
- ['good {at}','擅长','Hui Min is **good at** swimming.',[]],
- ['angry {with}','生……的气','Mum was **angry with** me for being rude.',['at']]],
- story:'Kumar is interested {2} dinosaurs. He is good {3} drawing them. The new dinosaur museum is suitable {1} children like him.'},
-{t:'Doing words',zh:'动词 + 介词',pool:['at','for','with','to','in','on','of'],w:[
- ['look {at}','看','**Look at** the rainbow!',[]],
- ['look {for}','找','I am **looking for** my pencil.',[]],
- ['wait {for}','等','We **waited for** the bus.',[]],
- ['play {with}','和……玩','The puppy likes to **play with** a ball.',[]],
- ['stare {at}','盯着看','The baby **stared at** the balloons.',[]]],
- story:'Jun Jie was looking {1} his cat. He waited {2} an hour. Then he looked {0} the tree and saw her on a branch!'},
-{t:'Doing words 2',zh:'动词 + 介词 2',pool:['about','in','of','for','at','with','to'],w:[
- ['think {about}','想（关于）','I often **think about** my holiday.',['of']],
- ['take part {in}','参加','Ali will **take part in** the race.',[]],
- ['take care {of}','照顾','Siti **takes care of** her little brother.',[]],
- ['live {in}','住在','My cousins **live in** Malaysia.',[]],
- ['search {for}','寻找','The boys **searched for** the lost ball.',[]]],
- story:'My aunt lives {3} a small town. She takes care {2} three dogs. This year, she will take part {1} a dog show.'},
-{t:'Fixed phrases',zh:'固定搭配',pool:['of','to','for','with','in','at','from'],w:[
- ['instead {of}','而不是、代替','Let’s walk **instead of** taking the bus.',[]],
- ['look forward {to}','盼望','I **look forward to** the school holidays.',[]],
- ['a sigh {of} relief','松了一口气','Mei gave **a sigh of relief** when she found her keys.',[]],
- ['because {of}','因为（后面接东西）','The match was cancelled **because of** the rain.',[]],
- ['get rid {of}','去掉、扔掉','We need to **get rid of** the old newspapers.',[]]],
- story:'It rained, so we watched a movie instead {0} going to the beach. We look forward {1} going next week. When the rain stopped, Mum gave a sigh {2} relief.'},
-{t:'Words with of',zh:'带 of 的量词',pool:['of','for','with','to','in','at'],w:[
- ['a lot {of}','很多','There are **a lot of** fish in the pond.',[]],
- ['a pair {of}','一双、一副','Dad bought **a pair of** shoes.',[]],
- ['part {of}','……的一部分','Reading is **part of** my homework.',[]],
- ['the top {of}','……的顶上','We climbed to **the top of** the hill.',[]],
- ['sense {of} humour','幽默感','Our teacher has a great **sense of humour**.',[]]],
- story:'Dad bought a pair {1} hiking shoes. We walked to the top {3} the hill. There were a lot {0} birds there.'},
-{t:'Two-word verbs',zh:'短语动词',pool:['up','on','out','down','off','in','away'],w:[
- ['pick {up}','捡起','Please **pick up** the rubbish.',[]],
- ['wake {up}','醒来','I **wake up** at six o’clock.',[]],
- ['put {on}','穿上','**Put on** your jacket. It is cold.',[]],
- ['find {out}','查出、发现','Let’s **find out** who took the cake.',[]],
- ['sign {up}','报名','I **signed up** for the art club.',[]]],
- story:'I wake {1} at six o’clock. I put {2} my school uniform. After school, I signed {4} for the chess club.'},
-{t:'Two-word verbs 2',zh:'短语动词 2',pool:['up','out','down','with','off','in','away'],w:[
- ['look {up}','查（字典）','**Look up** the word in the dictionary.',[]],
- ['put {out}','扑灭','The firemen **put out** the fire.',[]],
- ['give {up}','放弃','Never **give up**!',[]],
- ['break {down}','坏了（车、机器）','Our car **broke down** on the way home.',[]],
- ['come up {with}','想出','Siti **came up with** a good idea.',[]]],
- story:'Our car broke {3} on the way home. Dad looked {0} the phone number of a tow truck. He never gives {2}!'},
+{t:"Time and place",zh:"时间和地点",pool:["in", "on", "at", "for", "of", "by", "to"],w:[["The bus came {on} time.", "准时", ["in"]], ["Ali stood {in} front of the class.", "在……前面", []], ["The cat sat {on} top of the cupboard.", "在……上面", []], ["Jay was late {for} school.", "……迟到", ["to"]], ["Father is busy {at} the moment.", "此刻", []], ["Please wait here {for} a while.", "一会儿", []]]},
+{t:"Feelings",zh:"感觉",pool:["of", "with", "to", "for", "in", "at", "about"],w:[["Mother was proud {of} me.", "为……骄傲", []], ["The jar is filled {with} sweets.", "装满", []], ["Mei is afraid {of} the dark.", "害怕", []], ["The box is full {of} toys.", "满是", []], ["Be kind {to} animals.", "对……友善", []], ["Mother was angry {with} me.", "生……的气", ["at"]]]},
+{t:"Good at, known for",zh:"擅长、出名",pool:["for", "in", "at", "of", "with", "on", "to"],w:[["This town is known {for} its food.", "因……出名", []], ["These shoes are suitable {for} hiking.", "适合", []], ["Ben is interested {in} insects.", "对……感兴趣", []], ["Siti is good {at} drawing.", "擅长", []], ["Grandpa has a good sense {of} humour.", "幽默感", []], ["This is part {of} my project.", "……的一部分", []]]},
+{t:"Doing words",zh:"动作词组",pool:["at", "for", "with", "about", "on", "in", "of", "to"],w:[["Look {at} the rainbow!", "看", ["for", "to"]], ["I am looking {for} my pencil.", "找", ["at"]], ["We waited {for} the bus.", "等", ["on", "in", "at"]], ["Kai likes to play {with} his puppy.", "和……玩", []], ["Do not stare {at} people.", "盯着看", []], ["Think {about} your answer first.", "想", ["of", "on"]]]},
+{t:"Doing words 2",zh:"动作词组 2",pool:["in", "of", "for", "with", "at", "on", "to"],w:[["We took part {in} the race.", "参加", []], ["Please take care {of} your sister.", "照顾", []], ["They live {in} a flat.", "住在", []], ["We search {for} shells on the beach.", "寻找", []], ["The game stopped because {of} the rain.", "因为（后面接东西）", []], ["I bought a pair {of} socks.", "一双", ["for"]], ["We climbed to the top {of} the hill.", "……的顶上", []]]},
+{t:"Two-word verbs",zh:"短语动词",pool:["up", "on", "out", "off", "down", "in", "away", "at"],w:[["Please pick {up} the rubbish.", "捡起", ["out"]], ["I wake {up} at six every day.", "醒来", []], ["Put {on} your jacket.", "穿上", ["down", "away", "up", "off"]], ["Let's find {out} who did it.", "查出", []], ["I signed {up} for the camp.", "报名", ["on", "in"]], ["Look {up} the word in the dictionary.", "查（字典）", ["at", "for", "out"]]]},
+{t:"During and on",zh:"during 和 on",pool:["during", "on", "at", "for", "since", "of"],w:[["The children played tag {during} recess.", "课间休息时", ["at"]], ["Sarah visited her grandparents {during} the school holidays.", "假期里", ["in", "over", "for", "on"]], ["Pay attention {during} the morning assembly.", "早会时", ["at", "in", "to", "for"]], ["Ravi's worksheet is due {on} Monday.", "星期几", ["by"]], ["Our extra classes are held {on} Monday afternoons.", "星期几的下午", ["during"]], ["The contest is {on} the last day of the term.", "具体某一天", ["during"]]]},
+{t:"On and at",zh:"on 和 at",pool:["on", "at", "in", "for", "since", "of"],w:[["Sam dropped his pen {on} the floor.", "掉在地上", ["to", "onto"]], ["My painting is displayed {on} the wall.", "挂在墙上", []], ["The teacher tapped {on} my table.", "敲在桌面上", ["at"]], ["The carnival starts {at} noon tomorrow.", "中午", []], ["{At} midnight, the fireworks will start.", "半夜", []], ["The recess bell rings {at} 9 a.m. daily.", "钟点", []]]},
+{t:"At and for",zh:"at 和 for",pool:["at", "for", "in", "on", "since", "by"],w:[["I will see you {at} home later.", "在家", []], ["I bought some stationery {at} the school bookshop.", "在某个店", ["in", "from", "by"]], ["Tina's grandparents live {at} 3, Jalan Ang Mo Kio.", "门牌地址", ["on"]], ["Mei has not seen Mr Tan {for} two weeks.", "一段时间", ["in"]], ["James jogged every day {for} a week.", "一段时间", []], ["We use ice {for} cooling down hot drinks.", "用来做……（后面加 -ing）", ["in"]]]},
+{t:"For and in",zh:"for 和 in",pool:["for", "in", "on", "at", "of", "by"],w:[["Suzy bought some fruit {for} making desserts.", "用来做……（后面加 -ing）", []], ["The meeting was held {for} the purpose of planning the camp.", "for the purpose of 为了", []], ["The class will vote {for} Susan as their leader.", "投票给", []], ["Lily's birthday is {in} October.", "月份", []], ["The concert was at seven o'clock {in} the evening.", "晚上", []], ["You can see beautiful artworks {in} the school hall.", "在大空间里", ["at", "by"]]]},
+{t:"By and since",zh:"by 和 since",pool:["by", "in", "at", "on", "for", "since", "of", "with", "to"],w:[["You can buy some fruit {in} that supermarket.", "在店里面", ["at", "from", "for", "by"]], ["The bear was waiting {by} the river.", "在旁边", ["at", "near", "for", "beside", "across", "on", "in"]], ["Please stay {by} my side in the crowd.", "在身边", ["at", "on", "beside"]], ["Mia completed the project all {by} herself.", "自己做", ["for"]], ["Return the books {by} Monday.", "最迟在……之前", ["on", "before", "for"]], ["Mr Lim has waited for the bus {since} 2 o'clock.", "从某个时间点起", ["at"]]]},
+{t:"Since, through, behind",zh:"since、through、behind",pool:["since", "through", "between", "behind", "among", "in", "for", "of", "at"],w:[["Sandy has played the piano {since} she was five.", "从……时候起", ["for"]], ["I take a walk {through} the park every evening.", "穿过", ["in", "around", "across", "behind", "at"]], ["The thief came in {through} the window.", "从……进来", ["at"]], ["The silver car is parked {between} the yellow car and the black van.", "两者之间", ["behind"]], ["My cat hid {behind} the door.", "在后面", ["by", "near", "beside", "at"]]]},
+{t:"Among, against, over",zh:"among、against、over",pool:["against", "over", "with", "towards", "among", "at", "of", "since", "for", "by"],w:[["The rescuers searched {among} the rubble for survivors.", "在一堆东西中间", ["through", "in", "under", "behind", "between", "for", "at", "over", "by"]], ["Do not lean {against} the bookshelf.", "靠着", ["on", "over", "towards", "by"]], ["Mrs Lim leaned {over} and tapped my shoulder.", "俯身", ["in", "forward", "down", "across"]], ["The scientist experimented {with} some chemicals.", "用……做实验", ["on"]], ["Walk {towards} the office and you will see the bookshop.", "朝……走", ["to", "past", "into", "through", "around", "by", "over"]]]},
+{t:"In a passage",zh:"短文里的介词",pool:["for", "in", "across", "from", "through", "to", "of", "at", "on", "with"],w:[["We had berries {for} breakfast.", "当早餐", ["at", "with"]], ["We left our bowls {in} the sink.", "在里面", ["by", "near", "at", "on"]], ["Schools {across} the country celebrate Racial Harmony Day.", "遍及全国", ["in", "around", "throughout", "through", "of", "from"]], ["We tasted food {from} different cultures.", "来自", ["of", "across", "through"]], ["We remember what we went {through} as a country.", "经历", ["for"]]]},
+{t:"In a passage 2",zh:"短文里的介词 2",pool:["to", "from", "for", "up", "off", "in", "at", "on", "with"],w:[["Mrs Tan went up {to} Bernice.", "走到……面前", []], ["Her quick thinking saved her {from} being scolded.", "免于", []], ["The bridge only had space {for} one goat.", "给……的", []], ["The two goats ended {up} butting heads.", "结果", ["in"]], ["Both goats tumbled {off} the bridge.", "从……掉下", ["from", "down", "over"]]]},
+{t:"In a passage 3",zh:"短文里的介词 3",pool:["up", "on", "against", "inside", "in", "at", "for", "off", "with", "from"],w:[["The otter swims {up} to the surface.", "向上", ["back", "out"]], ["It puts a flat stone {on} its stomach.", "放在上面", ["against"]], ["The otter smashes the shell {against} the flat stone.", "往……上砸", ["on", "with", "at"]], ["It eats the juicy meat {inside} the sea urchin.", "在里面", ["of", "in", "from", "on"]], ["Maisie the spider lived {in} Robert's house.", "住在里面", ["at", "inside"]]]},
+{t:"In a passage 4",zh:"短文里的介词 4",pool:["by", "from", "across", "with", "of", "in", "at", "on", "for", "to"],w:[["She was resting {by} her favourite window.", "在旁边", ["at", "near", "on", "beside", "in"]], ["Robert came home {from} work.", "从……回来", ["after", "for"]], ["The spider spun webs {across} the whole room.", "整片", ["in", "around", "over", "throughout", "on"]], ["The shuttlecock is made {with} a rubber disc and feathers.", "made with：用了哪些东西做成", ["from", "of"]], ["The table is made {of} wood.", "made of：东西本身是什么材料", ["from", "with"]]]},
+{t:"Fixed phrases with of",zh:"带 of 的固定搭配",pool:["of", "in", "with", "for", "from", "at", "on", "to"],w:[["Sneezing helps us get rid {of} dust.", "get rid of 去掉", []], ["The otters were in danger {of} becoming extinct.", "in danger of 有……的危险", []], ["Yeast is a type {of} fungus.", "a type of 一种", []], ["Her room is filled with pictures {of} animals.", "pictures of ……的图片", ["with", "for"]], ["We can take the bus instead {of} driving.", "instead of 而不是", []], ["We all let out a sigh {of} relief.", "a sigh of relief 松了一口气", []]]},
+{t:"With and about",zh:"with 和 about",pool:["with", "about", "to", "in", "at", "for", "on", "of", "from"],w:[["Be careful when you interact {with} wild animals.", "interact with 和……接触", []], ["Hobbies help children connect {with} their friends.", "connect with 和……联系", ["to"]], ["Its colours help it blend in {with} the trees.", "blend in with 和……融在一起", ["to"]], ["Mrs Lee was worried {about} their safety.", "worried about 担心", ["for"]], ["They go {about} their daily activities as usual.", "go about 照常做", ["on", "with"]], ["Children fear things they do not know {about}.", "know about 知道、了解", ["of"]]]},
+{t:"Look forward, at night",zh:"look forward、at night",pool:["forward", "for", "at", "back", "up", "with", "on", "in", "by", "of"],w:[["Kai looked {forward} to seeing Ben again.", "look forward to 盼望", ["back"]], ["{For} example, ladybugs eat harmful insects.", "for example 例如", []], ["The boy held on {for} dear life.", "for dear life 拼命", []], ["Elly sits {at} her piano every day.", "坐在钢琴前", ["by", "near", "beside", "with"]], ["Visit the Gardens {at} night.", "at night 在晚上", ["by"]]]},
+{t:"In, from, out",zh:"in、from、out",pool:["in", "from", "out", "at", "on", "of", "with", "for", "to"],w:[["This snail is only found {in} forests.", "在森林里", []], ["Small steps can make a big difference {in} keeping the Earth clean.", "在……方面", ["by", "to"]], ["Keep a safe distance away {from} the otters.", "away from 离……远", []], ["Please stay away {from} the oily beaches.", "stay away from 远离", []], ["Suddenly, the lights went {out}.", "灯灭了", ["off", "on", "down", "up"]], ["Sneezing helps to clear {out} the dust.", "清出去", ["away", "up", "off"]]]},
+{t:"Through, after, without",zh:"through、after、without",pool:["through", "after", "without", "over", "towards", "for", "in", "by", "with", "of", "at", "on"],w:[["{Through} drawing, children can express their ideas.", "通过", ["by", "in", "with", "after", "without"]], ["{After} seeing that, Ali called his neighbour.", "看到之后", ["on", "upon", "without", "by", "through"]], ["{Without} waiting for a reply, Nathan went on talking.", "没等", ["after", "by", "through", "in"]], ["Two boys were climbing {over} the fence.", "爬过", ["up", "on", "onto", "down", "towards", "at"]], ["Peter saw Mrs Li walking {towards} them.", "朝着", ["to", "past", "with", "behind", "by", "after", "without"]], ["Hamsters need big cages, so buy one {for} them.", "给……的", ["of", "with"]], ["Dinosaurs were grey or green {in} colour.", "in colour 颜色上", []]]},
+{t:"Two-word verbs 2",zh:"短语动词 2",pool:["down", "into", "up", "along", "out", "off", "on", "in", "away"],w:[["Our old car broke {down} on the road.", "坏了", []], ["Burglars broke {into} the house last night.", "闯进", ["in"]], ["All my friends turned {up} for my party.", "到场", ["out"]], ["James turned {down} the invitation politely.", "拒绝", ["away"]], ["The twins get {along} well with everyone.", "相处得好", ["on"]], ["Our teacher asked us to come {up} with new ideas.", "想出", ["out"]]]},
+{t:"Two-word verbs 3",zh:"短语动词 3",pool:["out", "away", "in", "up", "on", "off", "down", "into"],w:[["It is time to carry {out} our plans.", "执行", ["on", "off"]], ["Mr Kwan put {away} his uniform in the cupboard.", "收好", ["back", "up"]], ["Simon threw water on the stove to put {out} the fire.", "扑灭", []], ["Mother finally gave {in} and bought the bag.", "让步", ["up"]], ["The fox decided to give {up} and go home.", "放弃", ["in"]]]},
+{t:"Two-word verbs 4",zh:"短语动词 4",pool:["out", "away", "off", "on", "at", "up", "down", "in", "for"],w:[["Peter and John fell {out} over a silly problem.", "闹翻", []], ["The dogs growled at me, so I backed {away} slowly.", "往后退", ["off", "up", "out"]], ["After the quarrel, I walked {off} angrily.", "走开", ["away", "out", "on"]], ["The players played {on} although it was raining.", "继续", []], ["To get better, you must work {at} it.", "努力练", ["on"]]]}
 ];
-/* every phrase: id (the phrase without braces), the key word, the phrase with a blank, the example with a blank */
+/* every card: id (the full sentence), the answer, the sentence with a blank */
 const PP=[];
-PPG.forEach((g,gi)=>g.w.forEach(([ph,zh,ex,also])=>{const key=ph.match(/\{([^}]+)\}/)[1],id=ph.replace(/[{}]/g,'');
-  const stem=/^\{/.test(ph)?'':ph.split('{')[0].trim().split(' ')[0];   /* look at / look for share "look"; phrases that start with the small word have none */
-  const exB=ex.replace(/\*\*(.+?)\*\*/,(m,x)=>{const ms=[...x.matchAll(new RegExp('\\b'+key+'\\b','gi'))],k=ms[ms.length-1].index;return '**'+x.slice(0,k)+'___'+x.slice(k+key.length)+'**';});
-  PP.push({id,key,zh,ex,exB,blank:ph.replace(/\{[^}]+\}/,'___'),also,g:gi,stem});}));
-/* never offer a word that makes another phrase with the same first word (look at / look for / look up) */
-function ppOpts(p){const same=new Set(PP.filter(x=>x.stem&&x.stem===p.stem&&x.id!==p.id).map(x=>x.key));
-  const no=new Set([p.key,...p.also,...same]);return [p.key,...shuf(PPG[p.g].pool.filter(x=>!no.has(x))).slice(0,3)];}
+PPG.forEach((g,gi)=>g.w.forEach(([s,zh,also])=>{const i=s.indexOf('{'),j=s.indexOf('}'),key=s.slice(i+1,j),pre=s.slice(0,i),post=s.slice(j+1);
+  PP.push({id:pre+key+post,key,zh,pre,post,ex:pre+'**'+key+'**'+post,exB:pre+'___'+post,blank:pre+'___'+post,also:also.map(x=>x.toLowerCase()),g:gi});}));
+/* the answer and three words from the group's list that are wrong here; a blank at the start of a sentence gets capitals */
+function ppOpts(p){const cap=/^[A-Z]/.test(p.key),no=new Set([p.key.toLowerCase(),...p.also]);
+  const d=shuf(PPG[p.g].pool.filter(x=>!no.has(x))).slice(0,3);return [p.key,...d.map(x=>cap?x[0].toUpperCase()+x.slice(1):x)];}
 const ppQ=(p,q,zh,ex,t)=>{const o=ppOpts(p),r=mk({q,zh,a:o[0],d:o.slice(1),ex});r.c='word';r.t=t;r.l=1;r.pp=p.id;return r;};
 const PPX={
-  /* step 2: the phrase with the small word missing (with its meaning, so look at / look for are clear) */
-  word:p=>ppQ(p,`${p.blank}（${p.zh}）`,'整块记：这个词组里缺的是哪个小词？',`**${p.id}** = ${p.zh}\n例句：${p.ex}`,'Phrases · 词组'),
-  /* step 3: the same small word inside a short sentence */
-  sentence:p=>ppQ(p,p.exB.replace(/\*\*/g,''),`中文：${p.zh}`,`**${p.id}** = ${p.zh}\n例句：${p.ex}`,'Phrases in sentences · 词组放进句子'),
-  /* step 4: a short story, one blank at a time */
-  story:gi=>{const g=PPG[gi],ws=PP.filter(x=>x.g===gi),its=[];let k=0;
-    const p=g.story.replace(/\{(\d)\}/g,(m,n)=>{its.push(ws[+n]);k++;return `___(${k})`;});
-    return its.map((ph,i)=>{const q=ppQ(ph,`What goes in blank (${i+1})?`,'小故事：看空格前后的词，想一想是哪个词组。',`**${ph.id}** = ${ph.zh}`,'Phrases in a story · 小故事');q.p=p;q.step=(i+1)+'/'+its.length;return q;});},
-  /* also step 4: which sentence has the wrong small word? */
+  /* learning: the card sentence with its 用法 as a hint */
+  word:p=>ppQ(p,p.exB,`提示：${p.zh}`,`${p.ex}\n用法：${p.zh}`,'Prepositions · 介词卡'),
+  /* review: the same sentence, no hint */
+  sentence:p=>ppQ(p,p.exB,'空格里填哪个小词？',`${p.ex}\n用法：${p.zh}`,'Prepositions · 介词卡'),
+  story:()=>[],
+  /* which sentence has the wrong small word? */
   wrong:list=>{const four=shuf(list).slice(0,4);if(four.length<4)return null;const bad=four[0],o=ppOpts(bad);
-    const sent=x=>x.ex.replace(/\*\*/g,'');const wrongS=bad.exB.replace(/\*\*/g,'').replace('___',o[1]);
+    const sent=x=>x.id;const wrongS=bad.pre+o[1]+bad.post;
     const opts=shuf([wrongS,...four.slice(1).map(sent)]);
-    const r={q:'Which sentence has a wrong small word?',p:null,zh:'四句里有一句的小词用错了。',opts,ans:opts.indexOf(wrongS),ex:`应该是 **${bad.id}**（${bad.zh}）：${bad.ex}`,c:'word',t:'Phrases: spot the mistake · 找错',l:2,pp:bad.id};return r;}};
+    return {q:'Which sentence has a wrong small word?',p:null,zh:'四句里有一句的小词用错了。',opts,ans:opts.indexOf(wrongS),ex:`应该是：${bad.ex}（${bad.zh}）`,c:'word',t:'Prepositions: spot the mistake · 找错',l:2,pp:bad.id};}};
 
 /* ---------- engine ---------- */
 const CATW={gram:.33,word:.3,read:.37};
