@@ -88,7 +88,7 @@ HOOK.answer.push((q,ok)=>{if(!R||ok||q.again)return;const rv=/^mrv:(\w):/.exec(R
 HOOK.learnMode=si=>MAP.ctx?'mlv:'+si:'learn:'+si;
 
 /* ---------- result over the map ---------- */
-HOOK.finish=(n,s)=>{const mode=R.mode,cx=MAP.ctx;let m;
+HOOK.finish=(n,s)=>{const mode=R.mode,cx=MAP.ctx;let m;if(cx&&cx.k==='w')tkDay().mnext=1;
   if(mode==='mrw'){tkDay().mrw=1;save();return false;}
   if(!cx||!/^(mlv:|mrv:|mch:|pplearn:)/.test(mode))return false;
   /* only first tries count: a word asked again after a miss is extra */
@@ -183,3 +183,7 @@ let mapRz=0;window.addEventListener('resize',()=>{clearTimeout(mapRz);mapRz=setT
 HOOK.meExtra.push(()=>{mapSt();let el=$('stBadges');if(!el){el=document.createElement('div');el.id='stBadges';el.className='stcard';$('meWords').after(el);}
   el.innerHTML=`<h3 class="st-h3" style="margin-top:0">我的徽章 · ${S.badges.length}/${BADGES.length}</h3><div class="bwall">`+BADGES.map((x,i)=>{const b=S.badges.find(y=>y.b===i);return `<div class="bw">${badgeSvg(b||{b:i},!b)}<small>${b?x[1]+(b.g?' · 金边':' · 银边'):'？？'}</small></div>`;}).join('')+'</div>';});
 window.__map={R:()=>R,MAP,WL:()=>WL};   /* for the tests */
+
+/* a daily-task fallback: the next stop on the word map, straight into its questions */
+HOOK.fill.push(t=>{mapSt();const L=road('w'),i=curIdx('w');if(i>=L.length&&!t.mnext)return null;return {k:'mnext',name:'单词地图下一关 · Next stop',done:!!t.mnext};});
+HOOK.task.mnext=()=>{mapSt();const L=road('w'),i=curIdx('w');if(i>=L.length)return mapOpen('w');MAP.k='w';const x=L[i];mapStart(x.t==='l'?{k:'w',t:'l',i:x.i,idx:i}:{k:'w',t:'r',r:x.r,idx:i});};
