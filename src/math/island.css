@@ -123,3 +123,8 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
 .isl-chip.q{background:var(--p4)}
 .isl-chips2{display:flex;flex-wrap:wrap;gap:0.375rem;margin-top:0.375rem}.isl-chips2 span{padding:0.125rem 0.5rem;border-radius:0.5rem;border:1.5px solid var(--line);font:700 .85rem var(--f-display);color:var(--ink-2)}.isl-chips2 span.done{opacity:.4;text-decoration:line-through}.isl-chips2 span.now{border-color:var(--wp);color:var(--wp-ink)}
 .dg-th{fill:var(--wp-tint);stroke:var(--wp);stroke-width:1.5}
+/* step ④: keep the earlier working in sight */
+.isl-keep{background:var(--paper);border:2px dashed var(--line);border-radius:1rem;padding:0.5rem 0.625rem;margin:0.25rem 0 0.75rem}
+.isl-keep .isl-dg{margin:0.25rem 0 0;border:none;padding:0;background:transparent}
+.isl-kp{margin:0.375rem 0 0;font:800 1.1rem/1.4 var(--f-display);color:var(--wp-ink)}
+.isl-keep .dg{max-height:10rem;width:auto;max-width:100%;margin:0 auto}

@@ -14,12 +14,14 @@ ok(await p.evaluate(()=>{for(let i=0;i<300;i++)if(QB.pickCat()==='calc')return f
 const S=()=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),KEY);
 const st=()=>p.evaluate(()=>{const P=__isl.IP();return P?{k:P.steps[P.sx],good:P.good,ft:P.q.ft,i:P.i,steps:P.steps,tag:P.tag}:null;});
 /* answer the current step; wrong=true picks a wrong option first */
+const KEEP=[];
 async function step(wrong){const s=await st();
   if(s.k==='mk'){let g=0;while(g++<12){const m=await p.evaluate(()=>{const P=__isl.IP();return P&&P.steps[P.sx]==='mk'&&P.mkI<P.mk.length?{id:P.mk[P.mkI][0],dec:P.dec}:null;});if(!m)break;
       if(wrong&&g===1&&m.dec.length){await p.click(`.dg-sp[data-s="${m.dec[0]}"]`);await p.waitForTimeout(80);}
       await p.click(`.dg-sp[data-s="${m.id}"]`);await p.waitForTimeout(120);}await p.waitForTimeout(1800);return s;}
   if(s.k==='fig'){if(wrong){await p.click(`.isl-fig:not([data-f="${s.ft}"]) >> nth=0`);await p.waitForTimeout(80);}await p.click(`.isl-fig[data-f="${s.ft}"]`);await p.waitForTimeout(2400);return s;}
   if(await p.$('.isl-pc')){const seq=await p.evaluate(()=>__isl.IP().bq);for(const t of seq)await p.click(`.isl-pc:not([disabled])[data-t="${t.replace(/"/g,'\\"')}"]`);await p.waitForTimeout(900);return s;}
+  if(s.k==='ans'&&s.tag!=='pa'&&(s.steps.includes('mk')||s.steps.includes('plan')))KEEP.push(await p.isVisible('.isl-keep'));
   const vals=await p.$$eval('.isl-o',x=>x.map(e=>e.dataset.v));
   if(wrong){const w=vals.find(v=>v!==s.good);await p.click(`.isl-o[data-v="${w.replace(/"/g,'\\"')}"]`);await p.waitForTimeout(80);}
   await p.click(`.isl-o[data-v="${s.good.replace(/"/g,'\\"')}"]`);await p.waitForTimeout(s.k==='ans'&&s.tag!=='pa'?1700:800);return s;}
@@ -76,5 +78,6 @@ await p.click('#bMeBack');await p.waitForTimeout(200);
 await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.isl.miss=['3:1','4:2'];S.misses=[];localStorage.setItem(k,JSON.stringify(S));},KEY);await p.reload();await p.waitForTimeout(400);
 ok((await p.innerText('#redoNote')).includes('2'),'错题重练 counts island mistakes');await p.click('#tRedo');await p.waitForTimeout(300);
 ok(await p.evaluate(()=>__isl.IP().list.map(x=>x.si+':'+x.qi).join())==='3:1,4:2','错题重练 replays the island mistakes');await playAll();s=await S();ok(s.isl.miss.length===0,'right on the first try → off the mistake list');
+ok(KEEP.length>=5&&KEEP.every(x=>x),'step ④ keeps the plan and the labelled picture on screen ('+KEEP.length+' checked)');
 console.log('errors',errs);ok(errs.length===0,'no page errors');
 console.log(`${pass} passed, ${fail} failed`);await b.close();process.exit(fail?1:0);})().catch(e=>{console.log('Error:',e.message);process.exit(1);});

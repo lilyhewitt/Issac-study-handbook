@@ -526,6 +526,11 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
 .isl-chip.q{background:var(--p4)}
 .isl-chips2{display:flex;flex-wrap:wrap;gap:0.375rem;margin-top:0.375rem}.isl-chips2 span{padding:0.125rem 0.5rem;border-radius:0.5rem;border:1.5px solid var(--line);font:700 .85rem var(--f-display);color:var(--ink-2)}.isl-chips2 span.done{opacity:.4;text-decoration:line-through}.isl-chips2 span.now{border-color:var(--wp);color:var(--wp-ink)}
 .dg-th{fill:var(--wp-tint);stroke:var(--wp);stroke-width:1.5}
+/* step ④: keep the earlier working in sight */
+.isl-keep{background:var(--paper);border:2px dashed var(--line);border-radius:1rem;padding:0.5rem 0.625rem;margin:0.25rem 0 0.75rem}
+.isl-keep .isl-dg{margin:0.25rem 0 0;border:none;padding:0;background:transparent}
+.isl-kp{margin:0.375rem 0 0;font:800 1.1rem/1.4 var(--f-display);color:var(--wp-ink)}
+.isl-keep .dg{max-height:10rem;width:auto;max-width:100%;margin:0 auto}
 </style>
 <style>
 /* maths palette: violet = word problems, teal = calculation, orange = P4 preview */
@@ -2172,7 +2177,7 @@ function islMix(from,k){const s=islSt(),all=[];from.forEach(si=>ISL[si].qs.forEa
   const miss=islShuf(all.filter(x=>s.miss.includes(x.si+':'+x.qi))),rest=islShuf(all.filter(x=>!s.miss.includes(x.si+':'+x.qi)));
   return miss.concat(rest).slice(0,k);}
 function islQ(){const it=IP.list[IP.i],q=ISL[it.si].qs[it.qi];
-  IP.q=q;IP.steps=islSteps(it.si,it.qi,IP.kind);IP.sx=0;IP.first=true;IP.pa=!!q.pa;IP.kwFound=new Set();
+  IP.q=q;IP.steps=islSteps(it.si,it.qi,IP.kind);IP.sx=0;IP.first=true;IP.pa=!!q.pa;IP.kwFound=new Set();IP.keep={};
   $('islQTitle').innerHTML=`${esc(IP.kind==='s'?ISL[it.si].en:IP.kind==='r'?'Campfire':'Island review')}<small>${esc(IP.kind==='s'?ISL[it.si].name+' · '+ISL[it.si].topic:IP.kind==='r'?'营火复习 · 前面几站混在一起':'小岛复习')}</small>`;
   $('islQCount').textContent=(IP.i+1)+' / '+IP.list.length;
   $('islQProb').innerHTML=islProb(q,false);
@@ -2196,7 +2201,10 @@ function islStep(){const q=IP.q,k=IP.steps[IP.sx];islStepBar();const box=$('islS
     box.innerHTML=`<div class="isl-qq">这题该画哪种图？<small>选一种图。</small></div><div class="isl-figs">${L.map(f=>`<button class="isl-fig" data-f="${f}"><svg viewBox="0 0 60 46">${FIGSVG[f]||''}</svg><b>${FIGS[f][0]}</b><i>${FIGS[f][1]}</i></button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;}
   else if(k==='mk')islMk();
   else if(k==='ans'){if(IP.pa){islBox('(a) '+q.pa.q,'先做 (a)。',islShuf(q.pa.opts),q.pa.ans,'pa');}else islBox((q.pa?'(b) ':'')+'答案是多少？','⚡ 闪电算！',islShuf(q.opts),q.ans,'ans');}}
-function islBox(title,sub,opts,good,tag){$('islStep').innerHTML=`<div class="isl-qq">${esc(title)}<small>${esc(sub)}</small></div><div class="isl-opts">${opts.map(o=>`<button class="isl-o" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;IP.good=good;IP.tag=tag||'';}
+/* what he worked out in the earlier steps stays on the screen while he calculates (the plan he chose or built, the picture with his numbers) */
+function islKeep(){const K=IP&&IP.keep;if(!K||(!K.plan&&!K.fig))return'';
+  return`<div class="isl-keep"><div class="isl-lab">刚才做的 · 照着算</div>${K.fig?`<div class="isl-dg">${K.fig}</div>`:''}${K.plan?`<p class="isl-kp">${esc(K.plan)}</p>`:''}</div>`;}
+function islBox(title,sub,opts,good,tag){$('islStep').innerHTML=`<div class="isl-qq">${esc(title)}<small>${esc(sub)}</small></div>${tag==='ans'||tag==='pa'?islKeep():''}<div class="isl-opts">${opts.map(o=>`<button class="isl-o" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;IP.good=good;IP.tag=tag||'';}
 function islBuild(){const q=IP.q,[seq,extra]=q.build;IP.bq=seq;IP.bat=[];
   const pieces=islShuf(seq.map((t,i)=>({t,i})).concat(extra.map(t=>({t,i:-1}))));
   $('islQProb').innerHTML=islProb(q,true);
@@ -2213,7 +2221,7 @@ function islMkDraw(bad,tip,good){const d=IP.q.dg,done=IP.mkI>=IP.mk.length,cur=I
 function islMkTap(id){const d=IP.q.dg,L=dgLay(d),cur=IP.mk[IP.mkI],s=L.spot(id);if(!s||!cur)return;
   const j=IP.mk.findIndex((m,i)=>i>=IP.mkI&&m[1]===cur[1]&&L.spot(m[0]).key===s.key);
   const put=(auto)=>{IP.mkPl.push(IP.mk[IP.mkI]);IP.mkI++;IP.mkTries=0;
-    if(IP.mkI>=IP.mk.length){beep(true);islMkDraw(null,auto?'看一看：'+auto+' 图标好了。':'✓ 全放对了！'+(IP.q.fig?' '+IP.q.fig.split('：')[0]:''),!auto);
+    if(IP.mkI>=IP.mk.length){IP.keep.fig=dgSvg({...IP.q.dg,mk:[]},IP.mkPl,[],null);beep(true);islMkDraw(null,auto?'看一看：'+auto+' 图标好了。':'✓ 全放对了！'+(IP.q.fig?' '+IP.q.fig.split('：')[0]:''),!auto);
       setTimeout(()=>{if(!IP||IP.steps[IP.sx]!=='mk')return;IP.sx++;IP.sx<IP.steps.length?islStep():islNextQ();},IP.kind==='s'?1600:1100);}
     else islMkDraw(null,auto||null,!auto);};
   if(j>=0){if(j!==IP.mkI){const t=IP.mk[j];IP.mk[j]=IP.mk[IP.mkI];IP.mk[IP.mkI]=t;}islSk('mk',IP.mkTries===0);if(!IP.mkTries)beep(true);put(null);return;}
@@ -2289,14 +2297,14 @@ $('vIslQ').addEventListener('click',e=>{
     return;}
   if(!IP)return;const k=IP.steps[IP.sx];
   const o=e.target.closest('.isl-o');
-  if(o&&!o.disabled){const ok=o.dataset.v===IP.good;islSk(k==='ans'&&IP.tag==='pa'?'pa':k,ok&&IP.tries===0);if(ok)islRight(o);else islWrong(o,islHint());return;}
+  if(o&&!o.disabled){const ok=o.dataset.v===IP.good;islSk(k==='ans'&&IP.tag==='pa'?'pa':k,ok&&IP.tries===0);if(ok&&k==='plan')IP.keep.plan=IP.good;if(ok)islRight(o);else islWrong(o,islHint());return;}
   const f=e.target.closest('.isl-fig');
   if(f&&!f.disabled){const ok=f.dataset.f===IP.q.ft;islSk('fig',ok&&IP.tries===0);if(ok){const t=$('islTip');t.hidden=false;t.className='isl-tip good';t.textContent=IP.q.dg?'✓ 对！图已经画好了，下面把数字放上去。':'✓ 怎么画：'+IP.q.fig;f.classList.add('good','pop');islSpark(f);beep(true);setTimeout(()=>{IP.sx++;IP.sx<IP.steps.length?islStep():islNextQ();},IP.q.dg?900:IP.kind==='s'?2200:1200);}else islWrong(f,'不是这种图。'+islHint());return;}
   const sp=e.target.closest('.dg-sp');if(sp&&k==='mk'){islMkTap(sp.dataset.s);return;}
   const pc=e.target.closest('.isl-pc');
   if(pc&&!pc.disabled){const want=IP.bq[IP.bat.length];
     if(pc.dataset.t===want){IP.bat.push(want);pc.disabled=true;pc.classList.add('used');$('islBuilt').innerHTML=IP.bat.map(t=>`<span>${esc(t)}</span>`).join(' ');
-      if(IP.bat.length===IP.bq.length){islSk('plan',IP.tries===0);islRight(null);const t=$('islTip');t.hidden=false;t.className='isl-tip good';t.textContent='✓ 拼好了！';}}
+      if(IP.bat.length===IP.bq.length){IP.keep.plan=IP.bq.join(' ');islSk('plan',IP.tries===0);islRight(null);const t=$('islTip');t.hidden=false;t.className='isl-tip good';t.textContent='✓ 拼好了！';}}
     else islWrong(pc,'这一块还不是下一块。下一块应该是：'+(IP.tries>=2?want:'想一想先写谁'));return;}
 });
 
