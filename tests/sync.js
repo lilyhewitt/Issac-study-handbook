@@ -7,7 +7,8 @@ async function answer(p){/* science 答题本领 widgets have no #opt0 at first 
  if(await p.$('.skbank')){const n=(await p.$$('.skbank .skchip')).length;for(let j=0;j<n;j++)await p.click('.skbank .skchip:not([disabled])');return;}
  if(await p.$('.sksort')){for(const r of await p.$$('.skbins'))await (await r.$('.skbin')).click();await p.click('.skgo');return;}
  await p.click('#opt0');}
-async function round(p,tile){await p.click(tile);let n=0;while(await p.isVisible('#vQuiz')&&n<14){n++;await answer(p);await p.click('#bNext');}await p.click('#bHome');return n;}
+async function tap(p,s){if(await p.$(s)&&await p.isVisible(s))return p.click(s);const m={'#tWp':'wp','#tCalc':'calc','#tP4':'p4'}[s];return p.evaluate(m=>__isl.startRound(m),m);}
+async function round(p,tile){await tap(p,tile);let n=0;while(await p.isVisible('#vQuiz')&&n<14){n++;await answer(p);await p.click('#bNext');}await p.click('#bHome');return n;}
 async function link(p,code){await p.click('#bStats');await p.click('#bParent');await p.waitForTimeout(200);if(!(await p.isVisible('#syncIn'))){out.push('  (already linked in this container)');return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}await p.fill('#syncIn',code);await p.click('[data-sync="go"]');await p.waitForTimeout(600);return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}
 (async()=>{const b=await chromium.launch();
  // mom's phone: generate a code
@@ -34,8 +35,8 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  d=await dump();ok(d.sync[c].science&&d.sync[c].science.n===n2,'cloud has science n='+(d.sync[c].science&&d.sync[c].science.n));
  // math: word card round too
  await kid.goto(H+'/math/');await kid.waitForTimeout(300);await link(kid,code);await kid.click('#bStatsBack');await kid.click('#bMeBack');
- const n3=await round(kid,'#tWp');await kid.click('#tCards');await kid.click('[data-learn="0"]');for(let i=0;i<5;i++)await kid.click('#cNext');for(let i=0;i<5;i++){await kid.click('#opt0');await kid.click('#bNext');}
- await kid.waitForTimeout(2000);d=await dump();ok(d.sync[c].math&&d.sync[c].math.n===n3+5,'cloud has math n='+(d.sync[c].math&&d.sync[c].math.n)+' expected '+(n3+5));
+ const n3=await round(kid,'#tWp');const n3b=await round(kid,'#tP4');
+ await kid.waitForTimeout(2000);d=await dump();ok(d.sync[c].math&&d.sync[c].math.n===n3+n3b,'cloud has math n='+(d.sync[c].math&&d.sync[c].math.n)+' expected '+(n3+n3b));
  // mom's phone sees it
  await mom.reload();await mom.waitForTimeout(800);
  const prog=(await mom.innerText('#syncBox')).replace(/\n+/g,' | ');out.push('  mom progress: '+prog);

@@ -1,5 +1,7 @@
 const {chromium,devices}=require('playwright');
-let MIXI=0;async function mixRound(p){if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');await p.click(['#tWp','#tCalc','#tP4'][MIXI++%3]);}
+let MIXI=0;async function mixRound(p){if(!(await p.isVisible('#vHome'))&&await p.isVisible('#bHome'))await p.click('#bHome');await tap(p,['#tWp','#tCalc','#tP4'][MIXI++%3]);}
+async function tap(p,s){if(await p.$(s)&&await p.isVisible(s))return p.click(s);const m={'#tWp':'wp','#tCalc':'calc','#tP4':'p4'}[s];return p.evaluate(m=>__isl.startRound(m),m);}
+
 (async()=>{const b=await chromium.launch();const out=[];const errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto('http://localhost:8767/math/');await p.waitForTimeout(300);

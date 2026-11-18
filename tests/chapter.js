@@ -2,7 +2,8 @@ const {chromium,devices}=require('playwright');const H='http://localhost:8767';
 const dump=async()=>JSON.parse(await (await fetch('http://localhost:8766/__dump')).text());
 const out=[];const errs=[];const ok=(c,m)=>out.push((c?'PASS ':'FAIL ')+m);
 async function newCtx(b,dev){const ctx=await b.newContext({...devices[dev],deviceScaleFactor:1});const p=await ctx.newPage();p.on('pageerror',e=>errs.push(dev+': '+e.message));return p;}
-async function round(p,tile){await p.click(tile);let n=0;while(await p.isVisible('#opts')&&n<14){n++;await p.click('#opts button >> nth=0');await p.waitForTimeout(40);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(40);}if(await p.isVisible('#bHome'))await p.click('#bHome');await p.waitForTimeout(100);}
+async function tap(p,s){if(await p.$(s)&&await p.isVisible(s))return p.click(s);const m={'#tWp':'wp','#tCalc':'calc','#tP4':'p4'}[s];return p.evaluate(m=>__isl.startRound(m),m);}
+async function round(p,tile){await tap(p,tile);let n=0;while(await p.isVisible('#opts')&&n<14){n++;await p.click('#opts button >> nth=0');await p.waitForTimeout(40);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(40);}if(await p.isVisible('#bHome'))await p.click('#bHome');await p.waitForTimeout(100);}
 const chOn=p=>p.$eval('.chpick [aria-pressed="true"]',e=>e.textContent).catch(()=>'(none)');
 (async()=>{const b=await chromium.launch();await fetch('http://localhost:8766/__reset');
  const mom=await newCtx(b,'iPhone 13');await mom.goto(H+'/#practice');await mom.waitForTimeout(300);

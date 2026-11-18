@@ -59,7 +59,7 @@ def edition(app):
     s = rep(s, '/*__BANK__*/', read(app, 'bank.js'))
     if app != 'english':
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
-        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{bar:1,wp:1}' if app == 'math' else '{}'))
+        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{}'))
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
@@ -97,6 +97,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('math', 'bar.css') + s[i:]
         s = rep(s, 'function home(){', read('math', 'bar.js') + '\nfunction home(){')
+        # 数学小岛 Math Island: the word-problem map (questions from claude/数学小岛_全部题目.md)
+        s = rep(s, '  <section id="vSpell" class="view"', read('math', 'island.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('math', 'island.css') + s[i:]
+        s = rep(s, 'function home(){', read('math', 'island-icons.js') + '\n' + read('math', 'island-data.js') + '\n' + read('math', 'island.js') + '\nfunction home(){')
     return s
 
 def page(app, db):
