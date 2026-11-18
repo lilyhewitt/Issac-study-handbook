@@ -124,6 +124,8 @@ html{touch-action:manipulation}
 .fg-ax{fill:none;stroke:var(--ink-2);stroke-width:1.5}
 .fg-ln{fill:none;stroke:var(--p4);stroke-width:2.5}
 .fg-pt{fill:var(--p4)}
+.fg-bar{fill:var(--p4);fill-opacity:.5;stroke:var(--p4);stroke-width:1.5}
+.fg-sq{fill:var(--p4);fill-opacity:.35;stroke:var(--ink);stroke-width:1.5}
 .fg-ang{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .fg-arc{fill:none;stroke:var(--p4);stroke-width:2}
 .fg-s{font-size:12px;font-weight:700;fill:var(--ink-2)}
@@ -993,6 +995,58 @@ G('wp',T.wtime,3,.9,()=>{const k=kid();let t0,g,mv,t1,t2;do{t0=ri(156,186)*5;g=r
    {q:`At what time did ${k.n} reach the cinema?`,qz:`第 1 步：${k.n} 几点到电影院？`,a:t12(t1),d:[[t12(t0),'who','这是出门的时间。'],[t12(t1-60),'time','分钟满 60 要进 1 小时。'],[t12(t1+10),'calc']],ex:`${t12(t0)} + ${g} min = ${t12(t1)}。`},
    {q:'At what time did the movie end?',qz:'第 2 步：电影几点结束？',a:t12(t2),d:[[t12(t0+mv),'time',`漏了路上的 ${g} 分钟：电影是到了以后才开始的。`],[t12(t2-60),'time','先加小时，再加分钟；分钟满 60 进 1 小时。'],[t12(t2+10),'calc']],ex:`${t12(t1)} + ${dur(mv)} = ${t12(t2)}。`}],['电影几点结束','电影几点开始','电影放了多久',`${k.n} 几点出门`]);});
 
+/* ================= P3 GAPS: bar graphs, parallel & perpendicular, volume problems, area in squares ================= */
+T.bar='Bar graphs · 柱状图';T.pp='Parallel & perpendicular · 平行和垂直';T.vol='Volume problems · 容量应用题';T.sq='Area in squares · 数格子求面积';
+function barG(vals,xl,step){const SW=300,SH=190,L=40,B=30,T0=12,R=12,mx=Math.ceil(Math.max(...vals)/step)*step+step,sy=(SH-B-T0)/mx,bw=(SW-L-R)/xl.length;let o='';
+  for(let v=0;v<=mx;v+=step){const y=SH-B-v*sy;o+=`<line x1="${L}" y1="${y.toFixed(1)}" x2="${SW-R}" y2="${y.toFixed(1)}" class="fg-g"/><text x="${L-6}" y="${(y+4).toFixed(1)}" text-anchor="end" class="fg-s">${v}</text>`;}
+  vals.forEach((v,i)=>{const x=L+i*bw+bw*.2,h=v*sy;o+=`<rect x="${x.toFixed(1)}" y="${(SH-B-h).toFixed(1)}" width="${(bw*.6).toFixed(1)}" height="${h.toFixed(1)}" class="fg-bar"/><text x="${(x+bw*.3).toFixed(1)}" y="${SH-B+18}" text-anchor="middle" class="fg-s">${xl[i]}</text>`;});
+  o+=`<line x1="${L}" y1="${T0-4}" x2="${L}" y2="${SH-B}" class="fg-ax"/><line x1="${L}" y1="${SH-B}" x2="${SW-R}" y2="${SH-B}" class="fg-ax"/>`;
+  return `<svg viewBox="0 0 ${SW} ${SH}" role="img" aria-label="bar graph">${o}</svg>`;}
+const BGI=[['books read','读的书','books'],['stickers collected','收集的贴纸','stickers'],['stamps collected','收集的邮票','stamps']];
+G('calc',T.bar,1,1,()=>{const step=pick([2,5,10]),nm=[],seen=new Set();while(nm.length<4){const k=kid();if(!seen.has(k.n)){seen.add(k.n);nm.push(k.n);}}
+  let vals;do{vals=nm.map(()=>ri(1,8)*step);}while(new Set(vals).size<4);
+  const it=pick(BGI),fig=barG(vals,nm,step),p=`The bar graph shows the number of ${it[0]} by 4 children.`,pz=`柱状图是 4 个孩子${it[1]}的数量。每一格是 ${step}。`,v=ri(0,2);
+  if(v===0){const g=Math.random()<.5,i=vals.indexOf(g?Math.max(...vals):Math.min(...vals));
+    return mk({p,fig,q:`Who has the ${g?'most':'fewest'} ${it[2]}?`,zh:pz+`\n\n谁最${g?'多':'少'}？`,a:nm[i],d:nm.filter((_,j)=>j!==i).map(n=>[n,'who',`问的是最${g?'多（最高的柱子）':'少（最矮的柱子）'}。`]),ex:`最${g?'高':'矮'}的柱子是 ${nm[i]}，${vals[i]}。`});}
+  let i,j;do{i=ri(0,3);j=ri(0,3);}while(i===j||vals[i]<=vals[j]);
+  if(v===1){const df=vals[i]-vals[j];
+    return mk({p,fig,q:`How many more ${it[2]} does ${nm[i]} have than ${nm[j]}?`,zh:pz+`\n\n${nm[i]} 比 ${nm[j]} 多多少？`,a:df,d:[[vals[i],'step1',`${vals[i]} 是 ${nm[i]} 的数量。多多少，还要减去 ${nm[j]} 的 ${vals[j]}。`],[vals[i]+vals[j],'keyword','“多多少”用减法，不是加。'],[df+step,'place',`先看清每一格是 ${step}。`],[Math.abs(df-step)||df+2*step,'place',`先看清每一格是 ${step}。`]],ex:`${nm[i]} 是 ${vals[i]}，${nm[j]} 是 ${vals[j]}。${vals[i]} − ${vals[j]} = ${df}。`});}
+  const tot=vals.reduce((a,b)=>a+b,0);
+  return mk({p,fig,q:`How many ${it[2]} do the 4 children have altogether?`,zh:pz+`\n\n4 个孩子一共有多少？`,a:tot,d:[[tot-vals[0],'step1','少加了一个人。4 根柱子都要加。'],[tot+step,'place',`先看清每一格是 ${step}，再读每根柱子。`],[tot-step,'place',`先看清每一格是 ${step}，再读每根柱子。`]],ex:`${vals.join(' + ')} = ${tot}。`});});
+
+G('calc',T.pp,1,1,()=>{const L=pick(['ABCD','PQRS','WXYZ','EFGH']),[A,B,C,D]=L,ln=(x,y)=>x+y;
+  const pt={A:[60,30],B:[170,30],C:[250,150],D:[60,150]},nm={A,B,C,D};
+  let o=`<path d="M60 30L170 30L250 150L60 150Z" class="fg-ang"/><line x1="60" y1="30" x2="250" y2="150" class="fg-ax" stroke-dasharray="5 4"/><path d="M72 30V42H60" class="fg-ax"/><path d="M72 150V138H60" class="fg-ax"/>`;
+  for(const k of 'ABCD'){const [x,y]=pt[k];o+=`<text x="${x+(k==='A'||k==='D'?-14:k==='C'?8:4)}" y="${y+(y<100?-6:18)}" class="fg-l">${nm[k]}</text>`;}
+  const fig=`<svg viewBox="0 0 280 180" role="img" aria-label="shape">${o}</svg>`,AB=ln(A,B),DC=ln(D,C),AD=ln(A,D),BC=ln(B,C),AC=ln(A,C);
+  const zAC=`${AC} 是虚线（对角线），和它不平行也不垂直。`,zBC=`${BC} 是斜的，和它不成直角，延长后会相交。`;
+  const v=ri(0,3),P=`In the figure, ${A}${B}${C}${D} is a four-sided figure. The dotted line is ${AC}.`,PZ=`图形 ${A}${B}${C}${D}，虚线是 ${AC}。小方块表示直角。`;
+  const Q=[[`Which line is parallel to ${AB}?`,`哪条线和 ${AB} 平行？`,DC,[[AD,'who',`${AD} 和 ${AB} 相交成直角，是垂直，不是平行。`],[BC,'who',zBC],[AC,'who',zAC]],`平行 = 一直延长也不会相交。${AB} 和 ${DC} 都是横的，所以平行。`],
+    [`Which line is parallel to ${DC}?`,`哪条线和 ${DC} 平行？`,AB,[[AD,'who',`${AD} 和 ${DC} 相交成直角，是垂直。`],[BC,'who',zBC],[AC,'who',zAC]],`${AB} 和 ${DC} 都是横的，所以平行。`],
+    [`Which line is perpendicular to ${AB}?`,`哪条线和 ${AB} 垂直？`,AD,[[DC,'who',`${DC} 和 ${AB} 是平行，不是垂直。`],[BC,'who',zBC],[AC,'who',zAC]],`垂直 = 相交成直角。${A} 点有直角标记，所以 ${AD} ⊥ ${AB}。`],
+    [`Which line is perpendicular to ${DC}?`,`哪条线和 ${DC} 垂直？`,AD,[[AB,'who',`${AB} 和 ${DC} 是平行，不是垂直。`],[BC,'who',zBC],[AC,'who',zAC]],`${D} 点有直角标记，所以 ${AD} ⊥ ${DC}。`]][v];
+  return mk({p:P,fig,q:Q[0],zh:PZ+'\n\n'+Q[1],a:Q[2],d:Q[3],ex:Q[4]});});
+
+const lmf=x=>{const k=Math.floor(x/1000),r=x%1000;return k&&r?`${k} ℓ ${r} mℓ`:k?`${k} ℓ`:`${r} mℓ`;};
+G('wp',T.vol,1,1,()=>{const a=kid(),Lt=ri(1,3),ml=pick([150,200,250,300,350,400].filter(x=>3*x<Lt*1000)),ks=[3,4,5,6].filter(x=>x*ml<Lt*1000),k=pick(ks);
+  const out=k*ml,left=Lt*1000-out;
+  return mk({p:`A jug has ${Lt} ℓ of water. ${a.n} pours ${ml} mℓ of water into each of ${k} cups.`,zh:`一个水壶有 ${Lt} ℓ 水。${a.n} 往 ${k} 个杯子里各倒 ${ml} mℓ。`,q:'How much water is left in the jug? Give your answer in mℓ.',a:`${S_(left)} mℓ`,
+    d:[[`${S_(out)} mℓ`,'step1',`${S_(out)} mℓ 是倒出去的，问的是壶里剩下的。`],[`${S_(Lt*1000+out)} mℓ`,'leftadd','倒出去要减，不是加。'],[`${S_(Lt*1000-ml)} mℓ`,'step1',`倒了 ${k} 杯，不是 1 杯，要先乘。`],[`${S_(Math.abs(Lt*100-out))} mℓ`,'unit','1 ℓ = 1000 mℓ。']],
+    ex:`${Lt} ℓ = ${S_(Lt*1000)} mℓ。倒出去 ${ml} × ${k} = ${S_(out)} mℓ。剩下 ${S_(Lt*1000)} − ${S_(out)} = ${S_(left)} mℓ。`});});
+G('wp',T.vol,2,1,()=>{const b=pick([200,250,300,350,400,450]),t=ri(2,5),big=b*t,tot=b+big;
+  const [c1,c2]=pick([[['bottle','瓶子'],['pail','水桶']],[['cup','杯子'],['jug','水壶']],[['flask','保温瓶'],['pot','锅']]]);
+  return mk({p:`A ${c1[0]} contains ${b} mℓ of water. A ${c2[0]} contains ${t} times as much water as the ${c1[0]}.`,zh:`${c1[1]}里有 ${b} mℓ 水。${c2[1]}里的水是${c1[1]}的 ${t} 倍。`,q:`How much water do the ${c1[0]} and the ${c2[0]} contain altogether? Give your answer in ℓ and mℓ.`,a:lmf(tot),
+    d:[[lmf(big),'step1',`${lmf(big)} 只是${c2[1]}的。还要加上${c1[1]}的 ${b} mℓ。`],[lmf(b+t),'keyword',`${t} times 是乘 ${t}，不是加 ${t}。`],[lmf(tot+b),'calc','多加了一次。'],[tot%100?`${Math.floor(tot/100)} ℓ ${tot%100} mℓ`:null,'unit','1 ℓ = 1000 mℓ，不是 100 mℓ。']],
+    ex:`${c2[1]}：${b} × ${t} = ${S_(big)} mℓ。一共 ${S_(big)} + ${b} = ${S_(tot)} mℓ = ${lmf(tot)}。`});});
+
+G('calc',T.sq,1,1,()=>{let w1,h1,w2,h2;do{w1=ri(4,7);h1=ri(2,3);w2=ri(2,w1-2);h2=ri(1,3);}while(h1+h2>5);
+  const area=w1*h1+w2*h2,box=w1*(h1+h2),per=2*(w1+h1+h2),c=22,X=10,Y=10,H=(h1+h2)*c,W=w1*c;let o='';
+  for(let i=0;i<w1;i++)for(let j=0;j<h1+h2;j++){const inS=j>=h2||i<w2;o+=`<rect x="${X+i*c}" y="${Y+j*c}" width="${c}" height="${c}" class="${inS?'fg-sq':'fg-g'}" ${inS?'':'fill="none"'}/>`;}
+  const fig=`<svg viewBox="0 0 ${W+20} ${H+20}" role="img" aria-label="shape on a grid">${o}</svg>`;
+  return mk({p:'The shaded figure is made up of 1-cm squares.',zh:'涂色的图形由边长 1 cm 的小方格组成。',fig,q:'What is the area of the shaded figure?',a:`${area} cm²`,
+    d:[[`${per} cm²`,'perim','这是绕一圈的边数（周长）。面积是数涂色的格子。'],[`${box} cm²`,'sense','缺了一角，不能按整个长方形算。'],[`${area-1} cm²`,'calc','漏数了一格。可以一行一行数，数完一行做个记号。'],[`${area+1} cm²`,'calc','多数了一格。可以一行一行数。']],
+    ex:`下面一块 ${w1} × ${h1} = ${w1*h1} 格，上面一块 ${w2} × ${h2} = ${w2*h2} 格，一共 ${area} 格 = ${area} cm²。`});});
+
 /* ================= P4 PREVIEW ================= */
 G('p4',T.p4n,1,1,()=>{let s;do{s=S_(ri(10000,99999));}while(new Set(s).size<5||s.includes('0'));const n=+s,pos=ri(0,4),d=+s[pos],v=d*10**(4-pos),zpl=['万','千','百','十','个'][pos];
   return mk({q:`In ${N(n)}, the digit ${d} stands for ___.`,zh:`在 ${N(n)} 里，数字 ${d} 代表多少？`,a:N(v),d:[d,d*10,d*100,d*1000,d*10000].filter(x=>x!==v).slice(0,4).map(x=>[N(x),'place','从右往左数：个、十、百、千、万。']),ex:`${d} 在${zpl}位，代表 ${N(v)}。`});});
@@ -1526,6 +1580,14 @@ if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.miss
 }
 norm();
 function save(){if(REMOTE)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(SYNC)SYNC.push(S);}
+/* mistakes saved before v3.0 still carry the story's final question above a step ("...altogether?" over "How much is the game?");
+   take that question off so a redo step shows one question only, same as new problems, and drop any duplicate this leaves */
+try{const ks=new Set();let ch=false;
+  S.misses=S.misses.filter(m=>{if(!m||!Array.isArray(m.opts))return false;
+    if(m.step&&typeof m.p==='string'&&/\?\s*$/.test(m.p)){m.p=m.p.replace(/\s*[^.?!]*\?\s*$/,'');
+      if(typeof m.zh==='string'){const z=m.zh.split('\n\n');z[0]=z[0].replace(/[^。？！]*？\s*$/,'');m.zh=z.join('\n\n');}ch=true;}
+    const k=QB.key(m);if(ks.has(k)){ch=true;return false;}ks.add(k);return true;});
+  if(ch)save();}catch(e){}
 /* opened from the parent handbook? then offer a way back to it */
 let fromHB=false;
 try{fromHB=new URLSearchParams(location.search).get('from')==='handbook';if(fromHB)sessionStorage.setItem('fromHandbook','1');else fromHB=sessionStorage.getItem('fromHandbook')==='1';}catch(e){}
