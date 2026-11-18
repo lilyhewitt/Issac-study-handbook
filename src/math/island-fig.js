@@ -6,6 +6,7 @@
           br   T whole · C first cut · R the rest · C2 the cut from the rest · L what is left at the end
           line G<r>:<i> one gap · A<r>:<a>-<b> from point a to point b · N<r> how many points ---------- */
 const DGW=360,DGRH=28;
+/* (pictures follow Singapore model drawing: English labels, equal units, braces with the ? on what is asked) */
 function dgTw(t){return[...String(t)].reduce((a,ch)=>a+(/[　-鿿＀-￯]/.test(ch)?14:ch===' '?4:8.2),0);}
 function dgAll(d){return(d.mk||[]).concat(d.fx||[]).map(x=>x[0]);}
 /* layout: the drawing, and for every possible spot where its label goes {x,y,a:anchor,br:brace path,key} */
@@ -45,28 +46,32 @@ function dgFlow(d){const n=d.n,BW=60,BH=40,AW=(DGW-20-n*BW)/(n-1),y=44;let g='';
     m=id.match(/^O(\d+)$/);if(m&&+m[1]<n-1){const i=+m[1];return{x:bx(i)+BW+AW/2,y:y-6,a:'middle',br:'',key:id};}return null;};
   const cand=[];for(let i=0;i<n;i++){cand.push('B'+i);if(i<n-1)cand.push('O'+i);}
   return{W:DGW,H:y+BH+26,g,spot,cand};}
-function dgPie(d){const n=d.n,cx=DGW/2,cy=112,r=68,P=d.p,cls=['x','a','k'];let g='',s=0;const parts=[];
+function dgPie(d){const n=d.n,cx=DGW/2,cy=96,r=68,P=d.p,cls=['x','a','k'];let g='',s=0;const parts=[];
   P.forEach(c=>{parts.push([s,c]);s+=c;});const rest=n-s;if(rest>0)parts.push([s,rest]);
   const pt=(k,rr)=>{const a=-Math.PI/2+2*Math.PI*k/n;return[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];};
   for(let k=0;k<n;k++){const pi=parts.findIndex(([a,c])=>k>=a&&k<a+c),c=pi<P.length?cls[pi%3]:'w',[x1,y1]=pt(k,r),[x2,y2]=pt(k+1,r);
     g+=n===1?`<circle cx="${cx}" cy="${cy}" r="${r}" class="dg-${c}"/>`:`<path d="M${cx} ${cy}L${x1} ${y1}A${r} ${r} 0 0 1 ${x2} ${y2}Z" class="dg-${c}"/>`;}
   const spot=id=>{let pi=id==='Pr'?(rest>0?parts.length-1:-1):id[0]==='P'?+id.slice(1):-1;
-    if(id==='T')return{x:cx,y:22,a:'middle',br:'',key:'T'};
+    if(id==='T'){const by=cy+r+80,x1=DGW-40;return{x:DGW/2,y:by-14,a:'middle',br:`M41 ${by-4}V${by-9}H${x1-1}V${by-4}`,key:'T'};}
     if(pi<0||pi>=parts.length||(id!=='Pr'&&pi>=P.length))return null;
     const [a,c]=parts[pi],m=a+c/2,[lx,ly]=pt(m,r+34),[ax,ay]=pt(m,r*.62),[bx2,by2]=pt(m,r+12);
     return{x:Math.max(40,Math.min(DGW-40,lx)),y:ly+5,a:'middle',br:`M${ax} ${ay}L${bx2} ${by2}`,lead:1,key:id==='Pr'?'P'+pi:id};};
   const cand=['T'].concat(P.map((c,i)=>'P'+i),rest>0?['Pr']:[]);
-  return{W:DGW,H:cy+r+42,g,spot,cand};}
-function dgBr(d){const x0=24,x1=DGW-24,uw=(x1-x0)/d.n,y1=44,y2=136,BH=30,rx=x0+d.c*uw,sw=(x1-rx)/d.m;let g='';
-  for(let i=0;i<d.n;i++)g+=`<rect x="${x0+i*uw}" y="${y1}" width="${uw}" height="${BH}" class="dg-${i<d.c?'x':'u'}"/>`;
-  g+=`<path d="M${rx} ${y1+BH}V${y2}M${x1} ${y1+BH}V${y2}" class="dg-drop"/>`;
-  for(let i=0;i<d.m;i++)g+=`<rect x="${rx+i*sw}" y="${y2}" width="${sw}" height="${BH}" class="dg-${i<d.c2?'a':'w'}"/>`;
-  const tx=(t,x,w,y)=>t?`<text x="${x+w/2}" y="${y+BH/2+4.5}" text-anchor="middle" class="dg-st">${esc(t)}</text>`:'';
-  g+=tx(d.ct,x0,d.c*uw,y1)+tx(d.c2t,rx,d.c2*sw,y2)+tx(d.lt,rx+d.c2*sw,(d.m-d.c2)*sw,y2);
-  const below=(a,b,y,key)=>({x:(a+b)/2,y:y+BH+21,a:'middle',br:`M${a+1} ${y+BH+4}V${y+BH+9}H${b-1}V${y+BH+4}`,key,bd:'b'+y,r:[a,b]});
-  const spot=id=>id==='T'?{x:(x0+x1)/2,y:y1-14,a:'middle',br:`M${x0+1} ${y1-4}V${y1-9}H${x1-1}V${y1-4}`,key:'T'}
-    :id==='C'?below(x0,rx,y1,'C'):id==='R'?below(rx,x1,y1,'R'):id==='C2'?below(rx,rx+d.c2*sw,y2,'C2'):id==='L'?below(rx+d.c2*sw,x1,y2,'L'):null;
-  return{W:DGW,H:y2+BH+40,g,spot,cand:['T','C','R','C2','L']};}
+  /* the same thing as a bar model, the way it is drawn in the exam */
+  const by=cy+r+80,bx0=40,bw=(DGW-80)/n;g+=`<text x="${bx0}" y="${by+38}" class="dg-h">Bar model（考试这样画）</text>`;
+  for(let k=0;k<n;k++){const pi=parts.findIndex(([a,c])=>k>=a&&k<a+c),c=pi<P.length?cls[pi%3]:'w';g+=`<rect x="${bx0+k*bw}" y="${by}" width="${bw}" height="22" class="dg-${c}"/>`;}
+  return{W:DGW,H:by+46,g,spot,cand};}
+function dgBr(d){const x0=24,x1=DGW-24,y=40,BH=32,rx=x0+(x1-x0)*d.c/d.n,sw=(x1-rx)/d.m;let g='';
+  /* first part, then the rest split into d.m equal parts on the same bar; thin marks show the first split into d.n */
+  g+=`<rect x="${x0}" y="${y}" width="${rx-x0}" height="${BH}" class="dg-x"/>`;
+  for(let i=0;i<d.m;i++)g+=`<rect x="${rx+i*sw}" y="${y}" width="${sw}" height="${BH}" class="dg-${i<d.c2?'a':'u'}"/>`;
+  for(let i=1;i<d.n;i++){const xx=x0+(x1-x0)*i/d.n;if(xx>rx+1)g+=`<path d="M${xx} ${y-5}V${y}M${xx} ${y+BH}V${y+BH+5}" class="dg-tick"/>`;}
+  const tx=(t,x,w)=>t?`<text x="${x+w/2}" y="${y+BH/2+4.5}" text-anchor="middle" class="dg-st">${esc(t)}</text>`:'';
+  g+=tx(d.ct,x0,rx-x0)+tx(d.c2t,rx,d.c2*sw)+tx(d.lt,rx+d.c2*sw,(d.m-d.c2)*sw);
+  const below=(a,b,lv,key)=>{const by=y+BH+4+lv*30;return{x:(a+b)/2,y:by+17,a:'middle',br:`M${a+1} ${by}V${by+5}H${b-1}V${by}`,key,bd:'b'+lv,r:[a,b]};};
+  const spot=id=>id==='T'?{x:(x0+x1)/2,y:y-14,a:'middle',br:`M${x0+1} ${y-4}V${y-9}H${x1-1}V${y-4}`,key:'T'}
+    :id==='C'?below(x0,rx,0,'C'):id==='C2'?below(rx,rx+d.c2*sw,0,'C2'):id==='L'?below(rx+d.c2*sw,x1,0,'L'):id==='R'?below(rx,x1,1,'R'):null;
+  return{W:DGW,H:y+BH+72,g,spot,cand:['T','C','R','C2','L']};}
 function dgLine(d){const RH=96,XL=26,XR=DGW-86;let g='';const rows=d.rows.map(r=>r.p||Array.from({length:r.n},(_,i)=>''));
   const px=(j,i)=>XL+i*(XR-XL)/Math.max(1,rows[j].length-1),py=j=>46+j*RH;
   rows.forEach((p,j)=>{const y=py(j);g+=`<path d="M${XL-10} ${y}H${XR+10}" class="dg-ln"/>`;

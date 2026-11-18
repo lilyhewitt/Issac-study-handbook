@@ -3,11 +3,13 @@
 let BD=null;
 const BIC=['unit','unit','cmp','sd','three','ba','move','ba'];   /* icons for the 8 build-it-yourself kinds */
 function bar2(){return QB.BAR2||[];}
+/* kinds that are usually taught in P5 (Singapore 'remainder concept'): in the book under 挑战, never picked by 推荐 or the daily task */
+const BCH=['branch'];
 function barKinds(){return barTypes().map((t,i)=>i).concat(bar2().map(t=>t.id));}
 function barName(k){return typeof k==='number'?(barTypes()[k]||{}).t:(bar2().find(t=>t.id===k)||{}).t;}
 /* recommended: done right (without help) the fewest times; ties go to the first in the book */
-function barRec(){const st=barSt(),ok=k=>st.ok[k]||0,ks=barKinds(),lo=Math.min(...ks.map(ok));return ks.find(k=>ok(k)===lo);}
-function barRand(){const st=barSt(),ok=k=>st.ok[k]||0,ks=barKinds(),lo=Math.min(...ks.map(ok)),c=ks.filter(k=>ok(k)===lo);return c[Math.floor(Math.random()*c.length)];}
+function barRec(){const st=barSt(),ok=k=>st.ok[k]||0,ks=barKinds().filter(k=>!BCH.includes(k)),lo=Math.min(...ks.map(ok));return ks.find(k=>ok(k)===lo);}
+function barRand(){const st=barSt(),ok=k=>st.ok[k]||0,ks=barKinds().filter(k=>!BCH.includes(k)),lo=Math.min(...ks.map(ok)),c=ks.filter(k=>ok(k)===lo);return c[Math.floor(Math.random()*c.length)];}
 const barStart0=barStart;
 barStart=function(k){BD=null;if(k==null)k=barRand();if(typeof k==='string')return bdStart(k);return barStart0(k);};
 function barCat(){BR=null;BD=null;document.body.classList.remove('br-wide');show('vBarCat');const st=barSt(),n=k=>st.n[k]||0,ok=k=>st.ok[k]||0,rec=barRec();
@@ -16,11 +18,12 @@ function barCat(){BR=null;BD=null;document.body.classList.remove('br-wide');show
   $('bcRec').innerHTML=`⭐ 推荐：${esc(barName(rec))}`;$('bcRec').dataset.bt=rec;
   $('bcTot').textContent=`${got} / ${barKinds().length} 种会了（自己做对 3 次）`;
   $('bcList').innerHTML=`<h3>自己搭格子 <small>先搭格子，再标数字和问号</small></h3><div class="bc-g">${barTypes().map((t,i)=>card(i,BIC[i]||'unit')).join('')}</div>
-    <h3>看图标数 <small>图已经画好了，把数字和问号放上去</small></h3><div class="bc-g">${bar2().map(t=>card(t.id,t.id)).join('')}</div>`;}
+    <h3>看图标数 <small>图已经画好了，把数字和问号放上去</small></h3><div class="bc-g">${bar2().filter(t=>!BCH.includes(t.id)).map(t=>card(t.id,t.id)).join('')}</div>
+    <h3>挑战 <small>五年级常用的方法，想试再点</small></h3><div class="bc-g">${bar2().filter(t=>BCH.includes(t.id)).map(t=>card(t.id,t.id)).join('')}</div>`;}
 function bdStart(id){const T=bar2().find(t=>t.id===id);if(!T){barCat();return;}const st=barSt();st.cur=id;BR=null;const L=T.f();
-  BD={id,T,L,step:'mk',mk:L.dg.mk.map(x=>x.slice()),mkI:0,pl:[],tries:0,help:0,ci:0,used:[],zh:false,dec:dgDecoys(L.dg,dgLay(L.dg)),msg:'图已经画好了。把数字和问号放上去。'};
+  BD={id,T,L,step:'mk',ch:BCH.includes(id),mk:L.dg.mk.map(x=>x.slice()),mkI:0,pl:[],tries:0,help:0,ci:0,used:[],zh:false,dec:dgDecoys(L.dg,dgLay(L.dg)),msg:'图已经画好了。把数字和问号放上去。'};
   show('vBar');document.body.classList.add('br-wide');bdDraw();}
-function bdDraw(bad){const L=BD.L;$('brType').textContent=BD.T.t;$('brP').innerHTML=lines(L.p);$('brZh').textContent=L.zh;$('brZh').hidden=!BD.zh;$('brZhB').setAttribute('aria-pressed',BD.zh?'true':'false');
+function bdDraw(bad){const L=BD.L;$('brType').textContent=(BD.ch?'⭐ 挑战 · ':'')+BD.T.t;$('brP').innerHTML=lines(L.p);$('brZh').textContent=L.zh;$('brZh').hidden=!BD.zh;$('brZhB').setAttribute('aria-pressed',BD.zh?'true':'false');
   const order=['mk','calc','done'],ci=order.indexOf(BD.step);
   $('brSteps').innerHTML=[['mk','① 标数字和问号'],['calc','② 用图算']].map(([k,t])=>{const i=order.indexOf(k);return`<li class="${i===ci?'on':i<ci?'ok':''}">${t}</li>`;}).join('');
   const spots=BD.step==='mk'?BD.mk.slice(BD.mkI).map(x=>x[0]).concat(BD.dec):[];

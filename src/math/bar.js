@@ -39,7 +39,7 @@ function barSvg(){const g=barGeo(),L=BR.L;let o='';
     ord.forEach(id=>{const rs=id==='all'?[[g.NL+g.maxLen+2,g.y(0)-6,g.W-g.NL-g.maxLen-2,g.y(g.n-1)+g.RH+12-g.y(0)]]:barRects(id,g);rs.forEach(([x,y,w,h])=>{o+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" class="br-tap" data-br="${id}" role="button" aria-label="${esc(regName(id))}"/>`;});});}
   return `<svg viewBox="0 0 ${g.W} ${g.H}" role="img" aria-label="bar model">${o}</svg>`;}
 function regName(id){const [k,s]=id.split(':'),r=BR.L.rows[+s],pre=BR.L.build===false;
-  return k==='row'?`${r.n} 整条`:k==='unit'?(pre?`${r.n.replace(/ 后来$/,'')} 原来那段`:`${r.n} 的 1 格`):k==='x'?(pre?'后面接上的那段':`${r.n} 多出来的那段`):k==='diff'?'长出来的那段':'全部合起来';}
+  return k==='row'?`${r.n} 整条`:k==='unit'?(pre?`${r.n.replace(/ \((after|end)\)$/,'')} 原来那段`:`${r.n} 的 1 格`):k==='x'?(pre?'后面接上的那段':`${r.n} 多出来的那段`):k==='diff'?'长出来的那段':'全部合起来';}
 function barDraw(){const L=BR.L,TY=barTypes(),st=barSt(),step=BR.step==='list'?BR.prev:BR.step;
   $('brType').textContent=TY[BR.ti].t;$('brP').innerHTML=lines(L.p);$('brZh').textContent=L.zh;$('brZh').hidden=!BR.zh;$('brZhB').setAttribute('aria-pressed',BR.zh?'true':'false');
   const order=['build','mark','ask','calc','done'],ci=order.indexOf(step);

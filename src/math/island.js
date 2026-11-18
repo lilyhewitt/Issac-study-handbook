@@ -122,7 +122,8 @@ function islQ(){const it=IP.list[IP.i],q=ISL[it.si].qs[it.qi];
   $('islQCount').textContent=(IP.i+1)+' / '+IP.list.length;
   $('islQProb').innerHTML=islProb(q,false);
   $('islDone').hidden=true;islStep();}
-function islProb(q,mark){let t=q.q;if(q.pa&&!/\(a\)/.test(t)){const k=t.lastIndexOf('. ');t=k>0?t.slice(0,k+1)+' (a) '+q.pa.q+' (b) '+t.slice(k+2):t;}
+function islProb(q,mark){return(q.ft==='branch'&&IP&&!ISL[IP.list[IP.i].si].ch?'<span class="isl-chtag">⭐ 挑战题 · 五年级常用的方法</span><br>':'')+islProb0(q,mark);}
+function islProb0(q,mark){let t=q.q;if(q.pa&&!/\(a\)/.test(t)){const k=t.lastIndexOf('. ');t=k>0?t.slice(0,k+1)+' (a) '+q.pa.q+' (b) '+t.slice(k+2):t;}
   let h=mark?islMark(t,q.kw):esc(t);
   /* the question sentence gets a blue box in step ① */
   return h;}
