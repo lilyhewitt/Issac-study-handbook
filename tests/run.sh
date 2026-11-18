@@ -40,5 +40,6 @@ if [ "${1:-}" != quick ]; then
   run "English phrases and grammar" node tests/phrases.js
   run "English word map" node tests/map.js
   run "Math Island" node tests/island.js
+  run "bar-model book and drawn kinds" node tests/bar-book.js
 fi
 [ $fail = 0 ] && echo "ALL OK" || { echo "SOMETHING FAILED"; exit 1; }

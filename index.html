@@ -660,7 +660,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">小小的练习 app 和做题记录,<br>都在这一页。</p></div>
 
   <h2>练习 app</h2>
-  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 应用题、计算、P4 预习</a>
+  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 数学小岛、线段图、预习 4A</a>
     <p class="muted"><b>小小用自己的 iPad 做:</b>在 iPad 的 Safari 里打开手册的这一页,点进每个练习,各自“添加到主屏幕”,以后都从图标打开。</p></div>
 
   <div id="syncSec" class="view" hidden>
@@ -670,10 +670,11 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p><b>每两周看一次</b>做题记录,只挑一类错法来练。</p></div>
 
   <details class="more"><summary>练习 app 里有什么</summary><div class="body"><ul>
-    <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学分应用题、计算、P4 预习,应用题会拆成一步一步。</li>
+    <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学是数学小岛(应用题地图)、线段图和预习 4A。</li>
     <li><b>今天的任务</b>:首页上 2–3 件事,做完一件亮一件,全亮就是今天做完了,可以停。</li>
     <li><b>英文</b>:语法按格子出题(答错只给一句“看哪个线索词”);词汇有“找证据词”;代词完形一空一空做;首页紫色“Phrases 介词词组”,一周两组;“Words 词汇题”每轮 5 题里有 2 题是拼一拼。</li>
-    <li><b>画线段图</b>(数学):自己搭格子、标数字、标问号,再用图算。8 种:几倍(知道小的 / 知道大的)、几倍 + 相差、和差、三个量、前后变化倒推、给多少才一样多、买了以后反过来多。应用题里也有这几种的分步题,题目旁边带图。</li>
+    <li><b>画线段图</b>(数学):点开是图鉴,17 种图都能直接选,“⭐ 推荐”挑他自己做对最少的一种。8 种自己搭格子(几倍、几倍 + 相差、和差、三个量、前后变化倒推、给多少才一样多、买了以后反过来多),9 种看图标数(图画好了,把数字和问号放上去,再用图算)。</li>
+    <li><b>数学小岛</b>:应用题地图,每题四步:看问题 → 划重点 → 选图并在画好的图上标数字 → 算答案。“练习”页的做题记录里能看每一步的正确率。</li>
     <li><b>应用题</b>:数学、科学的题一句一行,数字加粗,问句前面标“问”;分步的题第一步先问“这题要你求什么”(选项是中文)。</li>
     <li><b>答错时</b>:不用红色,写“我们看一看”,再给正确答案和原因。声音默认关,首页右上角可以打开。</li>
     <li><b>单词卡</b>:一组 5 个词,哪组都可以先学,学过的隔几天自动再考。数学的应用题常用词配了线段图;科学的考试指令词写了“答题时要答什么”。</li>
@@ -690,6 +691,13 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.28 · 11 月 18 日</span><h3>数学小岛第二期：在图上标数字</h3><ul>
+    <li>小岛的第 ③ 步多了一半：选对图以后，图已经画好，他把题目里的数字和问号一个一个放到图上（老师说的“先给画好的图，让他标重点”）。76 道题有画好的图；放错两次就帮他放上，并告诉他为什么。</li>
+    <li>线段图方块打开是“图鉴”：17 种图都能直接点。原来 8 种“自己搭格子”，新加 9 种“看图标数”（部分-整体、比较图、差不变、转移箭头、倒推流程、分数圆、剩余分支、间隔图、猜测检查表），每次随机出新数字。最上面“⭐ 推荐”打开他自己做对最少的那一种。</li>
+    <li>预习 4A 去掉了单纯的乘、除、分数加减算式，换成问“为什么这样算”的题（乘 20 等于乘 2 再乘 10、余数一定比除数小、多出来的也要一组等）。</li>
+    <li>“练习”页的做题记录里多了数学小岛：过了几站、几个金奖杯、还有几道错题，和每一步第一次就做对的比例（看问题、提炼、选图、标数字、答案）。低于 70% 的标红。</li>
+    <li>以前的星星、奖杯、线段图记录都保留。</li>
+  </ul></div>
   <div class="card"><span class="tag">v4.27 · 11 月 18 日</span><h3>数学小岛</h3><ul>
     <li>按老师 11/18 的建议改数学 app：首页只留 4 个方块——数学小岛（最大）、线段图、预习 4A、错题重练；计算和单词卡拿掉（以前的记录都保留）。</li>
     <li>数学小岛：19 站 113 题，都照真卷题型改写，顺序和小卷 1–20 一样，P3 段后是 P4 段（猜测检查、分数、钱、角、面积、图表、时间）。每 3 站一个营火复习（混着出、让他自己选图），宝箱里是思维题，每段最后一个挑战关。</li>
@@ -1148,6 +1156,17 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     var pp=x.pp&&typeof x.pp==="object"?x.pp:{},n=0,m=0;for(var k in pp){n++;if(pp[k].box>=4)m++;}
     return '<div class="pr"><span class="pl">英文语法</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">每格最近 20 题;到 80% 换 P4 的题,目标 95%</span>':'<span class="muted">每格做满 5 题后显示</span>')+'</span></div>'+
       '<div class="pr"><span class="pl">介词词组</span><span class="pv">'+(n?'学过 <b>'+n+'</b>/60 个 · 记住了 <b>'+m+'</b> 个':'<span class="muted">还没开始 · 英文 app 首页的“Phrases”</span>')+'</span></div>';}
+  /* Math: Math Island progress and how often each of the 4 steps is right on the first try (S.isl.sk = {step:[tries, right first time]}) */
+  var ISTEP=[["ask","① 看问题"],["plan","② 提炼"],["fig","③ 选图"],["mk","③ 标数字"],["ans","④ 答案"],["pa","(a) 小问"]];
+  function mathRows(x){if(!x)return "";var I=x.isl&&typeof x.isl==="object"?x.isl:null,sk=I&&I.sk&&typeof I.sk==="object"?I.sk:{};
+    var bn=0;if(x.bar&&x.bar.n&&typeof x.bar.n==="object")for(var b in x.bar.n)bn+=+x.bar.n[b]||0;
+    var barRow='<div class="pr"><span class="pl">线段图</span><span class="pv">'+(bn?'做了 <b>'+bn+'</b> 题':'<span class="muted">还没做 · 数学 app 首页的“线段图”</span>')+'</span></div>';
+    if(!I||!Object.keys(sk).length)return '<div class="pr"><span class="pl">数学小岛</span><span class="pv"><span class="muted">还没开始 · 数学 app 首页最大的方块</span></span></div>'+barRow;
+    var st=I.st&&typeof I.st==="object"?I.st:{},n=0,g=0;for(var k in st){n++;if(st[k]===3)g++;}
+    var miss=Array.isArray(I.miss)?I.miss.length:0,out=[];
+    ISTEP.forEach(function(s){var a=sk[s[0]];if(Array.isArray(a)&&a[0]>=3){var p=Math.round(a[1]/a[0]*100);out.push('<span style="white-space:nowrap">'+(p<70?'<b class="lo">':'<b>')+s[1]+' '+p+'%</b> <span class="muted">('+a[0]+')</span></span>');}});
+    return '<div class="pr"><span class="pl">数学小岛</span><span class="pv">过了 <b>'+n+'</b>/19 站 · 金奖杯 <b>'+g+'</b> 个'+(miss?' · 还有 <b>'+miss+'</b> 道错题':'')+'</span></div>'+
+      '<div class="pr"><span class="pl">应用题每一步</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">第一次就做对的比例,括号里是做了几次。红的那一步,小卷上多练。</span>':'<span class="muted">每一步做满 3 次后显示</span>')+'</span></div>'+barRow;}
   function renderSync(){var sec=document.getElementById("syncSec"),box=document.getElementById("syncBox");if(!sec||!box)return;
     sec.hidden=!SYNC_ON;if(!SYNC_ON)return;var c=sget(),h;
     if(!c){
@@ -1166,7 +1185,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
           return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
         (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
              '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/17 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>'+
-             enRows(S3[0]):'')+'</div>'+
+             enRows(S3[0])+mathRows(S3[2]):'')+'</div>'+
         chPick()+
         '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
         '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。家里别人想看,在他们手机的手册里输同一个码。</p>'+

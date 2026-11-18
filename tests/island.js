@@ -15,6 +15,9 @@ const S=()=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),KEY);
 const st=()=>p.evaluate(()=>{const P=__isl.IP();return P?{k:P.steps[P.sx],good:P.good,ft:P.q.ft,i:P.i,steps:P.steps,tag:P.tag}:null;});
 /* answer the current step; wrong=true picks a wrong option first */
 async function step(wrong){const s=await st();
+  if(s.k==='mk'){let g=0;while(g++<12){const m=await p.evaluate(()=>{const P=__isl.IP();return P&&P.steps[P.sx]==='mk'&&P.mkI<P.mk.length?{id:P.mk[P.mkI][0],dec:P.dec}:null;});if(!m)break;
+      if(wrong&&g===1&&m.dec.length){await p.click(`.dg-sp[data-s="${m.dec[0]}"]`);await p.waitForTimeout(80);}
+      await p.click(`.dg-sp[data-s="${m.id}"]`);await p.waitForTimeout(120);}await p.waitForTimeout(1800);return s;}
   if(s.k==='fig'){if(wrong){await p.click(`.isl-fig:not([data-f="${s.ft}"]) >> nth=0`);await p.waitForTimeout(80);}await p.click(`.isl-fig[data-f="${s.ft}"]`);await p.waitForTimeout(2400);return s;}
   if(await p.$('.isl-pc')){const seq=await p.evaluate(()=>__isl.IP().bq);for(const t of seq)await p.click(`.isl-pc:not([disabled])[data-t="${t.replace(/"/g,'\\"')}"]`);await p.waitForTimeout(900);return s;}
   const vals=await p.$$eval('.isl-o',x=>x.map(e=>e.dataset.v));
@@ -30,13 +33,13 @@ await p.click('.isl-n.lock >> nth=0',{force:true});ok(await p.isVisible('#vIsl')
 await p.click('#islGo');await p.waitForTimeout(300);
 ok(await p.isVisible('#vIslQ'),'Go opens station 1');
 const seen=await playAll(s=>s.i===0&&s.k==='ans'&&s.tag!=='pa');
-ok(seen[0]==='ask>plan>fig>ans'&&seen[2]==='ask>fig>ans'&&seen[4]==='ans>ask','hints fade: '+seen.join(' | '));
-ok(seen[1]==='ask>plan>fig>ans','question 2 has the build-the-plan step');
+ok(seen[0]==='ask>plan>fig>mk>ans'&&seen[2]==='ask>fig>mk>ans'&&seen[4]==='ans>ask','hints fade, and step ③ puts the numbers on a drawn picture: '+seen.join(' | '));
+ok(seen[1]==='ask>plan>fig>mk>ans','question 2 has the build-the-plan step');
 ok(await p.isVisible('#islDone'),'trophy screen at the end');
 let s=await S();ok(s.isl.st[0]===2,'one wrong answer out of 5 → 2 stars (silver)');
 ok(s.isl.miss.includes('0:0'),'the wrong problem is remembered');
 ok(s.stars>=2&&s.tk&&Object.values(s.tk).some(t=>t.isl),'stars added and the island task ticked');
-ok(s.isl.sk.ans&&s.isl.sk.ans[0]>=5&&s.isl.sk.fig[0]>=4,'step counts kept ('+JSON.stringify(s.isl.sk)+')');
+ok(s.isl.sk.ans&&s.isl.sk.ans[0]>=5&&s.isl.sk.fig[0]>=4&&s.isl.sk.mk&&s.isl.sk.mk[0]>=10,'step counts kept ('+JSON.stringify(s.isl.sk)+')');
 await p.click('#islAgain');await p.waitForTimeout(300);await playAll();s=await S();
 ok(s.isl.st[0]===3,'playing again upgrades to 3 stars');
 await p.click('#islNextStop');await p.waitForTimeout(1500);
@@ -48,7 +51,7 @@ ok(await p.evaluate(()=>__isl.road()[__isl.cur()].t)==='r','after 3 stations the
 await p.click('#islGo');await p.waitForTimeout(300);
 const camp=await p.evaluate(()=>__isl.IP().list.map(x=>x.si+':'+x.qi));
 ok(camp.length===6&&camp[0]==='1:3'&&camp.every(x=>+x.split(':')[0]<=2),'campfire: 6 problems from stations 1–3, the missed one first ('+camp+')');
-const cs=await playAll();ok(cs[0]==='ask>fig>ans','campfire asks him to pick the picture himself');
+const cs=await playAll();ok(/^ask>fig>(mk>)?ans$/.test(cs[0]),'campfire asks him to pick the picture himself ('+cs[0]+')');
 s=await S();ok(s.isl.rv[0]>=1,'campfire done');await p.click('#islNextStop');await p.waitForTimeout(1500);
 /* chest beside the 2nd campfire */
 await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));for(let i=0;i<6;i++)S.isl.st[i]=3;S.isl.rv={0:3,1:3};localStorage.setItem(k,JSON.stringify(S));},KEY);

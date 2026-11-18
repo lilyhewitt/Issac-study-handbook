@@ -2,7 +2,7 @@ const {chromium,devices}=require('playwright');
 (async()=>{const b=await chromium.launch();
 for(const [name,dev,land] of [['iPad 竖屏',devices['iPad (gen 7)'],0],['iPad 横屏',devices['iPad (gen 7) landscape'],1],['iPad mini 竖屏',devices['iPad Mini'],0]]){
  const p=await (await b.newContext({...dev,deviceScaleFactor:1})).newPage();await p.goto('http://localhost:8767/math/');await p.waitForTimeout(300);
- await p.click('#tBar');await p.click('#brTypes');await p.click('[data-bt="4"]');await p.waitForTimeout(100);
+ await p.click('#tBar');if(await p.isVisible('#brTypes'))await p.click('#brTypes');await p.click('[data-bt="4"]');await p.waitForTimeout(100);
  const geo=async label=>{const r=await p.evaluate(()=>{const vh=innerHeight,q=s=>{const e=document.querySelector(s);if(!e)return null;const b=e.getBoundingClientRect();return [Math.round(b.top),Math.round(b.bottom),Math.round(b.height)];};
    const btns=[...document.querySelectorAll('#vBar button')].filter(x=>x.offsetParent).map(x=>x.getBoundingClientRect()).map(b=>Math.round(Math.min(b.width,b.height)));
    const ctl=[...document.querySelectorAll('#brCtl button')].filter(x=>x.offsetParent).map(x=>x.getBoundingClientRect().bottom);

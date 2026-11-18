@@ -102,6 +102,8 @@ function islSteps(si,qi,kind){const q=ISL[si].qs[qi],p3=ISL[si].seg==='P3';let s
   else if(p3)st=qi<2?['ask','plan','fig','ans']:qi===4?['ans','ask']:['ask','fig','ans'];
   else st=['ask','fig','ans'];
   if(q.build&&kind==='s'&&!st.includes('plan'))st.splice(st.indexOf('ask')+1||0,0,'plan');
+  /* a drawn picture: after picking the kind of picture he puts the numbers and the ? on it */
+  if(q.dg&&st.includes('fig'))st.splice(st.indexOf('fig')+1,0,'mk');
   return st;}
 function islStart(node){const s=islSt(),L=islRoad(),n=typeof node==='number'?L[node]:node;let list=[],kind;
   if(n.t==='s'){kind='s';list=ISL[n.i].qs.map((q,qi)=>({si:n.i,qi}));}
@@ -124,8 +126,8 @@ function islProb(q,mark){let t=q.q;if(q.pa&&!/\(a\)/.test(t)){const k=t.lastInde
   let h=mark?islMark(t,q.kw):esc(t);
   /* the question sentence gets a blue box in step ① */
   return h;}
-function islStepBar(){const cur=IP.steps[IP.sx];
-  $('islSteps').innerHTML=STEPS.map(([k,ic,zh,en],i)=>{const on=IP.steps.includes(k),idx=IP.steps.indexOf(k),done=on&&idx<IP.sx,now=k===cur;
+function islStepBar(){const eff=IP.steps.map(x=>x==='mk'?'fig':x),cur=eff[IP.sx];
+  $('islSteps').innerHTML=STEPS.map(([k,ic,zh,en],i)=>{const on=eff.includes(k),idx=eff.lastIndexOf(k),done=on&&idx<IP.sx,now=k===cur;
     return`<div class="isl-sp${done?' ok':''}${now?' on':''}${on?'':' off'}"><span class="ic">${ic}</span><b>${zh}</b><i>${i+1} ${en}</i></div>`;}).join('');}
 function islStep(){const q=IP.q,k=IP.steps[IP.sx];islStepBar();const box=$('islStep');IP.tries=0;
   $('islQProb').innerHTML=islProb(q,k==='plan'||k==='fig'||k==='ans'&&IP.steps.includes('plan'));
@@ -137,12 +139,32 @@ function islStep(){const q=IP.q,k=IP.steps[IP.sx];islStepBar();const box=$('islS
   else if(k==='fig'){const others=islShuf(['pw','cmp','unit','sd','ba','move','flow','pie','branch','line','table','same'].filter(x=>x!==q.ft)).slice(0,3);
     const L=islShuf([q.ft,...others]);
     box.innerHTML=`<div class="isl-qq">这题该画哪种图？<small>选一种图。</small></div><div class="isl-figs">${L.map(f=>`<button class="isl-fig" data-f="${f}"><svg viewBox="0 0 60 46">${FIGSVG[f]||''}</svg><b>${FIGS[f][0]}</b><i>${FIGS[f][1]}</i></button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;}
+  else if(k==='mk')islMk();
   else if(k==='ans'){if(IP.pa){islBox('(a) '+q.pa.q,'先做 (a)。',islShuf(q.pa.opts),q.pa.ans,'pa');}else islBox((q.pa?'(b) ':'')+'答案是多少？','⚡ 闪电算！',islShuf(q.opts),q.ans,'ans');}}
 function islBox(title,sub,opts,good,tag){$('islStep').innerHTML=`<div class="isl-qq">${esc(title)}<small>${esc(sub)}</small></div><div class="isl-opts">${opts.map(o=>`<button class="isl-o" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;IP.good=good;IP.tag=tag||'';}
 function islBuild(){const q=IP.q,[seq,extra]=q.build;IP.bq=seq;IP.bat=[];
   const pieces=islShuf(seq.map((t,i)=>({t,i})).concat(extra.map(t=>({t,i:-1}))));
   $('islQProb').innerHTML=islProb(q,true);
   $('islStep').innerHTML=`<div class="isl-qq">🧩 拼出提炼<small>按顺序点小块，拼成这题的意思。有 2 块用不上。</small></div><div class="isl-built" id="islBuilt"></div><div class="isl-pieces">${pieces.map((p,j)=>`<button class="isl-pc" data-j="${j}" data-t="${esc(p.t)}">${esc(p.t)}</button>`).join('')}</div><div class="isl-tip" id="islTip" hidden></div>`;}
+/* step ③ part 2: put the numbers and the ? on the drawn picture, one at a time */
+function islMk(){const d=IP.q.dg;IP.mk=d.mk.map(x=>x.slice());IP.mkI=0;IP.mkPl=[];IP.mkTries=0;IP.dec=dgDecoys(d,dgLay(d));$('islQProb').innerHTML=islProb(IP.q,true);islMkDraw();}
+function islMkDraw(bad,tip,good){const d=IP.q.dg,done=IP.mkI>=IP.mk.length,cur=IP.mk[IP.mkI];
+  const spots=done?[]:IP.mk.slice(IP.mkI).map(x=>x[0]).concat(IP.dec);
+  const fig={...d,mk:[]};
+  const head=done?'<div class="isl-qq">✓ 图标好了！<small>在纸上也这样画。</small></div>'
+    :cur[1]==='?'?'<div class="isl-qq">问号 <span class="isl-chip q">?</span> 放在哪里？<small>题目问的是图上哪一段？点那个虚线框。</small></div>'
+    :`<div class="isl-qq">把 <span class="isl-chip">${esc(cur[1])}</span> 放到图上<small>它是图上哪一段？点那个虚线框。</small></div>`;
+  $('islStep').innerHTML=head+`<div class="isl-dg">${dgSvg(fig,IP.mkPl,spots,bad)}</div><div class="isl-chips2">${IP.mk.map((x,i)=>`<span class="${i<IP.mkI?'done':i===IP.mkI?'now':''}">${esc(x[1])}</span>`).join('')}</div><div class="isl-tip${good?' good':''}" id="islTip"${tip?'':' hidden'}>${tip?esc(tip):''}</div>`;}
+function islMkTap(id){const d=IP.q.dg,L=dgLay(d),cur=IP.mk[IP.mkI],s=L.spot(id);if(!s||!cur)return;
+  const j=IP.mk.findIndex((m,i)=>i>=IP.mkI&&m[1]===cur[1]&&L.spot(m[0]).key===s.key);
+  const put=(auto)=>{IP.mkPl.push(IP.mk[IP.mkI]);IP.mkI++;IP.mkTries=0;
+    if(IP.mkI>=IP.mk.length){beep(true);islMkDraw(null,auto?'看一看：'+auto+' 图标好了。':'✓ 全放对了！'+(IP.q.fig?' '+IP.q.fig.split('：')[0]:''),!auto);
+      setTimeout(()=>{if(!IP||IP.steps[IP.sx]!=='mk')return;IP.sx++;IP.sx<IP.steps.length?islStep():islNextQ();},IP.kind==='s'?1600:1100);}
+    else islMkDraw(null,auto||null,!auto);};
+  if(j>=0){if(j!==IP.mkI){const t=IP.mk[j];IP.mk[j]=IP.mk[IP.mkI];IP.mk[IP.mkI]=t;}islSk('mk',IP.mkTries===0);if(!IP.mkTries)beep(true);put(null);return;}
+  beep(false);IP.mkTries++;
+  if(IP.mkTries>=2){islSk('mk',false);put(`「${cur[1]}」应该放在这里。`);return;}
+  islMkDraw(id,cur[1]==='?'?'再读一读最后一句：问的是谁、问什么？':`再读一读题目：「${cur[1]}」是谁的？`);}
 function islSk(k,ok){const s=islSt();const a=s.sk[k]||[0,0];a[0]++;if(ok)a[1]++;s.sk[k]=a;}
 function islRight(btn){beep(true);if(btn){btn.classList.add('good','pop');islSpark(btn);}
   const k=IP.steps[IP.sx];
@@ -157,6 +179,7 @@ function islHint(){const q=IP.q,k=IP.steps[IP.sx];
   if(k==='ask')return'看最后一句问句，它问的是谁、问什么？';
   if(k==='plan')return'看划线的关键词，它们告诉你要加、减、乘还是除。';
   if(k==='fig')return'提示：'+q.fig.split('：')[0]+'。';
+  if(k==='mk')return'再读一读题目。';
   return'提示：'+q.plan[0];}
 function islNextQ(){IP.i++;if(IP.i<IP.list.length)islQ();else islFinish();}
 function islFinish(){const s=islSt(),n=IP.n,tot=IP.list.length,ok=IP.ok,stars=ok===tot?3:ok/tot>=.75?2:1;let first=false;
@@ -213,7 +236,8 @@ $('vIslQ').addEventListener('click',e=>{
   const o=e.target.closest('.isl-o');
   if(o&&!o.disabled){const ok=o.dataset.v===IP.good;islSk(k==='ans'&&IP.tag==='pa'?'pa':k,ok&&IP.tries===0);if(ok)islRight(o);else islWrong(o,islHint());return;}
   const f=e.target.closest('.isl-fig');
-  if(f&&!f.disabled){const ok=f.dataset.f===IP.q.ft;islSk('fig',ok&&IP.tries===0);if(ok){const t=$('islTip');t.hidden=false;t.className='isl-tip good';t.textContent='✓ 怎么画：'+IP.q.fig;f.classList.add('good','pop');islSpark(f);beep(true);setTimeout(()=>{IP.sx++;IP.sx<IP.steps.length?islStep():islNextQ();},IP.kind==='s'?2200:1200);}else islWrong(f,'不是这种图。'+islHint());return;}
+  if(f&&!f.disabled){const ok=f.dataset.f===IP.q.ft;islSk('fig',ok&&IP.tries===0);if(ok){const t=$('islTip');t.hidden=false;t.className='isl-tip good';t.textContent=IP.q.dg?'✓ 对！图已经画好了，下面把数字放上去。':'✓ 怎么画：'+IP.q.fig;f.classList.add('good','pop');islSpark(f);beep(true);setTimeout(()=>{IP.sx++;IP.sx<IP.steps.length?islStep():islNextQ();},IP.q.dg?900:IP.kind==='s'?2200:1200);}else islWrong(f,'不是这种图。'+islHint());return;}
+  const sp=e.target.closest('.dg-sp');if(sp&&k==='mk'){islMkTap(sp.dataset.s);return;}
   const pc=e.target.closest('.isl-pc');
   if(pc&&!pc.disabled){const want=IP.bq[IP.bat.length];
     if(pc.dataset.t===want){IP.bat.push(want);pc.disabled=true;pc.classList.add('used');$('islBuilt').innerHTML=IP.bat.map(t=>`<span>${esc(t)}</span>`).join(' ');

@@ -266,10 +266,6 @@ G('p4',T.p4f,2,.9,()=>{const v=ri(0,3);
     return mk({q:`Which of these is a common multiple of ${a} and ${b}?`,zh:`哪一个是 ${a} 和 ${b} 的公倍数？`,a:m,d:[[a*b+a!==m?a*b+a:a*3,'fm',`要同时是 ${a} 的倍数和 ${b} 的倍数。`],[b*(a+1)!==m&&(b*(a+1))%a!==0?b*(a+1):b*5+1,'fm',`要同时是 ${a} 和 ${b} 的倍数。`],[a+b,'keyword','公倍数不是把两个数加起来。']],ex:`${m} ÷ ${a} = ${m/a}，${m} ÷ ${b} = ${m/b}，都没有余数。`});}
   const n=pick([12,16,18,20,24,30]),fs=[];for(let i=1;i<=n;i++)if(n%i===0)fs.push(i);
   return mk({q:`How many factors does ${n} have?`,zh:`${n} 有几个因数？`,a:fs.length,d:[[fs.length-2,'fm','别忘了 1 和它自己也是因数。'],[fs.length-1,'fm','1 和它自己都要算。'],[fs.length+1,'calc']],fill:{n:fs.length,step:1,f:S_},ex:`${n} 的因数：${fs.join('、')}，一共 ${fs.length} 个。`});});
-G('p4',T.p4m,1,1,()=>{const b=ri(3,9),a=ri(1012,Math.floor(99999/b)),p=a*b;
-  return mk({q:`${N(a)} × ${b} = ___`,a:N(p),d:[[N(mulNoCarry(a,b)),'calc','每一位乘完要加上进位。'],[N(p+100),'calc'],[N(p-10),'calc']],fill:{n:p,step:1000,f:N},ex:`从个位乘起，记得进位：${N(a)} × ${b} = ${N(p)}`});});
-G('p4',T.p4m,2,1,()=>{const a=ri(102,499),b=ri(12,39),t=Math.floor(b/10),o=b%10,p=a*b;
-  return mk({q:`${a} × ${b} = ___`,a:N(p),d:[[N(a*t+a*o),'place',`乘十位上的 ${t} 时，其实是乘 ${t*10}，结果后面要补 0。`],[N(a*o+a*t*100),'place','十位乘出来只要往左移一位。'],[N(p+a),'calc']],fill:{n:p,step:100,f:N},ex:`${a} × ${o} = ${N(a*o)}；${a} × ${t*10} = ${N(a*t*10)}；加起来 = ${N(p)}。`});});
 const ANG=[
  ['A right angle is ___.','直角是多少度？',['90°','180°','45°','360°'],'直角 = 90°。',1],
  ['The angle on a straight line is ___.','一条直线（平角）是多少度？',['180°','90°','360°','100°'],'直线上的角 = 180°。',1],
@@ -326,10 +322,20 @@ G('p4',T.p4pat,2,1,()=>{
   return mk({p:show,q:'What is the missing number?',zh:`找规律，空格里是几？\n${show}`,a:N(a),d:[[N(seq[bi-1]+sg*st*2),'calc','先看前两个数差多少。'],[N(seq[bi-1]+sg*Math.round(st/2)),'calc','先看前两个数差多少。'],[N(seq[bi-1]-sg*st),'calc',`这串数是越来越${up?'大':'小'}的。`]],fill:{n:a,step:st,f:N},ex:`前后两个数差 ${N(st)}，每次${up?'多':'少'} ${N(st)}：${N(seq[bi-1])} ${up?'+':'−'} ${N(st)} = ${N(a)}。`});});
 
 /* Ch3 division by a 1-digit number */
-G('p4',T.p4d,1,1,()=>{const b=ri(2,9);let qn;do{qn=Math.random()<.5?ri(1,19)*100+ri(1,9):ri(102,1999);}while(qn*b<1000||qn*b>9999);const a=qn*b,dz=+S_(qn).replace(/0/g,'');
-  return mk({q:`${N(a)} ÷ ${b} = ___`,zh:`${N(a)} ÷ ${b} 等于多少？`,a:N(qn),d:[dz!==qn?[N(dz),'place','有一位不够除时，商要写 0，不能漏。']:[N(qn+10),'calc'],[N(qn+1),'calc'],[N(qn-10),'calc'],[N(qn*10),'place','先看最高位够不够除，商的位数才对。']],fill:{n:qn,step:1,f:N},ex:`${N(a)} ÷ ${b} = ${N(qn)}。检查：${N(qn)} × ${b} = ${N(a)}。`});});
-G('p4',T.p4d,2,1,()=>{const b=ri(3,9);let qn;do{qn=ri(102,1999);}while(qn*b+b>9999||qn*b<1000);const r=ri(1,b-1),a=qn*b+r,RR=(x,y)=>`${N(x)} R ${y}`;
-  return mk({q:`${N(a)} ÷ ${b} = ___ (R = remainder)`,zh:`${N(a)} ÷ ${b} 等于多少？R 表示余数。`,a:RR(qn,r),d:[[RR(qn-1,r+b),'round',`余数 ${r+b} 比除数 ${b} 大，说明还能再分一次。余数一定要比除数小。`],[RR(qn+1,r),'calc'],[RR(qn,b-r),'calc'],[N(qn),'step1','还有余数没写。']],ex:`${N(qn)} × ${b} = ${N(qn*b)}，${N(a)} − ${N(qn*b)} = ${r}，所以是 ${RR(qn,r)}。余数 ${r} 比 ${b} 小。`});});
+
+/* Ch3 multiplication and division: what the working means (no long sums: he is already quick at those) */
+G('p4',T.p4m,1,1,()=>{const a=ri(102,499),t=pick([2,3,4]),v=ri(0,1);
+  if(v===0)return mk({q:`Which is the same as ${a} × ${t*10}?`,zh:`哪一个和 ${a} × ${t*10} 一样？`,a:`${a} × ${t} × 10`,d:[[`${a} × ${t} + 10`,'place',`× ${t*10} 是先 × ${t}，再 × 10，不是 + 10。`],[`${a} × ${t} × 100`,'place',`${t*10} 只有一个 0。`],[`${a} + ${t*10}`,'keyword','这是乘法，不是加法。']],ex:`${t*10} = ${t} × 10，所以 ${a} × ${t*10} = ${a} × ${t} × 10。`});
+  const b=ri(12,39),tn=Math.floor(b/10)*10,o=b%10;
+  return mk({q:`${a} × ${b} is worked out in two parts. Which two parts?`,zh:`${a} × ${b} 可以分成哪两部分来算？`,a:`${a} × ${tn} and ${a} × ${o}`,d:[[`${a} × ${tn/10} and ${a} × ${o}`,'place',`十位上的 ${tn/10} 其实是 ${tn}。`],[`${a} × ${b} and ${a} × 10`,'place',`把 ${b} 拆成 ${tn} 和 ${o}。`],[`${a} + ${tn} and ${a} + ${o}`,'keyword','两部分都要乘。']],ex:`${b} = ${tn} + ${o}，所以先算 ${a} × ${tn}，再算 ${a} × ${o}，最后加起来。`});});
+G('p4',T.p4d,1,1,()=>{const b=ri(3,9),v=ri(0,1);
+  if(v===0){const no=pick([b,b+1,b+2]);const ok=shuf([...Array(b-1)].map((_,i)=>i+1)).slice(0,3);
+    return mk({q:`A number is divided by ${b}. Which of these can NOT be the remainder?`,zh:`一个数除以 ${b}。哪一个“不可能”是余数？`,a:no,d:ok.map(x=>[x,'round',`余数只要比 ${b} 小就可以，${x} 可以。`]),ex:`余数一定比除数小：除以 ${b}，余数只能是 1 到 ${b-1}（或 0）。${no} 不行。`});}
+  const qn=ri(12,99),r=ri(1,b-1),a=qn*b+r;
+  return mk({q:`${a} ÷ ${b} = ${qn} R ${r}. Which is correct?`,zh:`${a} ÷ ${b} = ${qn} 余 ${r}。哪一个算式对？`,a:`${qn} × ${b} + ${r} = ${a}`,d:[[`${qn} × ${r} + ${b} = ${a}`,'place','商 × 除数 + 余数 = 被除数。'],[`${qn} + ${b} + ${r} = ${a}`,'keyword','是乘，不是加。'],[`${a} × ${b} + ${r} = ${qn}`,'place','反过来了。']],ex:`检查除法：商 × 除数 + 余数 = 被除数：${qn} × ${b} + ${r} = ${a}。`});});
+G('p4',T.p4d,2,1,()=>{const b=ri(3,8),k=ri(20,60),r=ri(1,b-1),n=k*b+r,it=pick([['pupils','人',' cars','辆车',4],['eggs','个鸡蛋',' trays','个盒子',6],['cupcakes','个纸杯蛋糕',' boxes','个盒子',4]]),cap=b;
+  const up=Math.random()<.5;
+  return mk({q:`${n} ${it[0]} are put into groups of ${cap}. ${up?'How many groups are needed for all of them?':'How many full groups are there?'}`,zh:`${n} ${it[1]}，每 ${cap} 个一组。${up?'全部放下要几组？':'能装满几组？'}`,a:up?k+1:k,d:[[up?k:k+1,'round',up?`还剩 ${r} 个，也要一组。`:`剩下的 ${r} 个装不满一组。`],[r,'who','这是余数，不是组数。'],[n-cap,'keyword','是除法。']],ex:`${n} ÷ ${cap} = ${k} 余 ${r}。${up?`剩下的 ${r} 个也要一组：${k} + 1 = ${k+1}。`:`装满的只有 ${k} 组。`}`});});
 
 /* Ch4 line graphs */
 const LGI=[['cups of juice sold','卖出的果汁','cups'],['visitors to a library','图书馆的访客','visitors'],['books borrowed','借出的书','books']];
@@ -352,11 +358,6 @@ G('p4',T.p4fr2,1,1,()=>{const b=pick([3,4,5]),n=b*ri(3,8),a=ri(1,b-1),one=n/b;
   return mk({q:`What is ${a}/${b} of ${n}?`,zh:`${n} 的 ${a}/${b} 是多少？`,a:one*a,d:[[one,'step1',`${one} 是 1/${b}，题目问的是 ${a}/${b}，还要 × ${a}。`],[n*a,'frac',`要先 ÷ ${b}。`],[n-a,'keyword']],fill:{n:one*a,step:1,f:S_},ex:`${b} 份 = ${n}，1 份 = ${n} ÷ ${b} = ${one}，${a} 份 = ${one} × ${a} = ${one*a}。`});});
 G('p4',T.p4fr2,2,1,()=>{const k=kid(),b=pick([3,4,5,6]),n=b*ri(3,7),a=ri(1,b-1),one=n/b,left=Math.random()<.5,ans=left?n-one*a:one*a;
   return mk({q:`${k.n} had ${n} stickers. ${k.P} gave ${a}/${b} of them to a friend. How many stickers did ${k.p} ${left?'have left':'give away'}?`,zh:`${k.n} 有 ${n} 张贴纸，把 ${a}/${b} 送给朋友。${k.z}${left?'还剩几张':'送出了几张'}？`,a:ans,d:[[left?one*a:n-one*a,'who',left?'这是送出去的，题目问的是剩下的。':'这是剩下的，题目问的是送出去的。'],[one,'step1',`${one} 只是 1 份（1/${b}）。`],[n-a,'keyword','不是减去分子。']],fill:{n:ans,step:1,f:S_},ex:`1 份 = ${n} ÷ ${b} = ${one}；送出 ${a} 份 = ${one*a}${left?`；剩下 ${n} − ${one*a} = ${ans}`:''}。`});});
-G('p4',T.p4fr2,2,.9,()=>{const d1=pick([2,3,4,5]),k=d1<=4?pick([2,3]):2,d2=d1*k,a=ri(1,d1-1),add=Math.random()<.6;let c;
-  if(add)c=ri(1,d2-1);else{do{c=ri(1,d2-1);}while(c>=a*k);}
-  const n=add?a*k+c:a*k-c,ans=frS(n,d2);
-  const cand=[[add?a+c:Math.max(Math.abs(a-c),1),d1+d2,'frac','分母不能相加或相减。先把分母变成一样。'],[add?a+c:Math.max(Math.abs(a-c),1),d2,'frac',`先把 ${a}/${d1} 变成 ${a*k}/${d2}，再${add?'加':'减'}。`],[n+1,d2,'calc'],[n+2,d2,'calc'],[Math.max(n-1,1),d2,'calc'],[add?a*k-c:a*k+c,d2,'calc','看清楚是加还是减。'],[n+3,d2,'calc']].filter(([x,y])=>x*d2!==n*y).filter((x,i,arr)=>arr.findIndex(z=>z[0]*x[1]===x[0]*z[1])===i);
-  return mk({q:`${a}/${d1} ${add?'+':'−'} ${c}/${d2} = ___`,zh:`${a}/${d1} ${add?'+':'−'} ${c}/${d2} 等于多少？（最简分数；比 1 大就写成带分数）`,a:ans,d:cand.map(([x,y,e,w])=>[frS(x,y),e,w||null]),ex:`${a}/${d1} = ${a*k}/${d2}；${a*k}/${d2} ${add?'+':'−'} ${c}/${d2} = ${n}/${d2}${ans!==n+'/'+d2?` = ${ans}`:''}。`});});
 
 /* Ch7 angles with pictures */
 G('p4',T.p4a,1,1,()=>{const k=ri(0,2),dg=[ri(25,70),90,ri(110,160)][k],nm=['an acute angle','a right angle','an obtuse angle'],zm=['锐角','直角','钝角'];
@@ -718,6 +719,96 @@ const WORDSETS=[
  ['protractor','量角器','a tool for measuring angles','Use a **protractor** to measure the angle.']]},
 ];
 
+/* ---------- 看图标数: 9 more kinds of picture (the same ones as on Math Island). The picture is already drawn;
+   he puts the numbers and the ? on it (mk, in this order), then uses the picture to work it out (calc). ---------- */
+const sg=s=>s.split(' ').map(t=>{const m=/^([a-z])([\d.]+)(?:=(.*))?$/.exec(t);return m[3]?[+m[2],m[1],m[3]]:[+m[2],m[1]];});
+const rw=(n,s,o)=>o?{n,s:sg(s),o}:{n,s:sg(s)};
+const wd=(v,tot,span)=>Math.max(1.2,Math.round(v/tot*span*10)/10);
+const BAR2=[
+ {id:'pw',t:'部分-整体',f:()=>{const k=kid(),T=ri(32,95)*10,a=ri(12,T/10-12)*10+ri(0,9),b=T-a,v=ri(0,2),c=ri(12,90);
+   const wa=Math.min(6.8,wd(a,T,8)),wb=Math.round((8-wa)*10)/10;
+   if(v===0)return{p:`${k.n} has ${T} red and blue beads. ${a} of them are red. How many blue beads does ${k.p} have?`,zh:`${k.n} 有 ${T} 颗红珠和蓝珠，红的 ${a} 颗。蓝的有几颗？`,
+     dg:{k:'bar',rows:[rw('珠子',`u${wa}=红 a${wb}=蓝`)],mk:[['b0',N(T)],['a0:0',N(a)],['a0:1','?']]},
+     calc:[{q:'蓝 = 一整条 − 红 = ?',a:b,o:nopt(b,[T+a,a,b+10])}],sum:`一整条 ${T} 分成两段：蓝 = ${T} − ${a} = ${b}。`};
+   if(v===1)return{p:`${k.n} has ${a} red beads and ${b} blue beads. How many beads does ${k.p} have altogether?`,zh:`${k.n} 有红珠 ${a} 颗、蓝珠 ${b} 颗。一共几颗？`,
+     dg:{k:'bar',rows:[rw('珠子',`u${wa}=红 a${wb}=蓝`)],mk:[['a0:0',N(a)],['a0:1',N(b)],['b0','?']]},
+     calc:[{q:`一整条 = ${a} + ${b} = ?`,a:T,o:nopt(T,[b-a>0?b-a:a-b,T+10,T-10])}],sum:`两段合起来是一整条：${a} + ${b} = ${T}。`};
+   const wc=wd(c,b,wb);
+   return{p:`${k.n} had ${T} red and blue beads. ${a} of them were red. Then ${k.p} bought ${c} more blue beads. How many blue beads does ${k.p} have now?`,zh:`${k.n} 有 ${T} 颗红珠和蓝珠，红的 ${a} 颗。后来又买了 ${c} 颗蓝珠。现在蓝珠有几颗？`,
+     dg:{k:'bar',rows:[rw('一开始',`u${wa}=红 a${wb}=蓝`),rw('蓝 现在',`a${wb}=蓝 a${Math.max(1.2,wc)}=买`,wa)],mk:[['b0',N(T)],['a0:0',N(a)],['a1:1',String(c)],['b1','?']]},
+     calc:[{q:`一开始的蓝 = ${T} − ${a} = ?`,a:b,o:nopt(b,[T+a,a,b+c])},{q:`现在的蓝 = ${b} + ${c} = ?`,a:b+c,o:nopt(b+c,[b,T+c,b-c>0?b-c:b+1])}],sum:`先求蓝：${T} − ${a} = ${b}；再接上买的：${b} + ${c} = ${b+c}。`};}},
+ {id:'cmp',t:'比较图',f:()=>{const [A,B]=two(),it=pick(STK),x=ri(120,480),d=ri(25,Math.min(140,x-60)),more=Math.random()<.5,y=more?x-d:x+d,tot=Math.random()<.5,ans=tot?x+y:y;
+   const rows=more?[rw(A.n,'u5 x2'),rw(B.n,'u5')]:[rw(A.n,'u5'),rw(B.n,'u5 x2')];
+   const mk=more?[['a0',String(x)],['b0:1',String(d)],tot?['R0-1','?']:['b1','?']]:[['a0',String(x)],['a1:1',String(d)],tot?['R0-1','?']:['b1','?']];
+   return{p:`${A.n} has ${x} ${it[0]}. ${A.P} has ${d} ${more?'more':'fewer'} ${it[0]} than ${B.n}. How many ${it[0]} ${tot?'do they have altogether':`does ${B.n} have`}?`,
+     zh:`${A.n} 有 ${x} ${it[1]}，比 ${B.n} ${more?'多':'少'} ${d}。${tot?'两人一共有多少？':`${B.n} 有多少？`}`,dg:{k:'bar',rows,mk},
+     calc:[{q:`${B.n} 的那条比 ${A.n} 的${more?'短':'长'}。${B.n} = ${x} ${more?'−':'+'} ${d} = ?`,a:y,o:nopt(y,[more?x+d:x-d,x,d])}].concat(tot?[{q:`一共 = ${x} + ${y} = ?`,a:ans,o:nopt(ans,[x+d,y+d,ans+10])}]:[]),
+     sum:`${A.n} ${more?'多':'少'} ${d}，所以 ${B.n} = ${x} ${more?'−':'+'} ${d} = ${y}。${tot?`一共 ${x} + ${y} = ${ans}。`:''}`};}},
+ {id:'same',t:'差不变',f:()=>{const [A,B]=two();
+   if(Math.random()<.5){const a=ri(8,12),b=ri(32,45),c=a+ri(5,15),ans=b+(c-a),wa=a/10,wb=b/10,wk=(c-a)/10;
+     return{p:`${A.n} is ${a} years old. ${A.h[0].toUpperCase()+A.h.slice(1)} uncle is ${b} years old. How old will the uncle be when ${A.n} is ${c} years old?`,zh:`${A.n} ${a} 岁，叔叔 ${b} 岁。${A.n} ${c} 岁时，叔叔几岁？`,
+       dg:{k:'bar',rows:[rw('叔叔',`u${wb} a${wk}`),rw(A.n,`u${wa} a${wk}`)],mk:[['a0:0',String(b)],['b1:0',String(a)],['R1-1',String(c)],['R0-0','?']]},
+       calc:[{q:`过了几年？${c} − ${a} = ?`,a:c-a,o:nopt(c-a,[c+a,c,a])},{q:`两人都加上一样多：叔叔 = ${b} + ${c-a} = ?`,a:ans,o:nopt(ans,[b+c,b,b-(c-a)])}],
+       sum:`两人一起长大，年龄差 ${b-a} 不变。过了 ${c-a} 年：叔叔 ${b} + ${c-a} = ${ans} 岁。`};}
+   const it=pick(STK),b=ri(18,60),a=b+ri(12,40),k=ri(6,25),d=a-b,give=Math.random()<.5;
+   return{p:`${A.n} had ${a} ${it[0]} and ${B.n} had ${b} ${it[0]}. ${give?`Each of them gave away ${k} ${it[0]}.`:`Each of them was given ${k} more ${it[0]}.`} How many more ${it[0]} did ${A.n} have than ${B.n} in the end?`,
+     zh:`${A.n} 有 ${a} ${it[1]}，${B.n} 有 ${b}。两人${give?`各送出 ${k}`:`各多了 ${k}`}。最后 ${A.n} 比 ${B.n} 多多少？`,
+     dg:{k:'bar',rows:give?[rw(A.n,`k1.2=送 u${wd(a,a,6.5)}`),rw(B.n,`k1.2=送 u${wd(b,a,6.5)} g${Math.max(1.2,wd(d,a,6.5))}`)]:[rw(A.n,`u${wd(a,a,6.5)} a1.2`),rw(B.n,`u${wd(b,a,6.5)} a1.2 g${Math.max(1.2,wd(d,a,6.5))}`)],
+       mk:give?[['a0',String(a)],['b1:0-1',String(b)],['b1:2','?']]:[['a0:0',String(a)],['b1:0',String(b)],['b1:2','?']]},
+     calc:[{q:`两人${give?'减掉':'加上'}一样多，差变不变？一开始差 ${a} − ${b} = ?`,a:d,o:nopt(d,[a+b,d+k,d-k>0?d-k:d+2*k])},{q:'最后多多少？',a:d,o:nopt(d,[d+k,d+2*k,d-k>0?d-k:d+3])}],
+     sum:`两人${give?'减掉':'加上'}一样多（${k}），差不变：还是 ${a} − ${b} = ${d}。`};}},
+ {id:'move',t:'转移箭头',f:()=>{const [A,B]=two(),it=pick(STK),b=ri(20,90),h=ri(6,40),a=b+2*h;
+   return{p:`${A.n} has ${a} ${it[0]} and ${B.n} has ${b} ${it[0]}. How many ${it[0]} must ${A.n} give ${B.n} so that they have the same number?`,zh:`${A.n} 有 ${a} ${it[1]}，${B.n} 有 ${b}。${A.n} 要给 ${B.n} 多少，两人才一样多？`,
+     dg:{k:'bar',rows:[rw(A.n,'u4 x1.2 x1.2'),rw(B.n,'u4 g1.2')],ar:[['0:2','1:1']],mk:[['a0',String(a)],['b1:0',String(b)],['b1:1','?']]},
+     calc:[{q:`${A.n} 多出来的那段 = ${a} − ${b} = ?`,a:2*h,o:nopt(2*h,[a+b,h,a])},{q:`多出来的劈成两半，一半给 ${B.n}：${2*h} ÷ 2 = ?`,a:h,o:nopt(h,[2*h,h+b,4*h])}],
+     sum:`多出来 ${2*h}，给一半 ${h}，两人就一样多（都是 ${b+h}）。`};}},
+ {id:'flow',t:'倒推流程',f:()=>{const k=kid(),it=pick([['beads','颗珠子'],['stickers','张贴纸'],['marbles','颗弹珠']]),st=Math.random()<.5?2:3;
+   const s0=ri(150,500),ops=[];let cur=s0;
+   for(let i=0;i<st;i++){const add=cur<60||Math.random()<.45,v=add?ri(15,190):ri(15,Math.min(190,cur-30));ops.push([add,v]);cur=add?cur+v:cur-v;}const end=cur;
+   const sent=ops.map(([add,v],i)=>add?(i===0?`${k.P} bought ${v} ${it[0]}.`:`Then ${k.p} was given ${v} more.`):(i===0?`${k.P} used ${v} ${it[0]}.`:`Then ${k.p} gave away ${v}.`)).join(' ');
+   const mk=ops.map(([add,v],i)=>['O'+i,(add?'+':'−')+v]).concat([['B'+st,String(end)],['B0','?']]);
+   const calc=[];let back=end;for(let i=st-1;i>=0;i--){const [add,v]=ops[i],nb=add?back-v:back+v;calc.push({q:`倒着走：${back} ${add?'−':'+'} ${v} = ?`,a:nb,o:nopt(nb,[add?back+v:back-v,back,nb+10])});back=nb;}
+   return{p:`${k.n} had some ${it[0]}. ${sent} In the end, ${k.p} had ${end} ${it[0]}. How many ${it[0]} did ${k.n} have at first?`,zh:`${k.n} 有一些${it[1].slice(1)}。`+ops.map(([add,v])=>(add?'多了 ':'少了 ')+v).join('，然后')+`。最后有 ${end}。一开始有多少？`,
+     dg:{k:'flow',n:st+1,mk},calc,sum:`从最后的 ${end} 倒着走，每一步反过来（+ 变 −，− 变 +）：一开始是 ${s0}。`};}},
+ {id:'pie',t:'分数圆',f:()=>{const k=kid(),n=pick([8,12,12]),fr=n===8?[[4,2],[8,1],[2,4]]:[[4,3],[3,4],[6,2],[2,6]];
+   const [f1,f2]=shuf(fr).slice(0,2),p1=n/f1[0],p2=n/f2[0],left=n-p1-p2;if(left<=0)return BAR2[5].f();
+   const fd=Math.random()<.5,F=fd?['cake','块蛋糕','slices']:['pizza','块披萨','slices'];
+   return{p:`A ${F[0]} was cut into ${n} equal slices. ${k.n} ate 1/${f1[0]} of the ${F[0]} and ${k.h} brother ate 1/${f2[0]} of the ${F[0]}. How many slices were left?`,zh:`${F[0]==='cake'?'蛋糕':'披萨'}切成 ${n} 块。${k.n} 吃了 1/${f1[0]}，弟弟吃了 1/${f2[0]}。还剩几块？`,
+     dg:{k:'pie',n,p:[p1,p2],mk:[['T',n+' 块'],['P0','1/'+f1[0]],['P1','1/'+f2[0]],['Pr','?']]},
+     calc:[{q:`1/${f1[0]} 是几块？${n} ÷ ${f1[0]} = ?`,a:p1,o:nopt(p1,[f1[0],n-f1[0],p1+1])},{q:`1/${f2[0]} 是几块？${n} ÷ ${f2[0]} = ?`,a:p2,o:nopt(p2,[f2[0],n-f2[0],p2+1])},{q:`还剩 ${n} − ${p1} − ${p2} = ?`,a:left,o:nopt(left,[p1+p2,n-p1,n-p2])}],
+     sum:`1/${f1[0]} = ${p1} 块，1/${f2[0]} = ${p2} 块，剩 ${n} − ${p1} − ${p2} = ${left} 块。`};}},
+ {id:'branch',t:'剩余分支',f:()=>{const k=kid(),a=pick([2,3,4]),b=pick([2,3,4]),u=ri(2,9)*(a===2?5:1),T=a*b*u,c1=T/a,rem=T-c1,c2=rem/b,left=rem-c2,back=Math.random()<.4,m=Math.random()<.5;
+   const it=m?['money','钱','$']:['eggs','个鸡蛋',''],val=v=>m?'$'+v:String(v);
+   const what=m?[`${k.n} had $${T}. ${k.P} spent 1/${a} of it on a bag and 1/${b} of the remaining money on a book.`,`${k.n} spent 1/${a} of ${k.h} money on a bag and 1/${b} of the remaining money on a book. ${k.P} had $${left} left.`]
+     :[`A baker had ${T} eggs. He used 1/${a} of them for cakes and 1/${b} of the remaining eggs for bread.`,`A baker used 1/${a} of his eggs for cakes and 1/${b} of the remaining eggs for bread. He had ${left} eggs left.`];
+   const names=m?['包','书']:['蛋糕','面包'];
+   if(!back)return{p:what[0]+` How ${m?'much money did '+k.p+' have':'many eggs were'} left?`,zh:`${m?k.n+' 有 $'+T:'有 '+T+' 个鸡蛋'}。先用掉 1/${a}，再用掉“剩下的” 1/${b}。还剩多少？`,
+     dg:{k:'br',n:a,c:1,m:b,c2:1,ct:names[0],c2t:names[1],mk:[['T',val(T)],['C','1/'+a],['C2','1/'+b],['L','?']]},
+     calc:[{q:`先用掉 1/${a}：${T} ÷ ${a} = ?`,a:c1,o:nopt(c1,[T/b,T-a,c1+u])},{q:`剩下 ${T} − ${c1} = ?`,a:rem,o:nopt(rem,[T+c1,c1,rem-u])},{q:`剩下的 1/${b}：${rem} ÷ ${b} = ?`,a:c2,o:nopt(c2,[T/b,rem-b,c2+1])},{q:`最后剩 ${rem} − ${c2} = ?`,a:left,o:nopt(left,[c2,rem,T-c1-T/b])}],
+     sum:`${T} 先去掉 1/${a}（${c1}），剩 ${rem}；再去掉剩下的 1/${b}（${c2}），最后剩 ${val(left)}。`};
+   return{p:what[1]+` How ${m?'much money did '+k.p+' have':'many eggs did he have'} at first?`,zh:`先用掉 1/${a}，再用掉“剩下的” 1/${b}，最后剩 ${val(left)}。一开始有多少？`,
+     dg:{k:'br',n:a,c:1,m:b,c2:1,ct:names[0],c2t:names[1],mk:[['C','1/'+a],['C2','1/'+b],['L',val(left)],['T','?']]},
+     calc:[{q:`下面一条分 ${b} 份，剩 ${b-1} 份 = ${left}。1 份 = ?`,a:c2,o:nopt(c2,[left,left*b,c2+1])},{q:`下面一整条（买${names[0]}后剩下的）= ${c2} × ${b} = ?`,a:rem,o:nopt(rem,[left+b,rem+c2,rem-c2])},{q:`上面一条分 ${a} 份，剩下的是 ${a-1} 份 = ${rem}。一整条 = ?`,a:T,o:nopt(T,[rem+a,rem*a,T+c1])}],
+     sum:`倒着走：下面 ${b-1} 份 = ${left}，1 份 = ${c2}，下面一整条 = ${rem}；上面 ${a-1} 份 = ${rem}，一整条 = ${val(T)}。`};}},
+ {id:'line',t:'间隔图',f:()=>{const k=kid(),d=pick([2,3,4,5,6,8,10]);
+   if(Math.random()<.5){const n=ri(5,10),ans=(n-1)*d;
+     return{p:`There are ${n} trees in a row. The trees are ${d} m apart. What is the distance between the first tree and the last tree?`,zh:`一排 ${n} 棵树，每两棵相隔 ${d} m。第一棵到最后一棵有多远？`,
+       dg:{k:'line',rows:[{n}],mk:[['G0:0',d+' m'],['N0',n+' 棵'],['A0:0-'+(n-1),'?']]},
+       calc:[{q:`${n} 个点之间有几段？`,a:n-1,o:nopt(n-1,[n,n+1,n-2])},{q:`${n-1} × ${d} = ?`,a:ans,o:nopt(ans,[n*d,ans+d,ans-d])}],sum:`${n} 棵树只有 ${n-1} 段：${n-1} × ${d} = ${ans} m。`};}
+   const g=ri(6,15),L=g*d,ans=g+1;
+   return{p:`${k.n} put up posts along one side of a ${L} m path, from one end to the other. The posts are ${d} m apart. How many posts are there?`,zh:`一条 ${L} m 的路，从头到尾每 ${d} m 立一根柱子（两头都有）。一共几根？`,
+     dg:{k:'line',rows:[{p:['','','','…','']}],mk:[['G0:0',d+' m'],['A0:0-4',L+' m'],['N0','?']]},
+     calc:[{q:`有几段？${L} ÷ ${d} = ?`,a:g,o:nopt(g,[L-d,g*2,L])},{q:`两头都有柱子：柱子 = 段数 + 1 = ?`,a:ans,o:nopt(ans,[g,g-1,g+2])}],sum:`${L} ÷ ${d} = ${g} 段，两头都有，柱子比段多 1：${ans} 根。`};}},
+ {id:'table',t:'猜测检查表',f:()=>{const v=pick([['鸡','兔','腿','chickens','rabbits','legs',2,4],['自行车','三轮车','轮子','bicycles','tricycles','wheels',2,3],['摩托','汽车','轮子','motorcycles','cars','wheels',2,4]]);
+   const H=ri(10,20),R=ri(2,H-2),C=H-R,tot=C*v[6]+R*v[7],ask=Math.random()<.5;
+   let g1=Math.floor(H/2);if(Math.abs(g1-R)<2)g1=R-2>=1?R-2:R+2;const g2=g1+(R>g1?1:-1),rowsG=[[H-g1,g1],[H-g2,g2],[C,R]];
+   const legs=r=>r[0]*v[6]+r[1]*v[7];
+   return{p:`There are ${H} ${v[3]} and ${v[4]} altogether. They have ${tot} ${v[5]} altogether. How many ${ask?v[4]:v[3]} are there?`,zh:`${v[0]}和${v[1]}一共 ${H} ${v[0]==='鸡'?'只':'辆'}，${v[2]}一共 ${tot} 个。${ask?v[1]:v[0]}有几${v[0]==='鸡'?'只':'辆'}？`,
+     dg:{k:'tbl',cols:[v[0],v[1],v[2]],rows:rowsG.map(r=>[String(r[0]),String(r[1]),'']),mk:rowsG.map((r,i)=>['C'+i+':2',String(legs(r))])},
+     calc:[{q:`哪一行的${v[2]}正好是 ${tot}？`,a:`${v[0]} ${C} · ${v[1]} ${R}`,o:shuf(rowsG.map(r=>`${v[0]} ${r[0]} · ${v[1]} ${r[1]}`))},{q:`${ask?v[1]:v[0]}有几${v[0]==='鸡'?'只':'辆'}？`,a:ask?R:C,o:nopt(ask?R:C,[ask?C:R,H,tot-H])}],
+     sum:`每猜一行就算${v[2]}：${v[0]} × ${v[6]} + ${v[1]} × ${v[7]}。对上 ${tot} 的那行：${v[0]} ${C}，${v[1]} ${R}。`};}}
+];
+
 /* ---------- engine ---------- */
 const CATW={wp:.45,calc:.25,p4:.3};
 function wpick(arr,wf){let t=0;arr.forEach(x=>t+=wf(x));let r=Math.random()*t;for(const x of arr){r-=wf(x);if(r<=0)return x;}return arr[arr.length-1];}
@@ -741,7 +832,7 @@ function plan(mode){
   return[['p4',1],['wp',2],['p4',2],['p4',2],['wp',3]];}
 function size(){return GENS.length;}
 /* write it down: the step-by-step problem from this round (or a fresh one), full working on paper */
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,lines:true,CH,BAR,
+W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,ERRS,plan,missSlot:3,lines:true,CH,BAR,BAR2,
   /* word-set order before the 4A sets were put in front; old saves kept learned sets by this position */
   OLDSETS:WORDSETS.map(x=>x.title).filter(t=>!/^4A words/.test(t))};
 })(typeof window!=='undefined'?window:globalThis);

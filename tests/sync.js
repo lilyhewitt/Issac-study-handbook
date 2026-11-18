@@ -35,6 +35,8 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  d=await dump();ok(d.sync[c].science&&d.sync[c].science.n===n2,'cloud has science n='+(d.sync[c].science&&d.sync[c].science.n));
  // math: word card round too
  await kid.goto(H+'/math/');await kid.waitForTimeout(300);await link(kid,code);await kid.click('#bStatsBack');await kid.click('#bMeBack');
+ /* some Math Island progress, so the handbook can show each step */
+ await kid.evaluate(()=>{const S=__isl.S();S.isl={st:{0:3,1:2},rv:{},ch:{},sk:{ask:[10,9],plan:[4,4],fig:[10,5],mk:[20,12],ans:[10,8]},miss:['0:1']};});
  const n3=await round(kid,'#tWp');const n3b=await round(kid,'#tP4');
  await kid.waitForTimeout(2000);d=await dump();ok(d.sync[c].math&&d.sync[c].math.n===n3+n3b,'cloud has math n='+(d.sync[c].math&&d.sync[c].math.n)+' expected '+(n3+n3b));
  // mom's phone sees it
@@ -42,6 +44,7 @@ async function link(p,code){await p.click('#bStats');await p.click('#bParent');a
  const prog=(await mom.innerText('#syncBox')).replace(/\n+/g,' | ');out.push('  mom progress: '+prog);
  ok(/练了 1 天/.test(prog)&&/今天练过了/.test(prog),'mom sees practice days');
  const rows=(await mom.innerText('#syncBox .prog')).replace(/\n+/g,' | ');out.push('  mom sync rows: '+rows);ok((rows.match(/今天 \d\d:\d\d · \d+ 题/g)||[]).length===3,'all three apps show latest practice');
+ ok(/过了 2\/19 站/.test(rows)&&/金奖杯 1/.test(rows)&&/③ 选图 50%/.test(rows)&&/③ 标数字 60%/.test(rows)&&/① 看问题 90%/.test(rows)&&/1 道错题/.test(rows),'handbook shows Math Island and each step: '+rows.slice(rows.indexOf('数学小岛'),rows.indexOf('数学小岛')+160));
  await mom.screenshot({path:D+'/sync-mom-linked.png',fullPage:true});
  await mom.click('#syncBox a[href^="english/"]');await mom.waitForTimeout(800);
  const rv=(await mom.innerText('#vStats')).slice(0,300).replace(/\n+/g,' | ');out.push('  mom remote english: '+rv);

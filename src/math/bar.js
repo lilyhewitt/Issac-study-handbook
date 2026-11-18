@@ -1,8 +1,8 @@
 /* ---------- 画线段图: he builds the bar model himself (units, extra pieces), puts the numbers and the ? on it, then uses it ---------- */
 let BR=null;
 function barTypes(){return QB.BAR||[];}
-function barSt(){if(!S.bar||typeof S.bar!=='object')S.bar={};if(!S.bar.n||typeof S.bar.n!=='object')S.bar.n={};if(!S.bar.ok||typeof S.bar.ok!=='object')S.bar.ok={};if(!(S.bar.cur>=0&&S.bar.cur<barTypes().length))S.bar.cur=0;return S.bar;}
-function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const t=barTypes()[barSt().cur];el.textContent=t?'下一个：'+t.t:'';}}
+function barSt(){if(!S.bar||typeof S.bar!=='object')S.bar={};if(!S.bar.n||typeof S.bar.n!=='object')S.bar.n={};if(!S.bar.ok||typeof S.bar.ok!=='object')S.bar.ok={};const c=S.bar.cur;if(!(typeof c==='number'?c>=0&&c<barTypes().length:typeof c==='string'&&(QB.BAR2||[]).some(t=>t.id===c)))S.bar.cur=0;return S.bar;}
+function barNote(){document.body.classList.remove('br-wide');const el=$('brNote');if(el){const c=barSt().cur,t=typeof c==='number'?barTypes()[c]:(QB.BAR2||[]).find(x=>x.id===c);el.textContent=t?'上次：'+t.t:'';}}
 /* next lesson: the type done right (without help) the fewest times; ties picked at random */
 function barPickType(){const st=barSt(),n=barTypes().length,ok=i=>st.ok[i]||0,lo=Math.min(...[...Array(n).keys()].map(ok)),c=[...Array(n).keys()].filter(i=>ok(i)===lo);return c[Math.floor(Math.random()*c.length)];}
 function barStart(ti){const st=barSt();st.cur=typeof ti==='number'?ti:barPickType();const L=barTypes()[st.cur].f(),pre=L.build===false;
@@ -50,7 +50,7 @@ function barDraw(){const L=BR.L,TY=barTypes(),st=barSt(),step=BR.step==='list'?B
   else if(BR.step==='mark'||BR.step==='ask'){const m=BR.step==='mark'?L.marks[BR.mi]:null;
     h=`<p class="br-p">${m?`「${esc(m.v)}」标在哪里？ · Where does ${esc(m.v)} go?`:esc(L.ask.q||'题目问的是哪一段？问号标在哪里？')}</p>${L.regions.includes('unit:0')?'':'<p class="br-zh">点图上的那一段，或者点下面的字。</p>'}<div class="br-opts">`+L.regions.map(id=>`<button class="br-o" data-br="${id}"${BR.used.includes(id)?' disabled':''}>${esc(regName(id))}</button>`).join('')+'</div>';}
   else if(BR.step==='calc'){const c=L.calc[BR.ci];h=`<p class="br-p">${esc(c.q)}</p><div class="br-opts">`+c.o.map((x,i)=>`<button class="br-o" data-bo="${i}"${BR.used.includes(i)?' disabled':''}>${esc(x)}</button>`).join('')+'</div>';}
-  else if(BR.step==='done')h=`<p class="br-sum">${esc(L.sum)}</p><p class="br-p">在纸上照这个图再画一遍。</p>`+(BR.note?`<p class="br-msg">${esc(BR.note)}</p>`:'')+'<button class="sbtn" id="brNext">再来一题</button><button class="br-other" id="brTypes2">换一种图</button><button class="br-other" id="brHome">回首页</button>';
+  else if(BR.step==='done')h=`<p class="br-sum">${esc(L.sum)}</p><p class="br-p">在纸上照这个图再画一遍。</p>`+(BR.note?`<p class="br-msg">${esc(BR.note)}</p>`:'')+'<button class="sbtn" id="brNext">再来一题</button><button class="br-other" id="brTypes2">图鉴 · 换一种图</button><button class="br-other" id="brHome">回首页</button>';
   else if(BR.step==='list')h='<p class="br-p">'+TY.length+' 种线段图</p><div class="br-list">'+TY.map((t,i)=>`<button class="br-li${i===st.cur?' cur':''}" data-bt="${i}"><span>${i+1}. ${esc(t.t)}</span><small>做了 ${st.n[i]||0} 题 · 自己做对 ${st.ok[i]||0}</small></button>`).join('')+'</div>'+(BR.prev!=='done'?'<button class="br-other" id="brBack">回到这一题</button>':'');
   $('brCtl').innerHTML=h;}
 function barCheck(){const L=BR.L,bad=BR.rows.findIndex((r,j)=>r.u!==L.rows[j].u||(r.x||0)!==(L.rows[j].x||0));
@@ -80,7 +80,7 @@ $('vBar').addEventListener('click',e=>{const t=e.target.closest('button,[data-br
   if(t.id==='brQuit'||t.id==='brHome'){BR=null;home();return;}
   if(t.id==='brSay'){speakText(BR.L.p);return;}
   if(t.id==='brZhB'){BR.zh=!BR.zh;barDraw();return;}
-  if(t.id==='brTypes'||t.id==='brTypes2'){if(BR.step!=='list'){BR.prev=BR.step;BR.step='list';}barDraw();return;}
+  if(t.id==='brTypes'||t.id==='brTypes2'){barCat();return;}
   if(t.id==='brBack'){BR.step=BR.prev;barDraw();return;}
   if(t.id==='brNext'){barStart();return;}
   if(t.id==='brDone'){barCheck();return;}
