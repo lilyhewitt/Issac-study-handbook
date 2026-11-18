@@ -35,7 +35,8 @@
 .br-p{margin:0;font-weight:800;font-size:1.05rem;line-height:1.5}
 .br-row{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem;background:var(--surface);border:2px solid var(--line);border-radius:1rem;padding:0.5rem 0.75rem}
 .br-rn{flex:1 1 5rem;min-width:0;font-weight:800}
-.br-pm{width:2.75rem;height:2.75rem;border-radius:0.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);font-size:1.4rem;font-weight:800;cursor:pointer}
+.br-pm{width:2.75rem;height:2.75rem;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:0.75rem;border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;-webkit-appearance:none;appearance:none}
+.br-pm svg{width:1.25rem;height:1.25rem;stroke:currentColor;stroke-width:3;stroke-linecap:round;fill:none;display:block}
 .br-cnt{min-width:3.25rem;text-align:center;font-weight:800}
 .br-xb{min-height:2.75rem;padding:0 0.75rem;border-radius:0.75rem;border:2px dashed var(--calc);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
 .br-xb.on{border-style:solid;background:var(--calc-tint)}
