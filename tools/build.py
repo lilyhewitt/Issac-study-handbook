@@ -27,7 +27,7 @@ def rep(s, a, b, n=1):
 
 APPS = {
     'english': dict(theme='#2F66F0', name='小小英文', desc='小小的英文练习：语法、词汇、阅读选择题，每轮 5 题。'),
-    'science': dict(theme='#12965F', name='小小科学', desc='小小的科学练习：三年级复习和四年级预习选择题，每轮 5 题，带中文翻译。',
+    'science': dict(theme='#2B2F8F', name='小小科学', desc='小小的科学练习：三年级复习和四年级预习选择题，每轮 5 题，带中文翻译。',
         title='小小科学题库', edition='Science', key='xiaoxiao-science-v1',
         tokens=[('--gram', '--life'), ('--word', '--mat'), ('--read', '--p4')], modes=('mat', 'p4'), flame='--mat',
         cats="{life:'Living things 生物',mat:'Materials & magnets 材料磁铁',p4:'P4 preview 四年级预习'}",
@@ -59,7 +59,7 @@ def edition(app):
     s = rep(s, '/*__BANK__*/', read(app, 'bank.js'))
     if app != 'english':
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
-        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{}'))
+        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{sp:1,tool:1}'))
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
@@ -92,6 +92,11 @@ def edition(app):
         s = rep(s, 'function home(){', sk + '\nfunction home(){')
         i = s.index('</style>')
         s = s[:i] + read('science', 'skill.css') + s[i:]
+        # 太空探险 Space Mission: the long-answer map (questions from claude/太空探险_闯关题目设计.md, data from space-data.js)
+        s = rep(s, '  <section id="vSpell" class="view"', read('science', 'space.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('science', 'space.css') + s[i:]
+        s = rep(s, 'function home(){', read('science', 'space-data.js') + '\n' + read('science', 'space.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
