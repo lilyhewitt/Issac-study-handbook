@@ -143,7 +143,7 @@ P4.append(dict(id='temp', name='温度星', en='Heat', icon='🌡️', c=['#ff8f
   pr('Two thermometers were put in water A and water B. A read 35°C. B read 60°C.', parts=[
     mc('What is the difference in temperature?', ['25°C', '95°C', '35°C', '15°C'], '25°C', '60 − 35 = 25°C。'),
     mc('Which water is hotter?', ['B', 'A'], 'B', '60°C 比 35°C 高。')]),
-  pr('Heat and temperature are not the same.', parts=[op('What is temperature?', 1, ['What is'], 'Temperature is a measure of {how hot or cold} an object is.',
+  pr('Mei used a thermometer to find out how hot her bath water was.', parts=[op('What is temperature?', 1, ['What is'], 'Temperature is a measure of {how hot or cold} an object is.',
        [('how much heat', '那是热，不是温度。'), ('a form of energy', '热才是能量。')], score=['1 分：how hot or cold'])]),
   pr('Heat and temperature are not the same.', parts=[op('State one difference between heat and temperature.', 3, ['difference'],
        'Heat is {a form of energy}, but temperature is a measure of {how hot or cold} an object is.', [('Both are energy', '温度不是能量。')])]),
@@ -171,10 +171,10 @@ P4.append(dict(id='heat', name='热流星', en='Effects of Heat', icon='🔥', c
   pr(HQ, tbl=HW, parts=[
     mc('What was the temperature of the water at 10 minutes?', ['62°C', '10°C', '70°C', '56°C'], '62°C', '读数要写单位 °C。'),
     mc('By how many degrees did the temperature drop in 20 minutes?', ['28°C', '52°C', '80°C', '18°C'], '28°C', '80 − 52 = 28°C。')]),
-  pr(HQ, tbl=HW, parts=[op('Explain why the temperature of the water decreased.', 2, ['Explain why', 'decreased'],
-       'The hot water {lost heat} to the {cooler} surroundings, so its temperature {decreased}.',
+  pr('A bowl of soup at 75°C was left on a table. The room temperature was 28°C. After 30 minutes, the soup was 40°C.', parts=[op('Explain why the temperature of the soup decreased.', 2, ['Explain why', 'decreased'],
+       'The hot soup {lost heat} to the {cooler} surroundings, so its temperature {decreased}.',
        [('gained heat', '温度下降是失去热。'), ('gave coldness', '“冷”不会传递。')],
-       ev=('txt', '30°C'), evtip='水 80°C，房间 30°C：水比周围热，热从水流到周围。', score=['1 分：水失去热，流到更冷的周围'])]),
+       ev=('txt', '28°C'), evtip='汤 75°C，房间 28°C：汤比周围热，热从汤流到周围。', score=['1 分：汤失去热，流到更冷的周围'])]),
   pr('Mei put an ice cube in a cup and left it on the table. After a while, the ice cube melted.', parts=[op('Explain why the ice cube melted.', 2, ['Explain why'],
        'The ice cube {gained heat} from the {warmer} surroundings, so it melted.', [('lost coldness', '“冷”不会传递。'), ('lost heat', '冰化了是得到热。')])]),
   mcq('Which statement is correct?', ['Temperature is a form of energy.', 'Heat is the same as temperature.', 'Heat flows between two objects of different temperatures.', 'We can measure temperature accurately by touching an object.'], 3,
@@ -205,8 +205,8 @@ P4.append(dict(id='met2', name='陨石带 2', en='Meteor Belt 2', icon='☄️',
        'The air inside {gains heat} from the hot water and {expands}, pushing the dent out.')]),
   pr('A toy was placed at different distances from a torch.', tbl=[['Distance (cm)', '10', '20', '30'], ['Height of shadow (cm)', '24', '16', '10']], parts=[
     op('Predict the height of the shadow at 40 cm: more or less than 10 cm?', 8, ['Predict'], 'It will be {less than 10 cm}, because as the distance increases, the shadow becomes {shorter}.')]),
-  pr('A measuring cylinder had 40 ml of water. After a stone was put in, it read 65 ml.', parts=[
-    mc('What is the volume of the stone?', ['25 cm³', '65 cm³', '40 cm³', '105 cm³'], '25 cm³', '65 − 40 = 25，1 ml = 1 cm³。')]),
+  pr('A thermometer in the garden showed 34°C at 2 p.m. and 27°C at 8 p.m.', parts=[
+    mc('By how many degrees did the temperature fall?', ['7°C', '61°C', '27°C', '6°C'], '7°C', '34 − 27 = 7°C。读数要写单位。')]),
   pr('Food passes through the gullet and the small intestine.', parts=[op('State one difference between the small intestine and the gullet.', 3, ['difference'],
        'The small intestine {produces digestive juices}, but the gullet {does not}.')]),
   ]))

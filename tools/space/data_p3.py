@@ -20,7 +20,7 @@ P3.append(dict(id='living', name='生物星', en='Living and Non-living Things',
        [('food', '题目说食物够，不是饿死的。'), ('it was sad', '这是故事里的话，不是科学原因。')],
        ev=('txt', 'airtight'), evtip='“airtight” 是密封：空气进不来。题目还说食物和水都够，所以不是饿死的。',
        score=['1 分：罐子密封，新鲜空气进不来', '1 分：老鼠需要空气才能活'])]),
-  pr(JAR, note='期末 25(c) 错过', parts=[op('Without opening the lid, suggest what can be done to help the mouse survive longer.', 9, ['suggest', 'survive longer'],
+  pr('Mei kept her pet hamster in a closed plastic box with food and water. The box has a lid and no holes.', note='期末 25(c) 错过', parts=[op('Without opening the lid, suggest what Mei can do to help the hamster survive longer.', 9, ['suggest', 'survive longer'],
        '{Make holes} in the lid so that {fresh air} can enter.',
        [('Give it more food', '食物本来就够了。'), ('Open the lid', '题目说不能打开盖子。')])]),
   mcq('Which one is a living thing?', ['a robot that moves', 'a fire that spreads', 'a seed', 'a cloud that moves'], 3,
@@ -40,6 +40,8 @@ P3.append(dict(id='living', name='生物星', en='Living and Non-living Things',
 
 # ---------------- 分类星 Classification ----------------
 AN = [['Animal', 'Has feathers', 'Has fur', 'Lays eggs'], ['penguin', '✓', '', '✓'], ['bat', '', '✓', ''], ['crocodile', '', '', '✓']]
+HC = [['Animal', 'Has feathers', 'Has fur', 'Lays eggs'], ['hen', '✓', '', '✓'], ['cat', '', '✓', '']]
+FC = [['Animal', 'Lays eggs', 'Has scales', 'Lives on land and in water'], ['frog', '✓', '', '✓'], ['crocodile', '✓', '✓', '✓']]
 EF = [['Plant', 'Has seeds', 'Has spores', 'Grows on land', 'Grows in water'], ['E', '✓', '', '', '✓'], ['F', '', '✓', '✓', '']]
 P3.append(dict(id='class', name='分类星', en='Classification', icon='🌼', c=['#ffd36b', '#d18b12'],
   must=['Mammals have hair or fur. They give birth to their young and feed them with milk.', 'Flowering plants reproduce by seeds. Ferns and mosses reproduce by spores.', 'An insect has six legs, three body parts and a pair of feelers.'],
@@ -48,13 +50,14 @@ P3.append(dict(id='class', name='分类星', en='Classification', icon='🌼', c
     mc('How many of these animals lay eggs?', ['2', '1', '3', '0'], '2', 'penguin 和 crocodile 两种。'),
     op('Which animal is a mammal? Give one reason from the table.', 1, ['mammal', 'from the table'], 'The {bat}. It {has fur}.',
        [('penguin', '企鹅有羽毛，是鸟。'), ('It can fly', '表上没有这一条，只用表上的。')])]),
-  pr('The table shows some animals.', tbl=AN, note='期末 27(b) 错过', parts=[op('Based on the table, state one difference between the penguin and the bat.', 3, ['difference'],
-       'The penguin {has feathers}, but the bat {has fur}.',
-       [('Both lay eggs', '问的是不同点，不是相同点。'), ('The penguin cannot fly', '表上没有这一条。')],
-       ev=('cell', 1, 1), evtip='penguin 那一行有羽毛，bat 那一行有毛：同一样东西（身上长什么），两边都写。',
+  pr('The table shows two animals.', tbl=HC, note='期末 27(b) 错过', parts=[op('Based on the table, state one difference between the hen and the cat.', 3, ['difference'],
+       'The hen {has feathers}, but the cat {has fur}.',
+       [('Both have legs', '问的是不同点，不是相同点。'), ('The hen cannot fly', '表上没有这一条。')],
+       ev=('cell', 1, 1), evtip='hen 那一行有羽毛，cat 那一行有毛：同一样东西（身上长什么），两边都写。',
        score=['1 分：企鹅和蝙蝠两边都写了，并且比的是同一样东西'])]),
-  pr('The table shows some animals.', tbl=AN, parts=[op('State one similarity between the penguin and the crocodile.', 3, ['similarity'],
-       '{Both} the penguin and the crocodile {lay eggs}.', [('but', '问的是相同点，不用 but。'), ('have fur', '它们都没有毛。')])]),
+  pr('Siti compared a frog and a crocodile.', tbl=FC, parts=[op('Based on the table, state one similarity between the frog and the crocodile.', 3, ['similarity'],
+       '{Both} the frog and the crocodile {lay eggs}.', [('but', '问的是相同点，不用 but。'), ('have scales', '青蛙没有鳞片。')],
+       ans='**Both** the frog and the crocodile **lay eggs** (or both live on land and in water).')]),
   mcq('Which animal is NOT an insect?', ['ant', 'butterfly', 'spider', 'beetle'], 3, '蜘蛛有 8 条腿；昆虫有 6 条腿、一对触角、身体分 3 段。'),
   mcq('Plant L has flowers. Plant M has fruits. Plant N reproduces by spores. Which are flowering plants?', ['L only', 'L and M only', 'M and N only', 'N only'], 2,
       '有果实的植物也是开花植物（果实是花变的）。N 用孢子繁殖，不开花。', note='期末 A4 选了 L only'),
@@ -172,17 +175,18 @@ P3.append(dict(id='seed', name='种子星', en='Life Cycle of Plants', icon='�
 
 # ---------------- 蝴蝶星 Life Cycle of Animals ----------------
 LC = [['Stage', 'egg', 'larva', 'pupa', 'adult'], ['Number of days', '3', '10', '7', '14']]
+MQ = [['Stage', 'egg', 'larva', 'pupa', 'adult'], ['Number of days', '2', '7', '3', '14']]
 FD = [['Stage', 'A', 'B', 'C', 'D'], ['Amount of food eaten (g)', '0', '50', '0', '20']]
 MW = [['Temperature (°C)', '20', '25', '30'], ['Days for eggs to become adults', '40', '32', '25']]
 P3.append(dict(id='bfly', name='蝴蝶星', en='Life Cycle of Animals', icon='🦋', c=['#f6a6ff', '#a83cbf'],
   must=['The pupa does not eat and does not move about.', 'A butterfly has four stages in its life cycle. A cockroach has three stages.', 'Remove stagnant water so that mosquitoes cannot lay eggs.'],
   qs=[
-  pr('The table shows the number of days an insect spends in each stage.', tbl=LC, parts=[
-    mc('How many days does it take from the egg to become an adult?', ['20 days', '34 days', '10 days', '17 days'], '20 days', '3 + 10 + 7 = 20。成虫那 14 天不算。'),
+  pr('The table shows the number of days a mosquito spends in each stage.', tbl=MQ, parts=[
+    mc('How many days does it take from the egg to become an adult?', ['12 days', '26 days', '7 days', '14 days'], '12 days', '2 + 7 + 3 = 12。成虫那 14 天不算。'),
     mc('In which stage does it spend the most days?', ['adult', 'larva', 'pupa', 'egg'], 'adult', '14 天最多。')]),
-  pr('The table shows the number of days an insect spends in each stage.', tbl=LC, note='期末 29(a) 错 3 小题',
+  pr('The table shows the number of days a butterfly spends in each stage.', tbl=LC, note='期末 29(a) 错 3 小题',
      pre=pre('Based on the table, write True, False or Not possible to tell.', 7, ['True, False or Not possible to tell']), parts=[
-    tf('The insect has four stages in its life cycle.', 'True', '表上有 egg、larva、pupa、adult 四个阶段。'),
+    tf('The butterfly has four stages in its life cycle.', 'True', '表上有 egg、larva、pupa、adult 四个阶段。'),
     tf('The larva eats the most food.', 'Not possible to tell', '表上量的是天数，没有吃多少食物。'),
     tf('The pupa stage is longer than the larva stage.', 'False', '蛹 7 天，幼虫 10 天，7 < 10。')]),
   pr('A is the egg stage.', tbl=FD, note='期末 A18', parts=[op('Which stage could be the pupa? Explain.', 2, ['pupa', 'Explain'],
