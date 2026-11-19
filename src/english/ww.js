@@ -37,7 +37,7 @@ async function wwTry(){const typed=$('wwName').value.trim();if(!typed)return;$('
   S.name=typed.charAt(0).toUpperCase()+typed.slice(1).toLowerCase();save();beep(true);wwHome();
   wwSay('');$('wwHi').textContent=`Hi, ${S.name}! 🔓`;}
 function wwHome(){show('vWW');$('wwLock').hidden=true;$('wwHome').hidden=false;const w=wwSt();
-  $('wwHi').textContent=`Hi, ${wwName()}!`;
+  $('wwHi').textContent=`Hi, ${wwName()}!`;if(typeof wdHomeStat==='function')wdHomeStat();
   $('wwList').innerHTML=WWD.sets.map((st,i)=>{const d=w.done[st.id];
     return `<button class="ww-set${d?' done':''}" data-wwset="${i}"><small>第 ${st.n} 套 · ${esc(st.src)}</small><b>${esc(st.title)}</b><small>at least ${st.words} words · ${st.phrases.length} 个词组</small>${d?`<span class="ww-ok">✓ ${esc(d.slice(5).replace('-','/'))} 做完</span>`:''}</button>`;}).join('');}
 function wwNote(){const w=wwSt(),n=Object.keys(w.done).length,tot=QB.WW?QB.WW.sets.length:9;return n?`做完 ${n} / ${tot} 套`:'看图写作 · 先放格子再写';}
@@ -93,15 +93,16 @@ function wwTap2(e){const t=e.target.closest('[data-wwq],[data-wws],#wwNext2');if
   WW.pick.push(+t.dataset.wwq);
   if(WW.pick.length===3){const P=WW.pick.map(i=>WW.pool[i]),bad=P.find(b=>b.bad);
     if(!bad&&P.every((b,i)=>b.r===i)){WW.ok=true;beep(true);wwSay(`✓ ${esc(P.map(b=>b.t).join(' '))}`);}
-    else{beep(false);if(bad){WW.err[bad.bad]++;wwSay(bad.bad==='who'?`<b>${esc(bad.t)}</b> 不对：故事里写名字或 he / she / they，不写 there / we / I。`:`<b>${esc(bad.t)}</b> 不对：故事发生在<b>过去</b>，动词要用过去式。`);}
+    else{beep(false);if(bad){WW.err[bad.bad]++;wwSay(bad.bad==='who'?`<b>${esc(bad.t)}</b> 不对：这个故事写的是别人，人称选好就不变——一直用名字或 he / she / they，不写 there / we / I。`:`<b>${esc(bad.t)}</b> 不对：故事发生在<b>过去</b>，动词要用过去式。`);}
       else{WW.err.order++;wwSay('顺序不对：谁 → 做了什么 → 在哪 / 怎么样。');}
       WW.pick=[];}}
   wwDraw2();}
 
 function wwDraw3(){const st=WW.st;
   $('wwBody').innerHTML=`<div class="ww-end"><h4>第 4 格：编结局</h4><ol><li>问题怎么解决了？（谁做了什么）</li><li>谁说了什么？（加一句对话 "…," said …）</li><li>学到了什么 / 心情怎么样？（felt ___ because ___）</li></ol></div>
+    <div class="ww-end"><h4>先说再写</h4><p class="ww-legend">动笔前，看着图把整个故事讲给妈妈听一遍。讲顺了再写。</p></div>
     <div class="ww-end"><h4>在纸上写完整篇（at least ${st.words} words）</h4><p class="ww-legend">每格写 3 句：谁在哪 → 发生了什么 → 什么感觉 / 说了什么。框里的词可以用，也可以不用全。</p>
-    <div class="ww-chk"><label><input type="checkbox" class="wwc"> 每句都是过去式吗？（walked, was, saw）</label><label><input type="checkbox" class="wwc"> 每句开头大写、结尾有句号吗？</label><label><input type="checkbox" class="wwc"> 人称从头到尾一样吗？（不突然变成 I / we）</label></div></div>
+    <div class="ww-chk"><label><input type="checkbox" class="wwc"> 每句都是过去式吗？（walked, was, saw）</label><label><input type="checkbox" class="wwc"> 每句开头大写、结尾有句号吗？</label><label><input type="checkbox" class="wwc"> 人称从头到尾一样吗？（写别人就一直用 he / she / they）</label></div></div>
     <button class="btn" id="wwDone" disabled>三查都做了，写完了 ✓</button>`;
   wwSay(`写完拍照发给大人看。加油，${esc(wwName())}！`);}
 function wwFinish(){const st=WW.st,w=wwSt(),dk=dkey(new Date());w.done[st.id]=dk;
@@ -125,4 +126,8 @@ $('wwBody').addEventListener('click',e=>{if(!WW)return;
 $('wwBody').addEventListener('change',e=>{if(e.target.classList.contains('wwc'))$('wwDone').disabled=![...document.querySelectorAll('.wwc')].every(c=>c.checked);});
 HOOK.tile.ww=wwOpen;
 HOOK.home.push(()=>{if(S.name){const h=document.querySelector('#vHome .hello');if(h)h.textContent=`Hi, ${S.name}!`;}if($('wwNote'))$('wwNote').textContent=wwNote();});
+HOOK.statsExtra.push(()=>{const w=wwSt(),n=Object.keys(w.done).length;let el=$('wwStat');
+  if(!el){el=document.createElement('div');el.id='wwStat';el.className='stcard';$('stSum').after(el);}
+  const E=w.err,lab={panel:'放错格子',owner:'选错主人',who:'人称（There / We / I）',tense:'时态（现在时、will）',order:'句子顺序'};
+  el.innerHTML=`<b>写作工坊</b><p class="st-sub">做完 ${n} 套。累计错的次数（越往后越少就是进步）：</p><p>${Object.keys(lab).map(k=>`${lab[k]} <b>${E[k]||0}</b>`).join(' · ')}</p>`+(w.dr&&Object.keys(w.dr).length?`<p class="st-sub">基本功正确率：${Object.entries(w.dr).filter(x=>Array.isArray(x[1])&&x[1][0]+x[1][1]).map(([k,v])=>`${(typeof WDK!=='undefined'&&WDK[k])||k} <b>${Math.round(100*v[0]/(v[0]+v[1]))}%</b>（${v[0]+v[1]} 题）`).join(' · ')}</p>`:'');});
 window.__ww={S:()=>wwSt(),WW:()=>WW,open:wwOpen,start:wwStart};

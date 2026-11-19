@@ -45,6 +45,18 @@ for(const c of await p.$$('.wwc'))await c.click();await p.click('#wwDone');
 const s=await S();ok(s.ww&&s.ww.done.p3s2&&s.ww.err.panel===2&&s.ww.err.who===1,dev+': set saved with its mistakes '+JSON.stringify(s.ww&&s.ww.err));
 ok(s.log.some(e=>e.t==='写作工坊 · Writing'),dev+': it is in the log');
 await p.click('#wwBackList');ok(await p.isVisible('.ww-set.done'),dev+': the list ticks the set');
+// 基本功: a round of 8, two wrong on purpose, saved per kind; 400 fresh rounds are all well-formed
+const bad=await p.evaluate(()=>{let b=[];for(let r=0;r<400;r++)for(const q of __wd.round()){const o=q.opts;
+  if(o.length!==3||new Set(o).size!==3||!o.includes(q.right)||/undefined|NaN/.test(q.q+o.join('')+q.why))b.push(q.q+' | '+o.join(' / '));}return b.slice(0,5);});
+ok(!bad.length,dev+': 3200 drill questions well-formed '+bad.join(' || '));
+await p.click('#wwDrGo');ok(await p.isVisible('#vWWDr .ww-dopt'),dev+': basics round opens');
+for(let i=0;i<8;i++){await p.evaluate(i=>{const q=__wd.WD().qs[__wd.WD().i],j=q.opts.findIndex(o=>i<2?o!==q.right:o===q.right);document.querySelector(`[data-wdo="${j}"]`).click();},i);
+  if(i===0)ok(await p.isVisible('.ww-dopt.ok')&&(await p.textContent('#wwDrBub')).includes('再看看'),dev+': a wrong answer shows the right one and why');
+  await p.click('#wdNext');}
+const d=(await S()).ww.dr,tot=Object.values(d).reduce((a,v)=>a+v[0]+v[1],0),wr=Object.values(d).reduce((a,v)=>a+v[1],0);
+ok(tot===8&&wr===2&&(await p.textContent('#wwDrBody')).includes('6 / 8'),dev+': round saved by kind '+JSON.stringify(d));
+ok((await S()).log.some(e=>e.t==='写作工坊 · 基本功'),dev+': basics round in the log');
+await p.click('#wdBack');ok((await p.textContent('#wwDk')).includes('%'),dev+': the workshop shows basics scores');
 await p.click('#wwBack');ok((await p.textContent('#vHome .hello'))==='Hi, '+CAP+'!',dev+': home greets him by name');
 await p.reload();await p.waitForTimeout(500);await p.click('#tWW');await p.waitForSelector('#wwHome:not([hidden])',{timeout:8000});
 ok(await p.isHidden('#wwLock'),dev+': after a reload the iPad remembers the key');

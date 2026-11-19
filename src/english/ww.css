@@ -77,3 +77,20 @@
 @media (min-width:1000px){.ww-step1{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:0.75rem;align-items:start}}
 @media (min-width:700px){#vWW,#vWWSet{max-width:none}.ww-cell img,.ww-q{aspect-ratio:auto;height:15rem}.ww-sent{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0.75rem;align-items:start}.ww-sent-pic{max-width:none;grid-row:span 4}.ww-legend:first-child{grid-column:1 / -1}}
 @media (min-width:1000px){.ww-cell img,.ww-q{height:17rem}}
+.ww-drill{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;background:#fffaf0;color:#16302a;border:2px solid #FFD23F;border-radius:1.25rem;padding:0.75rem 1rem;box-shadow:0 4px 0 #e0b400}
+.ww-drill>div{flex:1;min-width:12rem;display:flex;flex-direction:column;gap:0.2rem}
+.ww-drill b{font-family:var(--f-display);font-size:1.25rem}.ww-drill small{color:#4d6b60}
+.ww-drill .btn{width:auto;flex:none;padding:0 1.25rem;background:#FF7B39;box-shadow:0 4px 0 #b44a17;color:#fff}
+.ww-dk{display:flex;flex-wrap:wrap;gap:0.3rem}.ww-dk span{font-size:0.75rem;font-weight:700;background:#e3f7ec;color:#1b6b48;border-radius:99px;padding:0.1rem 0.5rem}
+.ww-dk:empty{display:none}
+.ww-dq{display:flex;flex-direction:column;gap:0.75rem;background:var(--surface);border:2px solid var(--line);border-radius:1.25rem;padding:1rem}
+.ww-dq-q{margin:0;font:700 1.35rem/1.5 Arial,ArimoL,sans-serif;color:var(--ink)}
+.ww-dopts{display:flex;flex-wrap:wrap;gap:0.6rem}
+.ww-dopt{flex:1 1 9rem;font:700 1.15rem Arial,ArimoL,sans-serif;background:#fff;color:#111;border:2px solid #111;border-radius:0.9rem;padding:0.7rem 0.8rem;box-shadow:0 3px 0 #111;cursor:pointer;text-align:center}
+.ww-dq.long .ww-dopt{flex-basis:100%;text-align:left;font-size:1.05rem;line-height:1.45}
+.ww-dopt.ok{background:#c9f0da;border-color:#1b6b48;box-shadow:0 3px 0 #1b6b48}
+.ww-dopt.no{background:#ffd9d4;border-color:#e0453a;box-shadow:0 3px 0 #e0453a;animation:wwshake .4s}
+.ww-dopt:disabled{cursor:default}
+#wwDrDots span{min-width:1.6rem;text-align:center}
+.ww-dopts .btn{flex:1 1 12rem}
+@media (min-width:700px){#vWWDr{max-width:none}}

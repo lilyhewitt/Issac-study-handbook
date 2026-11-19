@@ -94,7 +94,7 @@ def edition(app):
         s = rep(s, '  <section id="vSpell" class="view"', read('english', 'ww.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
         s = s[:i] + read('english', 'ww.css') + s[i:]
-        s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\nfunction home(){')
+        s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\n' + read('english', 'ww-drill.js') + '\nfunction home(){')
     if app == 'science':                               # 答题本领 answer-skill questions
         sk = read('science', 'skill.js').replace('/*__CARDS__*/[]', read('science', 'cards.json').strip())
         s = rep(s, 'function home(){', sk + '\nfunction home(){')

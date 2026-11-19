@@ -848,7 +848,13 @@ const WORDSETS=[
  ['immediately','马上','right now, at once','Please come here **immediately**.'],
  ['beautiful','美丽的','very pretty','The sunset was **beautiful**.'],
  ['disappeared','消失了','could not be seen any more','The rabbit **disappeared** into its hole.'],
- ['shelves','架子（复数）','more than one shelf','The **shelves** in the library are full of books.']]}
+ ['shelves','架子（复数）','more than one shelf','The **shelves** in the library are full of books.']]},
+{title:'My writing words',zh:'作文里拼错过的词',words:[
+ ['computer','电脑','a machine you use to type, play games and go online','Jayden played games on the **computer** all evening.'],
+ ['assessment','测验、考试','a test to see what you have learnt','We have a Science **assessment** next week.'],
+ ['pavement','人行道','the path at the side of a road for people to walk on','A rabbit hopped onto the **pavement**.'],
+ ['consequences','后果','what happens because of something you did','He had to face the **consequences** of not revising.'],
+ ['apologised','道歉了','said sorry','Ben **apologised** to his mother.']]}
 ];
 
 /* ---------- write it down: one prompt after each round, answered on paper. [prompt, 中文, model answer] ---------- */
