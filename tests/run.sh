@@ -42,5 +42,7 @@ if [ "${1:-}" != quick ]; then
   run "Math Island" node tests/island.js
   run "bar-model book and drawn kinds" node tests/bar-book.js
   run "Space Mission (science)" node tests/space.js
+  [ -f tools/ws/.names ] && export WW_NAME=$(cut -d, -f1 tools/ws/.names)
+  run "Writing Workshop (English)" node tests/ww.js
 fi
 [ $fail = 0 ] && echo "ALL OK" || { echo "SOMETHING FAILED"; exit 1; }

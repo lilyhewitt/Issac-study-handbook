@@ -39,6 +39,9 @@ APPS = {
         help='Tap 🔊 Listen to hear the question. Tap 中文 to read it in Chinese. Word problems come in small steps.'),
 }
 
+import hashlib
+WWV = hashlib.sha1(read('english', 'ws-data.js').encode()).hexdigest()[:10]
+
 def edition(app):
     """The app page before the document wrapper: template + this subject's pieces."""
     c, s = APPS[app], read('app.html')
@@ -59,7 +62,7 @@ def edition(app):
     s = rep(s, '/*__BANK__*/', read(app, 'bank.js'))
     if app != 'english':
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
-        s = rep(s, "const NEWV={cards:1,pp:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{sp:1,tool:1}'))
+        s = rep(s, "const NEWV={cards:1,pp:1,ww:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{sp:1,tool:1}'))
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
@@ -87,6 +90,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('shared', 'map.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'sent.js') + '\n' + read('shared', 'map.js') + '\nfunction home(){')
+        # 写作工坊 Writing Workshop: exam pictures (encrypted) load from english/ws-data.js when the workshop opens
+        s = rep(s, '  <section id="vSpell" class="view"', read('english', 'ww.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('english', 'ww.css') + s[i:]
+        s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\nfunction home(){')
     if app == 'science':                               # 答题本领 answer-skill questions
         sk = read('science', 'skill.js').replace('/*__CARDS__*/[]', read('science', 'cards.json').strip())
         s = rep(s, 'function home(){', sk + '\nfunction home(){')
@@ -151,6 +159,9 @@ if __name__ == '__main__':
         os.makedirs(d, exist_ok=True)
         with open(os.path.join(d, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(page(app, a.db))
+        if app == 'english':
+            with open(os.path.join(d, 'ws-data.js'), 'w', encoding='utf-8') as f:
+                f.write(read('english', 'ws-data.js'))
         print('built', app)
     if a.artifact:
         with open(a.artifact, 'w', encoding='utf-8') as f:

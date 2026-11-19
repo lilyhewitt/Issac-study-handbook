@@ -5,8 +5,8 @@ const {chromium,devices}=require('playwright');const H=process.argv[2]||'http://
 const p=await (await b.newContext({...devices['iPad (gen 7)'],deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(H+'/english/');await p.waitForTimeout(300);
 const S=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-english-v1')||'{}'));
-const tiles=await p.$$eval('#vHome .tile',a=>a.map(e=>e.id));ok(tiles.join()==='tCards,tPP,tWord,tGram,tRead,tRedo','home has six tiles in order: '+tiles.join());
-const sq=await p.$$eval('#vHome .tile',a=>a.map(e=>Math.abs(e.offsetWidth-e.offsetHeight)<=2));ok(sq.every(Boolean),'tiles are square (phone)');
+const tiles=await p.$$eval('#vHome .tile',a=>a.map(e=>e.id));ok(tiles.join()==='tWW,tCards,tPP,tWord,tGram,tRead,tRedo','home: the Writing Workshop banner, then six tiles in order: '+tiles.join());
+const sq=await p.$$eval('#vHome .tile:not(.ww-hero)',a=>a.map(e=>Math.abs(e.offsetWidth-e.offsetHeight)<=2));ok(sq.every(Boolean),'tiles are square (phone)');
 {const g=await p.evaluate(()=>{const r=e=>document.querySelector(e).getBoundingClientRect();return {tiles:r('.tiles').left,tasks:r('#tasks').right,me:r('#bStats').left,board:r('.board').left,glyph:document.querySelectorAll('#vHome .glyph').length,sub:getComputedStyle(document.querySelector('.hello-sub')).display};});
  ok(g.tiles>g.tasks&&Math.abs(g.me-g.board)<2,'iPad: board, tasks and my progress on the left, tiles on the right '+JSON.stringify(g));ok(g.glyph===6&&g.sub==='none','icons on the tiles, no “Pick one” line');
  const notes=await p.$$eval('#vHome .tnote',a=>a.map(e=>e.innerText));ok(notes.filter(Boolean).length===0,'nothing due → no small notes on the tiles: '+notes.join(' | '));}

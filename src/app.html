@@ -528,7 +528,7 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 'use strict';
 const QB=window.QB,$=id=>document.getElementById(id);
 const KEY='xiaoxiao-english-v1',ROUND=5,PER=25;
-const NEWV={cards:1,pp:1};   /* raise a tile's number when it gets new content: shows NEW until he taps it */
+const NEWV={cards:1,pp:1,ww:1};   /* raise a tile's number when it gets new content: shows NEW until he taps it */
 const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};
 const pad=n=>String(n).padStart(2,'0'),dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
