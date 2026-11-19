@@ -16,23 +16,11 @@ bulb:`<path d="M0-28a18 18 0 0 1 10 33v7h-20v-7a18 18 0 0 1 10-33z" fill="#ffe27
 rainbow:`<path d="M-28 16a28 28 0 0 1 56 0" stroke="#e5383b" stroke-width="7" fill="none"/><path d="M-21 16a21 21 0 0 1 42 0" stroke="#ffc93a" stroke-width="7" fill="none"/><path d="M-14 16a14 14 0 0 1 28 0" stroke="#22b07d" stroke-width="7" fill="none"/><path d="M-7 16a7 7 0 0 1 14 0" stroke="#4fb3ff" stroke-width="7" fill="none"/>`,
 gem:`<path d="M-22-8l10-14h24l10 14-22 30z" fill="#4fd1e0" stroke="#1d8fa0" stroke-width="3" stroke-linejoin="round"/><path d="M-22-8h44M-12-22l6 14 6-14 6 14 6-14M-6-8l6 30 6-30" stroke="#1d8fa0" stroke-width="2" fill="none"/>`,
 cup:`<path d="M-16-24h32v10a16 16 0 0 1-32 0z" fill="#ffc93a" stroke="#c98a00" stroke-width="3"/><path d="M-16-18h-8a8 8 0 0 0 8 10M16-18h8a8 8 0 0 1-8 10" stroke="#c98a00" stroke-width="3" fill="none"/><rect x="-4" y="2" width="8" height="10" fill="#c98a00"/><rect x="-12" y="12" width="24" height="7" rx="2" fill="#c98a00"/><path d="M0-18l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z" fill="#fff3c4"/>`};
-const KIDSVG=`<g class="kid"><ellipse cx="0" cy="44" rx="20" ry="5" fill="rgba(0,0,0,.35)"/>
-<g class="legL"><rect x="-10" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="-12" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
-<g class="legR"><rect x="3" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="2" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
-<path d="M-14 18h28v10a3 3 0 0 1-3 3h-8l-3-4-3 4h-8a3 3 0 0 1-3-3z" fill="#2f6fe0" stroke="#1d47a0" stroke-width="2.5" stroke-linejoin="round"/>
-<g class="armL"><path d="M-13 6l-8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M-14 4l-6 7 4 4 4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<g class="armR"><path d="M13 6l8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M14 4l6 7-4 4-4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<path d="M-14 4q0-8 8-8h12q8 0 8 8v15h-28z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5"/>
-<circle cx="0" cy="-16" r="16" fill="#ffd9b0" stroke="#c7905e" stroke-width="2.5"/>
-<path d="M-16.5 -17 C-17 -27 -14 -33 -11 -34 L11 -34 C14 -33 17 -27 16.5 -17 C15 -22 13 -24 10 -24 L-10 -24 C-13 -24 -15 -22 -16.5 -17Z" fill="#2a1a10"/>
-<path d="M-12 -34l1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3" fill="#2a1a10" stroke="#2a1a10" stroke-width="1.5" stroke-linejoin="round"/>
-<circle cx="-6" cy="-14" r="2.5" fill="#2a1a10"/><circle cx="6" cy="-14" r="2.5" fill="#2a1a10"/><circle cx="-5.3" cy="-14.8" r=".85" fill="#fff"/><circle cx="6.7" cy="-14.8" r=".85" fill="#fff"/>
-<path d="M-5 -7q5 4 10 0" stroke="#2a1a10" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-<circle cx="-10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><circle cx="10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/></g>`;
+const KIDSVG=`<g class="kid"><use href="#ww-inv"/></g><g transform="translate(38 24) scale(.62)"><use href="#ww-bot"/></g>`;
 const PHR=typeof PPD!=='undefined'&&PPD.length;
 /* a track = one map: word cards, or (English) the phrases */
-const TR={w:{zh:'单词卡',n:()=>WS.length,name:i=>WS[i].title,learned:i=>!!S.sets[WS[i].title]&&WS[i].words.every(w=>S.wd[w.w]),start:i=>startCards(i)}};
-if(PHR)TR.p={zh:'介词词组',n:()=>PPD.length,name:i=>PPD[i].t,learned:i=>!!(S.ppg||{})[PPD[i].t],start:i=>ppCards(i)};
+const TR={w:{zh:'单词卡',n:()=>WS.length,name:i=>WS[i].title,zhn:i=>WS[i].zh||'',learned:i=>!!S.sets[WS[i].title]&&WS[i].words.every(w=>S.wd[w.w]),start:i=>startCards(i)}};
+if(PHR)TR.p={zh:'介词词组',n:()=>PPD.length,name:i=>PPD[i].t,zhn:i=>PPD[i].zh||'',learned:i=>!!(S.ppg||{})[PPD[i].t],start:i=>ppCards(i)};
 function mapSt(){if(!S.map||typeof S.map!=='object')S.map={};if(!Array.isArray(S.badges))S.badges=[];
   Object.keys(TR).forEach(k=>{const m=S.map[k]||(S.map[k]={});['lv','rv','ch'].forEach(f=>{if(!m[f]||typeof m[f]!=='object')m[f]={};});
     /* first time: sets already learned count as walked, with stars from how well their words are known; reviews between them too */
@@ -141,32 +129,46 @@ function mapLayout(L,W){const P=[],chests=[];
   let d=`M${P[0][0]} ${P[0][1]}`;for(let i=1;i<P.length;i++){const[a,b]=P[i-1],[x,y]=P[i];d+=` C${a} ${b+G*.55}, ${x} ${y-G*.55}, ${x} ${y}`;}
   L.forEach((n,i)=>{if(n.t==='r'&&chestOf(n.r)>=0){const[x,y]=P[i];chests.push({c:chestOf(n.r),r:n.r,x:x>=cx?Math.max(60,cx-dx-10):Math.min(W-60,cx+dx+10),y:y+G/2});}});
   return{P,d,chests,H:y0+(P.length-1)*G+120};}
+const GEARC={};function gearD(r,t,dp){const k=r+','+t+','+dp;if(GEARC[k])return GEARC[k];let d='';const n=t*4;for(let i=0;i<n;i++){const a=i/n*Math.PI*2,rr=i%4<2?r:r-dp;d+=(i?'L':'M')+(Math.cos(a)*rr).toFixed(1)+' '+(Math.sin(a)*rr).toFixed(1);}return GEARC[k]=d+'Z';}
 const MSTAR=(s,f,k)=>`<path d="M0 ${-s} L${s*.29} ${-s*.4} L${s*.95} ${-s*.31} L${s*.47} ${s*.15} L${s*.59} ${s*.81} L0 ${s*.5} L${-s*.59} ${s*.81} L${-s*.47} ${s*.15} L${-s*.95} ${-s*.31} L${-s*.29} ${-s*.4}Z" fill="${f}" stroke="${k}" stroke-width="4" stroke-linejoin="round"/>`;
 const REVI='<path d="M-11 -4a12 12 0 1 1 3 10" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M-17 -9l6 6 6-7" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
-const LOCKI='<path d="M-9 -2v-6a9 9 0 0 1 18 0v6" stroke="#5a5490" stroke-width="4" fill="none"/><rect x="-12" y="-3" width="24" height="18" rx="4" fill="#5a5490"/>';
-function mini(n){return [0,1,2].map(i=>`<g transform="translate(${(i-1)*17},${i===1?-4:0})">${MSTAR(8,i<n?'#ffc93a':'#3a3566',i<n?'#c98a00':'#2a2650')}</g>`).join('');}
+const LOCKI='<path d="M-6 -1v-5a6 6 0 0 1 12 0v5" stroke="#8a9ca1" stroke-width="3.2" fill="none"/><rect x="-9" y="-2" width="18" height="14" rx="3" fill="#8a9ca1"/>';
+/* a pressure gauge for a review stop: dim when locked, green arc when done, copper when it is the next stop */
+function gauge(st){const face=st==='lock'?'#3a4c50':'#f5e9cc',rim=st==='lock'?'#22323a':'#a8761f',arc=st==='done'?'#4fb3a0':st==='now'?'#c8683a':'#55686d',nd=st==='lock'?'#22323a':'#33464c';
+  return `<circle r="32" fill="${face}" stroke="${rim}" stroke-width="6"/><path d="M-21 12A24 24 0 1 1 21 12" fill="none" stroke="${st==='lock'?'#4a5c60':'#d9cfb2'}" stroke-width="5"/><path d="${st==='done'?'M-21 12A24 24 0 1 1 21 12':'M-21 12A24 24 0 0 1 -7 -23'}" fill="none" stroke="${arc}" stroke-width="5"/><g transform="rotate(${st==='done'?60:-40})"><path d="M0 3L-3 0 0 -21 3 0z" fill="${nd}"/></g><circle r="4.5" fill="${rim}"/>`;}
+function mini(n){return [0,1,2].map(i=>`<g transform="translate(${(i-1)*17},${i===1?-4:0})">${MSTAR(8,i<n?'#ffd23f':'#33464c',i<n?'#a8761f':'#22323a')}</g>`).join('');}
 function mapDraw(walk){const k=MAP.k,M=S.map[k],T=TR[k],L=road(k),cur=curIdx(k),box=$('mBoard'),W=Math.max(320,box.clientWidth||document.documentElement.clientWidth-32);
   const{P,d,chests,H}=mapLayout(L,W);let g='';
   L.forEach((n,i)=>{const[x,y]=P[i],done=nodeDone(k,n),now=i===cur,lock=!done&&!now;
-    if(n.t==='l'){const nm=T.name(n.i);g+=`<g class="mn${lock?' lock':''}" data-i="${i}" transform="translate(${x},${y})">`;
-      if(lock)g+=`<circle r="30" fill="#24204a" stroke="#3a3566" stroke-width="4"/>${LOCKI}`;
-      else if(done)g+=`<circle r="34" fill="#ffc93a" stroke="#c98a00" stroke-width="5"/><g transform="translate(0,2)">${MSTAR(17,'#fff3c4','#c98a00')}</g><g transform="translate(0,-48)">${mini(+M.lv[nm]||0)}</g>`;
-      else g+=`<circle class="mn-pulse" r="44" fill="none" stroke="#ffc93a" stroke-width="3" stroke-dasharray="6 8"/><circle r="36" fill="#8460ea" stroke="#4a2e96" stroke-width="5"/><g transform="translate(0,2)">${MSTAR(18,'#fff','#4a2e96')}</g>`;
-      g+=`<text y="${lock?54:58}" text-anchor="middle" class="mn-t${lock?' off':''}">${esc(nm)}</text></g>`;}
-    else{g+=`<g class="mn${lock?' lock':''}" data-i="${i}" transform="translate(${x},${y})">`;
-      if(lock)g+=`<rect x="-30" y="-30" width="60" height="60" rx="18" fill="#24204a" stroke="#3a3566" stroke-width="4"/><g opacity=".35">${REVI}</g>`;
-      else if(done)g+=`<rect x="-32" y="-32" width="64" height="64" rx="20" fill="#22b07d" stroke="#137a54" stroke-width="5"/>${REVI}${M.rv[n.r]?`<g transform="translate(0,-48)">${mini(M.rv[n.r])}</g>`:''}`;
-      else g+=`<rect class="mn-pulse" x="-44" y="-44" width="88" height="88" rx="28" fill="none" stroke="#ffc93a" stroke-width="3" stroke-dasharray="6 8"/><rect x="-36" y="-36" width="72" height="72" rx="22" fill="#e5603a" stroke="#a8401f" stroke-width="5"/>${REVI}<g transform="translate(30,-30)"><circle r="15" fill="#fff"/><text y="6" text-anchor="middle" class="mn-n">10</text></g>`;
-      g+=`<text y="${now?62:56}" text-anchor="middle" class="mn-t${lock?' off':''}">复习</text></g>`;}});
+    g+=`<g class="mn${lock?' lock':''}${now?' now':''}" data-i="${i}" transform="translate(${x},${y})">`;
+    let nm,zh;
+    if(n.t==='l'){nm=T.name(n.i);zh=T.zhn?T.zhn(n.i):'';
+      if(lock)g+=`<path d="${gearD(32,10,6)}" fill="#33464c" stroke="#22323a" stroke-width="3"/><circle r="15" fill="#22323a"/>${LOCKI}`;
+      else if(done)g+=`<path d="${gearD(34,10,7)}" fill="#4fb3a0" stroke="#1d5f52" stroke-width="3"/><circle r="17" fill="#2c8a78" stroke="#1d5f52" stroke-width="2"/><path d="M-8 0l5 5 10-11" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(0,-50)">${mini(+M.lv[nm]||0)}</g>`;
+      else g+=`<circle class="mn-pulse" r="52" fill="none" stroke="#ffd23f" stroke-width="3" stroke-dasharray="6 8"/><circle r="50" fill="url(#mGlow)"/><g class="mn-spin"><path d="${gearD(42,12,8)}" fill="#d9a845" stroke="#6b4612" stroke-width="3"/></g><circle r="22" fill="#c8683a" stroke="#8f3f1c" stroke-width="3"/><g transform="translate(0,1)">${MSTAR(11,'#ffe7a8','#8f3f1c')}</g>`;}
+    else{nm='复习站';zh='复习 10 题';
+      if(lock)g+=gauge('lock');
+      else if(done)g+=gauge('done')+(M.rv[n.r]?`<g transform="translate(0,-50)">${mini(M.rv[n.r])}</g>`:'');
+      else g+=`<circle class="mn-pulse" r="48" fill="none" stroke="#ffd23f" stroke-width="3" stroke-dasharray="6 8"/><circle r="46" fill="url(#mGlow)"/>${gauge('now')}<g transform="translate(30,-30)"><circle r="14" fill="#c8683a" stroke="#f6d98a" stroke-width="2"/><text y="5" text-anchor="middle" class="mn-n">10</text></g>`;}
+    const ty=now?(n.t==='l'?66:60):54;
+    g+=`<text y="${ty}" text-anchor="middle" class="mn-t${lock?' off':''}${now?' on':''}">${esc(nm)}</text>${zh?`<text y="${ty+17}" text-anchor="middle" class="mn-z">${esc(zh)}</text>`:''}</g>`;});
   chests.forEach(c=>{const rvDone=M.rv[c.r]!=null,open=M.ch[c.c];const st=open==='g'?'gold':open?'silver':rvDone?'ready':'lock';
-    g+=`<g class="mc ${st}" data-c="${c.c}" transform="translate(${c.x},${c.y})"><g class="mc-in" transform="scale(1.3)"><rect x="-32" y="-14" width="64" height="38" rx="6" class="mc-b"/><path d="M-32 -14v-6a14 14 0 0 1 14-14h36a14 14 0 0 1 14 14v6z" class="mc-l"/><rect x="-7" y="-10" width="14" height="16" rx="3" fill="#ffc93a" stroke="#c98a00" stroke-width="3"/></g><text y="62" text-anchor="middle" class="mn-t${st==='lock'?' off':''}">${open?(open==='g'?'金边徽章':'银边 · 再开一次'):'宝箱 · 10 题'}</text></g>`;});
+    g+=`<g class="mc ${st}" data-c="${c.c}" transform="translate(${c.x},${c.y})"><g class="mc-in" transform="scale(1.25)"><path d="M-14 -20a14 9 0 0 1 28 0" fill="none" stroke="#a8761f" stroke-width="4"/><rect x="-34" y="-20" width="68" height="44" rx="6" class="mc-b"/><path d="M-34 -4H34" class="mc-l"/><path d="M-21 -20v44M21 -20v44" stroke="#a8761f" stroke-width="5"/><g transform="translate(0 -4)"><path d="${gearD(10,8,3)}" fill="#d9a845" stroke="#6b4612" stroke-width="2"/></g></g><text y="58" text-anchor="middle" class="mn-t${st==='lock'?' off':''}">${open?(open==='g'?'金边徽章':'银边 · 再开一次'):'工具箱 · 10 题'}</text></g>`;});
   const kp=P[Math.min(cur,P.length-1)],from=MAP.walk!=null&&P[MAP.walk]?P[MAP.walk]:null;   /* he stands on the last stop until he walks on */
-  g+=`<g class="walker${from&&walk?' going':''}" style="transform:translate(${(from||kp)[0]}px,${(from||kp)[1]-82}px)">${KIDSVG}</g>`;
-  box.innerHTML=`<svg width="${W}" height="${H}" class="mboard"><path d="${d}" class="rd1"/><path d="${d}" class="rd2"/>${g}</svg>`;
+  g+=`<g class="walker${from&&walk?' going':''}" style="transform:translate(${(from||kp)[0]}px,${(from||kp)[1]-96}px)">${KIDSVG}</g>`;
+  box.innerHTML=`<svg width="${W}" height="${H}" class="mboard"><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#ffd23f" stop-opacity=".5"/><stop offset="1" stop-color="#ffd23f" stop-opacity="0"/></radialGradient></defs><path d="${d}" class="rd0"/><path d="${d}" class="rd1"/><path d="${d}" class="rd2"/><path d="${d}" class="rd3"/>${g}</svg>`;
+  mapNextBar(k,L,cur);
   $('mTot').textContent=mapStars(k);
   const wk=box.querySelector('.walker');
-  if(from&&walk){requestAnimationFrame(()=>requestAnimationFrame(()=>{wk.style.transform=`translate(${kp[0]}px,${kp[1]-82}px)`;setTimeout(()=>wk.classList.remove('going'),1300);}));MAP.walk=null;}
+  if(from&&walk){requestAnimationFrame(()=>requestAnimationFrame(()=>{wk.style.transform=`translate(${kp[0]}px,${kp[1]-96}px)`;setTimeout(()=>wk.classList.remove('going'),1300);}));MAP.walk=null;}
   setTimeout(()=>{try{const y=kp[1]-200+box.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}catch(e){}},from?50:0);}
+/* the banner over the map: the next stop and a Go button (the same as tapping the glowing stop) */
+function mapNextBar(k,L,cur){const el=$('mNext');if(!el)return;const T=TR[k];
+  if(cur>=L.length){el.innerHTML=`<span class="m-tik">🎉 终点站</span><div class="m-nx"><b>全部走完了！</b><small>可以回去点任何一站再玩，拿满 3 颗星</small></div>`;return;}
+  const x=L[cur],nm=x.t==='l'?T.name(x.i):'复习站',zh=x.t==='l'?(T.zhn?T.zhn(x.i):''):'前面三站的词';
+  el.innerHTML=`<span class="m-tik">🎫 下一站</span><div class="m-nx"><b>${esc(nm)}</b><small>${esc(zh)}${zh?' · ':''}${x.t==='l'?(k==='w'?'5 个词':'一组词组'):'10 题'} · 学完拿 ★</small></div><button class="m-go" id="mGo" data-i="${cur}">🚂 出发 Go!</button>`;}
+function mapNextName(k){mapSt();const L=road(k),i=curIdx(k);if(i>=L.length)return '终点站 ✓';const x=L[i];return x.t==='l'?TR[k].name(x.i):'复习站';}
+$('mNext').addEventListener('click',e=>{const b=e.target.closest('#mGo');if(!b)return;const k=MAP.k,L=road(k),i=+b.dataset.i,x=L[i];if(x)mapStart(x.t==='l'?{k,t:'l',i:x.i,idx:i}:{k,t:'r',r:x.r,idx:i});});
 $('mBoard').addEventListener('click',e=>{const n=e.target.closest('.mn'),c=e.target.closest('.mc');const k=MAP.k,L=road(k);
   if(n){const i=+n.dataset.i,x=L[i];if(n.classList.contains('lock')){n.classList.remove('shake');void n.getBBox();n.classList.add('shake');return;}
     mapStart(x.t==='l'?{k,t:'l',i:x.i,idx:i}:{k,t:'r',r:x.r,idx:i});return;}
@@ -185,5 +187,5 @@ HOOK.meExtra.push(()=>{mapSt();let el=$('stBadges');if(!el){el=document.createEl
 window.__map={R:()=>R,MAP,WL:()=>WL};   /* for the tests */
 
 /* a daily-task fallback: the next stop on the word map, straight into its questions */
-HOOK.fill.push(t=>{mapSt();const L=road('w'),i=curIdx('w');if(i>=L.length&&!t.mnext)return null;return {k:'mnext',name:'单词地图下一关 · Next stop',done:!!t.mnext};});
+HOOK.fill.push(t=>{mapSt();const L=road('w'),i=curIdx('w');if(i>=L.length&&!t.mnext)return null;return {k:'mnext',name:'单词铁路下一站 · Next stop',done:!!t.mnext};});
 HOOK.task.mnext=()=>{mapSt();const L=road('w'),i=curIdx('w');if(i>=L.length)return mapOpen('w');MAP.k='w';const x=L[i];mapStart(x.t==='l'?{k:'w',t:'l',i:x.i,idx:i}:{k:'w',t:'r',r:x.r,idx:i});};

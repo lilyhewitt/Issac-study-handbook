@@ -26,7 +26,7 @@ def rep(s, a, b, n=1):
     return s.replace(a, b)
 
 APPS = {
-    'english': dict(theme='#2F66F0', name='小小英文', desc='小小的英文练习：语法、词汇、阅读选择题，每轮 5 题。'),
+    'english': dict(theme='#13252B', name='小小英文', desc='小小的英文练习：语法、词汇、阅读选择题，每轮 5 题。'),
     'science': dict(theme='#2B2F8F', name='小小科学', desc='小小的科学练习：三年级复习和四年级预习选择题，每轮 5 题，带中文翻译。',
         title='小小科学题库', edition='Science', key='xiaoxiao-science-v1',
         tokens=[('--gram', '--life'), ('--word', '--mat'), ('--read', '--p4')], modes=('mat', 'p4'), flame='--mat',
@@ -95,6 +95,13 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('english', 'ww.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\n' + read('english', 'ww-drill.js') + '\nfunction home(){')
+        # cartoon steampunk look (like the science app's one dark world): palette for every screen, then the home and Word Railway styling
+        i = s.index('</style>') + len('</style>\n')
+        s = s[:i] + read('english', 'palette.html') + s[i:]
+        i = s.rindex('</style>', 0, s.index('<div class="app">'))
+        s = s[:i] + read('english', 'steam.css') + s[i:]
+        s = rep(s, '<span>今天的任务</span>', '<span>今天的工单 · Work order</span>')
+        s = rep(s, 'function home(){', read('english', 'steam.js') + '\nfunction home(){')
     if app == 'science':                               # 答题本领 answer-skill questions
         sk = read('science', 'skill.js').replace('/*__CARDS__*/[]', read('science', 'cards.json').strip())
         s = rep(s, 'function home(){', sk + '\nfunction home(){')

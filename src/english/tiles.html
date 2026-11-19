@@ -3,14 +3,18 @@
         <svg class="ww-hero-art" viewBox="-60 -60 130 110" aria-hidden="true"><g transform="translate(-8 0)"><use href="#ww-inv"/></g><g transform="translate(42 20) scale(.85)"><use href="#ww-bot"/></g></svg>
         <span class="ww-hero-txt"><span class="tname">Writing Workshop</span><span class="tsub">写作工坊 · 看图写作</span><span class="ww-hnote" id="wwNote"></span><span class="ww-hgo">🔧 开工 Go!</span></span>
       </button>
-      <button class="tile" data-mode="cards" id="tCards">
-        <span class="glyph"><svg viewBox="0 0 40 38"><rect x="5" y="9" width="22" height="25" rx="4"/><path d="M13 9V7a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3h-5"/><path d="M10 18h12M10 24h8"/></svg></span>
-        <span><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></span>
-      </button>
-      <button class="tile" data-mode="pp" id="tPP">
-        <span class="glyph"><svg viewBox="0 0 40 38"><g transform="translate(2 1) scale(1.5)" stroke-width="1.6"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></g></svg></span>
-        <span><span class="tname">Phrases</span><span class="tsub">介词词组</span><span class="tnote" id="ppNote"></span></span>
-      </button>
+      <div class="rail" id="railCard">
+        <svg class="rail-loco" viewBox="-50 -46 100 88" aria-hidden="true"><path d="M-46 30H46" stroke="#a8761f" stroke-width="4"/><g stroke="#6b4612" stroke-width="3"><path d="M-42 26v8M-30 26v8M-18 26v8M-6 26v8M6 26v8M18 26v8M30 26v8M42 26v8"/></g>
+          <rect x="-34" y="-6" width="44" height="26" rx="5" fill="#c8683a" stroke="#8f3f1c" stroke-width="2.5"/><rect x="6" y="-20" width="24" height="40" rx="4" fill="#a8761f" stroke="#6b4612" stroke-width="2.5"/><rect x="11" y="-14" width="14" height="10" rx="2" fill="#bfeee4"/>
+          <rect x="-28" y="-18" width="9" height="14" fill="#33464c" stroke="#22323a" stroke-width="2"/><circle cx="-20" cy="22" r="7" fill="#33464c" stroke="#f6d98a" stroke-width="2"/><circle cx="18" cy="22" r="8" fill="#33464c" stroke="#f6d98a" stroke-width="2"/>
+          <g class="rail-puff"><circle cx="-26" cy="-28" r="7" fill="#f5e9cc" opacity=".55"/><circle cx="-18" cy="-37" r="5" fill="#f5e9cc" opacity=".35"/></g></svg>
+        <div class="rail-txt"><span class="rail-ti">Word Railway <small>单词铁路</small></span>
+          <div class="rail-tix">
+            <button class="tile rail-t" data-mode="cards" id="tCards"><span class="glyph"><svg viewBox="0 0 40 38"><path d="M4 11a3 3 0 0 1 3-3h26a3 3 0 0 1 3 3v4a4 4 0 0 0 0 8v4a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-4a4 4 0 0 0 0-8z"/><path d="M14 9v20" stroke-dasharray="2.5 3"/></svg></span><span><span class="tsub">单词卡 · 下一站</span><span class="tname" id="railW"></span><span class="tnote" id="wtNote"></span></span></button>
+            <button class="tile rail-t" data-mode="pp" id="tPP"><span class="glyph"><svg viewBox="0 0 40 38"><path d="M4 11a3 3 0 0 1 3-3h26a3 3 0 0 1 3 3v4a4 4 0 0 0 0 8v4a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-4a4 4 0 0 0 0-8z"/><path d="M14 9v20" stroke-dasharray="2.5 3"/></svg></span><span><span class="tsub">介词词组 · 下一站</span><span class="tname" id="railP"></span><span class="tnote" id="ppNote"></span></span></button>
+          </div></div>
+        <button class="rail-go" id="tRail">🚂 出发 Go!</button>
+      </div>
       <button class="tile" data-mode="word" id="tWord">
         <span class="glyph">Aa</span>
         <span><span class="tname">Words</span><span class="tsub">词汇题 · 拼一拼</span></span>

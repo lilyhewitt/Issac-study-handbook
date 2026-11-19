@@ -1,0 +1,110 @@
+/* ---------- English home + Word Railway map: cartoon steampunk (brass frames with rivets, blueprint grid, gears).
+   Colours come from palette.html; the layout follows the science app (board · work order · my progress on the left, hero and tiles on the right). ---------- */
+body{background:
+  radial-gradient(circle at 85% 0%,rgba(217,168,69,.13),transparent 40%),
+  radial-gradient(circle at 0% 100%,rgba(79,179,160,.10),transparent 45%),
+  linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/36px 36px,
+  linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/36px 36px,var(--bg) fixed}
+/* brass frame + four rivets, one recipe for every panel */
+.sp-frame,#vHome .board,#vHome #bStats,#vHome .rail,#vHome .tiles6 .tile:not(.ww-hero):not(.rail-t),.m-next{
+  border:3px solid var(--brass-lo);box-shadow:inset 0 0 0 2px rgba(246,217,138,.22),0 5px 0 #0a1418;
+  background-image:radial-gradient(circle at 10px 10px,var(--brass-hi) 0 2px,var(--brass-lo) 3px 4.5px,transparent 5px),
+    radial-gradient(circle at calc(100% - 10px) 10px,var(--brass-hi) 0 2px,var(--brass-lo) 3px 4.5px,transparent 5px),
+    radial-gradient(circle at 10px calc(100% - 10px),var(--brass-hi) 0 2px,var(--brass-lo) 3px 4.5px,transparent 5px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px),var(--brass-hi) 0 2px,var(--brass-lo) 3px 4.5px,transparent 5px)}
+#vHome .board,#vHome #bStats,#vHome .rail,.m-next{background-color:var(--surface)}
+#vHome .hello{color:var(--brass-hi);text-shadow:0 3px 0 var(--copper-dk)}
+#vHome .iconbtn,#vMap .iconbtn,.m-tot{background:radial-gradient(circle at 35% 30%,var(--brass-hi),var(--brass-lo) 72%);border:3px solid var(--brass-dk);box-shadow:0 4px 0 #0a1418}
+#vHome .iconbtn{border-radius:50%}
+#vHome .iconbtn svg,#vMap .iconbtn svg{stroke:#3a2306;stroke-width:2.6}
+
+/* scoreboard: a pressure gauge for the level */
+#vHome .board{border-radius:1.25rem;padding:1rem 1.125rem;grid-template-columns:auto 1fr 1fr;align-items:center}
+.sp-gauge{width:5.75rem;height:5.75rem;grid-row:1 / span 2;flex:none}
+.sp-gauge .ndl{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+#vHome .board .lv{grid-column:2 / -1;order:3}
+#vHome .board .stat .v{color:var(--brass-hi)}
+#vHome .board .stat:last-child .v{color:#ffa26b}
+#vHome .board .track{background:var(--iron-dk);border:2px solid var(--brass-lo);height:0.85rem}
+#vHome .board .fill{background:repeating-linear-gradient(90deg,var(--patina) 0 10px,#6ccbb8 10px 20px)}
+.sp-rank{font-size:.62em;margin-left:0.35rem;color:var(--ink)}
+@media (min-width:700px){#vHome>.board{grid-template-columns:auto 1fr 1fr}#vHome>.board .lv{grid-column:2 / -1}}
+
+/* today's tasks: a cream work order */
+#vHome .tasks{background:linear-gradient(180deg,#f6ecd2,#ead9b0);color:#3a2306;border:3px solid var(--brass-lo);border-radius:1.125rem;box-shadow:0 5px 0 #0a1418}
+#vHome .tasks .tk-h{border-bottom:2px dashed #b99a5c;padding-bottom:0.4rem}
+#vHome .tasks .tk-h small,#vHome .tk-n{color:#8f3f1c}
+#vHome .tk{background:transparent;color:#3a2306}
+#vHome .tk i{border:0;width:1.75rem;height:1.75rem;border-radius:0;color:#fff;
+  background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-16 -16 32 32'%3E%3Cpath d='M14 0L13.3 3.4 10.6 3.9 10.2 6.3 7.8 8.3 7.4 11.1 3.9 10.6 2.4 13.8 0 12.2-2.4 13.8-3.9 10.6-7.4 11.1-7.8 8.3-10.2 6.3-10.6 3.9-13.3 3.4-14 0-13.3-3.4-10.6-3.9-10.2-6.3-7.8-8.3-7.4-11.1-3.9-10.6-2.4-13.8 0-12.2 2.4-13.8 3.9-10.6 7.4-11.1 7.8-8.3 10.2-6.3 10.6-3.9 13.3-3.4Z' fill='%23f6ecd2' stroke='%236b4612' stroke-width='2'/%3E%3Ccircle r='4' fill='none' stroke='%236b4612' stroke-width='2'/%3E%3C/svg%3E")}
+#vHome .tk.tk-ok{color:#8b7a5a;text-decoration:line-through}
+#vHome .tk.tk-ok i{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-16 -16 32 32'%3E%3Cpath d='M14 0L13.3 3.4 10.6 3.9 10.2 6.3 7.8 8.3 7.4 11.1 3.9 10.6 2.4 13.8 0 12.2-2.4 13.8-3.9 10.6-7.4 11.1-7.8 8.3-10.2 6.3-10.6 3.9-13.3 3.4-14 0-13.3-3.4-10.6-3.9-10.2-6.3-7.8-8.3-7.4-11.1-3.9-10.6-2.4-13.8 0-12.2 2.4-13.8 3.9-10.6 7.4-11.1 7.8-8.3 10.2-6.3 10.6-3.9 13.3-3.4Z' fill='%234fb3a0' stroke='%231d5f52' stroke-width='2'/%3E%3Cpath d='M-5 0l3 3 6-7' stroke='%23fff' stroke-width='3' fill='none'/%3E%3C/svg%3E");color:transparent}
+#vHome .tk-all{color:#1d6f5e}
+#vHome #bStats{border-radius:1.125rem;font-family:var(--f-display);font-weight:800}
+
+/* Writing Workshop hero: brass frame on the patina-green plate */
+.tiles6 .ww-hero{background:radial-gradient(circle at 22% 60%,#2f6b5c,#1d4a40 60%,#163a33);border:3px solid var(--brass);box-shadow:inset 0 0 0 2px rgba(246,217,138,.25),0 5px 0 #0a1418}
+.ww-hero .tname{color:var(--brass-hi);text-shadow:0 3px 0 #0b2a24}
+
+/* the Word Railway card: a little engine, two tickets (word cards · phrases) and a Go button */
+.tiles6 .rail{grid-column:1 / -1;border-radius:1.375rem;display:flex;align-items:center;gap:0.875rem;padding:0.875rem 1rem;flex-wrap:wrap}
+.rail-loco{width:5.5rem;height:4.75rem;flex:none}
+.rail-puff{animation:spPuff 2.6s ease-in-out infinite}
+@keyframes spPuff{50%{transform:translateY(-3px);opacity:.6}}
+.rail-txt{flex:1;min-width:13rem;display:flex;flex-direction:column;gap:0.5rem}
+.rail-ti{font-family:var(--f-display);font-weight:800;font-size:1.5rem;line-height:1;color:var(--ink)}
+.rail-ti small{font-size:0.95rem;color:var(--ink-2);margin-left:0.35rem;white-space:nowrap}
+.rail-tix{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tiles6 .tile.rail-t{aspect-ratio:auto;min-height:0;flex:1 1 11rem;flex-direction:row;align-items:center;justify-content:flex-start;gap:0.5rem;padding:0.45rem 0.75rem;border-radius:0.6rem;
+  background:#f6ecd2;color:#3a2306;border:2px dashed var(--brass-lo);box-shadow:0 3px 0 #0a1418;text-align:left}
+.rail-t .glyph{height:auto;flex:none}.rail-t .glyph svg{width:1.75rem;height:1.6rem;stroke:#a8761f;stroke-width:2.6}
+.rail-t .tsub{font-size:0.8rem;margin:0;color:#7a5a2a;opacity:1}
+.tiles6 .rail-t .tname{font-size:1.05rem;line-height:1.15}
+.rail-t .tnote{background:#8f3f1c;color:#fff;margin-top:0.2rem;font-size:0.75rem}
+.rail-t .nw{top:-0.6rem;right:-0.4rem}
+.rail-go,.m-go{flex:none;font-family:var(--f-display);font-weight:800;font-size:1.2rem;color:#fff;border:2px solid #f3a77c;border-radius:0.9rem;padding:0.6rem 1.1rem;
+  background:linear-gradient(180deg,#e2804c,var(--copper));box-shadow:0 5px 0 var(--copper-dk),inset 0 2px 0 rgba(255,255,255,.35);cursor:pointer}
+
+/* the four practice tiles: enamel plates in brass frames */
+#vHome .tiles6 .tile:not(.ww-hero):not(.rail-t){border-radius:1.25rem;border-color:var(--brass)}
+#vHome .tiles6 .tile[data-mode="word"]{background-color:var(--word)}
+#vHome .tiles6 .tile[data-mode="gram"]{background-color:var(--gram)}
+#vHome .tiles6 .tile[data-mode="read"]{background-color:var(--read)}
+#vHome .tiles6 .tile[data-mode="redo"]{background-color:transparent;border-style:dashed;color:var(--ink)}
+#vHome .tiles6 .tile:not(.ww-hero):not(.rail-t) .glyph{width:2.9rem;height:2.9rem;border-radius:50%;justify-content:center;font-size:1.3rem;color:#3a2306;
+  background:radial-gradient(circle at 35% 30%,var(--brass-hi),var(--brass-lo) 75%);border:2px solid var(--brass-dk)}
+#vHome .tiles6 .tile:not(.ww-hero):not(.rail-t) .glyph svg{width:1.6rem;height:1.5rem;stroke:#3a2306;stroke-width:2.8}
+@media (min-width:700px){.tiles6 .rail{flex-wrap:nowrap}.rail-txt{min-width:0}.rail-tix{flex-direction:column}.tiles6 .tile.rail-t{flex:none}.rail-loco{width:4.75rem}}
+@media (orientation:landscape) and (min-width:700px){#vHome .tiles6{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #vHome .tiles6 .tile:not(.ww-hero):not(.rail-t){aspect-ratio:auto;min-height:9rem;padding:0.75rem}
+  #vHome .tiles6 .tile:not(.ww-hero):not(.rail-t) .tname{font-size:1.15rem}}
+
+/* ---------- Word Railway (the map) ---------- */
+.m-ti{font-family:var(--f-display);font-size:1.6rem;line-height:1;color:var(--brass-hi);display:flex;flex-direction:column}
+.m-ti small{font-family:var(--f-body);font-size:0.85rem;font-weight:700;color:var(--ink-2);margin-top:0.2rem}
+.m-tabs{background:var(--iron-dk);border:3px solid var(--brass-lo);border-radius:0.9rem;padding:0.2rem;gap:0.2rem}
+.m-tabs button{border:0;background:transparent;color:var(--ink-2);padding:0.35rem 0.9rem}
+.m-tabs button.on{background:linear-gradient(180deg,#e9c066,#b98428);color:#3a2306;border:0}
+.m-tot{color:#3a2306;border-radius:0.8rem}
+.m-tot svg{fill:#3a2306}
+.m-next{display:flex;align-items:center;gap:0.875rem;border-radius:1.125rem;padding:0.75rem 1.125rem;margin:0.75rem 0 0.25rem;flex-wrap:wrap}
+.m-next:empty{display:none}
+.m-tik{background:#f6ecd2;color:#3a2306;border:2px dashed var(--brass-lo);border-radius:0.6rem;padding:0.3rem 0.75rem;font-weight:800;white-space:nowrap}
+.m-nx{flex:1;min-width:10rem;display:flex;flex-direction:column}
+.m-nx b{font-family:var(--f-display);font-size:1.4rem;line-height:1.1}
+.m-nx small{color:var(--ink-2)}
+.rd0{stroke:rgba(0,0,0,.35);stroke-width:36;fill:none;stroke-linecap:round;transform:translateY(5px)}
+.rd1{stroke:#3a2a1e;stroke-width:32;fill:none;stroke-dasharray:6 9;stroke-linecap:butt}
+.rd2{stroke:#9fb3ae;stroke-width:19;fill:none;stroke-linecap:round}
+.rd3{stroke:#5a4636;stroke-width:14;fill:none;stroke-linecap:round}
+:root[data-theme="light"] .rd1,:root:not(#_) .rd1{stroke:#3a2a1e}
+.mn-t,.mn-z{paint-order:stroke;stroke:#13252b;stroke-width:4px;stroke-linejoin:round}
+.mn-t{font-family:var(--f-display);font-size:16px;fill:var(--ink)}.mn-t.off{fill:#8ea29e}.mn-t.on{fill:#ffd23f;font-size:18px}
+.mn-z{font-size:12.5px;font-weight:600;fill:#9fb3ae}
+.mn-n{font-size:13px;font-weight:900;fill:#fff}
+.mn-spin{animation:spSpin 9s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spSpin{to{transform:rotate(360deg)}}
+.mc-b{fill:#5a4a3a;stroke:#2a1d10;stroke-width:3.5}.mc-l{stroke:#2a1d10;stroke-width:3.5;fill:none}
+.mc.ready .mc-b{fill:#c8683a;stroke:#6b2e10}
+.mc.gold .mc-b{fill:#d9a845;stroke:#6b4612}.mc.silver .mc-b{fill:#b9c5c8;stroke:#55686d}
+@media (prefers-reduced-motion:reduce){.mn-spin,.rail-puff{animation:none}}
