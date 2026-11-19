@@ -84,7 +84,7 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
 .tiles6.mt .tile:not([data-mode="isl"]){aspect-ratio:auto;min-height:8.5rem}
 @media (max-width:520px){.tiles6.mt .tile:not([data-mode="isl"]) .tname{font-size:1rem}.tiles6.mt .tile:not([data-mode="isl"]){padding:0.75rem}}
 /* iPad: map with a side card; problem on the left, the step on the right */
-@media (min-width:900px){
+@media (min-width:700px){
   #vIsl,#vIslQ{max-width:none}
   .isl-wrap{display:grid;grid-template-columns:18rem minmax(0,1fr);align-items:start}
   .isl-side{order:0;position:sticky;top:0.75rem}.isl-map{order:0}
@@ -92,7 +92,7 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
   .isl-prob{font-size:1.35rem}
 }
 
-@media (max-width:899px){.isl-ex,.isl-free{display:none!important}.isl-now svg{width:48px;height:48px}.isl-go{margin-top:0.5rem}}
+@media (max-width:699px){.isl-ex,.isl-free{display:none!important}.isl-now svg{width:48px;height:48px}.isl-go{margin-top:0.5rem}}
 /* step ③: the drawn picture, spots to put the numbers on */
 .isl-dg{background:var(--surface);border:2px solid var(--line);border-radius:1rem;padding:0.375rem;margin:0.5rem 0}
 .dg{display:block;width:100%;height:auto;font-family:var(--f-display)}

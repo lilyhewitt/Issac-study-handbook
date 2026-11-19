@@ -50,7 +50,7 @@ const islChestOf=r=>r%2===1?(r-1)/2:-1;
 let ISLWALK=null;
 function islOpen(walk){islSt();show('vIsl');islDraw(walk);}
 function islStarSvg(x,y,on){return`<path transform="translate(${x} ${y}) scale(.55)" d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z" fill="${on?'#ffc02e':'#d7dde8'}" stroke="${on?'#b07c12':'#aab3c4'}" stroke-width="2"/>`;}
-function islDraw(walk){const s=islSt(),L=islRoad(),cur=islCur(),wide=innerWidth>=900;
+function islDraw(walk){const s=islSt(),L=islRoad(),cur=islCur(),wide=innerWidth>=700;
   const P=[];let W,H;
   if(wide){const X=[110,300,490,680];W=820;const rows=Math.ceil(L.length/4);H=120+rows*205;
     L.forEach((n,i)=>{const r=Math.floor(i/4),c=i%4;P.push([r%2?X[3-c]:X[c],110+r*205]);});}
@@ -82,7 +82,7 @@ function islDraw(walk){const s=islSt(),L=islRoad(),cur=islCur(),wide=innerWidth>
   $('islMap').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;max-width:${W}px;margin:0 auto"><defs><pattern id="islWv" width="60" height="26" patternUnits="userSpaceOnUse"><path d="M4 14q8-6 16 0t16 0" stroke="#bfe4fb" stroke-width="2.5" fill="none" stroke-linecap="round"/></pattern></defs>${g}</svg>`;
   if(walk&&from!==kp){const k=$('islMap').querySelector('.isl-kid');k.classList.add('going');requestAnimationFrame(()=>requestAnimationFrame(()=>{k.style.transform=`translate(${kp[0]-60}px,${kp[1]+6}px)`;}));setTimeout(()=>k.classList.remove('going'),1300);}
   ISLWALK=null;
-  if(innerWidth<900){const c=$('islMap').querySelector('.isl-n.cur');if(c&&cur>1)setTimeout(()=>c.scrollIntoView({block:'center',behavior:walk?'smooth':'auto'}),walk?300:0);}
+  if(innerWidth<700){const c=$('islMap').querySelector('.isl-n.cur');if(c&&cur>1)setTimeout(()=>c.scrollIntoView({block:'center',behavior:walk?'smooth':'auto'}),walk?300:0);}
   /* side card: the next stop */
   const n=L[cur],tot=Object.values(s.st).reduce((a,b)=>a+b,0)+Object.values(s.rv).reduce((a,b)=>a+b,0);
   $('islTot').textContent=tot;
@@ -276,3 +276,5 @@ window.__isl={IP:()=>IP,ICP:()=>ICP,road:islRoad,cur:islCur,startRound,S:()=>S};
 /* 错题重练 also takes the island problems he got wrong */
 {const f=HOOK.tile.redo;HOOK.tile.redo=()=>{if(S.misses.length)return f();if(islSt().miss.length)islStart({t:'d',miss:true});};}
 HOOK.home.push(()=>{const m=islSt().miss.length,n=S.misses.length+m;const el=$('redoNote');if(el)el.textContent=n?n+' 题':'';const t=$('tRedo');if(t)t.classList.toggle('empty',!n);});
+/* turning the iPad or phone: redraw the map for the new width */
+{let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>{if(!$('vIsl').hidden)islDraw();},250);});}

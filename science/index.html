@@ -1394,7 +1394,7 @@ function smStars(){const s=smSt();return Object.values(s.st).reduce((a,b)=>a+b,0
 let SMWALK=null;
 function smOpen(walk){smSt();show('vSp');smDraw(walk);}
 function smStar(x,y,on){return`<path transform="translate(${x} ${y}) scale(.55)" d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z" fill="${on?'#ffd23f':'#3d4685'}" stroke="${on?'#b07c12':'#5b64a8'}" stroke-width="2"/>`;}
-function smDraw(walk){const s=smSt(),L=smRoad(),cur=smCur(),wide=innerWidth>=900,P=[];let W,H;
+function smDraw(walk){const s=smSt(),L=smRoad(),cur=smCur(),wide=innerWidth>=700,P=[];let W,H;
   if(wide){const X=[130,410,690];W=820;const rows=Math.ceil(L.length/3);H=140+rows*190;L.forEach((n,i)=>{const r=Math.floor(i/3),c=i%3;P.push([r%2?X[2-c]:X[c],110+r*190]);});}
   else{W=390;H=150+L.length*100;L.forEach((n,i)=>P.push([i%2?270:120,90+i*100]));}
   let path=`M${P[0][0]} ${P[0][1]}`;
@@ -1673,6 +1673,8 @@ HOOK.meExtra.push(()=>{const s=smSt();let el=$('smShelf');if(!el){el=document.cr
   const tp=TPL.map((t,i)=>{const a=s.tpl[i];return a&&a[0]?`<span>${smCirc(i)} ${t[1]} · ${a[1]}/${a[0]}</span>`:'';}).join('');
   el.innerHTML=`<h3>星星勋章 · Space Mission</h3>${med?`<div class="sm-shelf">${med}</div>`:'<p class="muted">在太空探险里过关，勋章会摆在这里。</p>'}${tp?`<h3>句式 · 第一次选对 / 做过</h3><div class="sm-tps">${tp}</div>`:''}`;});
 window.__sp={SQ:()=>SQ,road:smRoad,cur:smCur,start:smStart,S:()=>S,st:smSt};   /* for the tests */
+/* turning the iPad or phone: redraw the map for the new width */
+{let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>{if(!$('vSp').hidden)smDraw();},250);});}
 
 function home(){
   drawTasks();
