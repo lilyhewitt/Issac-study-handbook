@@ -46,38 +46,40 @@ const played=await playAll(st=>st.i===1&&st.flow.includes('tiles'));
 ok(played&&await p.isVisible('#smDone'),'medal screen at the end of the planet');
 ok(flows[0]==='mc>one>tiles>chk'&&flows[1]==='one>ev>tiles>chk'&&flows[2]==='one>tiles>chk'&&flows[3]==='mcq','hints fade: Q2 gets all four steps, Q1/Q3 skip the evidence ('+flows.slice(0,4).join(' | ')+')');
 ok(flows[7]==='paper>chk>which>paper>chk>which>paper>chk>which','the experiment is written on paper, then “which pattern” ('+flows[7]+')');
-let s=await S();ok(s.sp.st[0]===2,'one wrong block out of 8 questions → 2 stars ('+s.sp.st[0]+')');
-ok(s.sp.miss.includes('living:1'),'the wrong question is remembered ('+s.sp.miss+')');
-ok(s.sp.sk.tpl[0]>=4&&s.sp.sk.dir[0]>=6&&s.sp.sk.ev[0]===1&&s.sp.sk.wr[1]<s.sp.sk.wr[0],'step counts kept ('+JSON.stringify(s.sp.sk)+')');
-ok(s.sp.tpl[2]&&s.sp.tpl[5]&&s.sp.tpl[9],'pattern counts kept ('+JSON.stringify(s.sp.tpl)+')');
+let s=await S();ok(s.sm.st[0]===2,'one wrong block out of 8 questions → 2 stars ('+s.sm.st[0]+')');
+ok(s.sm.miss.includes('living:1'),'the wrong question is remembered ('+s.sm.miss+')');
+ok(s.sm.sk.tpl[0]>=4&&s.sm.sk.dir[0]>=6&&s.sm.sk.ev[0]===1&&s.sm.sk.wr[1]<s.sm.sk.wr[0],'step counts kept ('+JSON.stringify(s.sm.sk)+')');
+ok(s.sm.tpl[2]&&s.sm.tpl[5]&&s.sm.tpl[9],'pattern counts kept ('+JSON.stringify(s.sm.tpl)+')');
 ok(s.stars>=2&&Object.values(s.tk).some(t=>t.sp),'stars added and the planet task ticked');
+{const dn=Math.max(0,...Object.values(s.days||{}));ok(dn>=8,'the planet counts for today (days in a row) ('+dn+')');
+ const lg=s.log.filter(e=>e.t.startsWith('太空探险'));ok(lg.length===8&&lg.some(e=>!e.ok&&e.q&&e.r),'each question goes into the practice record, the wrong one with its answer');}
 /* playing again with 2 stars: tier 2, written on paper */
 await p.click('#smAgain');await p.waitForTimeout(400);
 const t2=await p.evaluate(()=>{const Q=__sp.SQ();return{tier:Q.tier,title:document.getElementById('smQTitle').textContent};});
 ok(t2.tier===2&&t2.title.includes('第 2 层'),'the second time is tier 2 ('+t2.title+')');
 await playAll();ok(flows[1]==='one>ev>paper>chk'&&flows[0]==='mc>one>paper>chk','tier 2: the word blocks become writing on paper ('+flows[1]+')');
-ok(await p.isVisible('.sm-stars .on >> nth=2'),'all right on paper → 3 stars');s=await S();ok(s.sp.st[0]===3&&!s.sp.miss.includes('living:1'),'3 stars kept; done right again leaves the wrong list');
+ok(await p.isVisible('.sm-stars .on >> nth=2'),'all right on paper → 3 stars');s=await S();ok(s.sm.st[0]===3&&!s.sm.miss.includes('living:1'),'3 stars kept; done right again leaves the wrong list');
 await p.click('#smNextStop');await p.waitForTimeout(2200);
 ok(await p.evaluate(()=>__sp.cur())===1,'next planet: Classification');
 ok(await p.isVisible('#vSpQ')&&(await p.textContent('#smQTitle')).includes('Classification'),'“next planet” starts it after the walk');
 /* jump ahead: planets 1–2 done → space station */
-await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sp.st={0:3,1:2};S.sp.miss=['class:1'];localStorage.setItem(k,JSON.stringify(S));},KEY);
+await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sm.st={0:3,1:2};S.sm.miss=['class:1'];localStorage.setItem(k,JSON.stringify(S));},KEY);
 await p.reload();await p.waitForTimeout(500);await p.click('#tSp');await p.waitForTimeout(300);
 ok((await p.textContent('#smNext')).includes('Space Station'),'after two planets comes a space station');
 await p.click('#smGo');await p.waitForTimeout(300);
 const rv=await p.evaluate(()=>{const Q=__sp.SQ();return{kind:Q.kind,n:Q.list.length,first:Q.list[0],tier:Q.tier};});
 ok(rv.kind==='r'&&rv.n===6&&rv.first.pi===1&&rv.first.qi===1,'station: 6 questions, the wrong one first ('+JSON.stringify(rv)+')');
 await playAll();ok(flows.slice(0,6).every(f=>!f.includes('tiles')&&!f.includes('one')),'station questions are written on paper without the step-by-step help');
-s=await S();ok(s.sp.rv[0]>=1&&!s.sp.miss.includes('class:1'),'station done, the wrong one fixed');
+s=await S();ok(s.sm.rv[0]>=1&&!s.sm.miss.includes('class:1'),'station done, the wrong one fixed');
 /* try again tile takes Space Mission mistakes */
-await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sp.miss=['fungi:5','mat:1'];S.misses=[];localStorage.setItem(k,JSON.stringify(S));},KEY);
+await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sm.miss=['fungi:5','mat:1'];S.misses=[];localStorage.setItem(k,JSON.stringify(S));},KEY);
 await p.reload();await p.waitForTimeout(500);
 ok((await p.textContent('#redoNote')).includes('2'),'try again counts the planet mistakes');
 const tk2=await p.$$eval('#tasks .tk',x=>x.map(e=>e.dataset.tk));ok(tk2.includes('spr'),'a try-again task for the planet mistakes ('+tk2+')');
 await p.click('#tRedo');await p.waitForTimeout(300);
 const d=await p.evaluate(()=>{const Q=__sp.SQ();return{kind:Q.kind,n:Q.list.length,flow:Q.flow.map(f=>f.s).join('>')};});
 ok(d.kind==='d'&&d.n===2&&d.flow==='one>tiles>chk','try again replays them with the word blocks ('+JSON.stringify(d)+')');
-await playAll();s=await S();ok(s.sp.miss.length===0,'fixed mistakes leave the list');
+await playAll();s=await S();ok(s.sm.miss.length===0,'fixed mistakes leave the list');
 await p.click('#smHome');await p.waitForTimeout(300);ok(await p.isVisible('#vHome'),'back home after try again');
 /* toolbox */
 await p.click('#tTool');await p.waitForTimeout(300);
@@ -92,6 +94,11 @@ s=await S();ok(Object.values(s.tk).some(t=>t.tool),'toolbox task ticked');
 /* my progress */
 await p.click('#toolBack');await p.click('#tMe');await p.waitForTimeout(300);
 ok(await p.isVisible('#smShelf .sm-med'),'medals in my progress');
+/* a save from v4.32 kept the planets in S.sp: it moves to S.sm */
+await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.sp={st:{0:3,1:1},rv:{},tpl:{2:[3,2]},sk:{},miss:['class:2']};delete S.sm;localStorage.setItem(k,JSON.stringify(S));},KEY);
+await p.reload();await p.waitForTimeout(500);await p.click('#tSp');await p.waitForTimeout(300);
+s=await p.evaluate(()=>JSON.parse(JSON.stringify(__sp.S())));ok(s.sm&&s.sm.st[0]===3&&s.sm.st[1]===1&&s.sm.miss[0]==='class:2'&&!(s.sp&&s.sp.st),'a v4.32 save moves its planets over ('+JSON.stringify(s.sm&&s.sm.st)+')');
+ok(await p.evaluate(()=>__sp.cur())===2,'and the map continues where he was');
 /* phone: map labels and a question fit */
 const q=await (await b.newContext({...devices['iPhone 13']})).newPage();q.on('pageerror',e=>errs.push(e.message));
 await q.goto(U);await q.waitForTimeout(400);await q.click('#tSp');await q.waitForTimeout(300);

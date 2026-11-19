@@ -185,7 +185,7 @@ function islHint(){const q=IP.q,k=IP.steps[IP.sx];
   if(k==='fig')return'提示：'+q.fig.split('：')[0]+'。';
   if(k==='mk')return'再读一读题目。';
   return'提示：'+q.plan[0];}
-function islNextQ(){IP.i++;if(IP.i<IP.list.length)islQ();else islFinish();}
+function islNextQ(){{const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;}IP.i++;if(IP.i<IP.list.length)islQ();else islFinish();}
 function islFinish(){const s=islSt(),n=IP.n,tot=IP.list.length,ok=IP.ok,stars=ok===tot?3:ok/tot>=.75?2:1;let first=false;
   if(n.t==='s'){first=!s.st[n.i];s.st[n.i]=Math.max(s.st[n.i]||0,stars);}
   else if(n.t==='r'){first=!s.rv[n.r];s.rv[n.r]=Math.max(s.rv[n.r]||0,stars);}

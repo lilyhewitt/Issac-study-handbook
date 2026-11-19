@@ -20,7 +20,7 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
 /* shared look of the space screens */
 .sm-view{color:#fff}
 .sm-top{display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0 0.75rem}
-.sm-bk{width:2.75rem;height:2.75rem;border-radius:0.875rem;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:1.5rem;flex:none}
+.sm-bk{width:2.75rem;height:2.75rem;border-radius:0.875rem;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:1.75rem;line-height:1;flex:none;display:grid;place-items:center;padding:0 0 0.2rem;cursor:pointer}
 .sm-tt{font:800 1.4rem/1.05 var(--f-display);min-width:0}.sm-tt small{display:block;font:700 .85rem var(--f-body);color:var(--sm-ink2);margin-top:0.25rem}
 .sm-pill{margin-left:auto;background:rgba(255,255,255,.12);border-radius:999px;padding:0.375rem 0.75rem;font:800 1rem var(--f-display);white-space:nowrap}
 .sm-btn{background:var(--sm-or);color:#fff;border:none;border-radius:0.875rem;padding:0.75rem 1.125rem;font:800 1.05rem var(--f-display);box-shadow:0 4px 0 var(--sm-ord);cursor:pointer}
@@ -30,7 +30,7 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
 /* map */
 .sm-wrap{display:flex;flex-direction:column;gap:0.75rem}
 .sm-next{background:var(--sm-s1);border:2px solid var(--sm-ln);border-radius:1.25rem;padding:0.75rem 1rem;display:flex;gap:0.75rem;align-items:center}
-.sm-next .sm-ic{font-size:2.25rem}.sm-next b{display:block;font:800 1.15rem var(--f-display)}.sm-next span{color:var(--sm-ink2);font-size:.9rem}
+.sm-next .sm-ic{font-size:2.25rem}.sm-next b{display:block;font:800 1.15rem/1.15 var(--f-display)}.sm-next>div{min-width:0;flex:1}.sm-next span{color:var(--sm-ink2);font-size:.9rem}
 .sm-go{margin-left:auto;background:var(--sm-or);color:#fff;border:none;border-radius:0.875rem;padding:0.75rem 1rem;font:800 1.05rem var(--f-display);box-shadow:0 4px 0 var(--sm-ord);white-space:nowrap}
 .sm-map{border-radius:1.25rem;overflow:hidden;background:#0d1236}
 .sm-map .sm-en{font:800 15px var(--f-display);fill:#fff}.sm-map .sm-zh{font:700 13px var(--f-body);fill:#c7cdf5}.sm-map .sm-gal{font:800 16px var(--f-display);fill:#b49cff}
@@ -113,5 +113,12 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
 @media (max-width:520px){.sm-tg{grid-template-columns:repeat(5,minmax(0,1fr));gap:0.3rem}.sm-tp b{font-size:.7rem}.sm-sp b{font-size:.8rem}.sm-sp .ic{display:none}.sm-sp i{display:none}}
 .tiles6 .tile.mini:not([data-mode="cards"]){color:#fff}.tiles6 .tile.mini:not([data-mode="cards"]) .tsub{color:rgba(255,255,255,.85)}
 .tiles6 .tile[data-mode="tool"] .tnote{font-size:.78rem}
-@media (orientation:landscape) and (min-width:700px){.tiles6{grid-template-columns:repeat(4,minmax(0,1fr))}.tiles6 .tile:not(.sm-hero):not(.mini) .tname{font-size:1.1rem}}
+/* iPad: two columns of wide tiles beside the board (square tiles were too small for the names) */
+@media (min-width:700px){.tiles6{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .tiles6 .tile:not(.sm-hero):not(.mini){aspect-ratio:auto;min-height:9rem;text-align:left;align-items:flex-start;justify-content:space-between}
+  .tiles6 .tile:not(.sm-hero):not(.mini) .tname{font-size:1.25rem}}
+@media (min-width:1000px){.tiles6 .tile:not(.sm-hero):not(.mini){min-height:8rem;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0.875rem}
+  .tiles6 .tile:not(.sm-hero):not(.mini) .glyph{margin:0}.tiles6 .tile:not(.sm-hero):not(.mini) .tname{font-size:1.35rem}}
 @media (min-width:700px){#vSp,#vSpQ,#vTool{max-width:none}}
+
+.sm-sp .sh{display:none}@media (max-width:520px){.sm-sp .lg{display:none}.sm-sp .sh{display:inline}.sm-sp{padding:0.375rem 0.25rem;justify-content:center}}

@@ -10,10 +10,12 @@ const TPL=[['🔢','读数','Read the number','How many / What was…','写数�
   ['🏆','选最合适','Most suitable','most suitable / strongest / best','X. 数据证据. X is ___, so ___.'],['❓','对错判断','True / False','True, False or Not possible to tell','图上有这个信息吗？轴量的是什么？'],
   ['🔮','预测','Predict','Predict / What will happen / Will…','___ will ___ because ___.'],['🛠️','建议','Suggest','Suggest…','___ so that ___.']];
 const SMCHK=t=>['方向对吗？（多 / 少，相同 / 不同）','有科学词吗？',t===3?'两边都写了吗？':t===4?'两样东西都写了吗？':t===5?'写的是变量吗？（改 / 量 / 不变）':t===0?'写单位了吗？':'有证据或 because / so 吗？'];
-const SMSTEPS=[['🔍','看问句','Read'],['👆','找证据','Find'],['📝','写任务报告','Write'],['✅','三查','Check']];
+const SMSTEPS=[['🔍','看问句','Read','看问句'],['👆','找证据','Find','找证据'],['📝','写任务报告','Write','写报告'],['✅','三查','Check','三查']];
 const smCirc=n=>'⓪①②③④⑤⑥⑦⑧⑨'[n];
 
-function smSt(){if(!S.sp||typeof S.sp!=='object'||Array.isArray(S.sp))S.sp={};const s=S.sp;
+/* progress lives in S.sm (S.sp is the English app's spell-it store; v4.32 saves kept it there, so it moves over once) */
+function smSt(){if(!S.sm&&S.sp&&S.sp.st&&typeof S.sp.st==='object'){S.sm={st:S.sp.st,rv:S.sp.rv,tpl:S.sp.tpl,sk:S.sp.sk,miss:S.sp.miss};S.sp={};}
+  if(!S.sm||typeof S.sm!=='object'||Array.isArray(S.sm))S.sm={};const s=S.sm;
   for(const k of['st','rv','tpl','sk'])if(!s[k]||typeof s[k]!=='object'||Array.isArray(s[k]))s[k]={};if(!Array.isArray(s.miss))s.miss=[];return s;}
 /* the road: planets two by two with a space station after each pair, a meteor belt at the end of each galaxy, the wormhole between P3 and P4 */
 function smRoad(){const L=[];let rv=0,run=[];
@@ -59,7 +61,7 @@ function smDraw(walk){const s=smSt(),L=smRoad(),cur=smCur(),wide=innerWidth>=900
   if(!wide){const c=$('smMap').querySelector('.sm-n.cur');if(c&&cur>1)setTimeout(()=>c.scrollIntoView({block:'center',behavior:walk?'smooth':'auto'}),walk?300:0);}
   $('smTot').textContent=smStars();
   const n=L[cur];
-  $('smNext').innerHTML=n?`<span class="sm-ic">${smIcon(n)}</span><div><b>${esc(smEn(n))}</b><span>${esc(smName(n))} · 下一站${n.t==='s'&&!SM[n.i].meteor?' · 8 题':''}</span></div><button class="sm-go" id="smGo">🚀 发射 Go!</button>`
+  $('smNext').innerHTML=n?`<span class="sm-ic">${smIcon(n)}</span><div><b>${esc(smEn(n))}</b><span>下一站 · ${esc(smName(n))}${n.t==='s'&&!SM[n.i].meteor?' · 8\u00a0题':''}</span></div><button class="sm-go" id="smGo">🚀 发射 Go!</button>`
     :'<div><b>全部完成！</b><span>每颗星都可以再玩，拿满 3 颗星。</span></div>';}
 
 /* ---------- playing ---------- */
@@ -115,9 +117,9 @@ function smProb(opt){opt=opt||{};const q=SQ.q,f=SQ.flow[SQ.fx],p=smPart();let h=
   $('smProb').innerHTML=h;}
 function smBar(){const f=SQ.flow[SQ.fx];if(!f||f.s==='mc'||f.s==='mcq'){$('smSteps').innerHTML='';return;}
   const map={one:0,ev:1,tiles:2,paper:2,chk:3,which:3},cur=map[f.s],have=new Set(SQ.flow.filter(x=>x.j===f.j||x.pre).map(x=>map[x.s]));
-  $('smSteps').innerHTML=SMSTEPS.map(([ic,zh,en],i)=>{const on=have.has(i),done=on&&i<cur,now=i===cur;
+  $('smSteps').innerHTML=SMSTEPS.map(([ic,zh,en,sh],i)=>{const on=have.has(i),done=on&&i<cur,now=i===cur;
     const sub=done&&i===0&&SQ.tplDone!=null?smCirc(SQ.tplDone)+' '+TPL[SQ.tplDone][1]:done&&i===1&&SQ.evDone?SQ.evDone:done&&i===2?'写好了':en;
-    return`<div class="sm-sp${done?' ok':''}${now?' on':''}${on?'':' off'}"><span class="ic">${ic}</span><div><b>${smCirc(i+1)} ${zh}</b><i>${esc(sub)}</i></div></div>`;}).join('');}
+    return`<div class="sm-sp${done?' ok':''}${now?' on':''}${on?'':' off'}"><span class="ic">${ic}</span><div><b>${smCirc(i+1)} <span class="lg">${zh}</span><span class="sh">${sh}</span></b><i>${esc(sub)}</i></div></div>`;}).join('');}
 function smStep(){const f=SQ.flow[SQ.fx];SQ.tries=0;if(!f){smNextQ();return;}
   if(f.s==='one'||f.s==='paper'&&f.hint){SQ.tplDone=null;SQ.evDone=null;}
   smBar();const box=$('smStep'),p=smPart(),q=SQ.q;
@@ -223,6 +225,11 @@ function smMc(btn){const f=SQ.flow[SQ.fx],q=SQ.q,tip=$('smTip');let ok,say;
   tip.textContent=SQ.tries>=2?'答案是：'+(f.s==='mcq'?q.opts[q.ans]:smPart().ans)+'。'+(say||''):(f.s==='mcq'?'再想一想：每个选项打 ✓ 或 ✗。':'再看一看表和问句。');
   if(SQ.tries>=2){$('smStep').querySelectorAll('.sm-o').forEach(b=>b.disabled=true);setTimeout(smAdv,3200);}}
 function smNextQ(){const s=smSt(),it=SQ.it,key=SM[it.pi].id+':'+it.qi;
+  /* every question counts for the day (streak, this week) and goes into the practice record */
+  {const dk=dkey(new Date()),q=SQ.q,op=q.k==='pr'?q.parts.find(x=>x.k==='op'):null;S.days[dk]=(S.days[dk]||0)+1;
+   const e={d:dk,ts:Date.now(),c:SM[it.pi].seg==='P4'?'p4':'life',t:'太空探险 · Space Mission',k:op?smCirc(op.tpl)+' '+TPL[op.tpl][1]:'选择题',h:QB.hash('sm:'+key),ok:SQ.qok?1:0};
+   if(!SQ.qok){e.q=(SM[it.pi].name+' · '+(q.k==='mcq'?q.q:(op||q.parts[0]).ask)).replace(/\s*\n\s*/g,' ').slice(0,160);e.a='（做错了）';e.r=q.k==='mcq'?q.opts[q.ans]:(op?op.ans:q.parts[0].ans).replace(/\*\*/g,'');}
+   if(!Array.isArray(S.log))S.log=[];S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);}
   if(SQ.kind!=='t'){if(SQ.qok){SQ.ok++;if(SQ.kind!=='s'||SQ.again)s.miss=s.miss.filter(x=>x!==key);}else if(!s.miss.includes(key))s.miss.push(key);}
   else if(SQ.qok)SQ.ok++;
   save();SQ.i++;if(SQ.i<SQ.list.length)smQ();else smFinish();}
