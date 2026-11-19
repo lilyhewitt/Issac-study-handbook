@@ -14,19 +14,20 @@ light:`<path d="M-9 22l3-34h12l3 34z" fill="#fff" stroke="#c4421a" stroke-width=
 chest:`<rect x="-20" y="-4" width="40" height="22" rx="4" fill="#c98a3d" stroke="#7a4f1c" stroke-width="2.5"/><path d="M-20-4q0-14 20-14t20 14z" fill="#e0a24e" stroke="#7a4f1c" stroke-width="2.5"/><rect x="-5" y="-6" width="10" height="12" rx="2" fill="#ffc02e" stroke="#b07c12" stroke-width="2"/>`,
 boat:`<path d="M-26 4h52l-8 12h-36z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5" stroke-linejoin="round"/><path d="M0 4v-30" stroke="#7a4f1c" stroke-width="3"/><path d="M2-26l18 22h-18z" fill="#fff" stroke="#4a7fb5" stroke-width="2" stroke-linejoin="round"/>`
 };
+/* 小小 as a sailor (white top, navy sailor collar, red scarf, navy shorts, sailor cap) */
 const ISLKID=`<g class="kid"><ellipse cx="0" cy="44" rx="20" ry="5" fill="rgba(0,0,0,.35)"/>
 <g class="legL"><rect x="-10" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="-12" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
 <g class="legR"><rect x="3" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="2" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
-<path d="M-14 18h28v10a3 3 0 0 1-3 3h-8l-3-4-3 4h-8a3 3 0 0 1-3-3z" fill="#2f6fe0" stroke="#1d47a0" stroke-width="2.5" stroke-linejoin="round"/>
-<g class="armL"><path d="M-13 6l-8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M-14 4l-6 7 4 4 4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<g class="armR"><path d="M13 6l8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M14 4l6 7-4 4-4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<path d="M-14 4q0-8 8-8h12q8 0 8 8v15h-28z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5"/>
-<circle cx="0" cy="-16" r="16" fill="#ffd9b0" stroke="#c7905e" stroke-width="2.5"/>
+<path d="M-14 18h28v10a3 3 0 0 1-3 3h-8l-3-4-3 4h-8a3 3 0 0 1-3-3z" fill="#1d3a8a" stroke="#122663" stroke-width="2.5" stroke-linejoin="round"/>
+<g class="armL"><path d="M-13 6l-8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M-14 4l-6 7 4 4 4-5" fill="#ffffff" stroke="#8a93ad" stroke-width="2" stroke-linejoin="round"/></g>
+<g class="armR"><path d="M13 6l8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M14 4l6 7-4 4-4-5" fill="#ffffff" stroke="#8a93ad" stroke-width="2" stroke-linejoin="round"/></g>
+<path d="M-14 4q0-8 8-8h12q8 0 8 8v15h-28z" fill="#ffffff" stroke="#8a93ad" stroke-width="2.5"/>
+<path d="M-14 -1L-7 11L0 3L7 11L14 -1Q0 -6 -14 -1Z" fill="#1d3a8a" stroke="#122663" stroke-width="1.5"/><path d="M-11 0L-6 8M11 0L6 8" stroke="#fff" stroke-width="1.6"/><path d="M-4 7l4 8 4-8z" fill="#e5383b" stroke="#a51d22" stroke-width="1.2"/><path d="M-12 12h24M-12 16h24" stroke="#1d3a8a" stroke-width="1.6" opacity=".55"/><circle cx="0" cy="-16" r="16" fill="#ffd9b0" stroke="#c7905e" stroke-width="2.5"/>
 <path d="M-16.5 -17 C-17 -27 -14 -33 -11 -34 L11 -34 C14 -33 17 -27 16.5 -17 C15 -22 13 -24 10 -24 L-10 -24 C-13 -24 -15 -22 -16.5 -17Z" fill="#2a1a10"/>
 <path d="M-12 -34l1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3" fill="#2a1a10" stroke="#2a1a10" stroke-width="1.5" stroke-linejoin="round"/>
 <circle cx="-6" cy="-14" r="2.5" fill="#2a1a10"/><circle cx="6" cy="-14" r="2.5" fill="#2a1a10"/>
 <path d="M-5 -7q5 4 10 0" stroke="#2a1a10" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-<circle cx="-10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><circle cx="10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/></g>`;
+<circle cx="-10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><circle cx="10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><g class="cap"><path d="M-17 -26C-17 -46 17 -46 17 -26z" fill="#fff" stroke="#8a93ad" stroke-width="2"/><path d="M-6 -41q6-3 12 0" stroke="#e8edf5" stroke-width="3" fill="none"/><rect x="-19" y="-31" width="38" height="8" rx="4" fill="#fff" stroke="#8a93ad" stroke-width="2"/><path d="M-17 -27h34" stroke="#1d3a8a" stroke-width="2.8"/><path d="M16 -26l4 10M18 -27l7 7" stroke="#1d3a8a" stroke-width="2.4" stroke-linecap="round"/></g></g>`;
 
 Object.assign(ISLI,{
 flag:`<path d="M-12 22v-44" stroke="#7a4f1c" stroke-width="4" stroke-linecap="round"/><path d="M-10-22h26l-6 9 6 9h-26z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5" stroke-linejoin="round"/><path d="M0-17l2 4 4 .5-3 3 .8 4-3.8-2-3.8 2 .8-4-3-3 4-.5z" fill="#ffc02e"/>`,

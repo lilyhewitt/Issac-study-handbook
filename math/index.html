@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#6B47E6">
+<meta name="theme-color" content="#0C6E8F">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="小小数学">
@@ -533,12 +533,72 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
 .isl-keep .dg{max-height:10rem;width:auto;max-width:100%;margin:0 auto}
 .dg-tick{stroke:var(--ink-2);stroke-width:1.5}
 .isl-chtag{display:inline-block;margin-bottom:0.375rem;padding:0.125rem 0.625rem;border-radius:999px;background:var(--p4-tint);color:var(--p4-ink);font:800 .85rem var(--f-display)}
+/* 数学小岛 ocean look (v4.34): the same layout as 太空探险 in science — a hero tile with 小小 the sailor, wide tiles on iPad,
+   a four-box step bar above the problem, the problem on light paper, the working panel dark. */
+:root{--o-sun:#FFC93C;--o-or:#FF7B39;--o-ord:#B44A17;--o-s2:#16506B;--o-paper:#FFF8E7;--o-pink:#1C2B33}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cpath d='M6 30q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.07' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M66 52q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.05' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+/* light paper wherever a problem or a picture is drawn: the template's light tokens, scoped */
+.isl-prob,.dg{--surface:#FFFFFF;--paper:#FFF8E7;--ink:#1C2B33;--ink-2:#4F6470;--line:#D9E6EC;--track:#E6EEF2;--wp:#5B3FD0;--wp-tint:#E9E3FF;--wp-ink:#4428A6;
+  --calc:#0C6E8F;--calc-tint:#DFF4FB;--p4:#E25F2A;--p4-tint:#FDE8DD;--p4-ink:#9A3F15;--good:#1F9A5A;--good-bg:#E1F5E9;--miss:#B7791F;--miss-bg:#FDF3E1;--star:#FFB400;--hl:#FFE48A}
+.isl-prob{background:var(--o-paper)!important;color:var(--o-pink)!important;box-shadow:none!important}
+.dg{background:var(--o-paper);border-radius:0.75rem}
+.isl-dg{background:transparent;border:none;padding:0}
+/* home: the big island tile */
+.tiles6.mt{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.tiles6 .tile.isl-hero{grid-column:1 / -1;aspect-ratio:auto!important;flex-direction:row;align-items:center;gap:0.5rem;justify-content:flex-start;min-height:11rem;
+  background:linear-gradient(160deg,#1593B8,#0C6E8F);border:2px solid #49B9DA;box-shadow:0 5px 0 #08506A;color:#fff;padding:0.875rem 1rem;overflow:visible}
+.tile.isl-hero .isl-art{position:static;width:7.75rem;height:8.25rem;flex:none;overflow:visible}
+.isl-htxt{display:flex;flex-direction:column;gap:0.25rem;min-width:0;flex:1;text-align:left;position:relative;z-index:1}
+.isl-hero .tname{font-size:1.65rem;line-height:1.02}.isl-hero .tsub{color:#E1F6FD}
+.isl-hbar{display:block;height:0.6rem;background:rgba(0,0,0,.2);border-radius:1rem;overflow:hidden;margin-top:0.25rem}.isl-hbar i{display:block;height:100%;width:0;background:var(--o-sun);border-radius:1rem}
+.isl-hnote{font-size:.85rem;color:#E1F6FD;line-height:1.35}.isl-hnote b{color:#fff}
+.isl-hgo{align-self:flex-start;margin-top:0.375rem;background:var(--o-or);color:#fff;border-radius:0.875rem;padding:0.5rem 0.875rem;font:800 1.05rem var(--f-display);box-shadow:0 4px 0 var(--o-ord)}
+.tiles6.mt .tile:not(.isl-hero){aspect-ratio:auto;min-height:8.5rem}
+.tile[data-mode="bar"]{--c:#7A4FE0;--cd:#4A2E96}
+.tile[data-mode="p4"]{--c:#FF7B39;--cd:#B44A17}
+.tile[data-mode="me"]{--c:#D99A00;--cd:#8A6100}
+.tile[data-mode="redo"]{border-color:#7FB6CB!important}
+@media (min-width:700px){.tiles6 .tile.isl-hero{min-height:13rem}.tile.isl-hero .isl-art{width:9.5rem;height:10rem}.isl-hero .tname{font-size:2rem}}
+@media (min-width:1000px){.tiles6.mt .tile:not(.isl-hero){min-height:7.5rem;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0.875rem}
+  .tiles6.mt .tile:not(.isl-hero) .glyph{margin:0}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.35rem}}
+/* top bars, side card, buttons */
+.isl-top .bk{background:rgba(255,255,255,.14);color:#fff;box-shadow:none;font-size:1.6rem;line-height:1;padding-bottom:0.15rem}
+.isl-pill{background:rgba(255,255,255,.14);color:#fff}
+.isl-cnt{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:0.35rem 0.8rem}
+.isl-card{border:2px solid var(--line);box-shadow:none}
+.isl-go{background:var(--o-or);color:#fff;box-shadow:0 4px 0 var(--o-ord)}
+.isl-now svg{background:#FFF8D8}
+.isl-map{border:2px solid var(--line)}
+/* the four steps, as boxes above the problem */
+.isl-steps{margin:0 0 0.75rem;gap:0.5rem}
+.isl-sp{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:0.375rem;align-items:center;text-align:left;padding:0.375rem 0.5rem;border-width:2.5px;background:var(--surface);color:#fff}
+.isl-sp .ic{grid-row:1 / 3;font-size:1.2rem}.isl-sp b{font:800 .95rem var(--f-display)}.isl-sp i{color:var(--ink-2)}
+.isl-sp.on{border-color:var(--o-sun);background:#4A3D12;color:#fff}.isl-sp.ok{border-color:var(--good);background:var(--good-bg);color:#fff}
+@media (max-width:520px){.isl-sp{grid-template-columns:1fr;text-align:center;padding:0.375rem 0.125rem}.isl-sp .ic{grid-row:auto;font-size:1rem}.isl-sp b{font-size:.78rem}.isl-sp i{display:none}}
+.isl-right{background:var(--surface);border:2px solid var(--line);border-radius:1.25rem;padding:1rem 1.125rem;min-width:0}
+.isl-o,.isl-fig,.isl-pc{background:var(--o-s2);color:#fff}
+.isl-fig{background:var(--o-paper);color:var(--o-pink)}.isl-fig i{color:#4F6470}
+.isl-built{background:rgba(0,0,0,.18)}
+.isl-tip.good{color:#fff}
+.isl-keep{background:rgba(255,255,255,.06)}
+.isl-chips2 span{color:#fff}
+/* done: 小小 plants a flag on the island */
+.isl-done{background:#0A4A66}
+.isl-scene{width:15rem;height:auto;overflow:visible;animation:islPop .6s}
+.isl-wh{margin:0;font:800 2.1rem var(--f-display);color:#fff}
+.isl-win .isl-card{background:var(--surface)}
+.isl-medal{display:flex;gap:0.75rem;align-items:center;text-align:left}.isl-medal .isl-trophy{width:4.5rem;flex:none;animation:none}
+.isl-medal h2{font-size:1.35rem!important}.isl-back2{color:var(--ink-2)}
+.isl-stars svg{fill:#3d5a6a;stroke:#5d7c8c}
+@media (max-width:520px){.tiles6.mt .tile:not(.isl-hero){padding:0.875rem}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.3rem}}
 </style>
 <style>
-/* maths palette: violet = word problems, teal = calculation, orange = P4 preview */
-:root{--bg:#EFEDF9; --surface:#FFFFFF; --paper:#F6F5FD; --ink:#1E1B3A; --ink-2:#5B5878; --line:#DAD6EE; --track:#E3E0F2; --focus:#6B47E6; --wp:#6B47E6; --wp-deep:#4A2DB0; --wp-tint:#ECE6FF; --wp-ink:#4428A6; --calc:#0B8AA3; --calc-deep:#066478; --calc-tint:#DDF3F7; --calc-ink:#075E70; --p4:#D9622B; --p4-deep:#A6461A; --p4-tint:#FCE6DA; --p4-ink:#9A3F15;}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#13112A; --surface:#1D1A38; --paper:#17142F; --ink:#EEECFB; --ink-2:#ADA9CC; --line:#322E55; --track:#2A2648; --focus:#A894FF; --wp:#7356EC; --wp-deep:#3F2795; --wp-tint:#2A2155; --wp-ink:#C4B5FF; --calc:#0F93AD; --calc-deep:#07566A; --calc-tint:#0F3540; --calc-ink:#8EE0F0; --p4:#DB6A31; --p4-deep:#8A3A12; --p4-tint:#3A2318; --p4-ink:#FFB48F; color-scheme:dark;}}
-:root[data-theme="dark"]{--bg:#13112A; --surface:#1D1A38; --paper:#17142F; --ink:#EEECFB; --ink-2:#ADA9CC; --line:#322E55; --track:#2A2648; --focus:#A894FF; --wp:#7356EC; --wp-deep:#3F2795; --wp-tint:#2A2155; --wp-ink:#C4B5FF; --calc:#0F93AD; --calc-deep:#07566A; --calc-tint:#0F3540; --calc-ink:#8EE0F0; --p4:#DB6A31; --p4-deep:#8A3A12; --p4-tint:#3A2318; --p4-ink:#FFB48F; color-scheme:dark;}
+/* maths palette: one ocean world (数学小岛) in every theme. Violet = word problems / bar models, sea blue = calculation, orange = P4 preview.
+   :root:not(#_) outranks the template's light and dark blocks, so these values always win. */
+:root:not(#_){--bg:#0A4A66; --surface:#0F3B52; --paper:#0D3448; --ink:#F2FBFF; --ink-2:#BFE3EF; --line:#2C7595; --track:#16506B; --focus:#FFC93C;
+  --wp:#7A5CF0; --wp-deep:#4A2E96; --wp-tint:#2C2A66; --wp-ink:#D4C8FF; --calc:#1593B8; --calc-deep:#0C6E8F; --calc-tint:#10465E; --calc-ink:#9FE3F7;
+  --p4:#FF7B39; --p4-deep:#B44A17; --p4-tint:#4A2E24; --p4-ink:#FFC09C; --mix:#FFC93C; --mix-deep:#B98A00; --mix-tint:#4A3D12; --mix-ink:#FFE08A; --on-mix:#2B1F00; --on-tile:#FFFFFF;
+  --star:#FFC93C; --good:#6FE3A1; --good-bg:#14473F; --miss:#FF9A6B; --miss-bg:#4A2A24; --hl:#5A4A12; --shade:rgba(0,0,0,.45); color-scheme:dark;}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -677,23 +737,29 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
     </button>
 
     <div class="tiles tiles6 mt">
-      <button class="tile" data-mode="isl" id="tIsl">
-        <span class="isl-art" id="islArt" aria-hidden="true"></span>
-        <span><span class="tname">Math Island</span><span class="tsub">数学小岛 · 应用题</span><span class="tnote" id="islNote"></span></span>
+      <button class="tile isl-hero" data-mode="isl" id="tIsl">
+        <svg class="isl-art" id="islArt" viewBox="-70 -70 140 150" aria-hidden="true"></svg>
+        <span class="isl-htxt"><span class="tname">Math Island</span><span class="tsub">数学小岛 · 应用题</span>
+          <span class="isl-hbar"><i id="islProg"></i></span><span class="isl-hnote" id="islNote"></span><span class="isl-hgo">⛵ 出发 Go!</span></span>
       </button>
       <button class="tile" data-mode="bar" id="tBar">
         <span class="glyph"><svg viewBox="0 0 40 38"><rect x="4" y="8" width="20" height="8" rx="2"/><rect x="24" y="8" width="12" height="8" rx="2"/><rect x="4" y="22" width="32" height="8" rx="2"/></svg></span>
-        <span><span class="tname">Bar models</span><span class="tsub">画线段图</span><span class="tnote" id="brNote"></span></span>
-      </button>
-      <button class="tile" data-mode="p4" id="tP4">
-        <span class="glyph">4A</span>
-        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
+        <span><span class="tname">Bar models</span><span class="tsub">线段图图鉴</span><span class="tnote" id="brNote"></span></span>
       </button>
       <button class="tile" data-mode="redo" id="tRedo">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
         <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
+      <button class="tile" data-mode="p4" id="tP4">
+        <span class="glyph">4A</span>
+        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
+      </button>
+      <button class="tile" data-mode="me" id="tMe">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M20 4l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L20 27.6l-9.3 4.9 1.8-10.3L5 14.9l10.4-1.5z"/></svg></span>
+        <span><span class="tname">My stars</span><span class="tsub">我的星星 · 奖杯柜</span></span>
+      </button>
     </div>
+
 <button class="redo" id="bRedo" hidden>
       <span>Try my misses again 错题再练<small>做对一次就从这里消掉</small></span>
       <span class="count" id="redoN">0</span>
@@ -812,14 +878,15 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
     <div id="bcList" class="bc-list"></div>
   </section>
   <section id="vIsl" class="view" aria-label="Math Island" hidden>
-    <div class="isl-top"><button class="bk" id="islBack" aria-label="Back">‹</button><div class="isl-tt">Math Island<small>数学小岛探险 · 应用题</small></div><div class="isl-pill">★ <span id="islTot">0</span></div></div>
+    <div class="isl-top"><button class="bk" id="islBack" aria-label="Back">‹</button><div class="isl-tt">Math Island<small>数学小岛 · 应用题</small></div><div class="isl-pill">★ <span id="islTot">0</span></div></div>
     <div class="isl-wrap"><div class="isl-side" id="islSide"><div class="isl-card" id="islNext"></div>
       <button class="isl-free" id="islBar"><b>线段图 Bar model</b><small>不用闯关，随时做几题</small></button></div>
       <div class="isl-map" id="islMap"></div></div>
   </section>
   <section id="vIslQ" class="view" aria-label="Math Island problem" hidden>
     <div class="isl-top"><button class="bk" id="islQBack" aria-label="Back to the map">‹</button><div class="isl-tt" id="islQTitle"></div><div class="isl-cnt" id="islQCount"></div></div>
-    <div class="isl-qwrap"><div class="isl-left"><div class="isl-prob" id="islQProb"></div><div class="isl-steps" id="islSteps"></div></div>
+    <div class="isl-steps" id="islSteps"></div>
+    <div class="isl-qwrap"><div class="isl-left"><div class="isl-prob" id="islQProb"></div></div>
       <div class="isl-right" id="islStep"></div></div>
     <div class="isl-done" id="islDone" hidden></div>
     <div class="isl-flash" id="islFlash"></div>
@@ -1921,19 +1988,20 @@ light:`<path d="M-9 22l3-34h12l3 34z" fill="#fff" stroke="#c4421a" stroke-width=
 chest:`<rect x="-20" y="-4" width="40" height="22" rx="4" fill="#c98a3d" stroke="#7a4f1c" stroke-width="2.5"/><path d="M-20-4q0-14 20-14t20 14z" fill="#e0a24e" stroke="#7a4f1c" stroke-width="2.5"/><rect x="-5" y="-6" width="10" height="12" rx="2" fill="#ffc02e" stroke="#b07c12" stroke-width="2"/>`,
 boat:`<path d="M-26 4h52l-8 12h-36z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5" stroke-linejoin="round"/><path d="M0 4v-30" stroke="#7a4f1c" stroke-width="3"/><path d="M2-26l18 22h-18z" fill="#fff" stroke="#4a7fb5" stroke-width="2" stroke-linejoin="round"/>`
 };
+/* 小小 as a sailor (white top, navy sailor collar, red scarf, navy shorts, sailor cap) */
 const ISLKID=`<g class="kid"><ellipse cx="0" cy="44" rx="20" ry="5" fill="rgba(0,0,0,.35)"/>
 <g class="legL"><rect x="-10" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="-12" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
 <g class="legR"><rect x="3" y="26" width="7" height="17" rx="3" fill="#ffd9b0" stroke="#c7905e" stroke-width="2"/><rect x="2" y="40" width="10" height="5" rx="2" fill="#fff" stroke="#999" stroke-width="1.5"/></g>
-<path d="M-14 18h28v10a3 3 0 0 1-3 3h-8l-3-4-3 4h-8a3 3 0 0 1-3-3z" fill="#2f6fe0" stroke="#1d47a0" stroke-width="2.5" stroke-linejoin="round"/>
-<g class="armL"><path d="M-13 6l-8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M-14 4l-6 7 4 4 4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<g class="armR"><path d="M13 6l8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M14 4l6 7-4 4-4-5" fill="#e5383b" stroke="#a51d22" stroke-width="2" stroke-linejoin="round"/></g>
-<path d="M-14 4q0-8 8-8h12q8 0 8 8v15h-28z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5"/>
-<circle cx="0" cy="-16" r="16" fill="#ffd9b0" stroke="#c7905e" stroke-width="2.5"/>
+<path d="M-14 18h28v10a3 3 0 0 1-3 3h-8l-3-4-3 4h-8a3 3 0 0 1-3-3z" fill="#1d3a8a" stroke="#122663" stroke-width="2.5" stroke-linejoin="round"/>
+<g class="armL"><path d="M-13 6l-8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M-14 4l-6 7 4 4 4-5" fill="#ffffff" stroke="#8a93ad" stroke-width="2" stroke-linejoin="round"/></g>
+<g class="armR"><path d="M13 6l8 10" stroke="#ffd9b0" stroke-width="6" stroke-linecap="round"/><path d="M14 4l6 7-4 4-4-5" fill="#ffffff" stroke="#8a93ad" stroke-width="2" stroke-linejoin="round"/></g>
+<path d="M-14 4q0-8 8-8h12q8 0 8 8v15h-28z" fill="#ffffff" stroke="#8a93ad" stroke-width="2.5"/>
+<path d="M-14 -1L-7 11L0 3L7 11L14 -1Q0 -6 -14 -1Z" fill="#1d3a8a" stroke="#122663" stroke-width="1.5"/><path d="M-11 0L-6 8M11 0L6 8" stroke="#fff" stroke-width="1.6"/><path d="M-4 7l4 8 4-8z" fill="#e5383b" stroke="#a51d22" stroke-width="1.2"/><path d="M-12 12h24M-12 16h24" stroke="#1d3a8a" stroke-width="1.6" opacity=".55"/><circle cx="0" cy="-16" r="16" fill="#ffd9b0" stroke="#c7905e" stroke-width="2.5"/>
 <path d="M-16.5 -17 C-17 -27 -14 -33 -11 -34 L11 -34 C14 -33 17 -27 16.5 -17 C15 -22 13 -24 10 -24 L-10 -24 C-13 -24 -15 -22 -16.5 -17Z" fill="#2a1a10"/>
 <path d="M-12 -34l1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3" fill="#2a1a10" stroke="#2a1a10" stroke-width="1.5" stroke-linejoin="round"/>
 <circle cx="-6" cy="-14" r="2.5" fill="#2a1a10"/><circle cx="6" cy="-14" r="2.5" fill="#2a1a10"/>
 <path d="M-5 -7q5 4 10 0" stroke="#2a1a10" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-<circle cx="-10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><circle cx="10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/></g>`;
+<circle cx="-10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><circle cx="10" cy="-9" r="2.5" fill="#ff9a8a" opacity=".6"/><g class="cap"><path d="M-17 -26C-17 -46 17 -46 17 -26z" fill="#fff" stroke="#8a93ad" stroke-width="2"/><path d="M-6 -41q6-3 12 0" stroke="#e8edf5" stroke-width="3" fill="none"/><rect x="-19" y="-31" width="38" height="8" rx="4" fill="#fff" stroke="#8a93ad" stroke-width="2"/><path d="M-17 -27h34" stroke="#1d3a8a" stroke-width="2.8"/><path d="M16 -26l4 10M18 -27l7 7" stroke="#1d3a8a" stroke-width="2.4" stroke-linecap="round"/></g></g>`;
 
 Object.assign(ISLI,{
 flag:`<path d="M-12 22v-44" stroke="#7a4f1c" stroke-width="4" stroke-linecap="round"/><path d="M-10-22h26l-6 9 6 9h-26z" fill="#e5383b" stroke="#a51d22" stroke-width="2.5" stroke-linejoin="round"/><path d="M0-17l2 4 4 .5-3 3 .8 4-3.8-2-3.8 2 .8-4-3-3 4-.5z" fill="#ffc02e"/>`,
@@ -2261,9 +2329,9 @@ function islFinish(){const s=islSt(),n=IP.n,tot=IP.list.length,ok=IP.ok,stars=ok
   const L=islRoad();ISLWALK=first?L.findIndex(x=>x.t===n.t&&(x.t==='s'?x.i===n.i:x.r===n.r)):null;save();
   const tro=stars===3?['gold','金奖杯']:stars===2?['silver','银奖杯']:['bronze','铜奖杯'];
   $('islDone').hidden=false;
-  $('islDone').innerHTML=`<div class="isl-win"><div class="isl-rays"></div><div class="isl-stars">${[0,1,2].map(k=>`<svg viewBox="-14 -14 28 28" class="${k<stars?'on':''}" style="animation-delay:${.2+k*.25}s"><path d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z"/></svg>`).join('')}</div>
-    <svg class="isl-trophy t-${tro[0]}" viewBox="-80 -90 160 190">${islTrophy()}</svg>
-    <div class="isl-card"><h2>${ok===tot?'Perfect! 全对！':ok/tot>=.75?'Great! 很棒！':'Good try! 再接再厉！'}</h2><p>${esc(n.t==='s'?ISL[n.i].name+' · '+ISL[n.i].en:n.t==='r'?'营火复习':'小岛复习')}　一次做对 ${ok} / ${tot} 题</p>
+  $('islDone').innerHTML=`<div class="isl-win"><svg class="isl-scene" viewBox="-110 -95 220 190" aria-hidden="true"><ellipse cx="0" cy="72" rx="100" ry="20" fill="#F6E3B3"/><ellipse cx="0" cy="66" rx="82" ry="12" fill="#8FD47A"/>${n.t==='s'?`<g transform="translate(-62 42) scale(.6)">${ISLI[ISLICON[ISL[n.i].name]||'gem']}</g>`:''}<path d="M42 62v-92" stroke="#7a4f1c" stroke-width="4"/><path d="M44 -30h36l-8 10 8 10h-36z" fill="#E5383B" stroke="#a51d22" stroke-width="2"/><g transform="translate(0 8) scale(1.5)">${ISLKID}</g></svg>
+    <h2 class="isl-wh">${n.t==='d'?(ok===tot?'全对！':'练完了！'):'插上旗子了！'}</h2><div class="isl-stars">${[0,1,2].map(k=>`<svg viewBox="-14 -14 28 28" class="${k<stars?'on':''}" style="animation-delay:${.2+k*.25}s"><path d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z"/></svg>`).join('')}</div>
+    <div class="isl-card"><div class="isl-medal"><svg class="isl-trophy t-${tro[0]}" viewBox="-80 -90 160 190">${islTrophy()}</svg><div><h2>${ok===tot?'Perfect! 全对！':ok/tot>=.75?'Great! 很棒！':'Good try! 再接再厉！'}</h2><p>${esc(n.t==='s'?ISL[n.i].name+' · '+ISL[n.i].en:n.t==='r'?'营火复习':'小岛复习')}　一次做对 ${ok} / ${tot} 题</p></div></div>
     <div class="isl-chips"><span>+${stars} ★</span><span>🏆 ${tro[1]}</span></div>
     <button class="isl-go" id="islNextStop">${n.t==='d'?'回首页':'回地图，去下一站 →'}</button><button class="isl-back2" id="islAgain">再玩一次，升级奖杯</button></div></div>`;
   if(ok>=tot*.75)confetti();}
@@ -2318,7 +2386,10 @@ $('vIslQ').addEventListener('click',e=>{
 
 /* ---------- home tile, tasks, my progress ---------- */
 HOOK.tile.isl=()=>islOpen();
-HOOK.home.push(()=>{const el=$('islNote');if(!el)return;const L=islRoad(),c=islCur();el.textContent=c<L.length?'下一站：'+islName(L[c]):'全部走完了！';});
+HOOK.home.push(()=>{const el=$('islNote');if(!el)return;const s=islSt(),L=islRoad(),c=islCur(),n=L[c],done=ISL.filter((x,i)=>s.st[i]).length;
+  el.innerHTML=c<L.length?`${done} / ${ISL.length} 站 · 下一站 <b>${esc(islEn(n))} ${esc(islName(n))}</b>`:'全部走完了！每一站都能再玩，升级奖杯。';
+  const b=$('islProg');if(b)b.style.width=Math.round(done/ISL.length*100)+'%';});
+HOOK.tile.me=()=>$('bStats').click();
 HOOK.noWordTasks=true;
 HOOK.tasks.push(t=>{const L=islRoad(),c=islCur();if(c>=L.length&&!t.isl)return null;const n=L[Math.min(c,L.length-1)];
   return{k:'isl',name:'小岛下一站 · '+islName(n)+(n.t==='s'?'（'+ISL[n.i].qs.length+' 题）':''),done:!!t.isl};});
@@ -2333,12 +2404,9 @@ HOOK.meExtra.push(()=>{const s=islSt();let el=$('islShelf');if(!el){el=document.
   const cups=ISL.map((x,i)=>s.st[i]?`<span class="isl-cup t-${cls(s.st[i])}" title="${esc(x.name)}"><svg viewBox="-80 -90 160 190">${islTrophy()}</svg><i>${esc(x.name)}</i></span>`:'').join('');
   const badges=Object.keys(s.ch).map(c=>`<span class="isl-cup t-${s.ch[c].b}"><svg viewBox="-35 -35 70 70">${ISLI.chest}</svg><i>宝箱 ${+c+1}</i></span>`).join('');
   el.innerHTML=`<h3>奖杯柜 · Trophies</h3>${cups||badges?`<div class="isl-shelf">${cups}${badges}</div>`:'<p class="muted">在数学小岛上通关，奖杯会摆在这里。</p>'}`;});
-/* the picture on the home tile: a bit of the island with the next stop */
-HOOK.home.push(()=>{const a=$('islArt');if(!a)return;const L=islRoad(),c=Math.min(islCur(),L.length-1),prev=L[Math.max(0,c-1)],n=L[c],nx=L[Math.min(L.length-1,c+1)];
-  const ic=x=>ISLI[islIcon(x)];
-  a.innerHTML=`<svg viewBox="0 0 300 120" preserveAspectRatio="xMaxYMid slice" width="100%" height="100%"><g transform="${innerWidth<700?'translate(150 40) scale(.55)':'translate(60 0) scale(.85)'}"><ellipse cx="190" cy="78" rx="150" ry="62" fill="#f6e3b3"/><ellipse cx="190" cy="74" rx="134" ry="52" fill="#8fd47a"/>
-  <path d="M70 70 C110 40 150 100 190 64 S 260 40 290 70" stroke="#f8e7b8" stroke-width="12" fill="none" stroke-linecap="round"/>
-  ${c>0?`<g transform="translate(108 56) scale(.62)"><circle r="40" fill="#fff" stroke="#3fb24f" stroke-width="5"/>${ic(prev)}</g>`:''}<g transform="translate(190 64) scale(.62)"><circle r="40" fill="#fff8d8" stroke="#ffb400" stroke-width="5"/>${ic(n)}</g><g transform="translate(262 50) scale(.55)" opacity=".7"><circle r="40" fill="#eef1f6" stroke="#aab3c4" stroke-width="5"/>${ic(nx)}</g><g transform="translate(40 92) scale(.7)">${ISLI.boat}</g></g></svg>`;});
+/* the picture on the home tile: 小小 the sailor on a little island with the next stop */
+HOOK.home.push(()=>{const a=$('islArt');if(!a)return;const L=islRoad(),n=L[Math.min(islCur(),L.length-1)];
+  a.innerHTML=`<ellipse cx="0" cy="62" rx="64" ry="14" fill="#F6E3B3"/><ellipse cx="0" cy="58" rx="52" ry="9" fill="#8FD47A"/><g transform="translate(38 32) scale(.55)">${ISLI[islIcon(n)]}</g><g transform="translate(-6 -2) scale(1.25)">${ISLKID}</g>`;});
 window.__isl={IP:()=>IP,ICP:()=>ICP,road:islRoad,cur:islCur,startRound,S:()=>S};   /* for the tests */
 /* 错题重练 also takes the island problems he got wrong */
 {const f=HOOK.tile.redo;HOOK.tile.redo=()=>{if(S.misses.length)return f();if(islSt().miss.length)islStart({t:'d',miss:true});};}

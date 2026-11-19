@@ -32,7 +32,7 @@ APPS = {
         tokens=[('--gram', '--life'), ('--word', '--mat'), ('--read', '--p4')], modes=('mat', 'p4'), flame='--mat',
         cats="{life:'Living things 生物',mat:'Materials & magnets 材料磁铁',p4:'P4 preview 四年级预习'}",
         help='Tap 🔊 Listen to hear the question. Tap 中文 to read the question in Chinese.'),
-    'math': dict(theme='#6B47E6', name='小小数学', desc='小小的数学练习：应用题一步一步想、计算和四年级预习，每轮 5 题。',
+    'math': dict(theme='#0C6E8F', name='小小数学', desc='小小的数学练习：应用题一步一步想、计算和四年级预习，每轮 5 题。',
         title='小小数学题库', edition='Maths', key='xiaoxiao-math-v1',
         tokens=[('--gram', '--wp'), ('--word', '--calc'), ('--read', '--p4')], modes=('calc', 'p4'), flame='--calc',
         cats="{wp:'Word problems 应用题',calc:'Calculation 计算',p4:'Preview 4A 预习 4A'}",
@@ -105,7 +105,7 @@ def edition(app):
         # 数学小岛 Math Island: the word-problem map (questions from claude/数学小岛_全部题目.md)
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'island.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
-        s = s[:i] + read('math', 'island.css') + s[i:]
+        s = s[:i] + read('math', 'island.css') + read('math', 'ocean.css') + s[i:]
         s = rep(s, 'function home(){', read('math', 'island-icons.js') + '\n' + read('math', 'island-data.js') + '\n' + read('math', 'island-fig.js') + '\n' + read('math', 'island.js') + '\n' + read('math', 'bar2.js') + '\nfunction home(){')
     return s
 

@@ -7,7 +7,7 @@ const ok=(c,m)=>{if(c){pass++;console.log('PASS',m);}else{fail++;console.log('FA
 const p=await (await b.newContext({...devices['iPhone 13']})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(U);await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(500);
 const tiles=await p.$$eval('#vHome .tile',x=>x.map(e=>e.dataset.mode).join(','));
-ok(tiles==='isl,bar,p4,redo','home tiles: island, bar models, 4A, try again ('+tiles+')');
+ok(tiles==='isl,bar,redo,p4,me','home tiles: island, bar models, try again, 4A, my stars ('+tiles+')');
 ok(await p.isVisible('#tIsl .nw'),'NEW on the island tile');
 const tk=await p.$$eval('#tasks .tk',x=>x.map(e=>e.dataset.tk));ok(tk.includes('isl')&&tk.includes('bar')&&tk.length===3&&!tk.includes('words'),'three tasks with the island and bar models, no word cards ('+tk+')');
 ok(await p.evaluate(()=>{for(let i=0;i<300;i++)if(QB.pickCat()==='calc')return false;return true;}),'mixed rounds never pick calculation');

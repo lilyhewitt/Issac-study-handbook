@@ -1,0 +1,58 @@
+/* 数学小岛 ocean look (v4.34): the same layout as 太空探险 in science — a hero tile with 小小 the sailor, wide tiles on iPad,
+   a four-box step bar above the problem, the problem on light paper, the working panel dark. */
+:root{--o-sun:#FFC93C;--o-or:#FF7B39;--o-ord:#B44A17;--o-s2:#16506B;--o-paper:#FFF8E7;--o-pink:#1C2B33}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cpath d='M6 30q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.07' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M66 52q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.05' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+/* light paper wherever a problem or a picture is drawn: the template's light tokens, scoped */
+.isl-prob,.dg{--surface:#FFFFFF;--paper:#FFF8E7;--ink:#1C2B33;--ink-2:#4F6470;--line:#D9E6EC;--track:#E6EEF2;--wp:#5B3FD0;--wp-tint:#E9E3FF;--wp-ink:#4428A6;
+  --calc:#0C6E8F;--calc-tint:#DFF4FB;--p4:#E25F2A;--p4-tint:#FDE8DD;--p4-ink:#9A3F15;--good:#1F9A5A;--good-bg:#E1F5E9;--miss:#B7791F;--miss-bg:#FDF3E1;--star:#FFB400;--hl:#FFE48A}
+.isl-prob{background:var(--o-paper)!important;color:var(--o-pink)!important;box-shadow:none!important}
+.dg{background:var(--o-paper);border-radius:0.75rem}
+.isl-dg{background:transparent;border:none;padding:0}
+/* home: the big island tile */
+.tiles6.mt{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.tiles6 .tile.isl-hero{grid-column:1 / -1;aspect-ratio:auto!important;flex-direction:row;align-items:center;gap:0.5rem;justify-content:flex-start;min-height:11rem;
+  background:linear-gradient(160deg,#1593B8,#0C6E8F);border:2px solid #49B9DA;box-shadow:0 5px 0 #08506A;color:#fff;padding:0.875rem 1rem;overflow:visible}
+.tile.isl-hero .isl-art{position:static;width:7.75rem;height:8.25rem;flex:none;overflow:visible}
+.isl-htxt{display:flex;flex-direction:column;gap:0.25rem;min-width:0;flex:1;text-align:left;position:relative;z-index:1}
+.isl-hero .tname{font-size:1.65rem;line-height:1.02}.isl-hero .tsub{color:#E1F6FD}
+.isl-hbar{display:block;height:0.6rem;background:rgba(0,0,0,.2);border-radius:1rem;overflow:hidden;margin-top:0.25rem}.isl-hbar i{display:block;height:100%;width:0;background:var(--o-sun);border-radius:1rem}
+.isl-hnote{font-size:.85rem;color:#E1F6FD;line-height:1.35}.isl-hnote b{color:#fff}
+.isl-hgo{align-self:flex-start;margin-top:0.375rem;background:var(--o-or);color:#fff;border-radius:0.875rem;padding:0.5rem 0.875rem;font:800 1.05rem var(--f-display);box-shadow:0 4px 0 var(--o-ord)}
+.tiles6.mt .tile:not(.isl-hero){aspect-ratio:auto;min-height:8.5rem}
+.tile[data-mode="bar"]{--c:#7A4FE0;--cd:#4A2E96}
+.tile[data-mode="p4"]{--c:#FF7B39;--cd:#B44A17}
+.tile[data-mode="me"]{--c:#D99A00;--cd:#8A6100}
+.tile[data-mode="redo"]{border-color:#7FB6CB!important}
+@media (min-width:700px){.tiles6 .tile.isl-hero{min-height:13rem}.tile.isl-hero .isl-art{width:9.5rem;height:10rem}.isl-hero .tname{font-size:2rem}}
+@media (min-width:1000px){.tiles6.mt .tile:not(.isl-hero){min-height:7.5rem;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0.875rem}
+  .tiles6.mt .tile:not(.isl-hero) .glyph{margin:0}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.35rem}}
+/* top bars, side card, buttons */
+.isl-top .bk{background:rgba(255,255,255,.14);color:#fff;box-shadow:none;font-size:1.6rem;line-height:1;padding-bottom:0.15rem}
+.isl-pill{background:rgba(255,255,255,.14);color:#fff}
+.isl-cnt{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:0.35rem 0.8rem}
+.isl-card{border:2px solid var(--line);box-shadow:none}
+.isl-go{background:var(--o-or);color:#fff;box-shadow:0 4px 0 var(--o-ord)}
+.isl-now svg{background:#FFF8D8}
+.isl-map{border:2px solid var(--line)}
+/* the four steps, as boxes above the problem */
+.isl-steps{margin:0 0 0.75rem;gap:0.5rem}
+.isl-sp{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:0.375rem;align-items:center;text-align:left;padding:0.375rem 0.5rem;border-width:2.5px;background:var(--surface);color:#fff}
+.isl-sp .ic{grid-row:1 / 3;font-size:1.2rem}.isl-sp b{font:800 .95rem var(--f-display)}.isl-sp i{color:var(--ink-2)}
+.isl-sp.on{border-color:var(--o-sun);background:#4A3D12;color:#fff}.isl-sp.ok{border-color:var(--good);background:var(--good-bg);color:#fff}
+@media (max-width:520px){.isl-sp{grid-template-columns:1fr;text-align:center;padding:0.375rem 0.125rem}.isl-sp .ic{grid-row:auto;font-size:1rem}.isl-sp b{font-size:.78rem}.isl-sp i{display:none}}
+.isl-right{background:var(--surface);border:2px solid var(--line);border-radius:1.25rem;padding:1rem 1.125rem;min-width:0}
+.isl-o,.isl-fig,.isl-pc{background:var(--o-s2);color:#fff}
+.isl-fig{background:var(--o-paper);color:var(--o-pink)}.isl-fig i{color:#4F6470}
+.isl-built{background:rgba(0,0,0,.18)}
+.isl-tip.good{color:#fff}
+.isl-keep{background:rgba(255,255,255,.06)}
+.isl-chips2 span{color:#fff}
+/* done: 小小 plants a flag on the island */
+.isl-done{background:#0A4A66}
+.isl-scene{width:15rem;height:auto;overflow:visible;animation:islPop .6s}
+.isl-wh{margin:0;font:800 2.1rem var(--f-display);color:#fff}
+.isl-win .isl-card{background:var(--surface)}
+.isl-medal{display:flex;gap:0.75rem;align-items:center;text-align:left}.isl-medal .isl-trophy{width:4.5rem;flex:none;animation:none}
+.isl-medal h2{font-size:1.35rem!important}.isl-back2{color:var(--ink-2)}
+.isl-stars svg{fill:#3d5a6a;stroke:#5d7c8c}
+@media (max-width:520px){.tiles6.mt .tile:not(.isl-hero){padding:0.875rem}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.3rem}}

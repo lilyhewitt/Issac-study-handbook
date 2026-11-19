@@ -1,18 +1,24 @@
 <div class="tiles tiles6 mt">
-      <button class="tile" data-mode="isl" id="tIsl">
-        <span class="isl-art" id="islArt" aria-hidden="true"></span>
-        <span><span class="tname">Math Island</span><span class="tsub">数学小岛 · 应用题</span><span class="tnote" id="islNote"></span></span>
+      <button class="tile isl-hero" data-mode="isl" id="tIsl">
+        <svg class="isl-art" id="islArt" viewBox="-70 -70 140 150" aria-hidden="true"></svg>
+        <span class="isl-htxt"><span class="tname">Math Island</span><span class="tsub">数学小岛 · 应用题</span>
+          <span class="isl-hbar"><i id="islProg"></i></span><span class="isl-hnote" id="islNote"></span><span class="isl-hgo">⛵ 出发 Go!</span></span>
       </button>
       <button class="tile" data-mode="bar" id="tBar">
         <span class="glyph"><svg viewBox="0 0 40 38"><rect x="4" y="8" width="20" height="8" rx="2"/><rect x="24" y="8" width="12" height="8" rx="2"/><rect x="4" y="22" width="32" height="8" rx="2"/></svg></span>
-        <span><span class="tname">Bar models</span><span class="tsub">画线段图</span><span class="tnote" id="brNote"></span></span>
-      </button>
-      <button class="tile" data-mode="p4" id="tP4">
-        <span class="glyph">4A</span>
-        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
+        <span><span class="tname">Bar models</span><span class="tsub">线段图图鉴</span><span class="tnote" id="brNote"></span></span>
       </button>
       <button class="tile" data-mode="redo" id="tRedo">
         <span class="glyph"><svg viewBox="0 0 40 38"><path d="M30 12a12 12 0 1 0 2 11"/><path d="M31 5v8h-8"/></svg></span>
         <span><span class="tname">Try again</span><span class="tsub">错题重练</span><span class="tnote" id="redoNote"></span></span>
       </button>
+      <button class="tile" data-mode="p4" id="tP4">
+        <span class="glyph">4A</span>
+        <span><span class="tname">Preview 4A</span><span class="tsub">预习 4A</span><span class="tnote" id="tP4s"></span></span>
+      </button>
+      <button class="tile" data-mode="me" id="tMe">
+        <span class="glyph"><svg viewBox="0 0 40 38"><path d="M20 4l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L20 27.6l-9.3 4.9 1.8-10.3L5 14.9l10.4-1.5z"/></svg></span>
+        <span><span class="tname">My stars</span><span class="tsub">我的星星 · 奖杯柜</span></span>
+      </button>
     </div>
+

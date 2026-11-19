@@ -194,9 +194,9 @@ function islFinish(){const s=islSt(),n=IP.n,tot=IP.list.length,ok=IP.ok,stars=ok
   const L=islRoad();ISLWALK=first?L.findIndex(x=>x.t===n.t&&(x.t==='s'?x.i===n.i:x.r===n.r)):null;save();
   const tro=stars===3?['gold','金奖杯']:stars===2?['silver','银奖杯']:['bronze','铜奖杯'];
   $('islDone').hidden=false;
-  $('islDone').innerHTML=`<div class="isl-win"><div class="isl-rays"></div><div class="isl-stars">${[0,1,2].map(k=>`<svg viewBox="-14 -14 28 28" class="${k<stars?'on':''}" style="animation-delay:${.2+k*.25}s"><path d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z"/></svg>`).join('')}</div>
-    <svg class="isl-trophy t-${tro[0]}" viewBox="-80 -90 160 190">${islTrophy()}</svg>
-    <div class="isl-card"><h2>${ok===tot?'Perfect! 全对！':ok/tot>=.75?'Great! 很棒！':'Good try! 再接再厉！'}</h2><p>${esc(n.t==='s'?ISL[n.i].name+' · '+ISL[n.i].en:n.t==='r'?'营火复习':'小岛复习')}　一次做对 ${ok} / ${tot} 题</p>
+  $('islDone').innerHTML=`<div class="isl-win"><svg class="isl-scene" viewBox="-110 -95 220 190" aria-hidden="true"><ellipse cx="0" cy="72" rx="100" ry="20" fill="#F6E3B3"/><ellipse cx="0" cy="66" rx="82" ry="12" fill="#8FD47A"/>${n.t==='s'?`<g transform="translate(-62 42) scale(.6)">${ISLI[ISLICON[ISL[n.i].name]||'gem']}</g>`:''}<path d="M42 62v-92" stroke="#7a4f1c" stroke-width="4"/><path d="M44 -30h36l-8 10 8 10h-36z" fill="#E5383B" stroke="#a51d22" stroke-width="2"/><g transform="translate(0 8) scale(1.5)">${ISLKID}</g></svg>
+    <h2 class="isl-wh">${n.t==='d'?(ok===tot?'全对！':'练完了！'):'插上旗子了！'}</h2><div class="isl-stars">${[0,1,2].map(k=>`<svg viewBox="-14 -14 28 28" class="${k<stars?'on':''}" style="animation-delay:${.2+k*.25}s"><path d="M0-12l3.5 7.2 8 1.1-5.8 5.6 1.4 7.9L0 6 -7.1 9.8l1.4-7.9-5.8-5.6 8-1.1z"/></svg>`).join('')}</div>
+    <div class="isl-card"><div class="isl-medal"><svg class="isl-trophy t-${tro[0]}" viewBox="-80 -90 160 190">${islTrophy()}</svg><div><h2>${ok===tot?'Perfect! 全对！':ok/tot>=.75?'Great! 很棒！':'Good try! 再接再厉！'}</h2><p>${esc(n.t==='s'?ISL[n.i].name+' · '+ISL[n.i].en:n.t==='r'?'营火复习':'小岛复习')}　一次做对 ${ok} / ${tot} 题</p></div></div>
     <div class="isl-chips"><span>+${stars} ★</span><span>🏆 ${tro[1]}</span></div>
     <button class="isl-go" id="islNextStop">${n.t==='d'?'回首页':'回地图，去下一站 →'}</button><button class="isl-back2" id="islAgain">再玩一次，升级奖杯</button></div></div>`;
   if(ok>=tot*.75)confetti();}
@@ -251,7 +251,10 @@ $('vIslQ').addEventListener('click',e=>{
 
 /* ---------- home tile, tasks, my progress ---------- */
 HOOK.tile.isl=()=>islOpen();
-HOOK.home.push(()=>{const el=$('islNote');if(!el)return;const L=islRoad(),c=islCur();el.textContent=c<L.length?'下一站：'+islName(L[c]):'全部走完了！';});
+HOOK.home.push(()=>{const el=$('islNote');if(!el)return;const s=islSt(),L=islRoad(),c=islCur(),n=L[c],done=ISL.filter((x,i)=>s.st[i]).length;
+  el.innerHTML=c<L.length?`${done} / ${ISL.length} 站 · 下一站 <b>${esc(islEn(n))} ${esc(islName(n))}</b>`:'全部走完了！每一站都能再玩，升级奖杯。';
+  const b=$('islProg');if(b)b.style.width=Math.round(done/ISL.length*100)+'%';});
+HOOK.tile.me=()=>$('bStats').click();
 HOOK.noWordTasks=true;
 HOOK.tasks.push(t=>{const L=islRoad(),c=islCur();if(c>=L.length&&!t.isl)return null;const n=L[Math.min(c,L.length-1)];
   return{k:'isl',name:'小岛下一站 · '+islName(n)+(n.t==='s'?'（'+ISL[n.i].qs.length+' 题）':''),done:!!t.isl};});
@@ -266,12 +269,9 @@ HOOK.meExtra.push(()=>{const s=islSt();let el=$('islShelf');if(!el){el=document.
   const cups=ISL.map((x,i)=>s.st[i]?`<span class="isl-cup t-${cls(s.st[i])}" title="${esc(x.name)}"><svg viewBox="-80 -90 160 190">${islTrophy()}</svg><i>${esc(x.name)}</i></span>`:'').join('');
   const badges=Object.keys(s.ch).map(c=>`<span class="isl-cup t-${s.ch[c].b}"><svg viewBox="-35 -35 70 70">${ISLI.chest}</svg><i>宝箱 ${+c+1}</i></span>`).join('');
   el.innerHTML=`<h3>奖杯柜 · Trophies</h3>${cups||badges?`<div class="isl-shelf">${cups}${badges}</div>`:'<p class="muted">在数学小岛上通关，奖杯会摆在这里。</p>'}`;});
-/* the picture on the home tile: a bit of the island with the next stop */
-HOOK.home.push(()=>{const a=$('islArt');if(!a)return;const L=islRoad(),c=Math.min(islCur(),L.length-1),prev=L[Math.max(0,c-1)],n=L[c],nx=L[Math.min(L.length-1,c+1)];
-  const ic=x=>ISLI[islIcon(x)];
-  a.innerHTML=`<svg viewBox="0 0 300 120" preserveAspectRatio="xMaxYMid slice" width="100%" height="100%"><g transform="${innerWidth<700?'translate(150 40) scale(.55)':'translate(60 0) scale(.85)'}"><ellipse cx="190" cy="78" rx="150" ry="62" fill="#f6e3b3"/><ellipse cx="190" cy="74" rx="134" ry="52" fill="#8fd47a"/>
-  <path d="M70 70 C110 40 150 100 190 64 S 260 40 290 70" stroke="#f8e7b8" stroke-width="12" fill="none" stroke-linecap="round"/>
-  ${c>0?`<g transform="translate(108 56) scale(.62)"><circle r="40" fill="#fff" stroke="#3fb24f" stroke-width="5"/>${ic(prev)}</g>`:''}<g transform="translate(190 64) scale(.62)"><circle r="40" fill="#fff8d8" stroke="#ffb400" stroke-width="5"/>${ic(n)}</g><g transform="translate(262 50) scale(.55)" opacity=".7"><circle r="40" fill="#eef1f6" stroke="#aab3c4" stroke-width="5"/>${ic(nx)}</g><g transform="translate(40 92) scale(.7)">${ISLI.boat}</g></g></svg>`;});
+/* the picture on the home tile: 小小 the sailor on a little island with the next stop */
+HOOK.home.push(()=>{const a=$('islArt');if(!a)return;const L=islRoad(),n=L[Math.min(islCur(),L.length-1)];
+  a.innerHTML=`<ellipse cx="0" cy="62" rx="64" ry="14" fill="#F6E3B3"/><ellipse cx="0" cy="58" rx="52" ry="9" fill="#8FD47A"/><g transform="translate(38 32) scale(.55)">${ISLI[islIcon(n)]}</g><g transform="translate(-6 -2) scale(1.25)">${ISLKID}</g>`;});
 window.__isl={IP:()=>IP,ICP:()=>ICP,road:islRoad,cur:islCur,startRound,S:()=>S};   /* for the tests */
 /* 错题重练 also takes the island problems he got wrong */
 {const f=HOOK.tile.redo;HOOK.tile.redo=()=>{if(S.misses.length)return f();if(islSt().miss.length)islStart({t:'d',miss:true});};}
