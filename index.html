@@ -47,6 +47,7 @@ section.view{display:flex;flex-direction:column;gap:0.875rem;}
 section.view[hidden]{display:none;}
 h2{font-size:1.25rem;font-weight:900;line-height:1.35;margin:0.625rem 0 0;text-wrap:balance;}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:0.875rem;padding:0.875rem 1rem;min-width:0;}
+.prio{margin:0.5rem 0;padding-left:1.4rem;line-height:1.6}.prio li{margin:0.3rem 0}
 .card > *:first-child{margin-top:0;} .card > *:last-child{margin-bottom:0;}
 .card h3{font-size:1.0625rem;margin:0 0 4px;}
 p{margin:0.375rem 0;}
@@ -274,6 +275,36 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 <section class="view" id="v-english" hidden>
   <div class="card soft"><p class="big">从大人多读,慢慢变成他多读。<br>看他读得顺不顺,不看读多快。</p></div>
 
+  <h2>补习重点 · 先后顺序</h2>
+  <div class="card">
+    <p>越前面越根本。前面一项每天稳定在做了,再加下一项;不要七项一起开始。每天一共 20–30 分钟,短而每天。</p>
+    <ol class="prio">
+      <li><b>拼读(认字)</b>:每天 10 分钟,用下面的 ① 拼读。字认得快、拼得对,后面读和写才跟得上,这是根。</li>
+      <li><b>一起读 + 听书</b>:每天 10 分钟一起读,睡前听书。词汇、句子、拼写都从读里来。</li>
+      <li><b>理解</b>:读完问三级问题——写明的 → 要推的(你从哪里看出来)→ 他自己的,可以用中文问。看下面的“感受题和‘为什么’题”。</li>
+      <li><b>说</b>:读完让他用英文把故事讲一遍,讲不出的词用中文补;写作文前先说一遍。</li>
+      <li><b>句子</b>:过去式、人称(选好一个不变)、断句。英文 app 写作工坊里的“基本功”和“听写 · 每天 3 句”(写在纸上)。</li>
+      <li><b>词汇和语法</b>:看下面的“词汇”“语法”“介词词组”;英文 app 每天一小轮就够。</li>
+      <li><b>作文</b>:前面稳了再练。作文小卷一周最多 1–2 套,每篇只改一两个点,先说他写得好的地方。</li>
+    </ol>
+    <details class="inl"><summary>每天、每周怎么排</summary>
+      <div class="tbl"><table>
+        <tr><th>什么</th><th>多久</th><th>多少次</th><th>谁陪</th></tr>
+        <tr><td>拼读</td><td>10 分钟</td><td>每天</td><td>家里大人</td></tr>
+        <tr><td>一起读书</td><td>10–15 分钟</td><td>每天</td><td>家里大人;一周 3–4 次视频陪读</td></tr>
+        <tr><td>英文 app 基本功一轮</td><td>5 分钟</td><td>每天</td><td>他自己</td></tr>
+        <tr><td>听书</td><td>随意</td><td>睡前</td><td>他自己</td></tr>
+        <tr><td>作文小卷</td><td>30–40 分钟</td><td>一周 1–2 套</td><td>大人带着看范文,拍照发来</td></tr>
+      </table></div>
+      <p class="muted">视频陪读:新加坡早上 9 点 = 美国西岸前一天下午 5 点,假期里可以天天约。陪读的短文和问题在英文 app 的家长入口“一起读”里。</p>
+    </details>
+    <details class="inl"><summary>怎么看有没有进步</summary>
+      <p>每月初做一次,三个月后对比:</p>
+      <p>· <b>一分钟朗读</b>:英文 app 家长入口里,读一分钟,app 记下读对了多少个词。<br>· <b>限时作文</b>:一套没做过的小卷,记字数、过去式和句号用对了多少。<br>· <b>app 家长页</b>:基本功每一类的正确率。</p>
+      <p>哪一项三个月没动,就换做法,不要硬做下去。</p>
+    </details>
+  </div>
+
   <h2>每天:拼读 + 一起读,睡前听书</h2>
   <div class="card">
     <span class="tag">10 分钟</span><h3>① 拼读</h3>
@@ -288,6 +319,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card">
     <span class="tag">10 分钟</span><h3>② 一起读</h3>
     <p>用他现在的读法(看下面)。读错了只轻轻纠正影响意思的;用卡片压住正在读的那一行。</p>
+    <p>读出声只在一对一时做(一个大人陪着,或视频陪读)。不要当着亲戚、客人或兄弟姐妹让他“读给大家听”:读错了被人看着,他会怕读、躲着读。</p>
   </div>
   <div class="card">
     <span class="tag">睡前 · 不算时间</span><h3>③ 听书</h3>
@@ -691,6 +723,9 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.43 · 11 月 19 日</span><h3>手册英文页:补习重点的先后顺序</h3><ul>
+    <li>英文页最上面加了“补习重点 · 先后顺序”:拼读 → 一起读 → 理解 → 说 → 句子 → 词汇语法 → 作文,前面稳了再加后面的。展开能看每天怎么排、每月怎么看进步。</li>
+    <li>“一起读”加了一句:读出声只在一对一时做,不要当着别人让他读给大家听。</li></ul></div>
   <div class="card"><span class="tag">v4.42 · 11 月 19 日</span><h3>英文 app：一起读、一分钟朗读、短句听写</h3><ul>
     <li>家长页（我的进步 → 家长入口）多了「大人陪读」：<b>一起读</b> 20 篇短文，从真题短文改写；右边有怎么分段读、读完问的三个问题（带中文和参考答案）、这篇里的词。读完一篇 +2 ★。</li>
     <li><b>一分钟朗读</b>：每月一篇，6 篇轮换，都是他没读过的。计时一分钟，读错的词点一下变红；时间到后点他读到的最后一个词，app 算出读对了多少个词，记在每月记录里。</li>
