@@ -1,0 +1,44 @@
+  <!-- 一起读 Read together (for the adult on a video call; both open the same passage) · 一分钟朗读 (monthly) · 短句听写 (his own, handwritten) -->
+  <section id="vRT" class="view rt" aria-label="Read together" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="rtBack" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="rt-ti">Read together<small id="rtSub"></small></div>
+      <div class="rt-nav"><button class="rt-chip" id="rtPrev">◀ 上一篇</button><button class="rt-chip" id="rtNext">下一篇 ▶</button></div>
+    </div>
+    <div class="rt-grid">
+      <article class="rt-paper" id="rtText"></article>
+      <aside class="rt-side">
+        <div class="rt-panel"><div class="rt-lbl">怎么读</div><p>你读单数段，他读双数段 → 再请他把他读的一段读一遍。读错了只纠正影响意思的词。</p></div>
+        <div class="rt-panel"><div class="rt-lbl">读完问三句（可以用中文问）</div><div id="rtQs"></div></div>
+        <div class="rt-panel"><div class="rt-lbl">这篇里的词</div><div class="rt-words" id="rtWords"></div></div>
+        <div class="rt-acts"><button class="rt-go" id="rtDone">✓ 读完了 +2 ★</button><button class="rt-chip" id="rtToOrf">⏱ 一分钟朗读</button></div>
+        <details class="rt-list"><summary>全部 20 篇</summary><div id="rtList"></div></details>
+      </aside>
+    </div>
+  </section>
+
+  <section id="vORF" class="view rt" aria-label="One-minute reading" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="orfBack" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="rt-ti">One-minute reading<small id="orfSub"></small></div>
+    </div>
+    <div class="rt-grid">
+      <article class="rt-paper orf-text" id="orfText"></article>
+      <aside class="rt-side">
+        <div class="rt-panel orf-clock"><svg viewBox="-60 -60 120 120" aria-hidden="true"><circle r="54" fill="#f5e9cc" stroke="#a8761f" stroke-width="6"/><path id="orfArc" fill="none" stroke="#c8683a" stroke-width="9"/><text y="11" text-anchor="middle" id="orfTime">1:00</text></svg>
+          <div class="rt-acts"><button class="rt-go" id="orfGo">▶ 开始</button><button class="rt-chip" id="orfReset">重来</button></div></div>
+        <div class="rt-panel"><div class="rt-lbl" id="orfStepH">怎么做</div><p id="orfStep">让他从第一个词开始读，你点“开始”。他读错或跳过的词，点一下变红，再点取消。</p><div id="orfRes"></div></div>
+        <div class="rt-panel"><div class="rt-lbl">每月记录（每分钟读对的词）</div><div id="orfHist"></div></div>
+        <details class="rt-list"><summary>换一篇</summary><div id="orfList"></div></details>
+      </aside>
+    </div>
+  </section>
+
+  <section id="vDict" class="view rt" aria-label="Dictation" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="dcBack" aria-label="返回写作工坊"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="rt-ti">Dictation<small id="dcSub"></small></div>
+      <div class="dc-dots" id="dcDots"></div>
+    </div>
+    <div class="dc-body" id="dcBody"></div>
+  </section>

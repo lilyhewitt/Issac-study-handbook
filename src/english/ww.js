@@ -37,7 +37,7 @@ async function wwTry(){const typed=$('wwName').value.trim();if(!typed)return;$('
   S.name=typed.charAt(0).toUpperCase()+typed.slice(1).toLowerCase();save();beep(true);wwHome();
   wwSay('');$('wwHi').textContent=`Hi, ${S.name}! 🔓`;}
 function wwHome(){show('vWW');$('wwLock').hidden=true;$('wwHome').hidden=false;const w=wwSt();
-  $('wwHi').textContent=`Hi, ${wwName()}!`;if(typeof wdHomeStat==='function')wdHomeStat();
+  $('wwHi').textContent=`Hi, ${wwName()}!`;if(typeof wdHomeStat==='function')wdHomeStat();if(typeof dcHomeStat==='function')dcHomeStat();
   $('wwList').innerHTML=WWD.sets.map((st,i)=>{const d=w.done[st.id];
     return `<button class="ww-set${d?' done':''}" data-wwset="${i}"><small>第 ${st.n} 套 · ${esc(st.src)}</small><b>${esc(st.title)}</b><small>at least ${st.words} words · ${st.phrases.length} 个词组</small>${d?`<span class="ww-ok">✓ ${esc(d.slice(5).replace('-','/'))} 做完</span>`:''}</button>`;}).join('');}
 function wwNote(){const w=wwSt(),n=Object.keys(w.done).length,tot=QB.WW?QB.WW.sets.length:9;return n?`做完 ${n} / ${tot} 套`:'看图写作 · 先放格子再写';}

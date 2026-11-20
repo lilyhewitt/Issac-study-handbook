@@ -499,6 +499,67 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
 #wwDrDots span{min-width:1.6rem;text-align:center}
 .ww-dopts .btn{flex:1 1 12rem}
 @media (min-width:700px){#vWWDr{max-width:none}}
+/* ---------- 一起读 · 一分钟朗读 · 短句听写: cream paper for the text, brass panels beside it (steampunk, see steam.css) ---------- */
+.view.rt{max-width:none}
+.rt .qbar{gap:0.875rem;align-items:center;flex-wrap:wrap}
+.rt-ti{font-family:var(--f-display);font-weight:800;font-size:1.6rem;line-height:1;color:var(--brass-hi,#F6D98A);display:flex;flex-direction:column;flex:1;min-width:12rem}
+.rt-ti small{font-family:var(--f-body);font-size:0.85rem;font-weight:700;color:var(--ink-2);margin-top:0.25rem}
+.rt-nav{display:flex;gap:0.5rem}
+.rt-chip{font:700 0.95rem var(--f-body);color:var(--ink);background:var(--surface);border:2px solid var(--brass-lo,#A8761F);border-radius:99px;padding:0.4rem 0.9rem;cursor:pointer}
+.rt-go{font-family:var(--f-display);font-weight:800;font-size:1.1rem;color:#fff;border:2px solid #f3a77c;border-radius:0.9rem;padding:0.55rem 1rem;cursor:pointer;
+  background:linear-gradient(180deg,#e2804c,var(--copper,#C8683A));box-shadow:0 4px 0 var(--copper-dk,#8F3F1C),inset 0 2px 0 rgba(255,255,255,.35)}
+.rt-go:disabled{opacity:.45;cursor:default}
+.rt-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,22rem);gap:1rem;margin-top:0.875rem;align-items:start}
+@media (max-width:760px){.rt-grid{grid-template-columns:minmax(0,1fr)}}
+.rt-paper{background:linear-gradient(180deg,#f8efd8,#efe1bd);color:#2a1a06;border:3px solid var(--brass-lo,#A8761F);border-radius:1rem;box-shadow:0 5px 0 #0a1418;padding:1.25rem 1.5rem;min-width:0}
+.rt-paper h3{margin:0 0 0.5rem;font-family:var(--f-display);font-size:1.6rem}
+.rt-paper p{font:500 1.35rem/1.75 Arial,ArimoL,sans-serif;margin:0 0 0.75rem}
+.rt-n{color:#a8761f;font-size:0.95rem;vertical-align:0.25rem;margin-right:0.4rem}
+.rt-side{display:flex;flex-direction:column;gap:0.75rem;min-width:0}
+.rt-panel{background:var(--surface);border:3px solid var(--brass-lo,#A8761F);border-radius:1rem;padding:0.875rem 1rem;box-shadow:inset 0 0 0 2px rgba(246,217,138,.18),0 4px 0 #0a1418;color:var(--ink)}
+.rt-panel p{margin:0.35rem 0 0;line-height:1.55}
+.rt-lbl{font-size:0.8rem;letter-spacing:.08em;font-weight:800;color:var(--brass-hi,#F6D98A)}
+.rt-q{margin-top:0.5rem;line-height:1.45}.rt-q span{color:var(--ink-2)}
+.rt-words{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
+.rt-w{border:2px solid var(--brass-lo,#A8761F);border-radius:99px;padding:0.15rem 0.7rem;font-weight:700}.rt-w small{color:var(--ink-2);font-weight:600}
+.rt-acts{display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center;margin-top:0.25rem}
+.rt-list summary{cursor:pointer;color:var(--ink-2);font-weight:700;padding:0.25rem 0}
+.rt-list>div{display:flex;flex-direction:column;gap:0.25rem;margin-top:0.4rem}
+.rt-li{text-align:left;background:transparent;border:0;color:var(--ink);font:600 0.95rem var(--f-body);padding:0.3rem 0.4rem;border-radius:0.4rem;cursor:pointer}
+.rt-li.on{background:var(--hl)}
+.rt-dim{color:var(--ink-2);font-size:0.9rem}
+/* one-minute reading */
+.orf-text{font:500 1.35rem/2 Arial,ArimoL,sans-serif}
+.ow{border-radius:0.3rem;padding:0 0.1rem;cursor:pointer}
+.ow.x{background:#ffd0c4;color:#9a2a10;text-decoration:line-through;text-decoration-thickness:2px}
+.ow.after{opacity:.35}
+.orf-clock{text-align:center}.orf-clock svg{width:9.5rem;height:9.5rem}
+.orf-clock text{font:800 30px var(--f-display);fill:#3a2306}
+.orf-big{font-family:var(--f-display);font-size:1.6rem;color:var(--brass-hi,#F6D98A);display:block;margin-top:0.4rem}
+.orf-bars{display:flex;gap:0.75rem;align-items:flex-end;margin-top:0.5rem;min-height:6rem}
+.orf-bars div{display:flex;flex-direction:column;align-items:center;gap:0.2rem;flex:1}
+.orf-bars i{display:block;width:100%;max-width:2.5rem;background:var(--patina,#4FB3A0);border-radius:0.3rem}
+.orf-bars small{color:var(--ink-2)}
+/* dictation */
+.dc-dots{display:flex;gap:0.4rem}
+.dc-dots span{width:2.1rem;height:2.1rem;border-radius:50%;display:grid;place-items:center;font-weight:800;border:2px solid var(--brass-lo,#A8761F);color:var(--ink)}
+.dc-dots .on{background:var(--brass,#D9A845);color:#2a1a06}.dc-dots .ok{background:var(--patina,#4FB3A0);color:#fff}.dc-dots .no{background:var(--iron,#33464C)}
+.dc-body{max-width:54rem;margin:1rem auto 0;display:flex;flex-direction:column;gap:1rem}
+.dc-say{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.dc-say svg{width:6.5rem;height:6rem;flex:none}
+.dc-say>div:first-of-type{flex:1;min-width:12rem;display:flex;flex-direction:column;gap:0.2rem}
+.dc-say b{font-family:var(--f-display);font-size:1.4rem}.dc-say small{color:var(--ink-2)}
+.dc-btns{display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center}
+.dc-next{align-self:flex-start;font-size:1.25rem;padding:0.7rem 1.4rem}
+.dc-sent{font:500 1.6rem/2 Arial,ArimoL,sans-serif;margin:0.5rem 0}
+.dc-w{font:inherit;background:transparent;color:var(--ink);border:0;border-bottom:3px solid transparent;border-radius:0.3rem;padding:0 0.15rem;cursor:pointer}
+.dc-w.v{border-bottom-color:var(--copper,#C8683A)}
+.dc-w.x{background:#ffd0c4;color:#9a2a10}
+.dc-vk{border-bottom:3px solid var(--copper,#C8683A)}
+.dc-chk{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem}
+.dc-c{font:700 1rem var(--f-body);border-radius:99px;padding:0.4rem 0.9rem;cursor:pointer;background:var(--good-bg);color:var(--good);border:2px solid var(--good)}
+.dc-c.no{background:#3a1d18;color:#ff9b88;border-color:#e0453a}
+.ww-dc .btn{background:var(--patina,#4FB3A0);box-shadow:0 4px 0 #1d5f52}
 </style>
 <style>
 /* English palette: one cartoon-steampunk workshop (写作工坊 · 单词铁路) in every theme — slate-teal ground, brass, copper, patina.
@@ -1012,6 +1073,7 @@ body{background:
       <div class="ww-hi"><svg viewBox="-60 -60 130 110" aria-hidden="true"><g transform="translate(-8 0)"><use href="#ww-inv"/></g><g transform="translate(42 20) scale(.85)"><use href="#ww-bot"/></g></svg>
         <div><div class="ww-hi-name" id="wwHi"></div><p>看图写作：先把框里的词放进对的格子，找到“主人”，再拼句子，最后在纸上写完整篇。</p></div></div>
       <div class="ww-drill"><div><b>基本功 · 一轮 8 题</b><small>时态 · 人称 · 断句 · 感觉和对话 · 词组意思（句子和小卷不一样，随时练）</small><div class="ww-dk" id="wwDk"></div></div><button class="btn" id="wwDrGo">开始练 ▶</button></div>
+      <div class="ww-drill ww-dc"><div><b>听写 · 每天 3 句</b><small id="wwDcNote">写在纸上 · Bolt 读，你写，再对一对</small></div><button class="btn" id="wwDcGo">开始听写 ✎</button></div>
       <h3 class="ww-sec">P3 连环图 · 4 格图</h3>
       <div class="ww-list" id="wwList"></div>
       <p class="st-note">图来自真题。纸上写的那一份：打印「作文小卷」PDF。</p>
@@ -1035,6 +1097,50 @@ body{background:
     </div>
     <div class="ww-say"><div class="ww-bub2" id="wwDrBub"></div><svg viewBox="-28 -48 56 76" aria-hidden="true"><use href="#ww-bot"/></svg></div>
     <div class="ww-body" id="wwDrBody"></div>
+  </section>
+  <!-- 一起读 Read together (for the adult on a video call; both open the same passage) · 一分钟朗读 (monthly) · 短句听写 (his own, handwritten) -->
+  <section id="vRT" class="view rt" aria-label="Read together" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="rtBack" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="rt-ti">Read together<small id="rtSub"></small></div>
+      <div class="rt-nav"><button class="rt-chip" id="rtPrev">◀ 上一篇</button><button class="rt-chip" id="rtNext">下一篇 ▶</button></div>
+    </div>
+    <div class="rt-grid">
+      <article class="rt-paper" id="rtText"></article>
+      <aside class="rt-side">
+        <div class="rt-panel"><div class="rt-lbl">怎么读</div><p>你读单数段，他读双数段 → 再请他把他读的一段读一遍。读错了只纠正影响意思的词。</p></div>
+        <div class="rt-panel"><div class="rt-lbl">读完问三句（可以用中文问）</div><div id="rtQs"></div></div>
+        <div class="rt-panel"><div class="rt-lbl">这篇里的词</div><div class="rt-words" id="rtWords"></div></div>
+        <div class="rt-acts"><button class="rt-go" id="rtDone">✓ 读完了 +2 ★</button><button class="rt-chip" id="rtToOrf">⏱ 一分钟朗读</button></div>
+        <details class="rt-list"><summary>全部 20 篇</summary><div id="rtList"></div></details>
+      </aside>
+    </div>
+  </section>
+
+  <section id="vORF" class="view rt" aria-label="One-minute reading" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="orfBack" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="rt-ti">One-minute reading<small id="orfSub"></small></div>
+    </div>
+    <div class="rt-grid">
+      <article class="rt-paper orf-text" id="orfText"></article>
+      <aside class="rt-side">
+        <div class="rt-panel orf-clock"><svg viewBox="-60 -60 120 120" aria-hidden="true"><circle r="54" fill="#f5e9cc" stroke="#a8761f" stroke-width="6"/><path id="orfArc" fill="none" stroke="#c8683a" stroke-width="9"/><text y="11" text-anchor="middle" id="orfTime">1:00</text></svg>
+          <div class="rt-acts"><button class="rt-go" id="orfGo">▶ 开始</button><button class="rt-chip" id="orfReset">重来</button></div></div>
+        <div class="rt-panel"><div class="rt-lbl" id="orfStepH">怎么做</div><p id="orfStep">让他从第一个词开始读，你点“开始”。他读错或跳过的词，点一下变红，再点取消。</p><div id="orfRes"></div></div>
+        <div class="rt-panel"><div class="rt-lbl">每月记录（每分钟读对的词）</div><div id="orfHist"></div></div>
+        <details class="rt-list"><summary>换一篇</summary><div id="orfList"></div></details>
+      </aside>
+    </div>
+  </section>
+
+  <section id="vDict" class="view rt" aria-label="Dictation" hidden>
+    <div class="qbar">
+      <button class="iconbtn" id="dcBack" aria-label="返回写作工坊"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="rt-ti">Dictation<small id="dcSub"></small></div>
+      <div class="dc-dots" id="dcDots"></div>
+    </div>
+    <div class="dc-body" id="dcBody"></div>
   </section>
   <section id="vSpell" class="view" aria-label="Spell it" hidden>
     <div class="qbar">
@@ -2690,7 +2796,7 @@ async function wwTry(){const typed=$('wwName').value.trim();if(!typed)return;$('
   S.name=typed.charAt(0).toUpperCase()+typed.slice(1).toLowerCase();save();beep(true);wwHome();
   wwSay('');$('wwHi').textContent=`Hi, ${S.name}! 🔓`;}
 function wwHome(){show('vWW');$('wwLock').hidden=true;$('wwHome').hidden=false;const w=wwSt();
-  $('wwHi').textContent=`Hi, ${wwName()}!`;if(typeof wdHomeStat==='function')wdHomeStat();
+  $('wwHi').textContent=`Hi, ${wwName()}!`;if(typeof wdHomeStat==='function')wdHomeStat();if(typeof dcHomeStat==='function')dcHomeStat();
   $('wwList').innerHTML=WWD.sets.map((st,i)=>{const d=w.done[st.id];
     return `<button class="ww-set${d?' done':''}" data-wwset="${i}"><small>第 ${st.n} 套 · ${esc(st.src)}</small><b>${esc(st.title)}</b><small>at least ${st.words} words · ${st.phrases.length} 个词组</small>${d?`<span class="ww-ok">✓ ${esc(d.slice(5).replace('-','/'))} 做完</span>`:''}</button>`;}).join('');}
 function wwNote(){const w=wwSt(),n=Object.keys(w.done).length,tot=QB.WW?QB.WW.sets.length:9;return n?`做完 ${n} / ${tot} 套`:'看图写作 · 先放格子再写';}
@@ -2877,6 +2983,393 @@ $('wwDrGo').addEventListener('click',wdStart);
 $('wwDrQuit').addEventListener('click',()=>wwHome());
 $('wwDrBody').addEventListener('click',wdTap);
 window.__wd={WD:()=>WD,round:wdRound,start:wdStart};
+
+/* ---------- 陪读 Read together · 一分钟朗读 · 短句听写: the texts.
+   All rewritten from real P3/P4 papers (claude/英文题库5_词汇完形_开放完形_改错_合并.md): names and details changed, made a little easier.
+   Read-together and one-minute passages come from different papers, so the monthly reading test is always a text he has not seen.
+   RTP: {id, t: title, src, p: [paragraphs], q: [[question, 中文, 参考答案]×3 (写明的 / 要推的 / 他自己的)], w: [[word, 中文]]}
+   ORF: {id, t, src, p: [paragraphs]} — about the same length and level, one per month.
+   DICT: dictation sentences; [verb] marks a past-tense verb to look at when checking. ---------- */
+const RTP=[
+{id:'r1',t:'The Plant in Class',src:'P3 2024 Henry Park',p:[
+ 'Mr Lim brought a small plant into the classroom. He asked Darren to take care of it.',
+ 'Every morning, Darren watered the plant and moved it to the window so that it could get sunlight.',
+ 'Last week, Darren was busy getting ready for a spelling test. He forgot all about the plant. Some of its leaves turned yellow and dried up.',
+ 'Darren felt guilty. He said sorry to Mr Lim and promised to be more careful. Now he waters the plant before he takes out his books.'],
+ q:[['What did Darren do every morning?','Darren 每天早上做什么？','watered the plant and moved it to the window'],
+    ['How did Darren feel when the leaves turned yellow? How do you know?','叶子变黄时他是什么感觉？你从哪里看出来？','guilty — he said sorry and promised to be careful'],
+    ['Have you ever forgotten to do a job? What happened?','你有没有忘记做过一件事？后来怎样？','']],
+ w:[['take care of','照顾'],['dried up','干枯了'],['guilty','内疚'],['promised','答应']]},
+{id:'r2',t:'The Lion and the Mouse',src:'P3 2024 Pei Hwa',p:[
+ 'A lion was sleeping under a tree when a little mouse ran over his face. The lion woke up and caught the mouse in his paw.',
+ '"Please let me go," cried the mouse. "One day, I will help you." The lion laughed. How could a tiny mouse help a lion? But he let the mouse go.',
+ 'A few days later, some hunters caught the lion and tied him to a tree with a rope. The lion roared and roared.',
+ 'The mouse heard him. It ran to the tree and chewed through the rope. Soon, the lion was free. "Thank you, little friend," he said.'],
+ q:[['What did the hunters do to the lion?','猎人对狮子做了什么？','tied him to a tree with a rope'],
+    ['Why did the lion laugh at the mouse?','狮子为什么笑老鼠？','he did not think a tiny mouse could help a lion'],
+    ['Has a small person ever helped you?','有没有比你小的人帮过你？','']],
+ w:[['paw','爪子'],['hunters','猎人'],['roared','吼叫'],['chewed','咬、嚼']]},
+{id:'r3',t:'Who Did Dad Want?',src:'P3 2024 Maha Bodhi',p:[
+ 'Dad was cutting the grass in the garden. "Ben, please call Mr Small and ask if I can borrow his garden shears," he said. Ben nodded and went inside.',
+ '"Who did Dad want me to call?" Ben wondered. "Oh yes, Mr Tall." He called Mr Tall and asked to borrow his garden chairs.',
+ 'Then Ben called Mrs Brown and asked for her big table. "Why do you need it?" she asked. "I think we are having a party," said Ben.',
+ 'That evening, three neighbours arrived with chairs, a table and a cake. Dad laughed so hard that he forgot about the grass.'],
+ q:[['What did Dad want to borrow?','爸爸想借什么？','Mr Small’s garden shears（剪草的大剪刀）'],
+    ['Why did the neighbours come with chairs and a table?','邻居为什么带着椅子和桌子来？','Ben mixed up the message and said there was a party'],
+    ['Have you ever mixed up a message?','你有没有传错过话？','']],
+ w:[['borrow','借'],['nodded','点头'],['wondered','心里想'],['neighbours','邻居']]},
+{id:'r4',t:'Zebras',src:'P3 2024 Pei Hwa',p:[
+ 'Zebras live on the wide grasslands of Africa. Every zebra has black and white stripes, and no two zebras have the same stripes.',
+ 'When zebras stand together, their stripes blend into one another. A lion looking at the group cannot tell where one zebra ends and the next one begins.',
+ 'Zebras live in groups called herds. While some zebras eat grass, others keep watch. They have sharp ears and a strong sense of smell, so they know when danger is near.'],
+ q:[['Where do zebras live?','斑马住在哪里？','on the grasslands of Africa'],
+    ['How do the stripes help zebras stay safe?','条纹怎么帮斑马保护自己？','a lion cannot tell where one zebra ends and the next begins'],
+    ['Which animal would you like to see in real life? Why?','你最想亲眼看到哪种动物？为什么？','']],
+ w:[['stripes','条纹'],['blend','融在一起'],['herds','兽群'],['danger','危险']]},
+{id:'r5',t:'The Otter on the Rocks',src:'P3 2024 Rulang',p:[
+ 'Tom and his cousin, Alex, were at the beach. They tried to build a sandcastle, but the waves kept knocking it down.',
+ 'While they were splashing in the water, Alex heard a strange squeaking sound. It came from the rocks nearby.',
+ 'The boys went closer. A small otter was stuck in a plastic bag! It was struggling to free itself.',
+ 'Carefully, Tom held the bag while Alex pulled it off the otter. The otter shook itself and slid back into the sea. On the way home, the boys picked up every piece of rubbish they saw.'],
+ q:[['Where did the squeaking sound come from?','吱吱声是从哪里来的？','the rocks nearby'],
+    ['Why did the boys pick up rubbish on the way home?','回家路上男孩们为什么捡垃圾？','so that no other animal gets stuck like the otter'],
+    ['What can you do to keep the beach clean?','你能做什么让海滩保持干净？','']],
+ w:[['squeaking','吱吱叫'],['struggling','挣扎'],['rubbish','垃圾'],['carefully','小心地']]},
+{id:'r6',t:'The Fox and the Grapes',src:'P4 2024 Rosyth',p:[
+ 'One hot afternoon, a hungry fox went looking for food. He searched high and low, but he found nothing.',
+ 'Then he saw some grapes hanging from a vine. They looked sweet and juicy. The grapes were high up, so the fox jumped as high as he could. He missed.',
+ 'He tried again and again. Each time, his teeth snapped at the air. At last, the fox gave up.',
+ 'As he walked away, he said to himself, "Those grapes were sour anyway. I did not want them."'],
+ q:[['Why did the fox jump?','狐狸为什么跳？','to reach the grapes'],
+    ['Did the fox really think the grapes were sour? How do you know?','狐狸真觉得葡萄是酸的吗？你从哪里看出来？','no — he jumped again and again because he wanted them'],
+    ['When something is too hard, what do you do?','遇到太难的事，你会怎么做？','']],
+ w:[['searched','找'],['vine','藤'],['gave up','放弃'],['sour','酸']]},
+{id:'r7',t:'The Noise in the Cupboard',src:'P3 2024 Nan Hua',p:[
+ 'Sami looked over the edge of her bed. "Are you sure there is nothing under my bed?" she asked in a shaky voice.',
+ '"Of course," laughed her mother. "You are as timid as a mouse!" She switched off the light and left the room.',
+ 'Sami pulled the blanket over her head. Suddenly, she heard a low rumbling noise from the cupboard. She tiptoed over and pulled the door open.',
+ '"Ahhh!" Sami screamed. A small, fluffy kitten was staring at her. It gave a tiny "Meow!" It was her brother\'s new pet, and it was hiding from the dark too.'],
+ q:[['Where did the noise come from?','声音从哪里来？','the cupboard'],
+    ['How did Sami feel at the start? How do you know?','一开始 Sami 是什么感觉？你从哪里看出来？','scared — she asked in a shaky voice; her mother said she was timid'],
+    ['What were you scared of when you were little?','你小时候怕什么？','']],
+ w:[['timid','胆小'],['rumbling','隆隆的声音'],['tiptoed','踮着脚走'],['staring','盯着看']]},
+{id:'r8',t:'Bats',src:'P3 2024 Catholic High',p:[
+ 'Bats are the only mammals that can really fly. Their wings are made of thin skin stretched between long fingers.',
+ 'Most bats are nocturnal. They sleep in the day and hunt for food at night.',
+ 'Some bats can live for more than thirty years. That is a long life for a small animal! Flying helps them escape from predators. Bats also live together in big groups, so it is harder for other animals to attack them.'],
+ q:[['When do most bats hunt for food?','大多数蝙蝠什么时候找吃的？','at night'],
+    ['Why is it hard for other animals to attack bats?','为什么别的动物很难攻击蝙蝠？','they can fly away and they live in big groups'],
+    ['If you could fly, where would you go?','如果你会飞，你想去哪里？','']],
+ w:[['mammals','哺乳动物'],['nocturnal','夜里活动的'],['escape','逃走'],['predators','捕食它们的动物']]},
+{id:'r9',t:'The Arctic Hare',src:'P3 2024 Raffles Girls',p:[
+ 'The Arctic hare lives in the cold, snowy land near the North Pole. In winter, its fur turns white, the same colour as the snow. This helps it hide from its enemies.',
+ 'The snowy owl is one of them. It has sharp eyes and flies very quietly. It swoops down from the sky to catch the hare.',
+ 'But the hare is fast! It runs and jumps away across the snow. During the day, it also digs holes in the snow to hide in.'],
+ q:[['What colour is the hare’s fur in winter?','冬天野兔的毛是什么颜色？','white'],
+    ['Why does the owl fly quietly?','猫头鹰为什么飞得很安静？','so the hare cannot hear it coming'],
+    ['If you were the hare, how would you hide?','如果你是野兔，你会怎么躲？','']],
+ w:[['fur','毛'],['enemies','敌人'],['swoops','俯冲'],['digs','挖']]},
+{id:'r10',t:'The Red Kite',src:'P3 2024 St Hilda’s',p:[
+ 'Emily met her friend, Ali, at the park. He gave her a new red kite. Emily\'s eyes sparkled. "Thank you so much!" she cried.',
+ 'They ran across the field and the kite rose high into the sky. Emily held the string tightly.',
+ 'After a while, Emily looked at Ali. He was only watching. "Let\'s take turns," she said, and passed him the string.',
+ 'Ali smiled. "You are a great friend," he said softly.'],
+ q:[['What did Ali give Emily?','Ali 送了 Emily 什么？','a new red kite'],
+    ['Why did Emily pass the string to Ali?','Emily 为什么把线给 Ali？','he was only watching — she wanted to share'],
+    ['What is something you like to share?','你喜欢和别人分享什么？','']],
+ w:[['sparkled','闪闪发亮'],['tightly','紧紧地'],['take turns','轮流'],['softly','轻声']]},
+{id:'r11',t:'Asleep in Class',src:'P3 2024 Maha Bodhi',p:[
+ 'Mdm Rena stopped writing on the board and turned around. "Leila," she called. There was no answer.',
+ 'Everyone looked at the back of the class. Leila was asleep on her desk!',
+ '"Leila Ong!" Mdm Rena called again, louder this time. Leila\'s head jerked up. She mumbled something, and some children giggled.',
+ 'Mdm Rena walked over. "Are you all right?" she asked gently. Leila rubbed her eyes. "Yes, Mdm Rena. I stayed up late to finish my project," she said.'],
+ q:[['Where was Leila sleeping?','Leila 在哪里睡着了？','on her desk, at the back of the class'],
+    ['Was Mdm Rena angry? How do you know?','老师生气了吗？你从哪里看出来？','no — she asked "Are you all right?" gently'],
+    ['What time do you go to bed?','你几点睡觉？','']],
+ w:[['mumbled','含糊地说'],['giggled','咯咯笑'],['gently','温和地'],['stayed up late','熬夜']]},
+{id:'r12',t:'The Monkey and the Crow',src:'P3 2025 Maha Bodhi',p:[
+ 'A hungry monkey saw a crow sitting on a branch. The crow had a piece of banana in her beak.',
+ 'The sly monkey had a plan. "Good morning, beautiful bird!" he called. "Your feathers are so shiny. I am sure your voice is lovely too."',
+ 'The crow was very pleased. She opened her beak wide to sing. The banana fell out and dropped straight into the monkey\'s mouth.',
+ '"Thank you!" said the monkey, and he walked away. The crow did not sing again that day.'],
+ q:[['What did the crow have in her beak?','乌鸦嘴里叼着什么？','a piece of banana'],
+    ['Why did the monkey say nice things to the crow?','猴子为什么说乌鸦的好话？','he wanted her to open her beak so the banana would fall'],
+    ['What would you tell the crow?','你想对乌鸦说什么？','']],
+ w:[['beak','鸟嘴'],['sly','狡猾'],['feathers','羽毛'],['pleased','高兴']]},
+{id:'r13',t:'Two Drawings',src:'P3 2024 Rulang',p:[
+ 'Kathy and Violet are best friends. They both love art.',
+ 'During the June holidays, they joined an art class where they learnt to draw faces. The girls decided to draw each other as a surprise gift.',
+ 'Kathy worked on her drawing every evening. She drew Violet\'s curly hair and big smile.',
+ 'On the first day of school, the girls swapped their drawings. They laughed when they saw them. They had both drawn each other wearing the same yellow hat!'],
+ q:[['What did the girls learn in the art class?','她们在美术班学了什么？','to draw faces'],
+    ['Why did the girls laugh?','她们为什么笑？','they had both drawn each other in the same yellow hat'],
+    ['Who would you like to draw?','你想画谁？','']],
+ w:[['each other','互相'],['surprise','惊喜'],['curly','卷的'],['swapped','交换']]},
+{id:'r14',t:'Holes in Bread',src:'P3 2024 CHIJ',p:[
+ 'Have you ever looked at the small holes in a slice of bread? They are made by bubbles of gas.',
+ 'To make bread, we mix flour and water into a soft dough. Then we add a little yeast. Yeast is a tiny living thing. When it is warm and wet, it grows quickly and gives off gas.',
+ 'The gas makes bubbles in the dough, and the dough becomes bigger. When the bread is baked, the bubbles become the holes we see.'],
+ q:[['What do we mix to make dough?','做面团要把什么混在一起？','flour and water'],
+    ['Why does the dough get bigger?','面团为什么会变大？','the yeast gives off gas, which makes bubbles'],
+    ['What is your favourite bread?','你最喜欢什么面包？','']],
+ w:[['slice','一片'],['dough','面团'],['yeast','酵母'],['bubbles','泡泡']]},
+{id:'r15',t:'Lizards',src:'P3 2024 Rosyth',p:[
+ 'Lizards are reptiles with four legs. Most lizards eat insects like mosquitoes and flies.',
+ 'Lizards have very good eyes. They can spot a fly from far away and catch it quickly.',
+ 'Many lizards can change their colours to match the leaves or the wall. This helps them hide.',
+ 'Geckos have another trick. When an enemy catches a gecko\'s tail, the tail can drop off! It keeps wiggling, and while the enemy watches it, the gecko runs away. Later, it grows a new tail.'],
+ q:[['What do most lizards eat?','大多数蜥蜴吃什么？','insects, like mosquitoes and flies'],
+    ['Why does the tail keep wiggling?','尾巴为什么一直扭？','so the enemy watches the tail and the gecko can run away'],
+    ['Have you seen a gecko at home? Where?','你在家里见过壁虎吗？在哪里？','']],
+ w:[['reptiles','爬行动物'],['spot','看到'],['match','配上（颜色）'],['wiggling','扭来扭去']]},
+{id:'r16',t:'Walking in the Rain',src:'P3 2024 Rosyth',p:[
+ 'Thunder rumbled and it started to rain heavily. "Shall we take the bus home?" asked Lily\'s mother.',
+ 'Lily peeped out from under her umbrella. "Let\'s walk, Mum. I like the rain!"',
+ 'They held hands and crossed the road. Her mother stepped carefully around every puddle. Lily jumped into every puddle and splashed water everywhere.',
+ 'By the time they reached home, Lily\'s socks were soaking wet. Her mother shook her head, but she was smiling.'],
+ q:[['How did Lily and her mother go home?','Lily 和妈妈怎么回家的？','they walked home in the rain'],
+    ['Was Lily’s mother angry? How do you know?','妈妈生气了吗？你从哪里看出来？','no — she shook her head but she was smiling'],
+    ['Do you like rainy days? Why?','你喜欢下雨天吗？为什么？','']],
+ w:[['thunder','雷'],['puddle','水坑'],['splashed','溅'],['soaking wet','湿透了']]},
+{id:'r17',t:'Otters Come Home',src:'P3 2024 Methodist Girls',p:[
+ 'Otters are a common sight in Singapore today. They live in families and swim with their webbed feet.',
+ 'Fifty years ago, our rivers were full of rubbish. The otters almost disappeared.',
+ 'Then people cleaned up the rivers. Slowly, the otters came back.',
+ 'If you see otters, do not go near them or feed them. Watch them from far away and let them play in peace.'],
+ q:[['Why did the otters almost disappear?','水獭为什么差点消失？','the rivers were full of rubbish'],
+    ['What made the otters come back?','水獭为什么回来了？','people cleaned up the rivers'],
+    ['What animals have you seen in a park?','你在公园里见过什么动物？','']],
+ w:[['common','常见的'],['webbed feet','有蹼的脚'],['disappeared','消失'],['in peace','安安静静地']]},
+{id:'r18',t:'The Speech',src:'P3 2024 Nanyang',p:[
+ 'Sue Lynn had to give a speech in front of the whole school. She practised every night.',
+ 'But when she walked onto the stage, her mind went blank. Hundreds of eyes were looking at her. Some children giggled.',
+ 'Her teacher stood at the side and smiled. "Take a deep breath," she whispered.',
+ 'Sue Lynn breathed in slowly. Bit by bit, she remembered her speech. She felt very embarrassed, but she did not give up. When she finished, everyone clapped.'],
+ q:[['What did the teacher tell Sue Lynn to do?','老师叫她做什么？','take a deep breath'],
+    ['Was Sue Lynn brave? How do you know?','Sue Lynn 勇敢吗？你从哪里看出来？','yes — she felt embarrassed but she did not give up and finished'],
+    ['When did you feel nervous? What helped you?','你什么时候紧张过？什么帮了你？','']],
+ w:[['speech','演讲'],['went blank','一片空白'],['breath','呼吸'],['embarrassed','尴尬']]},
+{id:'r19',t:'The Ant and the Grasshopper',src:'P3 2024 Methodist Girls (Paya Lebar)',p:[
+ 'All summer, the ant worked hard. She carried food to her home every day.',
+ 'The grasshopper played and sang in the sun. "Why aren\'t you working?" asked the ant. The grasshopper grinned. "I will do it later," he said.',
+ 'Then winter came. The ground was cold and covered in snow. The grasshopper had no food and he was starving.',
+ 'The ant was warm in her home with plenty to eat. She opened the door and shared some food with him. "Next summer, I will work too," said the grasshopper.'],
+ q:[['What did the ant do in summer?','夏天蚂蚁做什么？','she carried food to her home every day'],
+    ['Why was the grasshopper starving in winter?','冬天蚱蜢为什么饿坏了？','he played all summer and did not store food'],
+    ['Are you more like the ant or the grasshopper?','你更像蚂蚁还是蚱蜢？','']],
+ w:[['grinned','咧嘴笑'],['covered','盖满'],['starving','饿坏了'],['plenty','很多']]},
+{id:'r20',t:'The Starry Night',src:'P3 2025 Henry Park',p:[
+ 'Vincent van Gogh was a painter from the Netherlands. When he was alive, people laughed at his paintings because they looked different.',
+ 'He sold only one painting in his whole life. He was often poor and lonely, but he kept painting.',
+ 'Today, people all over the world love his work. They visit museums just to see his bright paintings, especially one called "The Starry Night". It shows a dark blue sky full of swirling stars.'],
+ q:[['How many paintings did he sell in his life?','他一生卖出几幅画？','only one'],
+    ['Why did people laugh at his paintings?','人们为什么笑他的画？','they looked different from other paintings'],
+    ['If you painted the night sky, what would you put in it?','如果你画夜空，你会画什么？','']],
+ w:[['painter','画家'],['lonely','孤单'],['museums','博物馆'],['especially','特别是']]}
+];
+const ORF=[
+{id:'o1',t:'The Storm',src:'P4 2025 Rosyth',p:[
+ 'It was a quiet evening. My family and I were watching television in the living room. Outside, the wind started to howl.',
+ 'Suddenly, the lights went out and the room became dark. My little brother screamed. My father found a torch and switched it on.',
+ 'We heard loud banging as the windows shook. Rain poured down heavily and thunder roared in the sky. My brother held my hand tightly.',
+ 'My mother told us to stay calm. We sat close together on the sofa and she told us a funny story about her school days. We laughed so much that we forgot about the storm.',
+ 'After a while, the wind died down and the lights came back on. We all let out a big sigh of relief.']},
+{id:'o2',t:'Whiskers',src:'P4 2024 Rulang',p:[
+ 'Mary stroked her kitten, Whiskers, and thought about the day she found it.',
+ 'That evening, Mary was walking home after buying some eggs for her mother. It was raining heavily. At the bus stop, she saw a tiny kitten hiding under the bench. It was wet from head to tail and it was shaking.',
+ 'Mary felt sorry for the kitten. She wrapped it in her jacket and carried it home.',
+ 'Her mother was surprised. "We cannot keep a cat," she said. But when she saw the kitten\'s big green eyes, she smiled. "Only until we find its owner," she said.',
+ 'Nobody came for the kitten. A week later, Mary\'s mother bought a small bed and a bowl for it. Mary named it Whiskers, and it has slept at the end of her bed ever since.']},
+{id:'o3',t:'Four Heavy Bags',src:'P4 2025 Nan Chiau',p:[
+ 'It was a hot Saturday morning. Mrs Li was walking home slowly from the supermarket. She had four heavy bags of groceries in her hands. Every few steps, she stopped to wipe her face with a small towel.',
+ 'Peter and his sister, Dorleen, were on their way to badminton training. They saw Mrs Li walking towards them. She looked very tired.',
+ '"Let\'s help her," said Dorleen. Peter looked at his watch. They might be late for training, but he nodded.',
+ 'The children took the bags from Mrs Li and walked with her to her block. They carried the bags into the lift and up to her flat.',
+ 'Mrs Li thanked them again and again and gave them two cold drinks. Peter and Dorleen ran all the way to training. They were five minutes late, but they did not mind at all.']},
+{id:'o4',t:'The Mango Tree',src:'P4 2024 Methodist Girls',p:[
+ 'Ali was on his way to school. Suddenly, he saw two boys climbing over the fence of his neighbour\'s house. Ali hid behind a bush and watched.',
+ 'The boys climbed up the mango tree in the garden. They started filling their bags with ripe mangoes.',
+ 'Ali quickly ran to the front door and rang the bell. His neighbour, Mr Goh, came out. "Two boys are taking your mangoes!" Ali whispered.',
+ 'Mr Goh hurried into the garden. The boys jumped down and tried to run away. One of them tripped over a stone and hurt his knee.',
+ 'Mr Goh helped the boy up and gave both boys a stern warning. Then he said, "If you want mangoes, just ask me." The next week, the two boys knocked on his door and asked politely. Mr Goh gave them a mango each.']},
+{id:'o5',t:'Saving the Earth',src:'P4 2025 Ai Tong',p:[
+ 'Nathan rushed home after school. He could not wait to tell his mother what he had learnt.',
+ '"Mum! Guess what I learnt today!" he shouted. Without waiting for an answer, he went on, "The earth is getting hotter. My Science teacher showed us a video. We all have a part to play in saving it."',
+ 'His mother smiled. She showed him a bag of empty cans and plastic bottles under the sink. "I put these in the recycling bin every week," she said. Nathan was surprised. He had no idea that his mother did that.',
+ '"Let\'s go to the supermarket," said his mother. "We can take the bus instead of the car."',
+ 'Before they left, Nathan ran back into the kitchen. "Remember to bring our shopping bags!" he said.']},
+{id:'o6',t:'The Cave',src:'P4 2025 Methodist Girls (Paya Lebar)',p:[
+ 'Jessica and Katelyn were hiking when they found a cave behind some tall grass. They took a deep breath and stepped inside.',
+ 'Each girl held a torch in one hand and her friend\'s hand in the other. The floor was wet and slippery, so they walked slowly. When they spoke, their voices echoed off the walls.',
+ 'On the walls, there were old drawings. Some looked like deer and some looked like birds. Katelyn traced one with her finger.',
+ 'At the end of the cave, the girls found a big room. Crystals were hanging from the ceiling. They sparkled in the light of the torches, and the girls gasped.',
+ 'They stayed for a few minutes. Then they walked carefully back out into the sunshine. They promised to come back with their parents next time.']}
+];
+const DICT=[
+'The dog [ran] across the road and [barked] loudly.','Tom [was] tired, so he [went] to bed early.','The children [laughed] when they [saw] the balloons.',
+'Mary [found] a wallet under the table.','We [stayed] indoors until the rain [stopped].','My brother [went] to the library after school.',
+'The boys [hid] behind a bush.','She [picked] up the plants and [smiled].','"Thank you," [said] the old man.',
+'The cat [jumped] onto the high shelf.','Ali [watched] the boys climb the tree.','I [played] games on the computer all afternoon.',
+'The rabbit [hopped] onto the pavement.','Mother [was] angry because I [forgot] my homework.','They [looked] for the owner of the rabbit.',
+'He [slipped] on the wet floor and [fell].','The lights [went] out during the storm.','Sarah [gave] her friend a birthday present.',
+'We [took] the bus to the beach on Sunday.','My father [caught] the ball with one hand.','"Where is my water bottle?" [asked] Ben.',
+'The teacher [praised] us for our good work.','The baby [cried] loudly in the middle of the night.','I [felt] sorry, so I [apologised] to my sister.',
+'The bird [flew] over the river.','Jason [threw] a stone and [broke] the window.','She [wrote] a letter to her grandmother.',
+'The boys [were] nervous before the test.','Grandma [made] noodles for lunch.','"Be careful!" [shouted] the bus driver.',
+'He [searched] everywhere for his new pen.','The children [sat] quietly in the hall.','My cousin and I [built] a sandcastle.',
+'The kitten [was] wet and [shook] with cold.','Dad [bought] me a storybook about dinosaurs.','We [heard] a loud noise in the kitchen.',
+'She [felt] proud when she [won] the race.','The boy [dropped] his ice cream and [began] to cry.','They [hurried] home before it [got] dark.',
+'Ravi [told] the truth to his teacher.','The old lady [thanked] the children again and again.','I [could] not answer the last question.',
+'The fox [jumped] high but [missed] the grapes.','Mei [carried] a heavy box up the stairs.','"Let\'s take turns," [said] Emily.',
+'Everyone [clapped] at the end of the show.','The mouse [chewed] through the rope.','Our class [had] a party for Mrs Tan.',
+'He [forgot] to water the plant last week.','The girls [swapped] their drawings.','It [rained] heavily, so the match [was] cancelled.',
+'We [saw] many fish at the aquarium.','I [brought] an umbrella because the sky [was] dark.','She [held] her mother\'s hand tightly.',
+'The thief [ran] away when he [saw] the police.','Ben [did] not finish his breakfast.','They [sang] a song for their grandfather.',
+'"Are you all right?" [asked] my mother.','He [did] not think about the consequences.','The children [were] excited about the school trip.'
+];
+/* ---------- 一起读 · 一分钟朗读 · 短句听写 (texts in rt-data.js)
+   Saves (all optional, old saves simply lack them):
+     S.rt  = {done:{id:date}, last:'r3'}                read-together passages finished (+2 ★ the first time each)
+     S.orf = [{d, id, n, ok}]                           one-minute reading: words reached, words read right
+     S.dc  = {s:{idx:{n, bad, last, due}}, sp:{word:n}, day:{date:1}}   dictation: each sentence's history, words he misspelt
+   The adult tools open from the parent page (家长看); dictation opens from the Writing Workshop. ---------- */
+function rtSt(){const o=v=>v&&typeof v==='object'&&!Array.isArray(v);
+  if(!o(S.rt))S.rt={};if(!o(S.rt.done))S.rt.done={};
+  if(!Array.isArray(S.orf))S.orf=[];
+  if(!o(S.dc))S.dc={};for(const k of ['s','sp','day'])if(!o(S.dc[k]))S.dc[k]={};}
+function rtLog(c,t,q,a,ok){const dk=dkey(new Date());if(!Array.isArray(S.log))S.log=[];
+  S.log.push({d:dk,ts:Date.now(),c,t,h:QB.hash(t+':'+Date.now()),ok:ok?1:0,q,a});if(S.log.length>5000)S.log=S.log.slice(-5000);}
+function rtAddDays(d,n){const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+n);return dkey(x);}
+const rtEsc=s=>esc(s).replace(/&quot;/g,'"');
+
+/* ----- read together ----- */
+let RTI=0;
+function rtOpen(i){rtSt();if(i==null){const L=RTP.findIndex(p=>p.id===S.rt.last);const nx=RTP.findIndex(p=>!S.rt.done[p.id]);i=L>=0&&!S.rt.done[RTP[L].id]?L:nx>=0?nx:0;}
+  RTI=(i+RTP.length)%RTP.length;S.rt.last=RTP[RTI].id;save();show('vRT');rtDraw();}
+function rtDraw(){const p=RTP[RTI],done=S.rt.done[p.id],n=p.p.join(' ').split(/\s+/).length;
+  $('rtSub').textContent=`一起读 · 第 ${RTI+1} 篇 / 共 ${RTP.length} 篇 · 约 ${n} 词${done?' · ✓ 读过了':''}`;
+  $('rtText').innerHTML=`<h3>${rtEsc(p.t)}</h3>`+p.p.map((t,i)=>`<p><b class="rt-n">${i+1}</b>${rtEsc(t)}</p>`).join('');
+  const lab=['写明的','要推的','他自己的'];
+  $('rtQs').innerHTML=p.q.map((q,i)=>`<div class="rt-q"><b>${i+1} ${lab[i]}</b> ${rtEsc(q[0])}<br><span>${rtEsc(q[1])}${q[2]?' → '+rtEsc(q[2]):''}</span></div>`).join('');
+  $('rtWords').innerHTML=p.w.map(w=>`<span class="rt-w">${rtEsc(w[0])} <small>${rtEsc(w[1])}</small></span>`).join('');
+  $('rtDone').textContent=done?'✓ 又读了一遍':'✓ 读完了 +2 ★';
+  $('rtList').innerHTML=RTP.map((x,i)=>`<button class="rt-li${i===RTI?' on':''}" data-rt="${i}">${S.rt.done[x.id]?'✓':'·'} ${i+1}. ${rtEsc(x.t)}</button>`).join('');}
+function rtFinish(){const p=RTP[RTI],first=!S.rt.done[p.id],dk=dkey(new Date());S.rt.done[p.id]=dk;
+  if(first){S.stars+=2;S.days[dk]=(S.days[dk]||0)+1;}
+  rtLog('read','一起读 · Read together',`一起读：${p.t}`,first?'第一次读完 +2 ★':'又读了一遍',1);save();
+  beep(true);rtDraw();}
+$('rtBack').addEventListener('click',()=>statsView());
+$('rtPrev').addEventListener('click',()=>{RTI=(RTI+RTP.length-1)%RTP.length;S.rt.last=RTP[RTI].id;save();rtDraw();});
+$('rtNext').addEventListener('click',()=>{RTI=(RTI+1)%RTP.length;S.rt.last=RTP[RTI].id;save();rtDraw();});
+$('rtDone').addEventListener('click',rtFinish);
+$('rtToOrf').addEventListener('click',()=>orfOpen());
+$('rtList').addEventListener('click',e=>{const b=e.target.closest('[data-rt]');if(b){RTI=+b.dataset.rt;S.rt.last=RTP[RTI].id;save();rtDraw();}});
+
+/* ----- one-minute reading: a 60-second timer; tap the words he misses; when time is up tap the last word he reached ----- */
+const ORF_MS=60000;
+let OR=null;
+function orfMonthIdx(d){const x=d||new Date(),k=x.getFullYear()*12+x.getMonth()-(2026*12+11);return ((k%ORF.length)+ORF.length)%ORF.length;}
+function orfOpen(i){rtSt();if(OR&&OR.tm)clearInterval(OR.tm);
+  i=i==null?orfMonthIdx():i;const words=ORF[i].p.join(' \n ').split(/ +/);
+  OR={i,words,miss:new Set(),st:'ready',left:ORF_MS,t0:0,tm:null,last:-1};show('vORF');orfDraw();}
+function orfDraw(){const o=ORF[OR.i];let k=0,h='';
+  $('orfSub').textContent=`一分钟朗读 · ${o.t}（每月换一篇，难度差不多）`;
+  for(const w of OR.words){if(w==='\n'){h+='<br><br>';continue;}const c=OR.miss.has(k)?' x':'',l=OR.st==='done'&&k>OR.last?' after':'';
+    h+=`<span class="ow${c}${l}" data-ow="${k}">${rtEsc(w)}</span> `;k++;}
+  $('orfText').innerHTML=h;orfClock();
+  const step={ready:['怎么做','让他从第一个词开始读，你点“开始”。他读错或跳过的词，点一下变红，再点取消。'],
+    run:['在读','读错或跳过的词点一下变红。别打断他，读错了也让他接着读。'],
+    pause:['暂停了','点“继续”接着计时。'],
+    pick:['时间到！','点他读到的最后一个词。'],done:['记下来了','可以“重来”再测一次，或者换一篇。']}[OR.st];
+  $('orfStepH').textContent=step[0];$('orfStep').textContent=step[1];
+  $('orfGo').textContent=OR.st==='run'?'⏸ 暂停':OR.st==='pause'?'▶ 继续':OR.st==='ready'?'▶ 开始':'▶ 开始';
+  $('orfGo').disabled=OR.st==='pick'||OR.st==='done';
+  $('orfRes').innerHTML=OR.st==='done'?`<b class="orf-big">${OR.n} 词 · 读对 ${OR.ok}</b>`:'';
+  const H=S.orf.slice(-6),mx=Math.max(60,...H.map(r=>r.ok));
+  $('orfHist').innerHTML=H.length?`<div class="orf-bars">${H.map(r=>`<div><b>${r.ok}</b><i style="height:${Math.max(6,Math.round(70*r.ok/mx))}px"></i><small>${r.d.slice(5,7)*1} 月</small></div>`).join('')}</div>`:'<p class="rt-dim">还没有记录。每月测一次，三个月后就能看出变化。</p>';
+  $('orfList').innerHTML=ORF.map((x,i)=>{const used=S.orf.some(r=>r.id===x.id);return `<button class="rt-li${i===OR.i?' on':''}" data-orf="${i}">${used?'✓':'·'} ${rtEsc(x.t)}${i===orfMonthIdx()?'（这个月）':''}</button>`;}).join('');}
+function orfClock(){const f=Math.max(0,OR.left)/ORF_MS,a=-Math.PI/2,b=a+2*Math.PI*f,r=46,s=Math.ceil(Math.max(0,OR.left)/1000);
+  $('orfTime').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+  $('orfArc').setAttribute('d',f<=0?'':f>=.999?`M0 ${-r}A${r} ${r} 0 1 1 -0.01 ${-r}`:`M${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}A${r} ${r} 0 ${f>.5?1:0} 1 ${(r*Math.cos(b)).toFixed(2)} ${(r*Math.sin(b)).toFixed(2)}`);}
+function orfTick(){OR.left=OR.end-Date.now();if(OR.left<=0){OR.left=0;clearInterval(OR.tm);OR.tm=null;OR.st='pick';beep(true);orfDraw();return;}orfClock();}
+function orfGo(){if(OR.st==='ready'||OR.st==='pause'){OR.end=Date.now()+OR.left;OR.st='run';OR.tm=setInterval(orfTick,200);}
+  else if(OR.st==='run'){clearInterval(OR.tm);OR.tm=null;OR.left=OR.end-Date.now();OR.st='pause';}orfDraw();}
+function orfTap(k){if(OR.st==='pick'||OR.st==='done'){OR.last=k;let ok=0;for(let j=0;j<=k;j++)if(!OR.miss.has(j))ok++;OR.n=k+1;OR.ok=ok;
+    if(OR.st==='pick'){S.orf.push({d:dkey(new Date()),id:ORF[OR.i].id,n:OR.n,ok});}else{const r=S.orf[S.orf.length-1];if(r){r.n=OR.n;r.ok=ok;}}
+    if(OR.st==='pick')rtLog('read','一分钟朗读 · One-minute reading',`一分钟朗读：${ORF[OR.i].t}`,`读到 ${OR.n} 词，读对 ${ok} 词`,1);
+    OR.st='done';save();orfDraw();return;}
+  if(OR.miss.has(k))OR.miss.delete(k);else OR.miss.add(k);orfDraw();}
+$('orfBack').addEventListener('click',()=>{if(OR&&OR.tm)clearInterval(OR.tm);statsView();});
+$('orfGo').addEventListener('click',orfGo);
+$('orfReset').addEventListener('click',()=>orfOpen(OR.i));
+$('orfText').addEventListener('click',e=>{const w=e.target.closest('[data-ow]');if(w)orfTap(+w.dataset.ow);});
+$('orfList').addEventListener('click',e=>{const b=e.target.closest('[data-orf]');if(b)orfOpen(+b.dataset.orf);});
+
+/* ----- dictation: 3 sentences a day, written on paper. Bolt reads; he writes; then he checks against the right sentence:
+   taps the words he spelt wrong, and says whether the capital and the full stop are there. Missed sentences come back two days later. ----- */
+const DC_N=3;let DC=null;
+const dcPlain=s=>s.replace(/[\[\]]/g,'');
+function dcPick(){rtSt();const t=dkey(new Date()),S2=S.dc.s,ids=DICT.map((_,i)=>i);
+  const due=ids.filter(i=>S2[i]&&S2[i].due&&S2[i].due<=t),fresh=ids.filter(i=>!S2[i]),old=ids.filter(i=>S2[i]&&!S2[i].due).sort((a,b)=>(S2[a].last<S2[b].last?-1:1));
+  return due.concat(fresh,old).slice(0,DC_N);}
+function dcStart(){DC={list:dcPick(),i:0,st:'listen',bad:new Set(),chk:{},res:[]};show('vDict');dcDraw();}
+function dcSay(slow){if(!DC||DC.i>=DC.list.length||!canSay)return;const t=dcPlain(DICT[DC.list[DC.i]]);
+  try{speechSynthesis.cancel();const u=utter(t);u.rate=slow?.6:.85;speechSynthesis.speak(u);}catch(e){}}
+function dcChecks(s){const c=[['cap','开头大写']];if(/"/.test(s))c.push(['q','引号 “ ”']);c.push(['end',/[?!]"?$/.test(s)?'句末的 ? 或 !':'句末的句号 .']);return c;}
+function dcDraw(){const s=DICT[DC.list[DC.i]];
+  $('dcSub').textContent=`短句听写 · 第 ${Math.min(DC.i+1,DC_N)} 句 / 共 ${DC_N} 句 · 写在纸上`;
+  $('dcDots').innerHTML=DC.list.map((_,i)=>`<span class="${i<DC.i?(DC.res[i]?'ok':'no'):i===DC.i?'on':''}">${i<DC.i?(DC.res[i]?'✓':'·'):i+1}</span>`).join('');
+  if(DC.st==='listen'){
+    $('dcBody').innerHTML=`<div class="rt-panel dc-say"><svg viewBox="-60 -55 120 110" aria-hidden="true"><g transform="translate(-18 0) scale(.9)"><use href="#ww-bot"/></g><path d="M22 -20q10 8 0 18M32 -28q16 16 0 34" stroke="#d9a845" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+      <div><b>听 Bolt 说一句，写在纸上</b><small>可以听很多遍。写完点“写好了”。</small></div>
+      ${canSay?'<div class="dc-btns"><button class="rt-go" id="dcPlay">🔊 听一遍</button><button class="rt-chip" id="dcSlow">🐢 慢一点</button></div>':'<p class="rt-dim">这台设备不能朗读，请大人看着下面的句子读给他听。</p>'}</div>
+      ${canSay?'':`<details class="rt-list"><summary>大人看：这一句</summary><p class="dc-sent">${rtEsc(dcPlain(s))}</p></details>`}
+      <button class="rt-go dc-next" id="dcWrote">写好了，对一对 ✓</button>`;return;}
+  const parts=s.split(/(\[[^\]]+\]|\s+)/).filter(x=>x&&!/^\s+$/.test(x));let k=0;
+  const sent=parts.map(x=>{const v=/^\[/.test(x),w=x.replace(/[\[\]]/g,''),i=k++;return `<button class="dc-w${v?' v':''}${DC.bad.has(i)?' x':''}" data-dw="${i}">${rtEsc(w)}</button>`;}).join(' ');
+  $('dcBody').innerHTML=`<div class="rt-panel"><div class="rt-lbl">对着纸，一个词一个词看</div>
+      <div class="dc-sent">${sent}</div>
+      <p class="rt-dim">写错的词点一下（变红），再点取消。<span class="dc-vk">橙色下划线</span>的是过去式，特别看看。</p>
+      <div class="dc-chk">${dcChecks(s).map(([k2,l])=>`<button class="dc-c${DC.chk[k2]===false?' no':''}" data-dc="${k2}">${DC.chk[k2]===false?'✗':'✓'} ${l}</button>`).join('')}</div>
+      <p class="rt-dim">漏了就点一下变成 ✗。</p></div>
+    <button class="rt-go dc-next" id="dcOk">${DC.i<DC_N-1?'下一句 →':'看结果'}</button>`;}
+function dcNext(){rtSt();const idx=DC.list[DC.i],s=DICT[idx],words=dcPlain(s).split(/\s+/),t=dkey(new Date());
+  const ok=!DC.bad.size&&!Object.values(DC.chk).some(v=>v===false),r=S.dc.s[idx]||{n:0,bad:0};
+  r.n++;if(!ok)r.bad++;r.last=t;r.due=ok?null:rtAddDays(t,2);S.dc.s[idx]=r;
+  DC.bad.forEach(i=>{const w=(words[i]||'').toLowerCase().replace(/[^a-z']/g,'');if(!w)return;S.dc.sp[w]=(S.dc.sp[w]||0)+1;
+    if(S.wd&&S.wd[w]){if(!S.sp||typeof S.sp!=='object')S.sp={};S.sp[w]=Object.assign({},S.sp[w]||{},{box:0,due:t});}});
+  DC.res.push(ok);DC.bad=new Set();DC.chk={};save();
+  if(DC.i<DC_N-1){DC.i++;DC.st='listen';dcDraw();return;}
+  dcEnd();}
+function dcEnd(){const dk=dkey(new Date()),n=DC.res.filter(Boolean).length,first=!S.dc.day[dk];S.dc.day[dk]=1;
+  if(first){S.stars+=1;S.days[dk]=(S.days[dk]||0)+1;}
+  rtLog('gram','写作工坊 · 听写',`听写 ${n} / ${DC_N} 句全对`,DC.list.map((i,j)=>(DC.res[j]?'✓ ':'✗ ')+dcPlain(DICT[i])).join(' | '),n===DC_N);save();
+  DC.i=DC_N;$('dcDots').innerHTML=DC.res.map(r=>`<span class="${r?'ok':'no'}">${r?'✓':'·'}</span>`).join('');
+  $('dcBody').innerHTML=`<div class="rt-panel" style="text-align:center"><b class="orf-big">${n} / ${DC_N} 句全对</b><p>${first?'+1 ★':'今天已经拿过星星了'}</p>
+    <p class="rt-dim">${n<DC_N?'有错的句子两天后会再出现。':'明天再来 3 句。'}</p></div>
+    <div class="dc-btns"><button class="rt-chip" id="dcMore">再写 3 句</button><button class="rt-go" id="dcHome">回到写作工坊</button></div>`;}
+$('dcBack').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}wwHome();});
+$('dcBody').addEventListener('click',e=>{const t=e.target;
+  if(t.closest('#dcPlay'))return dcSay(false);if(t.closest('#dcSlow'))return dcSay(true);
+  if(t.closest('#dcWrote')){DC.st='check';return dcDraw();}
+  if(t.closest('#dcOk'))return dcNext();
+  if(t.closest('#dcMore'))return dcStart();if(t.closest('#dcHome'))return wwHome();
+  const w=t.closest('[data-dw]');if(w){const k=+w.dataset.dw;DC.bad.has(k)?DC.bad.delete(k):DC.bad.add(k);return dcDraw();}
+  const c=t.closest('[data-dc]');if(c){const k=c.dataset.dc;DC.chk[k]=DC.chk[k]===false?true:false;return dcDraw();}});
+$('wwDcGo').addEventListener('click',dcStart);
+function dcHomeStat(){rtSt();const el=$('wwDcNote');if(el)el.textContent=S.dc.day[dkey(new Date())]?'今天写过了 ✓ · 还可以再写':'写在纸上 · Bolt 读，你写，再对一对';}
+
+/* ----- parent page: the two adult tools, the last reading result, the words he misspelt in dictation ----- */
+HOOK.statsExtra.push(function(){rtSt();let el=$('rtStat');
+  if(!el){$('stSum').insertAdjacentHTML('afterend','<div class="stcard" id="rtStat"></div>');el=$('rtStat');}
+  const L=S.orf[S.orf.length-1],nd=Object.keys(S.rt.done).length,sp=Object.entries(S.dc.sp).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  el.innerHTML=`<div class="st-big"><b>大人陪读</b></div>
+    <div class="rt-acts"><button class="rt-go" id="stRT">📖 一起读</button><button class="rt-go" id="stORF">⏱ 一分钟朗读</button></div>
+    <p class="st-sub">一起读过 <b>${nd}</b> / ${RTP.length} 篇${L?` · 上次一分钟朗读（${L.d.slice(5).replace('-','/')}）：读对 <b>${L.ok}</b> 词`:''}</p>
+    ${sp.length?`<p class="st-sub">听写里拼错过：${sp.map(([w,n])=>`${esc(w)}${n>1?' ×'+n:''}`).join('、')}</p>`:''}`;
+  $('stRT').onclick=()=>rtOpen();$('stORF').onclick=()=>orfOpen();});
+HOOK.home.push(dcHomeStat);
+window.__rt={OR:()=>OR,DC:()=>DC,orfEnd:()=>{if(OR){OR.end=Date.now();orfTick();}},rtOpen,orfOpen,dcStart};
 
 /* ---------- English home, steampunk: the level as a pressure gauge with a rank name, and the Word Railway card
    (two tickets showing the next stop of the word cards and of the phrases; Go opens the railway). ---------- */

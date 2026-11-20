@@ -91,10 +91,10 @@ def edition(app):
         s = s[:i] + read('shared', 'map.css') + s[i:]
         s = rep(s, 'function home(){', read('english', 'sent.js') + '\n' + read('shared', 'map.js') + '\nfunction home(){')
         # 写作工坊 Writing Workshop: exam pictures (encrypted) load from english/ws-data.js when the workshop opens
-        s = rep(s, '  <section id="vSpell" class="view"', read('english', 'ww.html') + '  <section id="vSpell" class="view"')
+        s = rep(s, '  <section id="vSpell" class="view"', read('english', 'ww.html') + read('english', 'rt.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
-        s = s[:i] + read('english', 'ww.css') + s[i:]
-        s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\n' + read('english', 'ww-drill.js') + '\nfunction home(){')
+        s = s[:i] + read('english', 'ww.css') + read('english', 'rt.css') + s[i:]
+        s = rep(s, 'function home(){', read('english', 'ww.js').replace("'__WWV__'", repr(WWV)) + '\n' + read('english', 'ww-drill.js') + '\n' + read('english', 'rt-data.js') + read('english', 'rt.js') + '\nfunction home(){')
         # cartoon steampunk look (like the science app's one dark world): palette for every screen, then the home and Word Railway styling
         i = s.index('</style>') + len('</style>\n')
         s = s[:i] + read('english', 'palette.html') + s[i:]
