@@ -108,3 +108,8 @@ body{background:
 .mc.ready .mc-b{fill:#c8683a;stroke:#6b2e10}
 .mc.gold .mc-b{fill:#d9a845;stroke:#6b4612}.mc.silver .mc-b{fill:#b9c5c8;stroke:#55686d}
 @media (prefers-reduced-motion:reduce){.mn-spin,.rail-puff{animation:none}}
+
+/* the read-together strip under the Word Railway card */
+.rt-home-ic{width:3.6rem;height:3rem;flex:none}
+.rt-home-next{color:var(--ink-2);font-weight:700;line-height:1.4}
+.rt-home-next b{color:var(--ink)}

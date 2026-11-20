@@ -12,7 +12,11 @@ const p=await (await b.newContext({...devices[dev]})).newPage();p.on('pageerror'
 // an old save: none of the new fields
 await p.goto(U);await p.evaluate(K=>{localStorage.clear();localStorage.setItem(K,JSON.stringify({stars:10,days:{},log:[],sets:{},wd:{},sp:{}}));},KEY);await p.reload();await p.waitForTimeout(500);
 const S=()=>p.evaluate(K=>JSON.parse(localStorage.getItem(K)),KEY);
+ok((await p.textContent('#rtHomeNext')).includes('第 1 篇'),dev+': the home strip shows the next passage');
+await p.click('#tRT');ok(await p.isVisible('#vRT')&&(await p.textContent('#rtText')).includes('Darren'),dev+': the home strip opens it');
+await p.click('#rtBack');ok(await p.isVisible('#vHome'),dev+': Back from it returns home');
 await p.click('#bStats');await p.click('#bParent');await p.waitForTimeout(300);
+ok(await p.evaluate(()=>document.querySelector('#rtStat').parentElement.querySelector('.stcard').id==='rtStat'),dev+': 大人陪读 is the first card on the parent page');
 ok(await p.isVisible('#stRT')&&await p.isVisible('#stORF'),dev+': the parent page has 一起读 and 一分钟朗读');
 // read together
 await p.click('#stRT');ok(await p.isVisible('#vRT')&&(await p.textContent('#rtText')).includes('Darren'),dev+': read together opens on the first passage');
@@ -34,6 +38,7 @@ await p.click('[data-ow="44"]');s=await S();ok(s.orf.length===1&&s.orf[0].n===45
 await p.click('#orfBack');await p.waitForTimeout(200);ok((await p.textContent('#rtStat')).includes('读对'),dev+': the parent page shows the last reading');
 // dictation (behind the workshop's name lock)
 if(NAME){await p.click('#bStatsBack');await p.goto(U);await p.waitForTimeout(400);
+  ok((await p.textContent('#rtHomeNext')).includes('第 2 篇')&&(await p.textContent('#rtHomeNext')).includes('1 / 30'),dev+': after one passage the strip moves on');
   await p.click('#tWW');await p.waitForFunction(()=>QB.WW);await p.waitForTimeout(300);if(await p.isVisible('#wwName')){await p.fill('#wwName',NAME);await p.click('#wwOpen');}await p.waitForSelector('#wwHome:not([hidden])');
   await p.click('#wwDcGo');ok(await p.isVisible('#vDict')&&(await p.$$('#dcDots span')).length===3,dev+': dictation: 3 sentences');
   await p.click('#dcWrote');await p.click('[data-dw="0"]');await p.click('[data-dc="end"]');

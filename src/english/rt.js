@@ -14,8 +14,9 @@ function rtAddDays(d,n){const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+n)
 const rtEsc=s=>esc(s).replace(/&quot;/g,'"');
 
 /* ----- read together ----- */
-let RTI=0;
-function rtOpen(i){rtSt();if(i==null){const L=RTP.findIndex(p=>p.id===S.rt.last);const nx=RTP.findIndex(p=>!S.rt.done[p.id]);i=L>=0&&!S.rt.done[RTP[L].id]?L:nx>=0?nx:0;}
+let RTI=0,RT_FROM='stats';
+function rtNextIdx(){rtSt();const L=RTP.findIndex(p=>p.id===S.rt.last);const nx=RTP.findIndex(p=>!S.rt.done[p.id]);return L>=0&&!S.rt.done[RTP[L].id]?L:nx>=0?nx:0;}
+function rtOpen(i,from){RT_FROM=from||'stats';rtSt();if(i==null)i=rtNextIdx();
   RTI=(i+RTP.length)%RTP.length;S.rt.last=RTP[RTI].id;save();show('vRT');rtDraw();}
 function rtDraw(){const p=RTP[RTI],done=S.rt.done[p.id],n=p.p.join(' ').split(/\s+/).length;
   $('rtSub').textContent=`一起读 · 第 ${RTI+1} 篇 / 共 ${RTP.length} 篇 · 约 ${n} 词${done?' · ✓ 读过了':''}`;
@@ -29,7 +30,7 @@ function rtFinish(){const p=RTP[RTI],first=!S.rt.done[p.id],dk=dkey(new Date());
   if(first){S.stars+=2;S.days[dk]=(S.days[dk]||0)+1;}
   rtLog('read','一起读 · Read together',`一起读：${p.t}`,first?'第一次读完 +2 ★':'又读了一遍',1);save();
   beep(true);rtDraw();}
-$('rtBack').addEventListener('click',()=>statsView());
+$('rtBack').addEventListener('click',()=>{if(RT_FROM==='home')home();else statsView();});
 $('rtPrev').addEventListener('click',()=>{RTI=(RTI+RTP.length-1)%RTP.length;S.rt.last=RTP[RTI].id;save();rtDraw();});
 $('rtNext').addEventListener('click',()=>{RTI=(RTI+1)%RTP.length;S.rt.last=RTP[RTI].id;save();rtDraw();});
 $('rtDone').addEventListener('click',rtFinish);
@@ -133,6 +134,7 @@ function dcHomeStat(){rtSt();const el=$('wwDcNote');if(el)el.textContent=S.dc.da
 /* ----- parent page: the two adult tools, the last reading result, the words he misspelt in dictation ----- */
 HOOK.statsExtra.push(function(){rtSt();let el=$('rtStat');
   if(!el){$('stSum').insertAdjacentHTML('afterend','<div class="stcard" id="rtStat"></div>');el=$('rtStat');}
+  {const first=el.parentElement.querySelector('.stcard');if(first&&first!==el)first.before(el);}
   const L=S.orf[S.orf.length-1],nd=Object.keys(S.rt.done).length,sp=Object.entries(S.dc.sp).sort((a,b)=>b[1]-a[1]).slice(0,10);
   el.innerHTML=`<div class="st-big"><b>大人陪读</b></div>
     <div class="rt-acts"><button class="rt-go" id="stRT">📖 一起读</button><button class="rt-go" id="stORF">⏱ 一分钟朗读</button></div>
@@ -140,4 +142,9 @@ HOOK.statsExtra.push(function(){rtSt();let el=$('rtStat');
     ${sp.length?`<p class="st-sub">听写里拼错过：${sp.map(([w,n])=>`${esc(w)}${n>1?' ×'+n:''}`).join('、')}</p>`:''}`;
   $('stRT').onclick=()=>rtOpen();$('stORF').onclick=()=>orfOpen();});
 HOOK.home.push(dcHomeStat);
+/* home: the read-together strip — which passage is next, how many read; opens that passage, Back returns home */
+function rtHomeStat(){const el=$('rtHomeNext');if(!el)return;rtSt();const i=rtNextIdx(),n=Object.keys(S.rt.done).length;
+  el.innerHTML=n>=RTP.length?`30 篇都读过了 🎉 · 可以挑喜欢的再读一遍`:`下一篇：第 ${i+1} 篇 · <b>${rtEsc(RTP[i].t)}</b> · 读过 ${n} / ${RTP.length}`;}
+HOOK.home.push(rtHomeStat);
+$('tRT').addEventListener('click',()=>rtOpen(null,'home'));
 window.__rt={OR:()=>OR,DC:()=>DC,orfEnd:()=>{if(OR){OR.end=Date.now();orfTick();}},rtOpen,orfOpen,dcStart};
