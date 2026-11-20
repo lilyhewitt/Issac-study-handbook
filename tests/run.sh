@@ -36,6 +36,7 @@ if [ "${1:-}" != quick ]; then
   run "bar-model pictures (nothing cut off)" node tests/bar-pictures.js
   run "sync" node tests/sync.js
   run "chapter chosen in the handbook" node tests/chapter.js
+  run "handbook pages and navigation" node tests/handbook.js
   run "daily rounds" node tests/rounds.js
   run "English phrases and grammar" node tests/phrases.js
   run "English word map" node tests/map.js

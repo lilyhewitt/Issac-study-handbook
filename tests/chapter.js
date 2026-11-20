@@ -16,7 +16,7 @@ const chOn=p=>p.$eval('.chpick [aria-pressed="true"]',e=>e.textContent).catch(()
  await mom.reload();await mom.waitForTimeout(500);ok(await mom.isVisible('.chpick'),'handbook shows the chapter picker');out.push('   selected: '+await chOn(mom));
  await mom.click('.chpick [data-ch="3"]');await mom.waitForTimeout(500);d=await dump();
  ok(d.sync[code].math.cfg&&d.sync[code].math.cfg.ch===3,'choice saved next to math records '+JSON.stringify(d.sync[code].math.cfg));
- ok((await chOn(mom)).includes('第3章'),'handbook shows 第3章 selected');out.push('   status: '+(await mom.innerText('.chpick [role="status"]')));
+ ok((await chOn(mom)).includes('第 3 章'),'handbook shows 第 3 章 selected');out.push('   status: '+(await mom.innerText('.chpick [role="status"]')));
  await pad.reload();await pad.waitForTimeout(900);
  ok((await pad.innerText('#tP4')).includes('这周：第 3 章'),'iPad picked it up on opening: '+(await pad.innerText('#tP4')).replace(/\n/g,' '));
  await round(pad,'#tWp');await pad.waitForTimeout(2000);d=await dump();
@@ -27,7 +27,7 @@ const chOn=p=>p.$eval('.chpick [aria-pressed="true"]',e=>e.textContent).catch(()
  await pad.click('#bStats');await pad.click('#bParent');await pad.waitForTimeout(200);await pad.click('#chCard [data-ch="5"]');await pad.click('#bStatsBack');if(await pad.isVisible('#bMeBack'))await pad.click('#bMeBack');
  await round(pad,'#tWp');await pad.waitForTimeout(2000);await pad.reload();await pad.waitForTimeout(900);
  ok((await pad.innerText('#tP4')).includes('第 5 章'),'choice made on the iPad stays after reopening');
- await mom.reload();await mom.waitForTimeout(500);ok((await chOn(mom)).includes('第5章'),'handbook follows the newer iPad choice: '+await chOn(mom));
+ await mom.reload();await mom.waitForTimeout(500);ok((await chOn(mom)).includes('第 5 章'),'handbook follows the newer iPad choice: '+await chOn(mom));
  /* then the handbook again */
  await mom.click('.chpick [data-ch="1"]');await mom.waitForTimeout(400);await pad.reload();await pad.waitForTimeout(900);ok((await pad.innerText('#tP4')).includes('第 1 章'),'handbook again → iPad 第1章');
  /* database refusing */

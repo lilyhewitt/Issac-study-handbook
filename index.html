@@ -7,236 +7,258 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#2f7d5b">
+<meta name="theme-color" content="#F5F5F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141817" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-title" content="小小手册">
 <title>小小假期学习手册</title>
-<style>html{color-scheme:light;} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} body{margin:0;} img{max-width:100%;} [hidden]{display:none!important;}.chpick{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.chpick p{margin:0 0 6px}
-.chs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.chs .hb{margin:0}
-</style>
+<style>html{color-scheme:light;} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} body{margin:0;} img{max-width:100%;} [hidden]{display:none!important;}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap">
 <style>
-/* Layout: phone-first single column (max 35rem), short cards, bottom tab bar within thumb reach. */
+/* Calm, restrained, professional. One accent (deep grey-green), the rest warm greys.
+   Chinese reading: full-width punctuation, 1.8 line height, two weights (400 / 600), one idea per line.
+   Phone-first single column; each tab = one short first screen of entries; details live on second-level pages. */
 :root{
-  --bg:#f3f6f3; --surface:#ffffff; --ink:#1c2a28; --muted:#5d6c69; --line:#dbe3df;
-  --accent:#2f7d5b; --accent-ink:#1f5a41; --accent-soft:#e2efe7;
-  --warn:#b4532a; --warn-soft:#f8e8e0; --mark-soft:#fcf3d6; --link:#1f6a8a;
-  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --bg:#F5F5F2; --surface:#FFFFFF; --ink:#1E2422; --ink2:#3F4744; --muted:#737A77; --line:#E3E4E0;
+  --accent:#2F5D4F; --accent-ink:#2F5D4F; --accent-soft:#EDF1EE; --tint:#EFF1EE; --seg-bg:#EAEAE6; --seg-on:#FFFFFF;
+  --chev:#A9AEAB; --warn:#9A4A2E; --warn-soft:#F6EDE8; --mark-soft:#EFF1EE; --link:#2F5D4F;
+  --f-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
   --f-latin:"Lexend",system-ui,sans-serif;
   --nav-h:4rem;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111715; --surface:#1a2220; --ink:#e4ece9; --muted:#9db0ab; --line:#2d3a37;
-  --accent:#6cc39a; --accent-ink:#9adbbb; --accent-soft:#1d3127;
-  --warn:#e0896a; --warn-soft:#352219; --mark-soft:#2d2916; --link:#7fc3e2; color-scheme:dark;}}
+  --bg:#141817; --surface:#1D2220; --ink:#E6E9E7; --ink2:#C5CBC8; --muted:#8E9692; --line:#2B3230;
+  --accent:#8FBFAE; --accent-ink:#9CC8B8; --accent-soft:#22302B; --tint:#202826; --seg-bg:#262C2A; --seg-on:#363D3A;
+  --chev:#5C6461; --warn:#E0A088; --warn-soft:#2E2420; --mark-soft:#202826; --link:#9CC8B8; color-scheme:dark;}}
 :root[data-theme="dark"]{
-  --bg:#111715; --surface:#1a2220; --ink:#e4ece9; --muted:#9db0ab; --line:#2d3a37;
-  --accent:#6cc39a; --accent-ink:#9adbbb; --accent-soft:#1d3127;
-  --warn:#e0896a; --warn-soft:#352219; --mark-soft:#2d2916; --link:#7fc3e2; color-scheme:dark;}
+  --bg:#141817; --surface:#1D2220; --ink:#E6E9E7; --ink2:#C5CBC8; --muted:#8E9692; --line:#2B3230;
+  --accent:#8FBFAE; --accent-ink:#9CC8B8; --accent-soft:#22302B; --tint:#202826; --seg-bg:#262C2A; --seg-on:#363D3A;
+  --chev:#5C6461; --warn:#E0A088; --warn-soft:#2E2420; --mark-soft:#202826; --link:#9CC8B8; color-scheme:dark;}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.65;-webkit-text-size-adjust:100%;}
-.wrap{max-width:35rem;margin:0 auto;padding-left:max(1rem,env(safe-area-inset-left,0px));padding-right:max(1rem,env(safe-area-inset-right,0px));}
-header{padding-block:1.25rem 0.375rem;}
-.hd-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap}.hd-row h1{margin:0}
-.upd-btn{flex:none;font-size:0.875rem;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:0.375rem 0.875rem;text-decoration:none;white-space:nowrap}
-.eyebrow{font-family:var(--f-latin);font-size:0.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;}
-h1{font-size:1.625rem;font-weight:900;line-height:1.3;margin:4px 0 0;}
-main{padding-block:0.625rem calc(var(--nav-h) + 1.75rem + env(safe-area-inset-bottom,0px));}
-section.view{display:flex;flex-direction:column;gap:0.875rem;}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.8;letter-spacing:.02em;-webkit-text-size-adjust:100%;font-weight:400;}
+b,strong{font-weight:600;}
+.wrap{max-width:35rem;margin:0 auto;padding-left:max(1.25rem,env(safe-area-inset-left,0px));padding-right:max(1.25rem,env(safe-area-inset-right,0px));}
+header{padding-block:1.25rem 0;}
+header[hidden]{display:none}
+.hd-top{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem}
+.eyebrow{font-family:var(--f-latin);font-size:.75rem;letter-spacing:.14em;color:var(--muted);font-weight:400;}
+.upd-btn{flex:none;font-size:.875rem;color:var(--accent-ink);text-decoration:none;white-space:nowrap;padding:.25rem 0;}
+h1{font-size:1.5rem;font-weight:600;line-height:1.4;margin:.25rem 0 0;letter-spacing:.04em;}
+main{padding-block:.5rem calc(var(--nav-h) + 2rem + env(safe-area-inset-bottom,0px));}
+section.view{display:flex;flex-direction:column;gap:.75rem;}
 section.view[hidden]{display:none;}
-h2{font-size:1.25rem;font-weight:900;line-height:1.35;margin:0.625rem 0 0;text-wrap:balance;}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:0.875rem;padding:0.875rem 1rem;min-width:0;}
-.prio{margin:0.5rem 0;padding-left:1.4rem;line-height:1.6}.prio li{margin:0.3rem 0}
-.card > *:first-child{margin-top:0;} .card > *:last-child{margin-bottom:0;}
-.card h3{font-size:1.0625rem;margin:0 0 4px;}
-p{margin:0.375rem 0;}
-.muted{color:var(--muted);font-size:0.9375rem;}
-.big{font-size:1.125rem;font-weight:700;line-height:1.55;}
-.soft{background:var(--accent-soft);border-color:transparent;}
-.warm{background:var(--mark-soft);border-color:transparent;}
-.no{background:var(--warn-soft);border-color:transparent;}
-.no b{color:var(--warn);}
-ul,ol{margin:4px 0;padding-left:1.25rem;} li{margin:0.375rem 0;} li::marker{color:var(--accent);font-weight:700;}
-.en{font-family:var(--f-latin);font-weight:600;}
-.q{font-family:var(--f-latin);color:var(--accent-ink);}
-/* score bars */
-.score{display:grid;grid-template-columns:5.2em 1fr 3em;align-items:center;gap:0.625rem;margin:0.5rem 0;font-size:1rem;}
-.score .t{font-weight:700;}
-.score .b{height:0.625rem;border-radius:5px;background:var(--line);overflow:hidden;}
-.score .b i{display:block;height:100%;background:var(--accent);border-radius:5px;}
-.score.low .b i{background:var(--warn);}
-.score .p{font-family:var(--f-latin);font-weight:700;text-align:right;font-variant-numeric:tabular-nums;}
-/* step rows */
-.row{display:flex;gap:0.75rem;align-items:flex-start;}
-.row .n{flex:0 0 2rem;height:2rem;border-radius:50%;background:var(--accent);color:var(--surface);font-family:var(--f-latin);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:0.9375rem;}
-.row > div{min-width:0;flex:1;}
-.rows{display:flex;flex-direction:column;gap:0.75rem;}
-/* link buttons */
+h2{font-size:1.125rem;font-weight:600;line-height:1.45;margin:1.25rem .125rem 0;letter-spacing:.04em;text-wrap:balance;}
+h3{font-weight:600;}
+p{margin:.375rem 0;}
 a{color:var(--link);}
-a.btn{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;min-height:3rem;margin-top:0.625rem;padding:0.625rem 0.875rem;border-radius:0.75rem;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;text-decoration:none;font-size:1rem;}
-a.btn::after{content:"↗";font-family:var(--f-latin);}
-a.btn[href^="#"]::after{content:"→";}
-a.btn:active{opacity:.8;}
-a.btn .src{margin-left:auto;font-family:var(--f-latin);font-size:0.7812rem;font-weight:700;opacity:.7;}
+.muted{color:var(--muted);font-size:.9375rem;line-height:1.75;}
+.lead{margin:.25rem 0 .25rem;padding-left:.75rem;border-left:2px solid var(--accent);font-size:1rem;line-height:1.8;color:var(--ink2);}
+.lead p{margin:0}
+.big{font-size:1rem;font-weight:400;line-height:1.8;color:var(--ink2);}
+.sect{display:flex;justify-content:space-between;align-items:baseline;font-size:.8125rem;color:var(--muted);letter-spacing:.12em;margin:1rem .125rem -.25rem;}
+.en{font-family:var(--f-latin);font-weight:400;letter-spacing:0;}
+.q{font-family:var(--f-latin);color:var(--ink2);letter-spacing:0;}
+/* cards */
+.card{background:var(--surface);border-radius:.875rem;padding:.875rem 1rem;min-width:0;}
+.card > *:first-child{margin-top:0;} .card > *:last-child{margin-bottom:0;}
+.card h3{font-size:1.0625rem;margin:0 0 .25rem;}
+.soft{background:transparent;padding:0 0 0 .75rem;border-left:2px solid var(--accent);border-radius:0;}
+.soft .big{margin:0}
+.warm,.say{background:var(--tint);}
+.no{background:var(--warn-soft);}
+.no b{color:var(--warn);}
+.say p{margin:.25rem 0;}
+.tag{display:block;font-size:.8125rem;color:var(--muted);letter-spacing:.06em;margin-bottom:.125rem;}
+ul,ol{margin:.25rem 0;padding-left:1.25rem;} li{margin:.375rem 0;} li::marker{color:var(--muted);}
+ol li::marker{font-family:var(--f-latin);color:var(--accent);}
+/* grouped list (entries, rows) */
+.group{background:var(--surface);border-radius:.875rem;padding:0 1rem;}
+.ent{display:grid;grid-template-columns:1fr .875rem;column-gap:.75rem;align-items:center;padding:.875rem 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:3.5rem;}
+.group > .ent:first-child{border-top:0;}
+.ent .t{display:block;font-weight:600;line-height:1.5;}
+.ent .d{display:block;font-size:.875rem;color:var(--muted);line-height:1.6;margin-top:.125rem;}
+.ent::after,.pr .go::after{content:"";width:.5rem;height:.5rem;border-right:1.5px solid var(--chev);border-top:1.5px solid var(--chev);transform:rotate(45deg);justify-self:center;}
+a.ent:active{opacity:.7;}
+.li{display:grid;grid-template-columns:1.375rem 1fr;column-gap:.5rem;padding:.75rem 0;border-top:1px solid var(--line);}
+.group > .li:first-child,.card > .li:first-child{border-top:0;padding-top:.125rem;}
+.li > .i{font-family:var(--f-latin);font-size:.9375rem;color:var(--accent);line-height:1.8;}
+.li > div{min-width:0;}
+.li .t{font-weight:600;}
+.li .d{font-size:.9375rem;color:var(--muted);line-height:1.75;margin:.125rem 0 0;}
+.li .d .q,.li .d .en{color:var(--ink2);}
+/* second-level page */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;display:grid;grid-template-columns:5rem 1fr 5rem;align-items:center;height:3rem;margin:-.5rem 0 .25rem;background:var(--bg);border-bottom:1px solid var(--line);}
+.bar .bk{display:flex;align-items:center;gap:.375rem;color:var(--accent-ink);text-decoration:none;font-size:1rem;height:100%;}
+.bar .bk::before{content:"";width:.5625rem;height:.5625rem;border-left:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-left:.25rem;}
+.bar .ti{margin:0;text-align:center;font-size:1.0625rem;font-weight:600;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.segc{display:grid;grid-auto-columns:1fr;grid-auto-flow:column;gap:2px;background:var(--seg-bg);border-radius:.625rem;padding:3px;}
+.segc button{font:inherit;font-size:.875rem;letter-spacing:.02em;line-height:1.3;min-height:2.25rem;padding:.25rem .25rem;border:0;border-radius:.5rem;background:transparent;color:var(--ink2);cursor:pointer;}
+.segc button[aria-selected="true"]{background:var(--seg-on);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+.pane{display:flex;flex-direction:column;gap:.75rem;}
+.pane[hidden]{display:none;}
+/* link buttons (inside cards) */
+a.btn{display:flex;align-items:center;justify-content:space-between;gap:.5rem;min-height:2.875rem;margin-top:.625rem;padding:.5rem .875rem;border-radius:.625rem;border:1px solid var(--line);background:var(--surface);color:var(--accent-ink);text-decoration:none;font-size:.9375rem;}
+a.btn::after{content:"↗";font-family:var(--f-latin);color:var(--muted);}
+a.btn[href^="#"]::after,a.btn[href$="from=handbook"]::after{content:"→";}
+a.btn:active{opacity:.7;}
+a.btn .src{margin-left:auto;font-family:var(--f-latin);font-size:.75rem;color:var(--muted);}
 /* progress rows */
-.prog{padding-block:2px;}
-.pr{display:grid;grid-template-columns:4.6em 1fr auto;gap:0.5rem 0.75rem;align-items:center;padding:0.75rem 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:3.25rem;}
+.prog{padding-block:0;}
+.pr{display:grid;grid-template-columns:4.75em 1fr auto;gap:.25rem .75rem;align-items:center;padding:.75rem 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:3.25rem;}
 .prog > .pr:first-child{border-top:0;}
-.pr .pl{font-size:0.875rem;font-weight:700;color:var(--muted);line-height:1.4;}
-.pr .pv{min-width:0;line-height:1.5;}
-.pr .go{font-family:var(--f-latin);font-weight:700;color:var(--accent-ink);}
+.pr .pl{font-size:.875rem;color:var(--muted);line-height:1.5;}
+.pr .pv{min-width:0;line-height:1.6;}
+.pr .pv b{font-weight:600}
+.pr .go{display:flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--muted);font-weight:400;}
+.pr .go::after{width:.4375rem;height:.4375rem;}
 .pr .seg{grid-column:1 / -1;}
-a.pr:active{opacity:.8;}
-.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:0.375rem;margin-top:4px;}
-.seg button{font:inherit;font-size:0.9375rem;font-weight:700;min-height:2.75rem;padding:0 4px;border-radius:0.625rem;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;}
-.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface);}
+a.pr:active{opacity:.7;}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:.25rem;background:var(--seg-bg);border-radius:.625rem;padding:3px;}
+.seg button{font:inherit;font-size:.875rem;min-height:2.375rem;padding:0 2px;border-radius:.5rem;border:0;background:transparent;color:var(--ink2);cursor:pointer;}
+.seg button[aria-pressed="true"]{background:var(--seg-on);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08);}
 /* small fold inside a card */
-details.inl{margin-top:0.625rem;border-top:1px dashed var(--line);}
-details.inl summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:0.375rem;min-height:2.75rem;font-weight:700;color:var(--accent-ink);}
+details.inl{margin-top:.625rem;border-top:1px solid var(--line);}
+details.inl summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.375rem;min-height:2.75rem;color:var(--accent-ink);}
 details.inl summary::-webkit-details-marker{display:none;}
-details.inl summary::before{content:"+";font-family:var(--f-latin);font-size:1.125rem;width:1em;}
-details.inl[open] summary::before{content:"−";}
-.sub-h{font-size:1.0625rem;font-weight:900;margin:0.375rem 0 0;}
-.body h3{font-size:1rem;margin:0.875rem 0 2px;}
+details.inl summary::after,details.more summary::after{content:"";flex:none;width:.4375rem;height:.4375rem;border-right:1.5px solid var(--chev);border-bottom:1.5px solid var(--chev);transform:rotate(45deg);margin:0 .25rem .25rem 0;transition:transform .15s;}
+details.inl[open] summary::after,details.more[open] summary::after{transform:rotate(-135deg);margin:.25rem .25rem 0 0;}
+.sub-h{font-size:1.0625rem;font-weight:600;margin:.375rem 0 0;}
+.body h3{font-size:1rem;margin:1rem 0 .125rem;}
 .body h3:first-child{margin-top:0;}
-.tag{display:inline-block;font-size:0.8125rem;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:62.4375rem;padding:1px 0.625rem;margin-bottom:0.375rem;}
-/* say lines */
-.say p{font-weight:700;margin:4px 0;}
-/* weeks */
-details.week{background:var(--surface);border:1px solid var(--line);border-radius:0.875rem;}
-details.week summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;min-height:3.5rem;}
+/* steps (week / level folds) */
+details.week{background:var(--surface);border-radius:.875rem;}
+details.week summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.75rem;padding:.875rem 1rem;min-height:3.5rem;}
 details.week summary::-webkit-details-marker{display:none;}
-details.week summary .wk{font-family:var(--f-latin);font-size:0.8125rem;font-weight:700;color:var(--muted);flex:0 0 auto;}
-details.week summary .tt{font-weight:700;flex:1;min-width:0;}
-details.week summary .ok{font-size:0.875rem;color:var(--accent-ink);font-weight:700;}
-details.week summary::after{content:"+";font-family:var(--f-latin);font-size:1.375rem;color:var(--muted);}
-details.week[open] summary::after{content:"−";}
-details.week .body{padding:0 1rem 0.875rem;}
-details.week .body p{margin:0.375rem 0;}
-details.week .lbl{color:var(--muted);font-size:0.875rem;font-weight:700;display:block;}
-ul.books{list-style:none;margin:0.375rem 0 0.75rem;padding:0;display:flex;flex-direction:column;gap:0.5rem;}
+details.week summary .wk{font-family:var(--f-latin);font-size:.875rem;color:var(--accent);flex:0 0 1rem;}
+details.week summary .tt{font-weight:600;flex:1;min-width:0;line-height:1.5;}
+details.week summary .ok{font-size:.8125rem;color:var(--accent-ink);}
+details.week summary::after{content:"";flex:none;width:.4375rem;height:.4375rem;border-right:1.5px solid var(--chev);border-bottom:1.5px solid var(--chev);transform:rotate(45deg);margin-bottom:.25rem;}
+details.week[open] summary::after{transform:rotate(-135deg);margin:.25rem 0 0;}
+details.week .body{padding:0 1rem .875rem 2.75rem;}
+details.week .body p{margin:.5rem 0;}
+details.week .lbl{color:var(--muted);font-size:.8125rem;letter-spacing:.04em;display:block;}
+ul.books{list-style:none;margin:.375rem 0 .75rem;padding:0;display:flex;flex-direction:column;gap:.375rem;}
 ul.books li{margin:0;}
-ul.books .bk{position:relative;display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:3.25rem;padding:0.5625rem 4rem 0.5625rem 0.875rem;border-radius:0.75rem;background:var(--accent-soft);color:var(--accent-ink);text-decoration:none;line-height:1.4;}
-ul.books a.bk::after{content:"NLB ↗";font-family:var(--f-latin);font-size:0.8125rem;font-weight:700;position:absolute;right:0.875rem;top:50%;transform:translateY(-50%);opacity:.85;}
-ul.books div.bk{background:transparent;border:1.5px dashed var(--line);color:var(--ink);}
-ul.books .bk .en{font-size:1rem;}
-ul.books .by{font-size:0.875rem;color:var(--muted);}
-label.done{display:flex;align-items:center;gap:0.625rem;min-height:2.75rem;margin-top:0.375rem;font-weight:700;}
-label.done input{width:1.375rem;height:1.375rem;accent-color:var(--accent);}
-details.more{background:var(--surface);border:1px solid var(--line);border-radius:0.875rem;}
-details.more summary{cursor:pointer;padding:0.875rem 1rem;font-weight:700;min-height:3.25rem;}
-details.more .body{padding:0 1rem 0.875rem;}
+ul.books .bk{position:relative;display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:3.125rem;padding:.5rem 3.75rem .5rem .875rem;border-radius:.625rem;border:1px solid var(--line);color:var(--ink);text-decoration:none;line-height:1.45;}
+ul.books a.bk::after{content:"NLB ↗";font-family:var(--f-latin);font-size:.75rem;color:var(--muted);position:absolute;right:.875rem;top:50%;transform:translateY(-50%);}
+ul.books div.bk{border-style:dashed;}
+ul.books .bk .en{font-size:.9375rem;color:var(--accent-ink);}
+ul.books .by{font-size:.8125rem;color:var(--muted);}
+label.done{display:flex;align-items:center;gap:.625rem;min-height:2.75rem;margin-top:.375rem;}
+label.done input{width:1.25rem;height:1.25rem;accent-color:var(--accent);}
+details.more{background:var(--surface);border-radius:.875rem;}
+details.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.875rem 1rem;min-height:3.25rem;font-weight:600;}
+details.more summary::-webkit-details-marker{display:none;}
+details.more .body{padding:0 1rem .875rem;}
+/* step rows (sync) */
+.row{display:flex;gap:.75rem;align-items:flex-start;}
+.row .n{flex:0 0 1.375rem;font-family:var(--f-latin);color:var(--accent);font-size:.9375rem;line-height:1.8;}
+.row > div{min-width:0;flex:1;}
+.rows{display:flex;flex-direction:column;gap:.75rem;}
 /* bottom nav */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
-nav.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:var(--nav-h);align-items:center;}
-nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:3.25rem;border-radius:0.75rem;text-decoration:none;color:var(--muted);font-weight:700;font-size:0.9375rem;min-width:0;}
-nav.tabs a .ic{font-family:var(--f-latin);font-size:0.7188rem;letter-spacing:.02em;}
-nav.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);}
-a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
-footer{color:var(--muted);font-size:0.8125rem;margin-top:0.5rem;}
+nav.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:var(--nav-h);align-items:stretch;}
+nav.tabs a{position:relative;display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:.9375rem;letter-spacing:.06em;min-width:0;}
+nav.tabs a[aria-current="page"]{color:var(--accent-ink);font-weight:600;}
+nav.tabs a[aria-current="page"]::before{content:"";position:absolute;top:0;left:50%;width:1.5rem;height:2px;margin-left:-.75rem;border-radius:2px;background:var(--accent);}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+footer{color:var(--muted);font-size:.8125rem;margin-top:1rem;}
 /* sync with the child's iPad */
-button.hb{font:inherit;font-size:1rem;font-weight:700;min-height:2.75rem;padding:0 1rem;border-radius:.75rem;border:0;background:var(--accent);color:var(--surface);cursor:pointer;margin-top:.5rem;}
-button.hb.ghost{background:transparent;color:var(--accent-ink);border:1.5px solid var(--line);}
-.codebig{font-family:var(--f-latin);font-size:1.6rem;font-weight:700;letter-spacing:.08em;color:var(--accent-ink);}
-input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-radius:.75rem;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;}
+button.hb{font:inherit;font-size:.9375rem;font-weight:600;min-height:2.75rem;padding:0 1rem;border-radius:.625rem;border:0;background:var(--accent);color:var(--surface);cursor:pointer;margin-top:.5rem;}
+button.hb.ghost{background:transparent;color:var(--accent-ink);border:1px solid var(--line);font-weight:400;}
+.codebig{font-family:var(--f-latin);font-size:1.5rem;letter-spacing:.08em;color:var(--accent-ink);}
+input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-radius:.625rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;}
 .inrow{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
 .inrow button.hb{margin-top:0;}
+.chpick{margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--line)}
+.chpick p{margin:0 0 .375rem}
+.chs{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0}
+.chs .hb{margin:0}
 /* Tablets: sizes are in rem, so the whole page goes one size up. */
 @media (min-width:700px) and (min-height:700px){html{font-size:18px}}
-.pp-k{color:var(--accent);font-weight:800;text-decoration:underline;text-underline-offset:3px}
-.pv .lo{color:var(--warn,#B7791F)}
+.pp-k{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.pv .lo{color:var(--warn)}
 .tbl{overflow-x:auto;margin:.5rem 0}
-.tbl table{border-collapse:collapse;width:100%;font-size:.92rem;line-height:1.45}
-.tbl th,.tbl td{text-align:left;vertical-align:top;padding:.45rem .5rem;border-bottom:1px solid var(--line)}
-.tbl th{font-weight:700;color:var(--muted,inherit);white-space:nowrap}
-.tbl td:first-child{white-space:nowrap}
+.tbl table{border-collapse:collapse;width:100%;font-size:.875rem;line-height:1.6}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:.5rem .5rem;border-bottom:1px solid var(--line)}
+.tbl th{font-weight:400;color:var(--muted);white-space:nowrap}
+.tbl td:first-child{white-space:nowrap;color:var(--muted)}
+.tbl td b{font-weight:600}
 </style>
 </head>
 <body>
 
-
-<header><div class="wrap">
-  <div class="eyebrow">Holiday 2026 · P3 → P4</div>
-  <div class="hd-row"><h1>小小假期学习手册</h1><a class="upd-btn" href="#updates">更新记录</a></div>
+<header id="hd"><div class="wrap">
+  <div class="hd-top" id="hdTop"><span class="eyebrow">P3 → P4 · 假期</span><a class="upd-btn" href="#updates">更新记录</a></div>
+  <h1 id="hdTitle">小小假期学习手册</h1>
 </div></header>
 
 <main><div class="wrap">
 
 <!-- ===== 总览 ===== -->
+<!-- 一级页只放方向、进度和入口;细节在二级页(section 带 data-tab)。不排每天的日程。 -->
 <section class="view" id="v-overview">
-  <div class="card soft"><p class="big">这个假期往前看:<br>预习下学期,顺手把没学稳的补上。</p></div>
-
-
-  <h2>现在到哪了</h2>
+  <div class="lead"><p>预习下学期，顺手把没学稳的补上。</p></div>
+  <div class="sect"><span>现在到哪了</span></div>
   <div class="card prog" id="prog"></div>
-  <p class="muted">读法和打勾存在这台手机上。能多读一点了、做完一个主题,当着他的面改过来。练习 app 的做题记录在“练习”页。</p>
-
-  <h2>每天做什么</h2>
-  <div class="card"><h3>每天必做 · 30 分钟左右</h3>
-    <p class="muted"><b>同一个时间、同样的顺序。</b>开始前告诉他今天做哪几样,做完一样勾一样;全部做完就结束,不临时加量。</p><ol>
-    <li><b>拼读 10 分钟</b>(英文页 ①)。</li>
-    <li><b>一起读 10 分钟</b>:用他现在的读法(英文页)。</li>
-    <li><b><a href="#practice">练习 app</a></b>:做完首页的“今天的任务”就停。英文、数学、科学轮着来,一天一个;<b>周一</b>用英文 app 学新的一组单词卡。</li>
-    <li><b>写作工坊“基本功”一轮</b>:英文 app 里,8 题,5 分钟。</li>
-    <li><b>睡前听书</b>,不算在时间里。</li>
-  </ol></div>
-  <div class="card"><h3>每周两三次</h3><ul>
-    <li><b>数学 15 分钟</b>:预习 4A 一小步 + 复习一类常错的题;应用题按数学页的“读题三步”,在纸上画线段图。</li>
-    <li><b>科学一个主题</b>:先听或读,再出门看或动手,回来说一说。开始新主题那天,在科学 app 学同一主题的单词卡。</li>
-    <li><b>作文一次</b>:一套作文小卷(30–40 分钟),或英文 app 写作工坊的一套连环图。做法看英文页“作文”。一周最多两次。</li>
-    <li><b>华文书</b>:读一本他喜欢的。华文是强项,别停。</li>
-  </ul></div>
-  <div class="card"><h3>有空再做</h3><ul>
-    <li>去图书馆、科学馆、公园,把学过的词用一用</li>
-    <li>数学 app 的线段图方块,想做就做几题</li>
-  </ul></div>
-  <div class="card soft"><p><b>开学前最后一周</b>只复习,不加新东西。</p></div>
-
-  <h2>下学期(P4 上半年)学什么</h2>
-  <div class="card prog">
-    <a class="pr" href="#english"><span class="pl">英文</span><span class="pv">理解题变成两篇、文章更长;作文变成“题目 + 3 张图”;有的学校加看图文和改错</span><span class="go">→</span></a>
-    <a class="pr" href="#science"><span class="pl">科学</span><span class="pv">植物各部分、消化系统、物质三态、光和影子、热</span><span class="go">→</span></a>
-    <a class="pr" href="#math"><span class="pl">数学</span><span class="pv">十万以内的数、因数和倍数、乘除、折线图、分数、角、长方形和正方形</span><span class="go">→</span></a>
+  <p class="muted">读法和打勾存在这台手机上。能多读一点了、做完一个主题，当着他的面改过来。练习 app 的做题记录在“练习”页。</p>
+  <div class="sect"><span>分开看</span></div>
+  <div class="group">
+    <a class="ent" href="#overview-next"><span><span class="t">下学期学什么</span><span class="d">英文 · 科学 · 数学</span></span></a>
+    <a class="ent" href="#overview-rules"><span><span class="t">要守住的</span><span class="d">短短做、常常做 · 不拿 app 代替读书</span></span></a>
+    <a class="ent" href="#praise"><span><span class="t">夸夸：现成的话</span><span class="d">读书、做题、写作文时怎么夸</span></span></a>
   </div>
+</section>
 
-  <h2>要守住的</h2>
-  <div class="card"><ul>
-    <li>短短做、常常做,比一次做一小时有用</li>
-    <li>先做得完,再加难度;喜欢的书反复读</li>
-    <li>夸具体的事:“这段第三遍读得好顺!”<br><a href="#praise" data-jump="praiseTop">现成的话在这页最下面 ↓</a></li>
-    <li>练习 app 每天 10 分钟以内(作文小卷和写作工坊的连环图另算,一周一两次),不拿它代替读书</li>
-    <li>累了就停</li>
-  </ul></div>
+<section class="view" id="v-overview-next" data-tab="overview" hidden>
+  <div class="bar"><a class="bk" href="#overview">总览</a><h2 class="ti">下学期学什么</h2></div>
+  <div class="lead"><p>P4 上半年。各科细节在各自的页里。</p></div>
+  <div class="card prog">
+    <a class="pr" href="#english"><span class="pl">英文</span><span class="pv">理解题变成两篇、文章更长；作文变成“题目 + 3 张图”；有的学校加看图文和改错</span><span class="go"></span></a>
+    <a class="pr" href="#science"><span class="pl">科学</span><span class="pv">植物各部分、消化系统、物质三态、光和影子、热</span><span class="go"></span></a>
+    <a class="pr" href="#math"><span class="pl">数学</span><span class="pv">十万以内的数、因数和倍数、乘除、折线图、分数、角、长方形和正方形</span><span class="go"></span></a>
+  </div>
+</section>
 
+<section class="view" id="v-overview-rules" data-tab="overview" hidden>
+  <div class="bar"><a class="bk" href="#overview">总览</a><h2 class="ti">要守住的</h2></div>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">短短做、常常做</div><p class="d">比一次做一小时有用。累了就停。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">先做得完，再加难度</div><p class="d">喜欢的书反复读。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">夸具体的事</div><p class="d">“这段第三遍读得好顺！”<a href="#praise">现成的话</a></p></div></div>
+    <div class="li"><span class="i">4</span><div><div class="t">练习 app 一次 10 分钟以内</div><p class="d">作文小卷和写作工坊的连环图另算。不拿它代替读书。</p></div></div>
+    <div class="li"><span class="i">5</span><div><div class="t">华文书别停</div><p class="d">华文是强项，读他喜欢的。</p></div></div>
+    <div class="li"><span class="i">6</span><div><div class="t">开学前最后一周只复习</div><p class="d">不加新东西。</p></div></div>
+  </div>
+</section>
 
-  <h2 id="praiseTop">夸夸:现成的话</h2>
-  <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
+<section class="view" id="v-praise" data-tab="overview" hidden>
+  <div class="bar"><a class="bk" href="#overview">总览</a><h2 class="ti">夸夸：现成的话</h2></div>
+  <div class="card soft"><p class="big">夸他做了什么，不夸他聪明。<br>说具体、看得见的事，说一次就够。</p></div>
   <details class="more"><summary>读英文时</summary><div class="body say">
     <p>“这一页你自己读完了。”</p>
     <p>“这个长词你拆开读出来了。”</p>
-    <p>“第三遍比第一遍顺多了,你听出来了吗?”</p>
-    <p>“你指着字读,一行都没跳。”</p>
+    <p>“第三遍比第一遍顺多了，你听出来了吗？”</p>
+    <p>“你指着字读，一行都没跳。”</p>
     <p class="q">You read the whole page!</p>
   </div></details>
   <details class="more"><summary>读完问问题时</summary><div class="body say">
-    <p>“你找到书里那一句了,答案就在那儿。”</p>
-    <p>“你从他的表情看出来他生气了,这就是证据。”</p>
+    <p>“你找到书里那一句了，答案就在那儿。”</p>
+    <p>“你从他的表情看出来他生气了，这就是证据。”</p>
     <p class="q">You found the clue!</p>
   </div></details>
   <details class="more"><summary>做数学时</summary><div class="body say">
     <p>“你回去看了题目问的是谁。”</p>
-    <p>“你在关键词下面画线了,这个办法是你自己想出来的。”</p>
-    <p>“你算完问了自己:说得通吗?”</p>
-    <p>“这题第一步是对的,就差一步。”</p>
+    <p>“你在关键词下面画线了，这个办法是你自己想出来的。”</p>
+    <p>“你算完问了自己：说得通吗？”</p>
+    <p>“这题第一步是对的，就差一步。”</p>
     <p>“你把四条边都算上了。”</p>
   </div></details>
   <details class="more"><summary>科学和出门时</summary><div class="body say">
     <p>“你记得 stem 是茎。”</p>
     <p>“你用 because 把原因说出来了。”</p>
-    <p>“你看得好仔细,连叶子背面都看了。”</p>
+    <p>“你看得好仔细，连叶子背面都看了。”</p>
   </div></details>
   <details class="more"><summary>坚持下来时</summary><div class="body say">
     <p>“这几天你天天都读了。”</p>
@@ -245,168 +267,228 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p>“你比上个月读得多了。”</p>
   </div></details>
   <details class="more"><summary>卡住或做错时</summary><div class="body say">
-    <p>“这题还没会,不是学不会。”</p>
+    <p>“这题还没会，不是学不会。”</p>
     <p>“我们看看卡在哪一步。”</p>
-    <p>“改对了,就是学会了。”</p>
-    <p>“今天到这里,你做了很多了。”</p>
+    <p>“改对了，就是学会了。”</p>
+    <p>“今天到这里，你做了很多了。”</p>
   </div></details>
   <details class="more"><summary>写作文时</summary><div class="body say">
-    <p>“你这篇从头到尾都是 he,一次都没换。”</p>
-    <p>“你先说了一遍再写,写得顺多了。”</p>
+    <p>“你这篇从头到尾都是 he，一次都没换。”</p>
+    <p>“你先说了一遍再写，写得顺多了。”</p>
     <p>“第 4 段有结局了。”</p>
-    <p>“这句你用了句号,下一句也大写了。”</p>
-    <p>“这个词你放对格子了,是兔子做的。”</p>
+    <p>“这句你用了句号，下一句也大写了。”</p>
+    <p>“这个词你放对格子了，是兔子做的。”</p>
   </div></details>
   <details class="more"><summary>对别人好的时候</summary><div class="body say">
-    <p>“你教了他那一题,你是个好老师。”</p>
-    <p>“你等妹妹先玩,很体贴。”</p>
-    <div class="card warm"><b>他说别人笨的时候:</b>平静说一次,“分数低不是笨,是还没学会。我们家不说别人笨。”然后换话题。</div>
+    <p>“你教了他那一题，你是个好老师。”</p>
+    <p>“你等妹妹先玩，很体贴。”</p>
+    <div class="card warm"><b>他说别人笨的时候：</b>平静说一次，“分数低不是笨，是还没学会。我们家不说别人笨。”然后换话题。</div>
   </div></details>
   <h3 class="sub-h">怎么说最管用</h3>
   <div class="card"><ul>
-    <li><b>说他做的动作:</b>“你画了线”,比“你好棒”更让他相信。</li>
-    <li><b>语气平常,说一次就够,</b>不用一直夸、不用很夸张。</li>
-    <li><b>当场说:</b>看到就说,不要等做完一整张。</li>
-    <li><b>能多读一点了、做完一个主题,</b>当着他的面在总览“现在到哪了”里改过来,让他看见自己往前走了。</li>
+    <li><b>说他做的动作：</b>“你画了线”，比“你好棒”更让他相信。</li>
+    <li><b>语气平常，说一次就够，</b>不用一直夸、不用很夸张。</li>
+    <li><b>当场说：</b>看到就说，不要等做完一整张。</li>
+    <li><b>能多读一点了、做完一个主题，</b>当着他的面在总览“现在到哪了”里改过来，让他看见自己往前走了。</li>
   </ul></div>
-  <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
-
+  <div class="card no"><b>尽量不说：</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
 </section>
 
 <!-- ===== 英文 ===== -->
 <section class="view" id="v-english" hidden>
-  <div class="card soft"><p class="big">从大人多读,慢慢变成他多读。<br>看他读得顺不顺,不看读多快。</p></div>
-
-  <h2>补习重点 · 先后顺序</h2>
-  <div class="card">
-    <p>越前面越根本。前面一项每天稳定在做了,再加下一项;不要七项一起开始。每天一共 20–30 分钟,短而每天。</p>
-    <ol class="prio">
-      <li><b>拼读(认字)</b>:每天 10 分钟,用下面的 ① 拼读。字认得快、拼得对,后面读和写才跟得上,这是根。</li>
-      <li><b>一起读 + 听书</b>:每天 10 分钟一起读,睡前听书。词汇、句子、拼写都从读里来。</li>
-      <li><b>理解</b>:读完问三级问题——写明的 → 要推的(你从哪里看出来)→ 他自己的,可以用中文问。看下面的“感受题和‘为什么’题”。</li>
-      <li><b>说</b>:读完让他用英文把故事讲一遍,讲不出的词用中文补;写作文前先说一遍。</li>
-      <li><b>句子</b>:过去式、人称(选好一个不变)、断句。英文 app 写作工坊里的“基本功”和“听写 · 每天 3 句”(写在纸上)。</li>
-      <li><b>词汇和语法</b>:看下面的“词汇”“语法”“介词词组”;英文 app 每天一小轮就够。</li>
-      <li><b>作文</b>:前面稳了再练。作文小卷一周最多 1–2 套,每篇只改一两个点,先说他写得好的地方。</li>
-    </ol>
-    <details class="inl"><summary>每天、每周怎么排</summary>
-      <div class="tbl"><table>
-        <tr><th>什么</th><th>多久</th><th>多少次</th><th>谁陪</th></tr>
-        <tr><td>拼读</td><td>10 分钟</td><td>每天</td><td>家里大人</td></tr>
-        <tr><td>一起读书</td><td>10–15 分钟</td><td>每天</td><td>家里大人;一周 3–4 次视频陪读</td></tr>
-        <tr><td>写作工坊基本功一轮</td><td>5 分钟</td><td>每天</td><td>他自己</td></tr>
-        <tr><td>听书</td><td>随意</td><td>睡前</td><td>他自己</td></tr>
-        <tr><td>作文小卷</td><td>30–40 分钟</td><td>一周 1–2 套</td><td>大人带着看范文,拍照发来</td></tr>
-      </table></div>
-      <p class="muted">视频陪读:新加坡早上 9 点 = 美国西岸前一天下午 5 点,假期里可以天天约。陪读的短文和问题在英文 app 的家长入口“一起读”里。</p>
-    </details>
-    <details class="inl"><summary>怎么看有没有进步</summary>
-      <p>每月初做一次,三个月后对比:</p>
-      <p>· <b>一分钟朗读</b>:英文 app 家长入口里,读一分钟,app 记下读对了多少个词。<br>· <b>限时作文</b>:一套没做过的小卷,记字数、过去式和句号用对了多少。<br>· <b>app 家长页</b>:基本功每一类的正确率。</p>
-      <p>哪一项三个月没动,就换做法,不要硬做下去。</p>
-    </details>
+  <div class="lead"><p>从大人多读，慢慢变成他多读。<br>看他读得顺不顺，不看读多快。</p></div>
+  <div class="sect"><span>分类</span></div>
+  <div class="group">
+    <a class="ent" href="#english-reading"><span><span class="t">阅读</span><span class="d">拼读 · 一起读 · 四种读法 · 读完问什么</span></span></a>
+    <a class="ent" href="#english-writing"><span><span class="t">作文</span><span class="d">看图分格子 · 四条规则 · 大人怎么改</span></span></a>
+    <a class="ent" href="#english-words"><span><span class="t">单词</span><span class="d">18 组单词卡 · 怎么教一个新词</span></span></a>
+    <a class="ent" href="#english-phrases"><span><span class="t">介词词组</span><span class="d">143 张介词卡 · 时间和地点的小规则</span></span></a>
+    <a class="ent" href="#english-grammar"><span><span class="t">语法</span><span class="d">按格子练，错哪格补哪格</span></span></a>
   </div>
+  <div class="sect"><span>参考</span></div>
+  <div class="group">
+    <a class="ent" href="#english-priority"><span><span class="t">补习的先后顺序</span><span class="d">七件事先做哪件 · 怎么看进步</span></span></a>
+    <a class="ent" href="#english-exam"><span><span class="t">考试题型</span><span class="d">P4 考什么 · 要动笔的题型 · 考试用的英文</span></span></a>
+    <a class="ent" href="#english-library"><span><span class="t">借书和听书</span><span class="d">NLB 图书馆 · Storytime · SLS</span></span></a>
+  </div>
+</section>
 
-  <h2>每天:拼读 + 一起读,睡前听书</h2>
+<section class="view" id="v-english-priority" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">补习的先后顺序</h2></div>
+  <div class="lead"><p>越前面越根本。前面一项稳定在做了，再加下一项；不要七项一起开始。</p></div>
   <div class="card">
-    <span class="tag">10 分钟</span><h3>① 拼读</h3>
-    <p>先用 <b>Oxford Owl 免费电子书库</b>:注册就能用,手机、平板打开网页。选 Phonics(拼读)类的书,从低的 Oxford Level 往上读;带 Audio 的书先听再读。</p>
+    <div class="li"><span class="i">1</span><div><div class="t">拼读认字</div><p class="d">字认得快、拼得对，后面读和写才跟得上。这是根。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">一起读，睡前听书</div><p class="d">词汇、句子、拼写都从读里来。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">读完问三级问题</div><p class="d">写明的 → 要推的（你从哪里看出来）→ 他自己的。可以用中文问。</p></div></div>
+    <div class="li"><span class="i">4</span><div><div class="t">说</div><p class="d">读完让他用英文把故事讲一遍，讲不出的词用中文补。写作文前也先说一遍。</p></div></div>
+    <div class="li"><span class="i">5</span><div><div class="t">句子</div><p class="d">过去式、人称（选好一个不变）、断句。英文 app 写作工坊的“基本功”和“听写”（写在纸上）。</p></div></div>
+    <div class="li"><span class="i">6</span><div><div class="t">词汇和语法</div><p class="d">看“单词”“语法”“介词词组”三页；英文 app 一小轮就够。</p></div></div>
+    <div class="li"><span class="i">7</span><div><div class="t">作文</div><p class="d">前面稳了再练。每篇只改一两个点，先说他写得好的地方。</p></div></div>
+  </div>
+  <h2>怎么看有没有进步</h2>
+  <div class="card">
+    <p>每月初做一次，三个月后对比。</p>
+    <div class="li"><span class="i">1</span><div><div class="t">一分钟朗读</div><p class="d">英文 app 家长入口里，读一分钟，app 记下读对了多少个词。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">限时作文</div><p class="d">一套没做过的小卷，记字数、过去式和句号用对了多少。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">app 家长页</div><p class="d">基本功每一类的正确率。</p></div></div>
+    <p class="muted">哪一项三个月没动，就换做法，不要硬做下去。</p>
+  </div>
+  <p class="muted">视频陪读：新加坡早上 9 点 = 美国西岸前一天下午 5 点。陪读的短文和问题在英文 app 首页的“一起读”里。</p>
+</section>
+
+<section class="view" id="v-english-reading" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">阅读</h2></div>
+  <div class="segc" role="tablist"><button type="button" role="tab" aria-selected="true" data-pane="r1">怎么读</button><button type="button" role="tab" aria-selected="false" data-pane="r2">四种读法</button><button type="button" role="tab" aria-selected="false" data-pane="r3">读完问什么</button></div>
+  <div class="pane" data-pane="r1">
+  <h2>拼读</h2>
+  <div class="card">
+    <p>先用 <b>Oxford Owl 免费电子书库</b>：注册就能用，手机、平板打开网页。选 Phonics（拼读）类的书，从低的 Oxford Level 往上读；带 Audio 的书先听再读。</p>
     <a class="btn" href="https://www.oxfordowl.co.uk/for-home/find-a-book/library-page/" target="_blank" rel="noopener">Oxford Owl 电子书库</a>
     <details class="inl"><summary>不合适再换</summary>
-      <p><b>学校给了 Moo-O 账号:</b>就改用 Moo-O。新加坡很多小学在用,能听、能跟读、能录音。开学时问老师有没有。</p>
-      <p><b>他嫌读书没意思:</b>先用 Duolingo ABC 热身。免费、没有广告的拼读小游戏,iPhone、iPad 可用,画风偏小朋友。</p>
+      <p><b>学校给了 Moo-O 账号：</b>就改用 Moo-O。新加坡很多小学在用，能听、能跟读、能录音。开学时问老师有没有。</p>
+      <p><b>他嫌读书没意思：</b>先用 Duolingo ABC 热身。免费、没有广告的拼读小游戏，iPhone、iPad 可用，画风偏小朋友。</p>
       <a class="btn" href="https://apps.apple.com/app/id1440502568" target="_blank" rel="noopener">Duolingo ABC</a>
     </details>
   </div>
+  <h2>一起读</h2>
   <div class="card">
-    <span class="tag">10 分钟</span><h3>② 一起读</h3>
-    <p>用他现在的读法(看下面)。读错了只轻轻纠正影响意思的;用卡片压住正在读的那一行。</p>
-    <p><b>读什么:</b>英文 app 家长入口里的「一起读」有 30 篇短文,带三个问题和这篇的词;也有打印版《30 天精读 · 每天一页》,第几天就是第几篇。读书的话看下面的四种读法。</p>
-    <p>读出声只在一对一时做(一个大人陪着,或视频陪读)。不要当着亲戚、客人或兄弟姐妹让他“读给大家听”:读错了被人看着,他会怕读、躲着读。</p>
+    <p>用他现在的读法（看下面）。读错了只轻轻纠正影响意思的；用卡片压住正在读的那一行。</p>
+    <p><b>读什么：</b>英文 app 首页的“一起读”有 30 篇短文，带三个问题和这篇的词；也有打印版《30 天精读 · 每天一页》，第几天就是第几篇。读书的话看下面的四种读法。</p>
+    <p>读出声只在一对一时做（一个大人陪着，或视频陪读）。不要当着亲戚、客人或兄弟姐妹让他“读给大家听”：读错了被人看着，他会怕读、躲着读。</p>
   </div>
+  <h2>睡前听书</h2>
   <div class="card">
-    <span class="tag">睡前 · 不算时间</span><h3>③ 听书</h3>
-    <p>NLB 的 Libby app 里有 Read-alongs:边朗读边把字亮出来。比他现在能读的难一点的书,先用听的。</p>
+    <p>NLB 的 Libby app 里有 Read-alongs：边朗读边把字亮出来。比他现在能读的难一点的书，先用听的。</p>
     <a class="btn" href="https://www.nlb.gov.sg/main/services/faqs/NLB-Mobile/get-started-with-libby" target="_blank" rel="noopener">Libby 怎么用</a>
   </div>
-
-  <h2>四种读法(从简单到难)</h2>
-  <div class="card"><p><b>现在用哪种读法?</b>点一下就改,总览也跟着变。</p><div class="seg" data-seg></div></div>
-  <details class="week lvl" data-lvl="1"><summary><span class="wk">1</span><span class="tt">大人读,他读一小部分</span><span class="ok" data-now></span></summary><div class="body">
-    <p><b>怎么读:</b>大人读,他只读对话气泡,或每页读一两句。</p>
-    <p><b>读完问:</b><span class="q">Who? What did he do?</span> 谁?做了什么?</p>
-    <p><b>读这些书:</b></p>
-    <p><span class="en">Press Start!</span> 游戏主题,像马里奥,从第 1 本 <span class="en">Game Over, Super Rabbit Boy!</span> 开始</p>
+  </div>
+  <div class="pane" data-pane="r2" hidden>
+  <div class="card"><p><b>现在用哪种读法？</b>点一下就改，总览也跟着变。</p><div class="seg" data-seg></div></div>
+  <details class="week lvl" data-lvl="1"><summary><span class="wk">1</span><span class="tt">大人读，他读一小部分</span><span class="ok" data-now></span></summary><div class="body">
+    <p><b>怎么读：</b>大人读，他只读对话气泡，或每页读一两句。</p>
+    <p><b>读完问：</b><span class="q">Who? What did he do?</span> 谁？做了什么？</p>
+    <p><b>读这些书：</b></p>
+    <p><span class="en">Press Start!</span> 游戏主题，像马里奥，从第 1 本 <span class="en">Game Over, Super Rabbit Boy!</span> 开始</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Press%20Start%20Thomas%20Flintham" target="_blank" rel="noopener"><span>Press Start!</span><small class="src">NLB</small></a>
-    <p><span class="en">Super Mario Manga Mania</span> 任天堂官方搞笑漫画,台词短</p>
+    <p><span class="en">Super Mario Manga Mania</span> 任天堂官方搞笑漫画，台词短</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Super%20Mario%20Manga%20Mania" target="_blank" rel="noopener"><span>Super Mario Manga Mania</span><small class="src">NLB</small></a>
   </div></details>
-  <details class="week lvl" data-lvl="2"><summary><span class="wk">2</span><span class="tt">你一页,我一页</span><span class="ok" data-now></span></summary><div class="body">
-    <p><b>怎么读:</b>轮流读;短短一段连读三遍,越读越顺。</p>
-    <p><b>读完问:</b><span class="q">Who? Where? What?</span> 谁?在哪?做了什么?</p>
-    <p><b>读这些书:</b></p>
-    <p><span class="en">Percy and Pam / Classroom Critters</span> 新加坡本地初级读物,故事在印度煎饼店、鸡饭摊;Classroom Critters 讲动物</p>
+  <details class="week lvl" data-lvl="2"><summary><span class="wk">2</span><span class="tt">你一页，我一页</span><span class="ok" data-now></span></summary><div class="body">
+    <p><b>怎么读：</b>轮流读；短短一段连读三遍，越读越顺。</p>
+    <p><b>读完问：</b><span class="q">Who? Where? What?</span> 谁？在哪？做了什么？</p>
+    <p><b>读这些书：</b></p>
+    <p><span class="en">Percy and Pam / Classroom Critters</span> 新加坡本地初级读物，故事在印度煎饼店、鸡饭摊；Classroom Critters 讲动物</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Percy%20and%20Pam" target="_blank" rel="noopener"><span>Percy and Pam</span><small class="src">NLB</small></a><a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Classroom%20Critters" target="_blank" rel="noopener"><span>Classroom Critters</span><small class="src">NLB</small></a>
-    <p><span class="en">Dog Man</span> 画面热闹好笑,每格字不多</p>
+    <p><span class="en">Dog Man</span> 画面热闹好笑，每格字不多</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Dog%20Man%20Dav%20Pilkey" target="_blank" rel="noopener"><span>Dog Man</span><small class="src">NLB</small></a>
   </div></details>
   <details class="week lvl" data-lvl="3"><summary><span class="wk">3</span><span class="tt">他读大部分</span><span class="ok" data-now></span></summary><div class="body">
-    <p><b>怎么读:</b>他读大约三分之二,大人读剩下的。</p>
-    <p><b>读完问:</b><span class="q">How does he feel? How do you know?</span> 让他指着书里的图或句子说。</p>
-    <p><b>读这些书:</b></p>
-    <p><span class="en">Dragon Masters</span> 养龙冒险,短章节</p>
+    <p><b>怎么读：</b>他读大约三分之二，大人读剩下的。</p>
+    <p><b>读完问：</b><span class="q">How does he feel? How do you know?</span> 让他指着书里的图或句子说。</p>
+    <p><b>读这些书：</b></p>
+    <p><span class="en">Dragon Masters</span> 养龙冒险，短章节</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Dragon%20Masters%20Tracey%20West" target="_blank" rel="noopener"><span>Dragon Masters</span><small class="src">NLB</small></a>
-    <p><span class="en">Who Would Win?</span> 两种动物比一比,先猜谁赢</p>
+    <p><span class="en">Who Would Win?</span> 两种动物比一比，先猜谁赢</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Who%20Would%20Win%20Jerry%20Pallotta" target="_blank" rel="noopener"><span>Who Would Win?</span><small class="src">NLB</small></a>
   </div></details>
-  <details class="week lvl" data-lvl="4"><summary><span class="wk">4</span><span class="tt">他自己读,读完说一句</span><span class="ok" data-now></span></summary><div class="body">
-    <p><b>怎么读:</b>他自己读一段,读完用一句话说“这段讲什么”。</p>
-    <p><b>读完问:</b><span class="q">Which part is the most interesting? Why?</span></p>
-    <p><b>读这些书:</b></p>
-    <p><span class="en">Secrets of Singapore</span> 探索植物园、国家博物馆、樟宜机场这些真实的地方,去之前先读那一本</p>
+  <details class="week lvl" data-lvl="4"><summary><span class="wk">4</span><span class="tt">他自己读，读完说一句</span><span class="ok" data-now></span></summary><div class="body">
+    <p><b>怎么读：</b>他自己读一段，读完用一句话说“这段讲什么”。</p>
+    <p><b>读完问：</b><span class="q">Which part is the most interesting? Why?</span></p>
+    <p><b>读这些书：</b></p>
+    <p><span class="en">Secrets of Singapore</span> 探索植物园、国家博物馆、樟宜机场这些真实的地方，去之前先读那一本</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Secrets%20of%20Singapore" target="_blank" rel="noopener"><span>Secrets of Singapore</span><small class="src">NLB</small></a>
-    <p><span class="en">Sherlock Sam</span> 新加坡男孩侦探,字比较多,先听或大人读,再自己读</p>
+    <p><span class="en">Sherlock Sam</span> 新加坡男孩侦探，字比较多，先听或大人读，再自己读</p>
     <a class="btn" href="https://catalogue.nlb.gov.sg/search?query=Sherlock%20Sam%20Missing%20Heirloom%20Katong" target="_blank" rel="noopener"><span>Sherlock Sam 第 1 本</span><small class="src">NLB</small></a>
   </div></details>
   <div class="card warm">
-    <p><b>什么时候换下一种:</b>连着几次都读得顺、读完说得出内容,就让他多读一点。</p>
-    <p><b>什么时候退回:</b>读得很痛苦、开始躲书,就退回上一种,这完全没关系。</p>
-    <p><b>怎么看进步:</b>隔几天挑同一小段读一次,数卡住了几个词。从 6 个变成 3 个,就指给他看。</p>
+    <p><b>什么时候换下一种：</b>连着几次都读得顺、读完说得出内容，就让他多读一点。</p>
+    <p><b>什么时候退回：</b>读得很痛苦、开始躲书，就退回上一种，这完全没关系。</p>
+    <p><b>怎么看进步：</b>隔几天挑同一小段读一次，数卡住了几个词。从 6 个变成 3 个，就指给他看。</p>
   </div>
-  <p class="muted">书的按钮会在 NLB 图书馆目录里搜这本书。可以用中文聊英文书;读书碰到生词,一次最多讲 2–3 个,不用每个都查。</p>
-
-  <h2>感受题和“为什么”题</h2>
+  <p class="muted">书的按钮会在 NLB 图书馆目录里搜这本书。可以用中文聊英文书；读书碰到生词，一次最多讲 2–3 个，不用每个都查。</p>
+  </div>
+  <div class="pane" data-pane="r3" hidden>
   <div class="card">
-    <p>理解题里“他觉得怎样”“为什么这样做”“你怎么知道”,要从人做了什么推出他心里想什么。光多做没用,每次都用同一个套路:</p>
+    <p>理解题里“他觉得怎样”“为什么这样做”“你怎么知道”，要从人做了什么推出他心里想什么。光多做没用，每次都用同一个套路：</p>
     <ol>
-      <li><b>找线索</b>:他做了什么、说了什么、脸上什么样?在书里指出来。</li>
-      <li><b>挑一个感受词</b>:从单词卡的感受词里挑,比如 <span class="en">delighted</span>、<span class="en">nervous</span>、<span class="en">furious</span>。</li>
-      <li><b>用原文当证据</b>:<span class="q">I know because the story says ___.</span></li>
+      <li><b>找线索</b>：他做了什么、说了什么、脸上什么样？在书里指出来。</li>
+      <li><b>挑一个感受词</b>：从单词卡的感受词里挑，比如 <span class="en">delighted</span>、<span class="en">nervous</span>、<span class="en">furious</span>。</li>
+      <li><b>用原文当证据</b>：<span class="q">I know because the story says ___.</span></li>
     </ol>
-    <p class="muted">一起读书时每天问一题就够。练习 app 里这类题下面也会出现这个提示。</p>
+    <p class="muted">一起读书时问一题就够。练习 app 里这类题下面也会出现这个提示。</p>
   </div>
-  <div class="card warm"><p><b>比喻和习惯说法要直接讲。</b>比如 <span class="en">over the moon</span>(非常开心)、<span class="en">butterflies in my stomach</span>(很紧张)、<span class="en">raining cats and dogs</span>(下大雨)。碰到就直接告诉他意思,不要让他自己猜。</p></div>
+  <div class="card warm"><p><b>比喻和习惯说法要直接讲。</b>比如 <span class="en">over the moon</span>（非常开心）、<span class="en">butterflies in my stomach</span>（很紧张）、<span class="en">raining cats and dogs</span>（下大雨）。碰到就直接告诉他意思，不要让他自己猜。</p></div>
+  </div>
+</section>
 
-  <h2>词汇:少而反复</h2>
-  <div class="card soft"><p class="big">英文一周 5 个词,每个词在不同地方碰到很多次。<br>比一天背 20 个、过两周忘光有用得多。</p></div>
-  <div class="card"><h3>一周这样排(不另外占时间)</h3><ul>
-    <li><b>周一</b>:这天的练习 app 改做英文“单词卡”,学新的一组 5 个词:听读音,看中文和例句。</li>
-    <li><b>周二到周四</b>:一起读时找这几个词,找到就用它说一句自己的话。</li>
-    <li><b>周末</b>:出门时用一用。</li>
-    <li><b>复习不用另外排</b>:学过的词 2 天、5 天、10 天、21 天后会自动混进英文练习题,答错的第二天再出现。连续答对 4 次算记住了。</li>
-  </ul></div>
+<section class="view" id="v-english-writing" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">作文</h2></div>
+  <div class="segc" role="tablist"><button type="button" role="tab" aria-selected="true" data-pane="w1">怎么写</button><button type="button" role="tab" aria-selected="false" data-pane="w2">大人怎么改</button><button type="button" role="tab" aria-selected="false" data-pane="w3">两种题型</button></div>
+  <div class="pane" data-pane="w1">
+  <div class="lead"><p>先看图，再说，再写。</p></div>
+  <h2>写之前</h2>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">给词标格子</div><p class="d">框里的词是打乱的，不是按顺序用。先看图，给每个词标上它在第几格。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">问“这是谁做的”</div><p class="d">有的词是孩子做的，有的是大人或动物的。标上主人，写的时候就不会全写成 <span class="en">we</span>。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">第 4 格自己编结局</div><p class="d">发生了什么，最后怎样了，学到什么。</p></div></div>
+  </div>
+  <h2>写的时候 · 四条规则</h2>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">人称选好一个，从头到尾不变</div><p class="d">写别人就一直用名字 / <span class="en">he / she / they</span>；题目说 <span class="en">a time when you…</span> 就一直用 <span class="en">I / we</span>。“他们”是 <span class="en">they</span>，不是 <span class="en">there</span>。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">故事全用过去式</div><p class="d"><span class="en">went、saw、-ed</span>，不用 <span class="en">is playing、will</span>。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">一件事一句话</div><p class="d">句号结束，下一句开头大写，不用逗号连成一长串。</p></div></div>
+    <div class="li"><span class="i">4</span><div><div class="t">每段 3 句</div><p class="d">发生了什么 + 他觉得怎样 + 他说了什么。第 4 段一定要有结局。</p></div></div>
+  </div>
+  <h2>先说再写，写完三查</h2>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">先说再写</div><p class="d">看着计划，把故事从头到尾讲一遍，讲不出的词可以用中文。讲顺了再写。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">写完三查</div><p class="d">都是过去式吗？每句开头大写、结尾有句号吗？人称从头到尾一样吗？</p></div></div>
+  </div>
+  </div>
+  <div class="pane" data-pane="w2" hidden>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">范文写完才看</div><p class="d">大人带着看，对着他的那篇一起找不一样的地方。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">每篇只改一两个点</div><p class="d">比如这篇只看过去式和句号。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">先说他写得好的地方</div><p class="d">说具体的句子，再说要改的那一点。</p></div></div>
+  </div>
+  <h2>可以这样夸</h2>
+  <div class="card say">
+    <p>“你这篇从头到尾都是 he，一次都没换。”</p>
+    <p>“你先说了一遍再写，写得顺多了。”</p>
+    <p>“第 4 段有结局了。”</p>
+    <p>“这句你用了句号，下一句也大写了。”</p>
+    <p>“这个词你放对格子了，是兔子做的。”</p>
+  </div>
+  </div>
+  <div class="pane" data-pane="w3" hidden>
+  <div class="card"><h3>两种题型，先练哪种</h3>
+    <p><b>P3</b> 一半是连环图（4 格，第 4 格自己编结局），一半是“题目 + 3 张图”；<b>P4 全部是“题目 + 3 张图”</b>，至少 120 词。</p>
+    <p><b>练的顺序</b>：先做英文 app 写作工坊的 9 套连环图和连环图小卷（第 1–9 套）；格子和人称稳了，再做题目式小卷（第 10–18 套）。</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-english-words" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">单词</h2></div>
+  <div class="lead"><p>一组 5 个词，每个词在不同地方碰到很多次。<br>比一下背 20 个、过两周忘光有用得多。</p></div>
+  <h2>怎么学一组词</h2>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">在 app 里学新的一组</div><p class="d">英文 app 的单词卡：听读音，看中文和例句。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">读书时找</div><p class="d">一起读时找这几个词，找到就用它说一句自己的话。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">出门时用一用</div><p class="d">看到了就说出来。</p></div></div>
+    <div class="li"><span class="i">4</span><div><div class="t">复习不用另外排</div><p class="d">学过的词 2 天、5 天、10 天、21 天后会自动混进英文练习题，答错的第二天再出现。连续答对 4 次算记住了。</p></div></div>
+  </div>
   <details class="more"><summary>教一个新词的三步</summary><div class="body"><div class="rows">
-    <div class="row"><span class="n">1</span><div><b>先懂再记</b><p class="muted">先用中文、实物或图把意思弄懂,再学英文怎么说。很多词孩子其实懂意思,只是不认识英文。</p></div></div>
-    <div class="row"><span class="n">2</span><div><b>一词一卡</b><p class="muted">英文词 · 中文 · 一个简笔画 · 一句孩子自己说的话。不抄写,不背长单词表。</p></div></div>
-    <div class="row"><span class="n">3</span><div><b>用出来才算会</b><p class="muted">能用这个词说一句自己的话,才算掌握。</p></div></div>
+    <div class="row"><span class="n">1</span><div><b>先懂再记</b><p class="muted">先用中文、实物或图把意思弄懂，再学英文怎么说。很多词孩子其实懂意思，只是不认识英文。</p></div></div>
+    <div class="row"><span class="n">2</span><div><b>一词一卡</b><p class="muted">英文词 · 中文 · 一个简笔画 · 一句孩子自己说的话。不抄写，不背长单词表。</p></div></div>
+    <div class="row"><span class="n">3</span><div><b>用出来才算会</b><p class="muted">能用这个词说一句自己的话，才算掌握。</p></div></div>
   </div></div></details>
   <details class="more"><summary>让词多出现几次的小办法</summary><div class="body"><ul>
-    <li><b>学词头词尾</b>:<span class="en">un- · re- · -ful · -less</span>,比如 <span class="en">un-happy、care-less、re-cycle</span>。学会一个,认得一串。</li>
-    <li><b>多听</b>:听书、看英文动画。听得懂的词比读得懂的多得多,这是最不累的长词汇方式。</li>
-    <li><b>从喜欢的东西开始</b>:游戏里本来就有很多词(<span class="en">collect · defeat · obstacle · unlock · explore</span>)。打完一关,用 <span class="q">First… Then… Finally…</span> 讲一遍。</li>
-    <li><b>猜词游戏</b>:大人用中文说意思,孩子说英文词;也可以反过来。不懂英文的大人也能玩,发音用 app 的朗读听。</li>
+    <li><b>学词头词尾</b>：<span class="en">un- · re- · -ful · -less</span>，比如 <span class="en">un-happy、care-less、re-cycle</span>。学会一个，认得一串。</li>
+    <li><b>多听</b>：听书、看英文动画。听得懂的词比读得懂的多得多，这是最不累的长词汇方式。</li>
+    <li><b>从喜欢的东西开始</b>：游戏里本来就有很多词（<span class="en">collect · defeat · obstacle · unlock · explore</span>）。打完一关，用 <span class="q">First… Then… Finally…</span> 讲一遍。</li>
+    <li><b>猜词游戏</b>：大人用中文说意思，孩子说英文词；也可以反过来。不懂英文的大人也能玩，发音用 app 的朗读听。</li>
   </ul></div></details>
-  <details class="more"><summary>英文单词卡 18 组(和 app 里一样)</summary><div class="body">
+  <details class="more"><summary>英文单词卡 18 组（和 app 里一样）</summary><div class="body">
     <p><b>第 1 组 · 感受 1</b><br><span class="en">delighted <span class="muted">很高兴的</span> · nervous <span class="muted">紧张的</span> · furious <span class="muted">非常生气的</span> · exhausted <span class="muted">筋疲力尽的</span> · curious <span class="muted">好奇的</span></span></p>
     <p><b>第 2 组 · 感受 2</b><br><span class="en">proud <span class="muted">自豪的</span> · worried <span class="muted">担心的</span> · relieved <span class="muted">松了一口气的</span> · lonely <span class="muted">孤单的</span> · frightened <span class="muted">害怕的</span></span></p>
     <p><b>第 3 组 · 怎么走、怎么跑</b><br><span class="en">rush <span class="muted">赶紧去</span> · creep <span class="muted">悄悄地走</span> · stumble <span class="muted">绊了一下</span> · wander <span class="muted">闲逛</span> · dash <span class="muted">猛冲</span></span></p>
@@ -426,55 +508,29 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p><b>第 17 组 · 难拼的词</b> <span class="muted">Tricky spellings</span><br><span class="en">embarrassed <span class="muted">难为情的</span> · immediately <span class="muted">马上</span> · beautiful <span class="muted">美丽的</span> · disappeared <span class="muted">消失了</span> · shelves <span class="muted">架子（复数）</span></span></p>
     <p><b>第 18 组 · 作文里拼错过的词</b> <span class="muted">My writing words</span><br><span class="en">computer <span class="muted">电脑</span> · assessment <span class="muted">测验、考试</span> · pavement <span class="muted">人行道</span> · consequences <span class="muted">后果</span> · apologised <span class="muted">道歉了</span></span></p>
   </div></details>
+</section>
 
-  <h2>语法:按格子练</h2>
+<section class="view" id="v-english-phrases" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">介词词组</h2></div>
   <div class="card">
-    <p>P4 年终卷的语法选择题,每年几乎都是同样 10 个考点,顺序都差不多。把每个考点当成一“格”,一格一格练到稳。P3 卷还多考两格(反身代词、反问句尾)。</p>
-    <div class="tbl"><table>
-    <tr><th>格</th><th>考点</th><th>看哪个线索词</th><th>例子</th></tr>
-    <tr><td>1</td><td>介词</td><td>Monday / 3 o’clock / recess / the floor</td><td class="en"><b>on</b> Monday · <b>at</b> 3 o’clock · <b>during</b> recess</td></tr>
-    <tr><td>2</td><td>were</td><td>A and B · my sister and I · You · 很多个</td><td class="en">Ravi and Ben <b>were</b> tired.</td></tr>
-    <tr><td>3</td><td>was</td><td>一个人 · everyone · A, together with B · This box of…</td><td class="en">Everyone <b>was</b> quiet.</td></tr>
-    <tr><td>4</td><td>现在进行时</td><td>now · Look! · Keep quiet · at the moment</td><td class="en">“Keep quiet! The baby <b>is sleeping</b>.”</td></tr>
-    <tr><td>5</td><td>一般过去时</td><td>yesterday · last week · … ago</td><td class="en">Mei <b>flew</b> a kite last Sunday.</td></tr>
-    <tr><td>6</td><td>过去进行时</td><td>While… · As… · 另一件事突然发生</td><td class="en">I <b>was taking</b> my bath when the lights went out.</td></tr>
-    <tr><td>7</td><td>指示词</td><td>here / over there · 一个还是很多</td><td class="en"><b>Those</b> birds over there are noisy.</td></tr>
-    <tr><td>8</td><td>连词</td><td>原因在后 because / since · 结果在后 so · 相反 but</td><td class="en">Sam wore a jacket <b>because</b> it was cold.</td></tr>
-    <tr><td>9</td><td>可数的多少</td><td>students / days / friends</td><td class="en">There were only <b>a few</b> children.</td></tr>
-    <tr><td>10</td><td>不可数的多少</td><td>sugar / time / water / money</td><td class="en">It has too <b>much</b> sugar.</td></tr>
-    <tr><td>11</td><td>反身代词(P3)</td><td>谁自己做的</td><td class="en">The twins made it by <b>themselves</b>.</td></tr>
-    <tr><td>12</td><td>反问句尾(P3)</td><td>前肯后否,用前面那个小词</td><td class="en">She looked scared, <b>didn’t she</b>?</td></tr>
-    </table></div>
-    <p class="muted">练习 app 的英文“语法”就是按这些格子出题,答错时只给一句“看哪个线索词”。每格的正确率在<a href="#practice">练习</a>页的做题记录里。先用 P3 难度的题,每格到 80% 以后换成 P4 的题;目标是每格 95%。</p>
-  </div>
-  <div class="card warm"><p><b>最常见的四个陷阱</b>:<span class="en">Mr Lee, together with his grandsons, <b>was</b> …</span>(谓语跟前面那个人走);<span class="en">We <b>are watching</b> a movie tomorrow</span>(已经安排好的事用进行时);<span class="en">The soup was tasteless. Mum put too <b>little</b> salt.</span>(too 不一定配 much);<span class="en">He went out <b>since</b> he had finished</span>(since 也可以是“因为”)。</p></div>
-  <details class="more"><summary>代词和主谓一致(语法完形)</summary><div class="body">
-    <p>P4 语法完形固定两段:一段从框里选代词(4 空),一段在括号里二选一(主谓一致,4 空)。app 里代词完形是一段小短文,一个空一个空做。</p>
-    <ul>
-      <li><b>代词</b>:名词前面用 <span class="en">their / his / its</span>;动词、介词后面用 <span class="en">them / him / me</span>;说的是上一句的东西用 <span class="en">it</span>。</li>
-      <li><b>主谓一致</b>:先找真正的主语,中间的介词短语不算——<span class="en">The smell of the cookies <b>fills</b> …</span>;<span class="en">One of my friends <b>lives</b> …</span>;<span class="en">Everyone <b>knows</b> …</span></li>
-    </ul></div></details>
-
-  <h2>介词词组</h2>
-  <div class="card">
-    <p><span class="en">afraid of、good at、look forward to</span> 为什么用这个小词,没有道理可讲,只能整块记。中文也帮不上忙(“在”可以是 in、on、at)。这些小词又短,读的时候最容易被跳过。</p>
-    <p>练习 app 里的介词就是那 143 张介词卡,句子和纸卡一样:</p>
+    <p><span class="en">afraid of、good at、look forward to</span> 为什么用这个小词，没有道理可讲，只能整块记。中文也帮不上忙（“在”可以是 in、on、at）。这些小词又短，读的时候最容易被跳过。</p>
+    <p>练习 app 里的介词就是那 143 张介词卡，句子和纸卡一样：</p>
     <ol>
-      <li><b>看卡</b>:整句,要填的小词标了颜色,下面写用法。</li>
-      <li><b>学的时候</b>:同样的句子空出小词,四选一,有用法提示。</li>
-      <li><b>复习时</b>:不给提示;熟了以后还会问“哪一句的小词用错了”。</li>
+      <li><b>看卡</b>：整句，要填的小词标了颜色，下面写用法。</li>
+      <li><b>学的时候</b>：同样的句子空出小词，四选一，有用法提示。</li>
+      <li><b>复习时</b>：不给提示；熟了以后还会问“哪一句的小词用错了”。</li>
     </ol>
-    <p class="muted">首页「单词铁路」里的“介词词组”车票进地图,25 组按顺序闯关:常用词组 → 语法选择 → 语法完形 → 开放式完形 → 短语动词。每 3 组一个复习站。四个选项里不会出现另一个也对的词。</p>
+    <p class="muted">首页“单词铁路”里的“介词词组”车票进地图，25 组按顺序闯关：常用词组 → 语法选择 → 语法完形 → 开放式完形 → 短语动词。每 3 组一个复习站。四个选项里不会出现另一个也对的词。</p>
   </div>
-  <div class="card say"><p><b>日常练法</b>:一起读书时,读到这类词组就停一下,让他说出后面那个小词。每天 2 到 3 个就够。</p></div>
+  <div class="card say"><p><b>日常练法</b>：一起读书时，读到这类词组就停一下，让他说出后面那个小词。一次 2 到 3 个就够。</p></div>
   <details class="more"><summary>时间和地点的小规则</summary><div class="body"><ul>
-    <li><span class="en"><b>on</b></span>:星期几、哪一天——<span class="en">on Monday、on my birthday</span></li>
-    <li><span class="en"><b>at</b></span>:几点、晚上、在家在学校——<span class="en">at 3 o’clock、at night、at home、at school</span></li>
-    <li><span class="en"><b>in</b></span>:月份、上午下午、在里面——<span class="en">in May、in the morning、in the room</span></li>
-    <li><span class="en"><b>during</b></span>:在……期间——<span class="en">during recess</span>;<span class="en"><b>since</b></span>:从……起一直——<span class="en">since two o’clock</span>;<span class="en"><b>for</b></span>:持续多久——<span class="en">for two hours</span></li>
-  </ul><p class="muted">其余各组没有规律,整块记。</p></div></details>
-  <details class="more"><summary>12 组词组(按 54 份真卷里出现的次数选)</summary><div class="body"><div class="tbl"><table>
-    <tr><th>组</th><th>类别</th><th>词组(颜色 = 要记的小词)</th></tr>
+    <li><span class="en"><b>on</b></span>：星期几、哪一天——<span class="en">on Monday、on my birthday</span></li>
+    <li><span class="en"><b>at</b></span>：几点、晚上、在家在学校——<span class="en">at 3 o’clock、at night、at home、at school</span></li>
+    <li><span class="en"><b>in</b></span>：月份、上午下午、在里面——<span class="en">in May、in the morning、in the room</span></li>
+    <li><span class="en"><b>during</b></span>：在……期间——<span class="en">during recess</span>;<span class="en"><b>since</b></span>：从……起一直——<span class="en">since two o’clock</span>;<span class="en"><b>for</b></span>：持续多久——<span class="en">for two hours</span></li>
+  </ul><p class="muted">其余各组没有规律，整块记。</p></div></details>
+  <details class="more"><summary>12 组词组（按 54 份真卷里出现的次数选）</summary><div class="body"><div class="tbl"><table>
+    <tr><th>组</th><th>类别</th><th>词组（颜色 = 要记的小词）</th></tr>
     <tr><td>1</td><td>时间</td><td class="en"><b class="pp-k">during</b> recess · <b class="pp-k">at</b> night · <b class="pp-k">on</b> time · <b class="pp-k">on</b> Monday · <b class="pp-k">in</b> the morning</td></tr>
     <tr><td>2</td><td>地点</td><td class="en"><b class="pp-k">at</b> home · <b class="pp-k">in</b> front of · <b class="pp-k">on</b> top of · <b class="pp-k">on</b> the floor · <b class="pp-k">at</b> school</td></tr>
     <tr><td>3</td><td>多久、从什么时候</td><td class="en">late <b class="pp-k">for</b> · <b class="pp-k">since</b> two o’clock · <b class="pp-k">for</b> two hours · <b class="pp-k">at</b> the moment · <b class="pp-k">for</b> a while</td></tr>
@@ -488,123 +544,163 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <tr><td>11</td><td>短语动词</td><td class="en">pick <b class="pp-k">up</b> · wake <b class="pp-k">up</b> · put <b class="pp-k">on</b> · find <b class="pp-k">out</b> · sign <b class="pp-k">up</b></td></tr>
     <tr><td>12</td><td>短语动词 2</td><td class="en">look <b class="pp-k">up</b> · put <b class="pp-k">out</b> · give <b class="pp-k">up</b> · break <b class="pp-k">down</b> · come up <b class="pp-k">with</b></td></tr>
   </table></div></div></details>
+</section>
 
-  <h2>作文:先看图,再说,再写</h2>
-  <div class="card"><h3>写之前:看图 · 分格子 · 找主人</h3><ul>
-    <li><b>框里的词是打乱的</b>,不是按顺序用。先看图,给每个词标上它在第几格。</li>
-    <li><b>问“这是谁做的”</b>:有的词是孩子做的,有的是大人或动物的。标上主人,写的时候就不会全写成 we。</li>
-    <li><b>第 4 格自己编结局</b>:发生了什么,最后怎样了,学到什么。</li>
-  </ul></div>
-  <div class="card"><h3>写的时候:四条规则</h3><ol>
-    <li><b>人称选好一个,从头到尾不变。</b>写别人就一直用名字 / <span class="en">he / she / they</span>;题目说 <span class="en">a time when you…</span> 就一直用 <span class="en">I / we</span>。“他们”是 <span class="en">they</span>,不是 <span class="en">there</span>。</li>
-    <li><b>故事全用过去式</b>:<span class="en">went、saw、-ed</span>,不用 <span class="en">is playing、will</span>。</li>
-    <li><b>一件事一句话</b>:句号结束,下一句开头大写,不用逗号连成一长串。</li>
-    <li><b>每段 3 句</b>:发生了什么 + 他觉得怎样 + 他说了什么。第 4 段一定要有结局。</li>
-  </ol></div>
-  <div class="card"><h3>先说再写,写完三查</h3><ul>
-    <li><b>先说再写</b>:看着计划,把故事从头到尾讲一遍,讲不出的词可以用中文。讲顺了再写。</li>
-    <li><b>写完三查</b>:都是过去式吗?每句开头大写、结尾有句号吗?人称从头到尾一样吗?</li>
-    <li><b>大人怎么改</b>:范文写完才看,大人带着看。每篇只改一两个点,比如这篇只看过去式和句号;先说他写得好的地方。</li>
-  </ul></div>
-  <div class="card"><h3>两种题型,先练哪种</h3>
-    <p><b>P3</b> 一半是连环图(4 格,第 4 格自己编结局),一半是“题目 + 3 张图”;<b>P4 全部是“题目 + 3 张图”</b>,至少 120 词。</p>
-    <p><b>练的顺序</b>:先做英文 app 写作工坊的 9 套连环图和连环图小卷(第 1–9 套);格子和人称稳了,再做题目式小卷(第 10–18 套)。</p></div>
+<section class="view" id="v-english-grammar" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">语法</h2></div>
+  <div class="card">
+    <p>P4 年终卷的语法选择题，每年几乎都是同样 10 个考点，顺序都差不多。把每个考点当成一“格”，一格一格练到稳。P3 卷还多考两格（反身代词、反问句尾）。</p>
+    <div class="tbl"><table>
+    <tr><th>格</th><th>考点</th><th>看哪个线索词</th><th>例子</th></tr>
+    <tr><td>1</td><td>介词</td><td>Monday / 3 o’clock / recess / the floor</td><td class="en"><b>on</b> Monday · <b>at</b> 3 o’clock · <b>during</b> recess</td></tr>
+    <tr><td>2</td><td>were</td><td>A and B · my sister and I · You · 很多个</td><td class="en">Ravi and Ben <b>were</b> tired.</td></tr>
+    <tr><td>3</td><td>was</td><td>一个人 · everyone · A, together with B · This box of…</td><td class="en">Everyone <b>was</b> quiet.</td></tr>
+    <tr><td>4</td><td>现在进行时</td><td>now · Look! · Keep quiet · at the moment</td><td class="en">“Keep quiet! The baby <b>is sleeping</b>.”</td></tr>
+    <tr><td>5</td><td>一般过去时</td><td>yesterday · last week · … ago</td><td class="en">Mei <b>flew</b> a kite last Sunday.</td></tr>
+    <tr><td>6</td><td>过去进行时</td><td>While… · As… · 另一件事突然发生</td><td class="en">I <b>was taking</b> my bath when the lights went out.</td></tr>
+    <tr><td>7</td><td>指示词</td><td>here / over there · 一个还是很多</td><td class="en"><b>Those</b> birds over there are noisy.</td></tr>
+    <tr><td>8</td><td>连词</td><td>原因在后 because / since · 结果在后 so · 相反 but</td><td class="en">Sam wore a jacket <b>because</b> it was cold.</td></tr>
+    <tr><td>9</td><td>可数的多少</td><td>students / days / friends</td><td class="en">There were only <b>a few</b> children.</td></tr>
+    <tr><td>10</td><td>不可数的多少</td><td>sugar / time / water / money</td><td class="en">It has too <b>much</b> sugar.</td></tr>
+    <tr><td>11</td><td>反身代词（P3）</td><td>谁自己做的</td><td class="en">The twins made it by <b>themselves</b>.</td></tr>
+    <tr><td>12</td><td>反问句尾（P3）</td><td>前肯后否，用前面那个小词</td><td class="en">She looked scared, <b>didn’t she</b>?</td></tr>
+    </table></div>
+    <p class="muted">练习 app 的英文“语法”就是按这些格子出题，答错时只给一句“看哪个线索词”。每格的正确率在<a href="#practice">练习</a>页的做题记录里。先用 P3 难度的题，每格到 80% 以后换成 P4 的题；目标是每格 95%。</p>
+  </div>
+  <div class="card warm"><p><b>最常见的四个陷阱</b>：<span class="en">Mr Lee, together with his grandsons, <b>was</b> …</span>（谓语跟前面那个人走）；<span class="en">We <b>are watching</b> a movie tomorrow</span>（已经安排好的事用进行时）；<span class="en">The soup was tasteless. Mum put too <b>little</b> salt.</span>（too 不一定配 much）；<span class="en">He went out <b>since</b> he had finished</span>（since 也可以是“因为”）。</p></div>
+  <details class="more"><summary>代词和主谓一致（语法完形）</summary><div class="body">
+    <p>P4 语法完形固定两段：一段从框里选代词（4 空），一段在括号里二选一（主谓一致，4 空）。app 里代词完形是一段小短文，一个空一个空做。</p>
+    <ul>
+      <li><b>代词</b>：名词前面用 <span class="en">their / his / its</span>；动词、介词后面用 <span class="en">them / him / me</span>；说的是上一句的东西用 <span class="en">it</span>。</li>
+      <li><b>主谓一致</b>：先找真正的主语，中间的介词短语不算——<span class="en">The smell of the cookies <b>fills</b> …</span>;<span class="en">One of my friends <b>lives</b> …</span>;<span class="en">Everyone <b>knows</b> …</span></li>
+    </ul></div></details>
+</section>
 
-  <h2>要动笔的题型</h2>
-  <div class="card"><ul>
-    <li><b>开放式完形</b>:一半以上的空填小词,固定搭配最多(<span class="en">look forward to、instead of、a sigh of relief</span>),就是上面介词词组练的。读完空格前后各 5 个词,先问“这里缺的是什么词”。</li>
-    <li><b>改错的拼写</b>:常错的双写、y 变 i、f 变 ves,放在英文单词卡第 17 组“难拼的词”,学完会进“拼一拼”。</li>
-    <li><b>句子合并(P4 才多)</b>:开学后再练,每类先背一个标准句:
-      <span class="en">The girl <b>whose</b> bag was missing cried.</span> · <span class="en"><b>Neither</b> Ali <b>nor</b> his sister <b>likes</b> durian.</span> · <span class="en"><b>Unless</b> you finish your homework, you cannot go out.</span> · <span class="en">Mum said that <b>she was</b> tired.</span> · <span class="en">The kite <b>was flown</b> by Tom.</span></li>
-  </ul></div>
-
-  <h2>需要时再查</h2>
-  <details class="more"><summary>新加坡考试用的英文</summary><div class="body"><ul>
-    <li><b>拼写用英式:</b><span class="en">colour · favourite · centre · metre · litre · neighbour</span>。美国出的书(Press Start!、Dog Man)拼法不一样,读没关系,写作业照学校的拼。</li>
-    <li><b>说和写用标准英文:</b>不加 lah,不说 “can or not”;口试要说完整的句子。</li>
-    <li><b>本地常用词先认识:</b><span class="en">hawker centre · void deck · MRT · HDB flat · wet market</span>,本地故事书里常出现,作文、口试也常用。</li>
-  </ul></div></details>
-  <details class="more"><summary>P4 英文考什么、在家怎么练</summary><div class="body">
-    <p class="muted">P4 和 P3 大体一样,但理解题变成两篇、分数更多,有的学校还加了“看图文”和“改错”。各校格式略有不同,以学校明年发的 P4 考试通知为准。假期不用刷题,一次几题就好,重点还是常常读。</p>
-    <h3>阅读理解 · 两篇,分数最多</h3>
-    <p>P4 通常有两篇理解,开放题加起来约 18 分,比 P3 多一倍。要能读完较长的文章。<br><b>在家练:</b>常常读书就是在练;读完照上面的问题问他,回答用题目里的词开头、写完整句子。</p>
+<section class="view" id="v-english-exam" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">考试题型</h2></div>
+  <div class="segc" role="tablist"><button type="button" role="tab" aria-selected="true" data-pane="e1">P4 考什么</button><button type="button" role="tab" aria-selected="false" data-pane="e2">要动笔的题</button><button type="button" role="tab" aria-selected="false" data-pane="e3">考试用的英文</button></div>
+  <div class="pane" data-pane="e1">
+  <div class="card body">
+    <p class="muted">P4 和 P3 大体一样，但理解题变成两篇、分数更多，有的学校还加了“看图文”和“改错”。各校格式略有不同，以学校明年发的 P4 考试通知为准。假期不用刷题，一次几题就好，重点还是常常读。</p>
+    <h3>阅读理解 · 两篇，分数最多</h3>
+    <p>P4 通常有两篇理解，开放题加起来约 18 分，比 P3 多一倍。要能读完较长的文章。<br><b>在家练：</b>常常读书就是在练；读完照上面的问题问他，回答用题目里的词开头、写完整句子。</p>
     <h3>作文 · 题目 + 3 张图</h3>
-    <p>P4 作文给一个题目(比如 <span class="en">a kind act、a mistake、a time you were lost</span>),配 3 张不按顺序的图和几个提示问题,可以只用其中一两张图,至少 120 词(约 50 分钟,20 分)。近三年外校 P4 卷全是这种;他学校的以 P4 考试通知为准。<br><b>在家练:</b>先把 P3 连环图练稳,再做题目式小卷(看上面“作文”);读完一章,用 “First… Then… After that… Finally…” 说一遍。</p>
+    <p>P4 作文给一个题目（比如 <span class="en">a kind act、a mistake、a time you were lost</span>），配 3 张不按顺序的图和几个提示问题，可以只用其中一两张图，至少 120 词（约 50 分钟，20 分）。近三年外校 P4 卷全是这种；他学校的以 P4 考试通知为准。<br><b>在家练：</b>先把 P3 连环图练稳，再做题目式小卷（看英文页“作文”）；读完一章，用 “First… Then… After that… Finally…” 说一遍。</p>
     <h3>语法 · 选择和填空</h3>
-    <p>语法选择约 10 题、语法填空约 8 题。时态、主谓一致、代词、介词、连接词、可数和不可数还是重点。<br><b>在家练:</b>一起读书时,遇到一个就指出来,比如 <span class="en">was eating</span>、<span class="en">a few</span>。</p>
+    <p>语法选择约 10 题、语法填空约 8 题。时态、主谓一致、代词、介词、连接词、可数和不可数还是重点。<br><b>在家练：</b>一起读书时，遇到一个就指出来，比如 <span class="en">was eating</span>、<span class="en">a few</span>。</p>
     <h3>词汇 · 选词</h3>
-    <p>约 6 题,在句子里选对的词。<br><b>在家练:</b>单词卡一次一组;学过的词当天在说话里用一用。</p>
-    <h3>看图文 · 海报、通知(部分学校)</h3>
-    <p>看一张海报、广告或通知,回答几道选择题。<br><b>在家练:</b>用新加坡的真东西练:图书馆活动海报、动物园地图、商场通知、MRT 指示牌。问他:“什么活动?哪天?几点?在哪里?”字少图多,他会做得不错。</p>
-    <h3>改错 · 拼写和语法(部分学校)</h3>
-    <p>一段短文里找出拼错或用错的词并改正。<br><b>在家练:</b>拼写只给他看对的:学过的词“看一看、盖住、写出来、对一对”,不要写错的让他找。语法错用说的:大人说一句有错的话(比如 <span class="en">he go to school</span>),他听出来,说出对的。</p>
+    <p>约 6 题，在句子里选对的词。<br><b>在家练：</b>单词卡一次一组；学过的词当天在说话里用一用。</p>
+    <h3>看图文 · 海报、通知（部分学校）</h3>
+    <p>看一张海报、广告或通知，回答几道选择题。<br><b>在家练：</b>用新加坡的真东西练：图书馆活动海报、动物园地图、商场通知、MRT 指示牌。问他：“什么活动？哪天？几点？在哪里？”字少图多，他会做得不错。</p>
+    <h3>改错 · 拼写和语法（部分学校）</h3>
+    <p>一段短文里找出拼错或用错的词并改正。<br><b>在家练：</b>拼写只给他看对的：学过的词“看一看、盖住、写出来、对一对”，不要写错的让他找。语法错用说的：大人说一句有错的话（比如 <span class="en">he go to school</span>），他听出来，说出对的。</p>
     <h3>句子合并和改写</h3>
-    <p>把两句并成一句,或按给的词改写。P3 学过的 <span class="en">because · so · who · when · although · before</span> 还会用到。<br><b>在家练:</b>读书时找这几个词,找到一个就照着说一句自己的。</p>
+    <p>把两句并成一句，或按给的词改写。P3 学过的 <span class="en">because · so · who · when · although · before</span> 还会用到。<br><b>在家练：</b>读书时找这几个词，找到一个就照着说一句自己的。</p>
     <h3>听力和口试</h3>
-    <p>听力题型更多样,可能有填空、排顺序、做笔记。口试是朗读一段,再看图聊天,图常是新加坡的生活场景。<br><b>在家练:</b>常常听书;短短一段读三遍;出门时用完整英文句子说说看到的:<span class="q">I can see… They are… I think…</span></p>
-    <h3>练习书(想买再买)</h3>
+    <p>听力题型更多样，可能有填空、排顺序、做笔记。口试是朗读一段，再看图聊天，图常是新加坡的生活场景。<br><b>在家练：</b>常常听书；短短一段读三遍；出门时用完整英文句子说说看到的：<span class="q">I can see… They are… I think…</span></p>
+    <h3>练习书（想买再买）</h3>
     <a class="btn" href="https://popular.com.sg/products/primary-4-complete-practice-book-for-gramar-vocabulary-comprehension-3ed" target="_blank" rel="noopener">P4 语法、词汇、理解练习书</a>
     <a class="btn" href="https://popular.com.sg/products/primary-4-conquer-english-editing-workbook-4-4th-edition" target="_blank" rel="noopener">P4 改错练习书</a>
     <a class="btn" href="https://popular.com.sg/pages/recommended-assessement-books-primary-4" target="_blank" rel="noopener">Popular 书店推荐的 P4 英文练习书</a>
-  </div></details>
-  <details class="more"><summary>去哪借书、听书</summary><div class="body">
-    <p><b>NLB 图书馆(免费)</b>:上面的书大多能借。公民免费;PR 是 MOE 学生的,去图书馆柜台办可免费。</p>
+  </div>
+  </div>
+  <div class="pane" data-pane="e2" hidden>
+  <div class="card"><ul>
+    <li><b>开放式完形</b>：一半以上的空填小词，固定搭配最多（<span class="en">look forward to、instead of、a sigh of relief</span>），就是上面介词词组练的。读完空格前后各 5 个词，先问“这里缺的是什么词”。</li>
+    <li><b>改错的拼写</b>：常错的双写、y 变 i、f 变 ves，放在英文单词卡第 17 组“难拼的词”，学完会进“拼一拼”。</li>
+    <li><b>句子合并（P4 才多）</b>：开学后再练，每类先背一个标准句：
+      <span class="en">The girl <b>whose</b> bag was missing cried.</span> · <span class="en"><b>Neither</b> Ali <b>nor</b> his sister <b>likes</b> durian.</span> · <span class="en"><b>Unless</b> you finish your homework, you cannot go out.</span> · <span class="en">Mum said that <b>she was</b> tired.</span> · <span class="en">The kite <b>was flown</b> by Tom.</span></li>
+  </ul></div>
+  </div>
+  <div class="pane" data-pane="e3" hidden>
+  <div class="card"><ul>
+    <li><b>拼写用英式：</b><span class="en">colour · favourite · centre · metre · litre · neighbour</span>。美国出的书（Press Start!、Dog Man）拼法不一样，读没关系，写作业照学校的拼。</li>
+    <li><b>说和写用标准英文：</b>不加 lah，不说 “can or not”；口试要说完整的句子。</li>
+    <li><b>本地常用词先认识：</b><span class="en">hawker centre · void deck · MRT · HDB flat · wet market</span>，本地故事书里常出现，作文、口试也常用。</li>
+  </ul></div>
+  </div>
+</section>
+
+<section class="view" id="v-english-library" data-tab="english" hidden>
+  <div class="bar"><a class="bk" href="#english">英文</a><h2 class="ti">借书和听书</h2></div>
+  <div class="card">
+    <p><b>NLB 图书馆（免费）</b>：上面的书大多能借。公民免费；PR 是 MOE 学生的，去图书馆柜台办可免费。</p>
     <a class="btn" href="https://mobileapp.nlb.gov.sg/toptips/parent/" target="_blank" rel="noopener">NLB 家长指南</a>
-    <p><b>NLB Storytime(免费 · 网上)</b>:图书馆的网上讲故事,英文场一般在每月第 2、4 个星期六上午 10 点。假期还有其他免费活动。</p>
+    <p><b>NLB Storytime（免费 · 网上）</b>：图书馆的网上讲故事，英文场一般在每月第 2、4 个星期六上午 10 点。假期还有其他免费活动。</p>
     <a class="btn" href="https://nlb.gov.sg/main/whats-on/events/ChildrenAndTeens" target="_blank" rel="noopener">NLB 儿童活动</a>
-    <p><b>学校 SLS</b>:MOE 网上学习平台,用学校账号登录。</p>
+    <p><b>学校 SLS</b>:MOE 网上学习平台，用学校账号登录。</p>
     <a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a>
-  </div></details>
+  </div>
 </section>
 
 <!-- ===== 科学 ===== -->
 <section class="view" id="v-science" hidden>
-  <div class="card soft"><p class="big">放假科学 · 每天 15 分钟<br>5 张问答卡 → 1 轮 app → 说一句魔法句</p></div>
-  <div class="card"><span class="tag">每天怎么做</span><ol>
-    <li><b>5 分钟 · 问答卡</b>:用“头脑测试科学篇”或纸卡,做这周单元的 5 张。翻面前先说答案。</li>
-    <li><b>10 分钟 · 太空探险</b>:科学 app 里点“发射”，做下一颗星（8 题）。要“在纸上写”的题，写在本子上再对答案；准备一个本子专门写这些。</li>
-    <li><b>3 分钟 · 说一句魔法句</b>:从下面这周的魔法句里挑一句,不看说出来,再写在本子上。关键词写对就算过。</li>
-  </ol><a class="btn" href="https://lilyhewitt.github.io/brain-quest-science/">头脑测试科学篇 · 问答卡</a><a class="btn" href="science/?from=handbook">科学练习 app</a></div>
+  <div class="lead"><p>问答卡 → 一轮 app → 说一句魔法句。<br>考试看关键词给分，先把关键句说熟。</p></div>
+  <div class="sect"><span>分类</span></div>
+  <div class="group">
+    <a class="ent" href="#science-how"><span><span class="t">怎么练</span><span class="d">问答卡 · 太空探险 · 答题 4 条规矩</span></span></a>
+    <a class="ent" href="#science-plan"><span><span class="t">6 周问答卡</span><span class="d">每周一个单元的魔法句和易错点</span></span></a>
+    <a class="ent" href="#science-topics"><span><span class="t">P4 主题</span><span class="d">书单 · 出门看、动手做 · 答题句子</span></span></a>
+    <a class="ent" href="#science-words"><span><span class="t">词汇和句式</span><span class="d">8 组单词卡 · 说三句 · 实验题的说法</span></span></a>
+  </div>
+  <div class="sect"><span>参考</span></div>
+  <div class="group">
+    <a class="ent" href="#science-out"><span><span class="t">出门去哪</span><span class="d">儿童花园 · 科学馆 · 乌敏岛 · 科学漫画</span></span></a>
+  </div>
+</section>
 
+<section class="view" id="v-science-how" data-tab="science" hidden>
+  <div class="bar"><a class="bk" href="#science">科学</a><h2 class="ti">怎么练</h2></div>
+  <div class="card">
+    <div class="li"><span class="i">1</span><div><div class="t">问答卡</div><p class="d">用“头脑测试科学篇”或纸卡，做这周单元的 5 张。翻面前先说答案。</p></div></div>
+    <div class="li"><span class="i">2</span><div><div class="t">太空探险</div><p class="d">科学 app 里点“发射”，做下一颗星（8 题）。要“在纸上写”的题，写在本子上再对答案。</p></div></div>
+    <div class="li"><span class="i">3</span><div><div class="t">说一句魔法句</div><p class="d">从这周的魔法句里挑一句，不看说出来，再写在本子上。关键词写对就算过。</p></div></div>
+    <a class="btn" href="https://lilyhewitt.github.io/brain-quest-science/">头脑测试科学篇 · 问答卡</a><a class="btn" href="science/?from=handbook">科学练习 app</a>
+  </div>
   <h2>答题 4 条规矩</h2>
   <div class="card say">
-    <p><b>1. 不留空</b>:不会也写一句,用题目里的词 + because。</p>
-    <p><b>2. 先圈方向词</b>:<span class="en">NOT · increase · decrease · more · less · nearer · further</span>,圈完再答。</p>
-    <p><b>3. Based only on…</b>:只用图表和题目里有的信息;图上没有的选 <span class="en">Not possible to tell</span>。</p>
-    <p><b>4. 变量三问</b>:<span class="en">What do I change? What do I measure? What must I keep the same?</span></p>
+    <p><b>1. 不留空</b>：不会也写一句，用题目里的词 + because。</p>
+    <p><b>2. 先圈方向词</b>：<span class="en">NOT · increase · decrease · more · less · nearer · further</span>，圈完再答。</p>
+    <p><b>3. Based only on…</b>：只用图表和题目里有的信息；图上没有的选 <span class="en">Not possible to tell</span>。</p>
+    <p><b>4. 变量三问</b>：<span class="en">What do I change? What do I measure? What must I keep the same?</span></p>
   </div>
-  <p class="muted">app 的“答题本领”就练这 4 条:圈方向词、拼魔法句、变量分类、读图表。</p>
+  <p class="muted">app 的“答题本领”就练这 4 条：圈方向词、拼魔法句、变量分类、读图表。</p>
+  <h2>顺手复习 P3</h2>
+  <div class="card">
+    <p>P3 学过：生物分类、真菌和细菌、材料、植物和动物的一生、磁铁。要补的是<b>读懂科学题、写完整答案</b>。</p>
+    <ul>
+      <li><b>关键词卡里也放 P3 的词：</b><span class="q">absorb · flexible · waterproof · magnetic · attract · repel · life cycle · fungi · bacteria</span></li>
+      <li><b>问答题用一个句式：</b>结论 + <span class="en">because</span> + 原因。<br><span class="q">Plant A grew taller because it got more sunlight.</span></li>
+      <li><b>看到 NOT、only、most 就圈起来</b>，再选答案。</li>
+    </ul>
+  </div>
+</section>
 
-  <h2>6 周安排</h2>
+<section class="view" id="v-science-plan" data-tab="science" hidden>
+  <div class="bar"><a class="bk" href="#science">科学</a><h2 class="ti">6 周问答卡</h2></div>
   <div id="sciPlan" style="display:flex;flex-direction:column;gap:10px"></div>
-  <p class="muted">每周做完点“这周完成”。最后几天:错题重练 + 抽 P3、P4 每个单元 2 张卡。打勾只存在这台设备上。</p>
+  <p class="muted">每周做完点“这周完成”。最后几天：错题重练 + 抽 P3、P4 每个单元 2 张卡。打勾只存在这台设备上。</p>
+</section>
 
-  <h2>P4 主题书单和动手做</h2>
-  <div class="card"><span class="tag">下学期</span><p>P4 要学:植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题是借书、出门的参考,跟上面 6 周一起用。</p></div>
+<section class="view" id="v-science-topics" data-tab="science" hidden>
+  <div class="bar"><a class="bk" href="#science">科学</a><h2 class="ti">P4 主题</h2></div>
+  <div class="card"><span class="tag">下学期</span><p>P4 要学：植物各部分的功能、消化系统、物质三态、光和影子、热。下面 6 个主题是借书、出门的参考，跟上面 6 周一起用。</p></div>
   <div class="card warm">
-    <p><b>书去哪找:</b>每个主题列了 3 本,从简单到难,<b>找到一本就行</b>。点书名会在 NLB 图书馆目录里搜这本,实体书或 Libby 里的电子书都行。三本都借不到,就搜同主题的英文科普书(比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>),挑图多字少的。</p>
+    <p><b>书去哪找：</b>每个主题列了 3 本，从简单到难，<b>找到一本就行</b>。点书名会在 NLB 图书馆目录里搜这本，实体书或 Libby 里的电子书都行。三本都借不到，就搜同主题的英文科普书（比如 <span class="en">plants for kids</span>、<span class="en">solid liquid gas</span>），挑图多字少的。</p>
   </div>
   <div id="weeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台设备上。</p>
+</section>
 
-  <h2>顺手复习 P3</h2>
+<section class="view" id="v-science-words" data-tab="science" hidden>
+  <div class="bar"><a class="bk" href="#science">科学</a><h2 class="ti">词汇和句式</h2></div>
   <div class="card">
-    <p>P3 学过:生物分类、真菌和细菌、材料、植物和动物的一生、磁铁。要补的是<b>读懂科学题、写完整答案</b>。</p>
-    <ul>
-      <li><b>关键词卡里也放 P3 的词:</b><span class="q">absorb · flexible · waterproof · magnetic · attract · repel · life cycle · fungi · bacteria</span></li>
-      <li><b>问答题用一个句式:</b>结论 + <span class="en">because</span> + 原因。<br><span class="q">Plant A grew taller because it got more sunlight.</span></li>
-      <li><b>看到 NOT、only、most 就圈起来</b>,再选答案。</li>
-    </ul>
+    <p><b>先抓跨主题的词</b>，一个词能用好几个地方：<span class="en">absorb</span> 在材料（布吸水）、植物（根吸水）、消化（小肠吸收养分）里都会出现。</p>
+    <p><b>考试指令词要认得</b>：<span class="en">describe · explain · compare · observe · state</span>，问答题都靠它们。</p>
+    <p class="muted">科学 app 的单词卡第 1–5 组跟着前 5 个主题：开始新主题那天学那一组。第 6–8 组是 P3 复习词和考试指令词，做第 6 个主题时学。</p>
   </div>
-
-  <h2>科学词汇</h2>
-  <div class="card">
-    <p><b>先抓跨主题的词</b>,一个词能用好几个地方:<span class="en">absorb</span> 在材料(布吸水)、植物(根吸水)、消化(小肠吸收养分)里都会出现。</p>
-    <p><b>考试指令词要认得</b>:<span class="en">describe · explain · compare · observe · state</span>,问答题都靠它们。</p>
-    <p class="muted">科学 app 的单词卡第 1–5 组跟着前 5 个主题:开始新主题那天学那一组。第 6–8 组是 P3 复习词和考试指令词,做第 6 个主题时学。</p>
-  </div>
-  <div class="card warm"><p><b>在生活里用</b>:窗户贴 <span class="en">transparent</span>,冰箱贴 <span class="en">magnet</span>;出门时问 <span class="q">Is it transparent or opaque?</span>;吃饭时每人说一个科学词。</p></div>
-  <details class="more"><summary>科学单词卡 8 组(和 app 里一样)</summary><div class="body">
+  <div class="card warm"><p><b>在生活里用</b>：窗户贴 <span class="en">transparent</span>，冰箱贴 <span class="en">magnet</span>；出门时问 <span class="q">Is it transparent or opaque?</span>；吃饭时每人说一个科学词。</p></div>
+  <details class="more"><summary>科学单词卡 8 组（和 app 里一样）</summary><div class="body">
     <p><b>第 1 组 · 植物</b><br><span class="en">root <span class="muted">根</span> · stem <span class="muted">茎</span> · absorb <span class="muted">吸收</span> · transport <span class="muted">运送</span> · support <span class="muted">支撑</span></span></p>
     <p><b>第 2 组 · 物质</b><br><span class="en">solid <span class="muted">固体</span> · liquid <span class="muted">液体</span> · gas <span class="muted">气体</span> · volume <span class="muted">体积</span> · mass <span class="muted">质量</span></span></p>
     <p><b>第 3 组 · 消化</b><br><span class="en">digest <span class="muted">消化</span> · saliva <span class="muted">唾液</span> · stomach <span class="muted">胃</span> · intestine <span class="muted">肠</span> · organ <span class="muted">器官</span></span></p>
@@ -614,7 +710,6 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p><b>第 7 组 · 生命周期</b><br><span class="en">reproduce <span class="muted">繁殖</span> · germinate <span class="muted">发芽</span> · larva <span class="muted">幼虫</span> · pupa <span class="muted">蛹</span> · nymph <span class="muted">若虫</span></span></p>
     <p><b>第 8 组 · 考试指令词</b><br><span class="en">describe <span class="muted">描述</span> · explain <span class="muted">解释</span> · compare <span class="muted">比较</span> · observe <span class="muted">观察</span> · state <span class="muted">写出、说出</span></span></p>
   </div></details>
-
   <h2>说三句的句式</h2>
   <div class="card say">
     <p class="q">The ___ helps the plant to ___.</p>
@@ -622,8 +717,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p class="q">I saw ___. It was ___.</p>
     <p class="q">___ because ___, so ___.</p>
   </div>
-  <p class="muted">他说,大人帮他写下来,或者用 iPad 的语音输入打字;他自己写其中一句就够。出门那天不用写,回来说一说就算完成。</p>
-
+  <p class="muted">他说，大人帮他写下来，或者用 iPad 的语音输入打字；他自己写其中一句就够。出门那天不用写，回来说一说就算完成。</p>
   <h2>实验题的固定说法</h2>
   <div class="card say">
     <p class="q">I changed only ___.</p>
@@ -631,50 +725,71 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p class="q">I measured ___.</p>
     <p class="q">The more ___, the more (or the less) ___.</p>
   </div>
-  <p class="muted">科学考试看关键词给分。答题句子里加粗的就是关键词,每个主题先把那三句说熟。实验题问“怎样才公平”“哪个要保持一样”,都用上面几句。</p>
+  <p class="muted">科学考试看关键词给分。答题句子里加粗的就是关键词，每个主题先把那三句说熟。实验题问“怎样才公平”“哪个要保持一样”，都用上面几句。</p>
+</section>
 
-  <h2>资源</h2>
-  <div class="card"><h3>The Young Scientists</h3><p>新加坡的英文科学漫画,Level 2 适合 P3–P4。先问学校有没有发;订阅电话 6570 6811。</p></div>
-  <div class="card"><h3>Jacob Ballas 儿童花园</h3><p>免费,周一休息,主题就是植物。</p><a class="btn" href="https://nparks.gov.sg/sbg/our-gardens/bukit-timah-core/jacob-ballas-childrens-garden" target="_blank" rel="noopener">开放时间</a></div>
+<section class="view" id="v-science-out" data-tab="science" hidden>
+  <div class="bar"><a class="bk" href="#science">科学</a><h2 class="ti">出门去哪</h2></div>
+  <div class="card"><h3>The Young Scientists</h3><p>新加坡的英文科学漫画，Level 2 适合 P3–P4。先问学校有没有发；订阅电话 6570 6811。</p></div>
+  <div class="card"><h3>Jacob Ballas 儿童花园</h3><p>免费，周一休息，主题就是植物。</p><a class="btn" href="https://nparks.gov.sg/sbg/our-gardens/bukit-timah-core/jacob-ballas-childrens-garden" target="_blank" rel="noopener">开放时间</a></div>
   <div class="card"><h3>新加坡科学馆</h3><p>配合“光和影子”这个主题。</p><a class="btn" href="https://www.science.edu.sg" target="_blank" rel="noopener">科学馆网站</a></div>
   <div class="card"><h3>乌敏岛 Chek Jawa</h3><p>配合 STELLAR 书 <span class="en">The Stars of Chek Jawa</span>。</p><a class="btn" href="https://nparks.gov.sg/gardens-parks-and-nature/parks-and-nature-reserves/pulau-ubin-and-chek-jawa" target="_blank" rel="noopener">NParks 介绍</a></div>
 </section>
 
 <!-- ===== 数学 ===== -->
 <section class="view" id="v-math" hidden>
-  <div class="card soft"><p class="big">每次 15 分钟:<br>预习一小步 + 复习一类常错的题。</p></div>
-
-  <h2>下学期学什么</h2>
-  <div class="card">
-    <p class="muted">课本是 <b>Primary Mathematics 4A</b>(Textbook 4A),一共 8 章。下面按课本目录排;哪一章在哪个学段,以学校为准。</p>
-    <ul>
-      <li><b>大约 1–3 月(第 1–4 章):</b>1 十万以内的数(读写、比大小、数的规律、四舍五入到十/百/千) · 2 因数和倍数(公因数、公倍数) · 3 整数四则(乘一位数、乘两位数、除以一位数、应用题) · 4 表格和折线图</li>
-      <li><b>大约 3–5 月(第 5–8 章):</b>5 分数(一)(带分数、假分数、互相转换、比大小) · 6 分数(二)(分数加减、一组东西的几分之几、应用题) · 7 角(认角、量角、画角) · 8 长方形和正方形(特点、画图)</li>
-      <li class="muted"><b>下半年:</b>4B 课本(小数等)</li>
-    </ul>
-    <p class="muted">应用题会到三步。P3 没学稳的几类,每次复习一类。</p>
+  <div class="lead"><p>预习一小步，复习一类常错的题。<br>应用题先读懂，再画图，最后算。</p></div>
+  <div class="sect"><span>分类</span></div>
+  <div class="group">
+    <a class="ent" href="#math-4a"><span><span class="t">预习 4A · 8 小步</span><span class="d">按课本顺序，做完打勾</span></span></a>
+    <a class="ent" href="#math-read"><span><span class="t">读题三步</span><span class="d">读 · 用中文说 · 画图再算 · 做题前问一句</span></span></a>
+    <a class="ent" href="#math-bar"><span><span class="t">画线段图</span><span class="d">假期重点 · 和差的例子</span></span></a>
   </div>
+  <div class="sect"><span>参考</span></div>
+  <div class="group">
+    <a class="ent" href="#math-term"><span><span class="t">下学期学什么</span><span class="d">4A 课本 8 章</span></span></a>
+    <a class="ent" href="#math-tools"><span><span class="t">尺子、量角器和 SLS</span><span class="d">工具和学校平台</span></span></a>
+  </div>
+</section>
 
-  <div class="card warm"><p><b>假期主要预习 4A</b>:按课本一章一章来,每次 15 分钟。家里有课本就照课本的例题和图讲,用课本的画法(比如分数画成一格一格),不教别的口诀,开学才不会和老师的教法打架。练习 app 里的 4A 题错了没关系,错的会再出现。</p></div>
+<section class="view" id="v-math-4a" data-tab="math" hidden>
+  <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">预习 4A · 8 小步</h2></div>
+  <div class="card warm"><p><b>假期主要预习 4A</b>：按课本一章一章来。家里有课本就照课本的例题和图讲，用课本的画法（比如分数画成一格一格），不教别的口诀，开学才不会和老师的教法打架。练习 app 里的 4A 题错了没关系，错的会再出现。</p></div>
+  <p class="muted">按课本顺序，做不完没关系。每一步开始时，在<a href="#practice">练习</a>页的“数学 app：这周预习第几章”选同一章，数学 app 里的四年级题就多出这一章，也会复习前面几章。</p>
+  <div id="mweeks" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="muted">打勾只存在这台设备上。复习那题由大人读给他听，练的是想，不是认字。</p>
+</section>
 
-  <h2>读题三步</h2>
+<section class="view" id="v-math-read" data-tab="math" hidden>
+  <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">读题三步</h2></div>
   <div class="card">
-    <p>应用题常常卡在读题,不是不会算。每次都用同样的三步:</p>
+    <p>应用题常常卡在读题，不是不会算。每次都用同样的三步：</p>
     <ol>
-      <li><b>读</b>:大人读给他听,或者他自己读,一句一句来。</li>
-      <li><b>用中文说</b>:这题讲什么?问的是什么?说不出问的是什么,就先别算。</li>
-      <li><b>画线段图,再算</b>:看问号在哪一段。</li>
+      <li><b>读</b>：大人读给他听，或者他自己读，一句一句来。</li>
+      <li><b>用中文说</b>：这题讲什么？问的是什么？说不出问的是什么，就先别算。</li>
+      <li><b>画线段图，再算</b>：看问号在哪一段。</li>
     </ol>
-    <p class="muted">练习 app 里的应用题也是这样排的:一句一行、问句前面标“问”;分步的题第一步先问“这题要你求什么”。数学 app 的「数学小岛」把这几步做成固定的四步：① 侦探看问题 → ② 划重点、写提炼 → ③ 画线段 → ④ 闪电算，和老师建议的“先提炼、再画图、最后解题”一样。纸上的小卷也照这个顺序做：圈问句、划关键词、在题目旁边写提炼、画图、写答句。科学题也可以用前两步。</p>
+    <p class="muted">练习 app 里的应用题也是这样排的：一句一行、问句前面标“问”；分步的题第一步先问“这题要你求什么”。数学 app 的“数学小岛”把这几步做成固定的四步：① 侦探看问题 → ② 划重点、写提炼 → ③ 画线段 → ④ 闪电算，和老师建议的“先提炼、再画图、最后解题”一样。纸上的小卷也照这个顺序做：圈问句、划关键词、在题目旁边写提炼、画图、写答句。科学题也可以用前两步。</p>
   </div>
+  <h2>做题前问一句</h2>
+  <div class="card rows">
+    <div class="row"><span class="n">1</span><div><b>一共多少、谁比谁多</b><p class="muted">题目问的是谁？</p></div></div>
+    <div class="row"><span class="n">2</span><div><b>丝带、铁丝绕一圈</b><p class="muted">四条边都要算</p></div></div>
+    <div class="row"><span class="n">3</span><div><b>倒满几杯、几瓶</b><p class="muted">先乘，再减</p></div></div>
+    <div class="row"><span class="n">4</span><div><b>卖掉、剩下</b><p class="muted">变多了还是变少了？</p></div></div>
+    <div class="row"><span class="n">5</span><div><b>(b) 小题</b><p class="muted">要不要用 (a) 的答案？</p></div></div>
+  </div>
+  <div class="card warm"><b>最后一步：</b>这个答案说得通吗？</div>
+</section>
 
-  <h2>画线段图:假期重点</h2>
+<section class="view" id="v-math-bar" data-tab="math" hidden>
+  <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">画线段图</h2></div>
   <div class="card">
-    <p>期末数学丢的分,大多在要画份数的应用题:几倍 + 相差、知道大的求小的、三个量一起比、前后变化倒推。P4 的应用题和分数题也都要用线段图(bar model)。</p>
-    <p><b>练习 app 的“画线段图”</b>:他自己在 iPad 上一步一步搭:① 每人画几格、谁多一段 ② 把题目里的数标在对的那一段 ③ 问号标在哪 ④ 用图算。一共 6 种,从简单的开始,每种做 3 题就换下一种。数学那天“今天的任务”里有一题。做完再在纸上照着画一遍。</p>
-    <p><b>三个习惯</b>,每题都这样:先画图,标出“谁”;算出的数旁边写“这个数是谁的”;题目里每个数都要用上。</p>
-    <p>例子(和差):</p>
-    <svg viewBox="0 0 340 104" role="img" aria-label="和差题的线段图:Ali 比 Ben 多 6,两人一共 30" style="width:100%;max-width:420px;height:auto;display:block;margin:8px 0">
+    <p>期末数学丢的分，大多在要画份数的应用题：几倍 + 相差、知道大的求小的、三个量一起比、前后变化倒推。P4 的应用题和分数题也都要用线段图（bar model）。</p>
+    <p><b>练习 app 的“画线段图”</b>：他自己在 iPad 上一步一步搭：① 每人画几格、谁多一段 ② 把题目里的数标在对的那一段 ③ 问号标在哪 ④ 用图算。一共 6 种，从简单的开始，每种做 3 题就换下一种。数学那天“今天的任务”里有一题。做完再在纸上照着画一遍。</p>
+    <p><b>三个习惯</b>，每题都这样：先画图，标出“谁”；算出的数旁边写“这个数是谁的”；题目里每个数都要用上。</p>
+    <p>例子（和差）：</p>
+    <svg viewBox="0 0 340 104" role="img" aria-label="和差题的线段图：Ali 比 Ben 多 6，两人一共 30" style="width:100%;max-width:420px;height:auto;display:block;margin:8px 0">
       <text x="8" y="37" style="fill:var(--ink);font:700 14px var(--f-latin)">Ali</text>
       <rect x="50" y="20" width="160" height="26" rx="4" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2"/>
       <rect x="210" y="20" width="56" height="26" rx="4" style="fill:var(--mark-soft);stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3"/>
@@ -685,104 +800,110 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
       <path d="M274 20h8v68h-8" style="fill:none;stroke:var(--ink);stroke-width:2"/>
       <text x="290" y="59" style="fill:var(--ink);font:700 13px var(--f-body)">一共 30</text>
     </svg>
-    <p class="muted">和差:先把多出来的 6 拿掉,剩下两段一样长:(30 − 6) ÷ 2 = 12。Ben 有 12,Ali 有 12 + 6 = 18。</p>
+    <p class="muted">和差：先把多出来的 6 拿掉，剩下两段一样长：(30 − 6) ÷ 2 = 12。Ben 有 12,Ali 有 12 + 6 = 18。</p>
     <ul>
-      <li><b>几倍</b>:一份画一格。3 倍就画 3 格,一共有几格就除以几。</li>
-      <li><b>剩下、卖掉</b>:画一整条,切掉卖掉的那段,看问号在哪一段。</li>
+      <li><b>几倍</b>：一份画一格。3 倍就画 3 格，一共有几格就除以几。</li>
+      <li><b>剩下、卖掉</b>：画一整条，切掉卖掉的那段，看问号在哪一段。</li>
     </ul>
-    <p class="muted">画完问他:问号在哪一段?那一段怎么算?算出来的数是谁的?</p>
+    <p class="muted">画完问他：问号在哪一段？那一段怎么算？算出来的数是谁的？</p>
   </div>
+</section>
 
-  <h2>预习 4A:8 小步</h2>
-  <p class="muted">按课本顺序,一周一步左右,做不完没关系。每一步开始时,在<a href="#practice">练习</a>页的“数学 app:这周预习第几章”选同一章,数学 app 里的四年级题就多出这一章,也会复习前面几章。</p>
-  <div id="mweeks" style="display:flex;flex-direction:column;gap:10px"></div>
-  <p class="muted">打勾只存在这台设备上。复习那题由大人读给他听,练的是想,不是认字。</p>
-
-  <h2>做题前问一句</h2>
-  <div class="card rows">
-    <div class="row"><span class="n">1</span><div><b>一共多少、谁比谁多</b><p class="muted">题目问的是谁?</p></div></div>
-    <div class="row"><span class="n">2</span><div><b>丝带、铁丝绕一圈</b><p class="muted">四条边都要算</p></div></div>
-    <div class="row"><span class="n">3</span><div><b>倒满几杯、几瓶</b><p class="muted">先乘,再减</p></div></div>
-    <div class="row"><span class="n">4</span><div><b>卖掉、剩下</b><p class="muted">变多了还是变少了?</p></div></div>
-    <div class="row"><span class="n">5</span><div><b>(b) 小题</b><p class="muted">要不要用 (a) 的答案?</p></div></div>
+<section class="view" id="v-math-term" data-tab="math" hidden>
+  <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">下学期学什么</h2></div>
+  <div class="card">
+    <p class="muted">课本是 <b>Primary Mathematics 4A</b>(Textbook 4A)，一共 8 章。下面按课本目录排；哪一章在哪个学段，以学校为准。</p>
+    <ul>
+      <li><b>大约 1–3 月（第 1–4 章）：</b>1 十万以内的数（读写、比大小、数的规律、四舍五入到十/百/千） · 2 因数和倍数（公因数、公倍数） · 3 整数四则（乘一位数、乘两位数、除以一位数、应用题） · 4 表格和折线图</li>
+      <li><b>大约 3–5 月（第 5–8 章）：</b>5 分数（一）（带分数、假分数、互相转换、比大小） · 6 分数（二）（分数加减、一组东西的几分之几、应用题） · 7 角（认角、量角、画角） · 8 长方形和正方形（特点、画图）</li>
+      <li class="muted"><b>下半年：</b>4B 课本（小数等）</li>
+    </ul>
+    <p class="muted">应用题会到三步。P3 没学稳的几类，每次复习一类。</p>
   </div>
-  <div class="card warm"><b>最后一步:</b>这个答案说得通吗?</div>
+</section>
 
-  <div class="card"><h3>尺子和量角器</h3><p>P4 要用量角器量角。手指张开按住中间,对准了再画。15 cm 的短尺、小一点的量角器小手更好按。</p></div>
-  <div class="card"><h3>学校 SLS</h3><p>数学课按本地大纲编,可以先看 P4 的单元。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
+<section class="view" id="v-math-tools" data-tab="math" hidden>
+  <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">尺子、量角器和 SLS</h2></div>
+  <div class="card"><h3>尺子和量角器</h3><p>P4 要用量角器量角。手指张开按住中间，对准了再画。15 cm 的短尺、小一点的量角器小手更好按。</p></div>
+  <div class="card"><h3>学校 SLS</h3><p>数学课按本地大纲编，可以先看 P4 的单元。</p><a class="btn" href="https://vle.learning.moe.edu.sg/login" target="_blank" rel="noopener">登录 SLS</a></div>
 </section>
 
 <!-- ===== 练习 app 和做题记录 ===== -->
 <section class="view" id="v-practice" hidden>
-  <div class="card soft"><p class="big">小小的练习 app 和做题记录,<br>都在这一页。</p></div>
-
+  <div class="lead"><p>小小的练习 app 和做题记录，都在这一页。</p></div>
   <h2>练习 app</h2>
-  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 写作工坊、语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 数学小岛、线段图、预习 4A</a>
-    <p class="muted"><b>小小用自己的 iPad 做:</b>在 iPad 的 Safari 里打开手册的这一页,点进每个练习,各自“添加到主屏幕”,以后都从图标打开。</p></div>
+  <div class="card"><p>英文、科学、数学选择题，每轮 5 题，没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 写作工坊、语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 数学小岛、线段图、预习 4A</a>
+    <p class="muted"><b>小小用自己的 iPad 做：</b>在 iPad 的 Safari 里打开手册的这一页，点进每个练习，各自“添加到主屏幕”，以后都从图标打开。</p></div>
 
   <div id="syncSec" class="view" hidden>
     <h2>小小的做题记录</h2>
     <div class="card" id="syncBox"></div>
   </div>
-  <div class="card soft"><p><b>每两周看一次</b>做题记录,只挑一类错法来练。</p></div>
+  <div class="card soft"><p><b>每两周看一次</b>做题记录，只挑一类错法来练。</p></div>
 
   <details class="more"><summary>练习 app 里有什么</summary><div class="body"><ul>
-    <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学是数学小岛(应用题地图)、线段图和预习 4A。</li>
-    <li><b>今天的任务</b>:首页上 2–3 件事,做完一件亮一件,全亮就是今天做完了,可以停。</li>
-    <li><b>英文 · 写作工坊</b>:首页最上面的大格子。第一次打开要输入他的英文名字。9 套连环图,每套三步:放格子 · 找主人 → 拼句子 → 纸上写;“基本功”一轮 8 题(时态、人称、断句、感觉和对话、词组意思);“听写”每天 3 句,写在纸上再对一对。</li>
-    <li><b>英文 · 单词铁路</b>:单词卡和介词词组两张车票,各自写着下一站;每 3 站一个复习站,旁边有工具箱。</li>
-    <li><b>英文 · 其他</b>:语法按格子出题(答错只给一句“看哪个线索词”);词汇有“找证据词”;代词完形一空一空做;“Words 词汇题”每轮 5 题里有 2 题是拼一拼。</li>
-    <li><b>画线段图</b>(数学):点开是图鉴,17 种图都能直接选,“⭐ 推荐”挑他自己做对最少的一种。8 种自己搭格子(几倍、几倍 + 相差、和差、三个量、前后变化倒推、给多少才一样多、买了以后反过来多),9 种看图标数(图画好了,把数字和问号放上去,再用图算)。</li>
-    <li><b>数学小岛</b>:应用题地图,每题四步:看问题 → 划重点 → 选图并在画好的图上标数字 → 算答案。“练习”页的做题记录里能看每一步的正确率。</li>
-    <li><b>应用题</b>:数学、科学的题一句一行,数字加粗,问句前面标“问”;分步的题第一步先问“这题要你求什么”(选项是中文)。</li>
-    <li><b>答错时</b>:不用红色,写“我们看一看”,再给正确答案和原因。声音默认关,首页右上角可以打开。</li>
-    <li><b>单词卡</b>:一组 5 个词,哪组都可以先学,学过的隔几天自动再考。数学的应用题常用词配了线段图;科学的考试指令词写了“答题时要答什么”。</li>
-    <li><b>拼一拼</b>(英文,试用中):混在橙色“Words 词汇题”的每一轮里(5 题里 2 题),用字母块拼单词卡里学过的词,一次 4 个。拼错了只给他看正确的拼法,再照着拼一次;拼过的词过几天会再来。</li>
-    <li><b>我的进步</b>:首页最下面,小小自己看的,只说他做到了什么。</li>
-    <li><b>朗读的声音</b>:默认用设备设置里打勾的英文声音。想用 Kate(英国口音):在 iPad 的 设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里下载 Kate 并打勾。家长入口最下面可以试听、换一个。</li>
-    <li><b>数学预习 4A</b>:四年级题按课本 8 章出,有的题带图(折线图、角、长方形)。在手册“练习”页选“这周预习第几章”(iPad 的家长入口里也能选),题目就多出这一章;每天的一轮里有 3 题是 4A。</li>
-    <li><b>家长入口</b>:“我的进步”最下面的小字,里面是完整记录、复制报告和同步码。数据库万一不工作,也能在 iPad 上看这里。英文 app 的家长入口里还有大人用的「一起读」(30 篇短文)和「一分钟朗读」(每月一次,记下读对了多少个词)。</li>
+    <li><b>每轮 5 题</b>：英文分语法、词汇、阅读；科学分 P3 复习和 P4 预习；数学是数学小岛（应用题地图）、线段图和预习 4A。</li>
+    <li><b>今天的任务</b>：首页上 2–3 件事，做完一件亮一件，全亮就是今天做完了，可以停。</li>
+    <li><b>英文 · 写作工坊</b>：首页最上面的大格子。第一次打开要输入他的英文名字。9 套连环图，每套三步：放格子 · 找主人 → 拼句子 → 纸上写；“基本功”一轮 8 题（时态、人称、断句、感觉和对话、词组意思）；“听写”每天 3 句，写在纸上再对一对。</li>
+    <li><b>英文 · 单词铁路</b>：单词卡和介词词组两张车票，各自写着下一站；每 3 站一个复习站，旁边有工具箱。</li>
+    <li><b>英文 · 其他</b>：语法按格子出题（答错只给一句“看哪个线索词”）；词汇有“找证据词”；代词完形一空一空做；“Words 词汇题”每轮 5 题里有 2 题是拼一拼。</li>
+    <li><b>画线段图</b>（数学）：点开是图鉴，17 种图都能直接选，“⭐ 推荐”挑他自己做对最少的一种。8 种自己搭格子（几倍、几倍 + 相差、和差、三个量、前后变化倒推、给多少才一样多、买了以后反过来多），9 种看图标数（图画好了，把数字和问号放上去，再用图算）。</li>
+    <li><b>数学小岛</b>：应用题地图，每题四步：看问题 → 划重点 → 选图并在画好的图上标数字 → 算答案。“练习”页的做题记录里能看每一步的正确率。</li>
+    <li><b>应用题</b>：数学、科学的题一句一行，数字加粗，问句前面标“问”；分步的题第一步先问“这题要你求什么”（选项是中文）。</li>
+    <li><b>答错时</b>：不用红色，写“我们看一看”，再给正确答案和原因。声音默认关，首页右上角可以打开。</li>
+    <li><b>单词卡</b>：一组 5 个词，哪组都可以先学，学过的隔几天自动再考。数学的应用题常用词配了线段图；科学的考试指令词写了“答题时要答什么”。</li>
+    <li><b>拼一拼</b>（英文，试用中）：混在橙色“Words 词汇题”的每一轮里（5 题里 2 题），用字母块拼单词卡里学过的词，一次 4 个。拼错了只给他看正确的拼法，再照着拼一次；拼过的词过几天会再来。</li>
+    <li><b>我的进步</b>：首页最下面，小小自己看的，只说他做到了什么。</li>
+    <li><b>朗读的声音</b>：默认用设备设置里打勾的英文声音。想用 Kate（英国口音）：在 iPad 的 设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里下载 Kate 并打勾。家长入口最下面可以试听、换一个。</li>
+    <li><b>数学预习 4A</b>：四年级题按课本 8 章出，有的题带图（折线图、角、长方形）。在手册“练习”页选“这周预习第几章”（iPad 的家长入口里也能选），题目就多出这一章；每天的一轮里有 3 题是 4A。</li>
+    <li><b>家长入口</b>：“我的进步”最下面的小字，里面是完整记录、复制报告和同步码。数据库万一不工作，也能在 iPad 上看这里。英文 app 首页有大人陪读的“一起读”（30 篇短文），家长入口里还有“一分钟朗读”（每月一次，记下读对了多少个词）。</li>
   </ul></div></details>
 </section>
 
-<!-- ===== 更新记录(新的写在最上面) ===== -->
-<!-- 更新记录只保留最近一周(以最新一条的日期往前 7 天);加新记录时删掉更早的 -->
-<section class="view" id="v-updates" hidden>
-  <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面,只留最近一周。</p></div>
-  <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
+<!-- ===== 更新记录（新的写在最上面） ===== -->
+<!-- 更新记录只保留最近一周（以最新一条的日期往前 7 天）;加新记录时删掉更早的 -->
+<section class="view" id="v-updates" data-tab="overview" hidden>
+  <div class="bar"><a class="bk" href="#overview">总览</a><h2 class="ti">更新记录</h2></div>
+  <div class="card soft"><p class="big">手册和练习 app 每次更新，都记在这里。<br>新的在最上面，只留最近一周。</p></div>
+  <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的，就在后台划掉再打开。</p>
 
-  <div class="card"><span class="tag">v4.46 · 11 月 19 日</span><h3>英文 app:一起读放到首页</h3><ul>
-    <li>首页单词铁路下面加了“Read together · 一起读”一条,写着下一篇是第几篇、读过几篇,点一下直接打开那一篇,读完返回首页。</li>
-    <li>家长页里“大人陪读”挪到最上面,一进去就能看到一起读和一分钟朗读。</li></ul></div>
-  <div class="card"><span class="tag">v4.45 · 11 月 19 日</span><h3>手册:作文一节、更新记录按钮</h3><ul>
-    <li>英文页加了“作文:先看图,再说,再写”:写之前分格子、找主人;写的时候四条规则(人称不变、过去式、一件事一句话、每段 3 句);先说再写、写完三查;先练连环图,再练题目式。</li>
-    <li>P4 作文改正为“题目 + 3 张图”,至少 120 词(近三年外校 P4 卷全是这种)。</li>
-    <li>总览的每天安排和英文页统一:拼读、一起读、练习 app 一轮、写作工坊基本功一轮;作文一周最多两次。</li>
-    <li>“一起读”写明去哪找短文(app 里 30 篇、打印版 30 天精读);单词卡改成 18 组;练习页补上写作工坊、单词铁路、一起读和一分钟朗读。</li>
+  <div class="card"><span class="tag">v4.47 · 11 月 20 日</span><h3>手册改版：每页只放重点，细节点进去看</h3><ul>
+    <li>每个科目页第一屏只有一句重点和几个分类，点进去是二级页，顶上有返回；作文、阅读、考试题型里再分小标签，一次看一块。</li>
+    <li>去掉了“每天做什么”和每天、每周的时间安排，只留方法和进度。</li>
+    <li>换成安静的灰绿配色，手机开深色模式时自动换成夜晚配色；中文全部用全角标点，行距加大，粗体只留给标题。</li>
+    <li>新图标：一本打开的书，书脊和两笔合起来是个“小”字。</li></ul></div>
+  <div class="card"><span class="tag">v4.46 · 11 月 19 日</span><h3>英文 app：一起读放到首页</h3><ul>
+    <li>首页单词铁路下面加了“Read together · 一起读”一条，写着下一篇是第几篇、读过几篇，点一下直接打开那一篇，读完返回首页。</li>
+    <li>家长页里“大人陪读”挪到最上面，一进去就能看到一起读和一分钟朗读。</li></ul></div>
+  <div class="card"><span class="tag">v4.45 · 11 月 19 日</span><h3>手册：作文一节、更新记录按钮</h3><ul>
+    <li>英文页加了“作文：先看图，再说，再写”：写之前分格子、找主人；写的时候四条规则（人称不变、过去式、一件事一句话、每段 3 句）；先说再写、写完三查；先练连环图，再练题目式。</li>
+    <li>P4 作文改正为“题目 + 3 张图”，至少 120 词（近三年外校 P4 卷全是这种）。</li>
+    <li>总览的每天安排和英文页统一：拼读、一起读、练习 app 一轮、写作工坊基本功一轮；作文一周最多两次。</li>
+    <li>“一起读”写明去哪找短文（app 里 30 篇、打印版 30 天精读）；单词卡改成 18 组；练习页补上写作工坊、单词铁路、一起读和一分钟朗读。</li>
     <li>夸夸话加了“写作文时”一组。更新记录挪到标题旁边的按钮。总览里“开学可以问学校的事”拿掉了。</li></ul></div>
-  <div class="card"><span class="tag">v4.44 · 11 月 19 日</span><h3>一起读增加到 30 篇,配 30 天精读 PDF</h3><ul>
-    <li>英文 app 家长入口的「一起读」从 20 篇加到 30 篇,新加的 10 篇也是从真题短文改写的。</li>
-    <li>另有一份《30 天精读_每天一页》A4 打印版:第几天就是 app 里第几篇,每页一篇短文、这篇的词、三个问题和写答案的横线,答案在最后两页。</li></ul></div>
-  <div class="card"><span class="tag">v4.43 · 11 月 19 日</span><h3>手册英文页:补习重点的先后顺序</h3><ul>
-    <li>英文页最上面加了“补习重点 · 先后顺序”:拼读 → 一起读 → 理解 → 说 → 句子 → 词汇语法 → 作文,前面稳了再加后面的。展开能看每天怎么排、每月怎么看进步。</li>
-    <li>“一起读”加了一句:读出声只在一对一时做,不要当着别人让他读给大家听。</li></ul></div>
+  <div class="card"><span class="tag">v4.44 · 11 月 19 日</span><h3>一起读增加到 30 篇，配 30 天精读 PDF</h3><ul>
+    <li>英文 app 家长入口的“一起读”从 20 篇加到 30 篇，新加的 10 篇也是从真题短文改写的。</li>
+    <li>另有一份《30 天精读_每天一页》A4 打印版：第几天就是 app 里第几篇，每页一篇短文、这篇的词、三个问题和写答案的横线，答案在最后两页。</li></ul></div>
+  <div class="card"><span class="tag">v4.43 · 11 月 19 日</span><h3>手册英文页：补习重点的先后顺序</h3><ul>
+    <li>英文页最上面加了“补习重点 · 先后顺序”：拼读 → 一起读 → 理解 → 说 → 句子 → 词汇语法 → 作文，前面稳了再加后面的。展开能看每天怎么排、每月怎么看进步。</li>
+    <li>“一起读”加了一句：读出声只在一对一时做，不要当着别人让他读给大家听。</li></ul></div>
   <div class="card"><span class="tag">v4.42 · 11 月 19 日</span><h3>英文 app：一起读、一分钟朗读、短句听写</h3><ul>
-    <li>家长页（我的进步 → 家长入口）多了「大人陪读」：<b>一起读</b> 20 篇短文，从真题短文改写；右边有怎么分段读、读完问的三个问题（带中文和参考答案）、这篇里的词。读完一篇 +2 ★。</li>
+    <li>家长页（我的进步 → 家长入口）多了“大人陪读”：<b>一起读</b> 20 篇短文，从真题短文改写；右边有怎么分段读、读完问的三个问题（带中文和参考答案）、这篇里的词。读完一篇 +2 ★。</li>
     <li><b>一分钟朗读</b>：每月一篇，6 篇轮换，都是他没读过的。计时一分钟，读错的词点一下变红；时间到后点他读到的最后一个词，app 算出读对了多少个词，记在每月记录里。</li>
     <li>写作工坊多了<b>听写 · 每天 3 句</b>：Bolt 读，他写在纸上，再对着正确的句子检查：点出写错的词，看开头大写、句末标点。错了的句子两天后再出现；拼错的学过的词会排进拼一拼。每天第一轮 +1 ★。</li></ul></div>
   <div class="card"><span class="tag">v4.41 · 11 月 19 日</span><h3>英文 app 换成卡通蒸汽朋克画风</h3><ul>
     <li>照科学 app 的样子，英文 app 换成一整套深色画风：深青色蓝图底、黄铜边框和铆钉、铜色按钮，主角是写作工坊里的小发明家和机器人 Bolt。题目页也跟着换了颜色。</li>
     <li>首页：等级变成压力表，每升一级换一个名字（学徒、技工、工匠、机械师……）；今天的任务变成米色“工单”，做完的齿轮变绿。</li>
-    <li>单词卡和介词词组合成一个「Word Railway 单词铁路」格子，两张车票分别写着下一站，点车票或“出发 Go!”进地图。</li>
-    <li>单词地图改名「单词铁路」：每一站是一个齿轮（学完是绿齿轮加星星，当前一站是转动的金齿轮），复习站是压力表，宝箱换成工具箱；每站英文下面有中文；最上面有“下一站 + 出发 Go!”。</li>
+    <li>单词卡和介词词组合成一个“Word Railway 单词铁路”格子，两张车票分别写着下一站，点车票或“出发 Go!”进地图。</li>
+    <li>单词地图改名“单词铁路”：每一站是一个齿轮（学完是绿齿轮加星星，当前一站是转动的金齿轮），复习站是压力表，宝箱换成工具箱；每站英文下面有中文；最上面有“下一站 + 出发 Go!”。</li>
     <li>进度、星星、徽章和存档都没有变，只换了外观。</li></ul></div>
   <div class="card"><span class="tag">v4.40 · 11 月 19 日</span><h3>英文 app：写作工坊的基本功练习</h3><ul>
-    <li>写作工坊里多了「基本功 · 一轮 8 题」：时态、人称、断句、感觉和对话、词组意思。题目每轮重新出，句子和人名都和纸上的作文小卷不一样，背不了答案。</li>
+    <li>写作工坊里多了“基本功 · 一轮 8 题”：时态、人称、断句、感觉和对话、词组意思。题目每轮重新出，句子和人名都和纸上的作文小卷不一样，背不了答案。</li>
     <li>哪一类错得多，下一轮就多出那一类（也会参考他做连环图时犯的人称、时态错误）。做完一轮 +1 ★，家长页能看到每一类的正确率。</li>
     <li>人称规则改成“选好一个人称，从头到尾不变”：写别人就一直用名字 / he / she / they；题目说 “a time when you…” 就写自己，一直用 I / we。</li>
-    <li>连环图换成更清楚的版本；拼一拼加了一组「作文里拼错过的词」。</li></ul></div>
+    <li>连环图换成更清楚的版本；拼一拼加了一组“作文里拼错过的词”。</li></ul></div>
   <div class="card"><span class="tag">v4.39 · 11 月 19 日</span><h3>英文 app：写作工坊</h3><ul>
-    <li>英文首页最上面多了一个大格子「写作工坊 Writing Workshop」，练 P3 连环图看图写作。第一批 9 套：7 套外校期末真题，加学校的两套（电脑游戏、白兔）。</li>
+    <li>英文首页最上面多了一个大格子“写作工坊 Writing Workshop”，练 P3 连环图看图写作。第一批 9 套：7 套外校期末真题，加学校的两套（电脑游戏、白兔）。</li>
     <li>每套三步：① 框里的词是乱序的，先把每个词放到对的格子，再选它是谁的（谁做的 / 说的是谁 / 谁觉得）；② 每格拼一句：谁 → 做了什么（过去式）→ 在哪，错的块就是他作文里常犯的 There / We / 现在时；③ 第 4 格结局公式和三查，然后在纸上写完整篇。</li>
     <li>图用的是真题原图，加了密：第一次打开要回答一个家里人知道的问题，这台 iPad 以后会记住。之后英文 app 首页会叫他的英文名字。</li>
   </ul></div>
@@ -812,7 +933,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>太空探险做的题现在也算进“连续天数”和“这 7 天”，也记进做题记录（家长入口里能看到哪题错了、参考答案）。数学小岛也一样算进连续天数。</li>
     <li>太空探险的进度换了一个存放的位置，免得和英文 app 的拼写记录同名；之前玩过的星星会自动搬过去。</li>
   </ul></div>
-  <div class="card"><span class="tag">v4.32 · 11 月 18 日</span><h3>科学 app 换成「太空探险」</h3><ul>
+  <div class="card"><span class="tag">v4.32 · 11 月 18 日</span><h3>科学 app 换成“太空探险”</h3><ul>
     <li>科学 app 整个换成太空的深蓝色，图标换成穿宇航服的小小。首页最上面是太空探险，下面是句式工具箱、错题重练、预习 P4、我的星星；单词卡、生物和材料选择题、答题本领放在“更多练习”里。</li>
     <li>太空探险：P3 星系 8 颗星（生物、分类、蘑菇、材料、种子、蝴蝶、磁铁、电磁铁），穿过虫洞是 P4 星系 7 颗星（课本第 1–7 章），每颗 8 题，每两颗星后有一个太空站复习，每个星系最后是陨石带。一共 132 题，都照真卷改写。</li>
     <li>每道大题走 4 步：① 看问句（选 10 个句式里的一个，点出方向词）→ ② 找证据（在表上或题目里点）→ ③ 写任务报告 → ④ 三查（对照参考答案，看老师怎么给分）。</li>
@@ -844,7 +965,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>按老师 11/18 的建议改数学 app：首页只留 4 个方块——数学小岛（最大）、线段图、预习 4A、错题重练；计算和单词卡拿掉（以前的记录都保留）。</li>
     <li>数学小岛：19 站 113 题，都照真卷题型改写，顺序和小卷 1–20 一样，P3 段后是 P4 段（猜测检查、分数、钱、角、面积、图表、时间）。每 3 站一个营火复习（混着出、让他自己选图），宝箱里是思维题，每段最后一个挑战关。</li>
     <li>每题四步：侦探看问题 → 划重点、拼提炼 → 选图 → 闪电算，答对显示答句。提示逐步撤掉：每站前两题四步全给，后面只给第一步，最后一题不给。</li>
-    <li>星星、金银铜奖杯、Combo、开宝箱；「我的进步」里有奖杯柜。做错的题进“错题重练”，再做对就消掉。</li>
+    <li>星星、金银铜奖杯、Combo、开宝箱；“我的进步”里有奖杯柜。做错的题进“错题重练”，再做对就消掉。</li>
     <li>每日任务：小岛下一站、线段图、错题重练（不够时补小岛复习）；混合练习里不再出计算题。</li>
   </ul></div>
   <div class="card"><span class="tag">v4.26 · 11 月 17 日</span><h3>数学 app 补了四种三年级题</h3><ul>
@@ -852,68 +973,50 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>以前存下的数学分步错题，“再练一次”时上面不再带最后那一问，和新题一样一屏只问一步。</li>
     <li>做过的记录、星星和错题都保留，不受影响。</li>
   </ul></div>
-  <div class="card"><span class="tag">v4.25 · 11 月 13 日</span><h3>三个 app 每天都是三个任务</h3><ul>
-    <li>任务不够 3 个时，依次补：错题重练、复习学过的词、学一组新词（英文是单词地图下一关）、综合复习（5 题，各单元混着出），保证每天都有 3 个。</li>
-    <li>点进去直接开始，做完打勾。</li>
-  </ul></div>
-  <div class="card"><span class="tag">v4.24 · 11 月 13 日</span><h3>介词词组换成 143 张介词卡</h3><ul>
-    <li>英文介词地图换成纸卡上的 143 题,句子一样,25 组按顺序闯关。</li>
-    <li>学的时候有用法提示,复习时不给;每题四个选项里没有第二个也对的词。</li>
-  </ul></div>
-  <div class="card"><span class="tag">v4.23 · 11 月 13 日</span><h3>新内容的方块贴 NEW</h3><ul>
-    <li>有新内容的彩色方块右上角贴一个黄色 NEW，点进去一次就消失。</li>
-    <li>这次：英文单词卡、介词词组（单词地图）；数学线段图、应用题（新题型）。</li>
-  </ul></div>
-  <div class="card"><span class="tag">v4.22 · 11 月 13 日</span><h3>每天的任务补到三个</h3><ul>
-    <li>原来的任务不够 3 个时，补“错题重练”（有错题时）、“复习学过的词”、“复习学过的词组”（英文）。</li>
-    <li>点进去直接做题，做完打勾。</li>
-  </ul></div>
-  <div class="card"><span class="tag">v4.21 · 11 月 13 日</span><h3>英文单词地图</h3><ul>
-    <li>单词卡和介词词组改成闯关地图：按顺序解锁，全对 3 颗星，对 75% 以上 2 颗星。</li>
-    <li>每学 3 组有一个复习站，考这 3 组，10 题，先考答错多的词。</li>
-    <li>每 2 个复习站旁边有一个宝箱：10 道新句子题，对 8 题以上得金边徽章，否则银边，可以再开升级。徽章在「我的进步」。</li>
-    <li>任务里的“拼一拼”改成“复习单词”：所有学过的词打乱考 10 题。</li>
-    <li>旧存档里学过的单词组会直接在地图上点亮。</li>
-  </ul></div>
 </section>
 
 <footer>开放时间、价格以官网为准。</footer>
 </div></main>
 
 <nav class="tabs" aria-label="科目"><div class="wrap">
-  <a href="#overview" data-view="overview"><span>总览</span><span class="ic">Home</span></a>
-  <a href="#english" data-view="english"><span>英文</span><span class="ic">English</span></a>
-  <a href="#science" data-view="science"><span>科学</span><span class="ic">Science</span></a>
-  <a href="#math" data-view="math"><span>数学</span><span class="ic">Math</span></a>
-  <a href="#practice" data-view="practice"><span>练习</span><span class="ic">Practice</span></a>
+  <a href="#overview" data-view="overview">总览</a>
+  <a href="#english" data-view="english">英文</a>
+  <a href="#science" data-view="science">科学</a>
+  <a href="#math" data-view="math">数学</a>
+  <a href="#practice" data-view="practice">练习</a>
 </div></nav>
+
 
 <script>
 (function(){
-  var views=["overview","english","science","math","practice","updates"];
+  var views=[].map.call(document.querySelectorAll("main section.view"),function(s){return s.id.slice(2);});
+  var TITLES={overview:"小小假期学习手册",english:"英文",science:"科学",math:"数学",practice:"练习"};
+  function tabOf(v){var s=document.getElementById("v-"+v);return (s&&s.getAttribute("data-tab"))||v;}
   function show(){
-    var h=(location.hash||"").replace("#",""),jump=null;
-    if(h==="praise"){h="overview";jump="praiseTop";}
+    var h=(location.hash||"").replace("#","");
     if(views.indexOf(h)<0) h="overview";
-    views.forEach(function(v){
-      document.getElementById("v-"+v).hidden=(v!==h);
-      var a=document.querySelector('nav.tabs a[data-view="'+v+'"]');
-      if(!a) return;
-      if(v===(h==="updates"?"overview":h)) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
-    });
+    views.forEach(function(v){document.getElementById("v-"+v).hidden=(v!==h);});
+    var tab=tabOf(h);
+    document.querySelectorAll("nav.tabs a[data-view]").forEach(function(a){if(a.getAttribute("data-view")===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+    var hd=document.getElementById("hd");hd.hidden=!TITLES[h];
+    if(TITLES[h]){document.getElementById("hdTitle").textContent=TITLES[h];document.getElementById("hdTop").hidden=(h!=="overview");}
     renderProg();
-    return jump;
+    return null;
   }
   function land(j){var el=j&&document.getElementById(j);if(el)el.scrollIntoView();else window.scrollTo(0,0);}
   window.addEventListener("hashchange",function(){land(show());});
-  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-jump]");if(!a||location.hash!==a.getAttribute("href"))return;e.preventDefault();land(a.getAttribute("data-jump"));});
+  /* second-level pages: the segmented control shows one pane at a time */
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".segc button");if(!b)return;var sec=b.closest("section"),k=b.getAttribute("data-pane");
+    sec.querySelectorAll(".segc button").forEach(function(x){x.setAttribute("aria-selected",String(x===b));});
+    sec.querySelectorAll(".pane").forEach(function(p){p.hidden=(p.getAttribute("data-pane")!==k);});
+    window.scrollTo(0,0);});
 
   var WEEKS=[
     {t:"植物各部分",books:[
       {n:"How a Seed Grows",a:"Helene J. Jordan",q:"How a Seed Grows Jordan"},
       {n:"From Seed to Plant",a:"Gail Gibbons",q:"From Seed to Plant Gibbons"},
-      {n:"Secrets of Singapore: Botanic Gardens",a:"新加坡植物园,去之前读",q:"Secrets of Singapore Botanic Gardens"}
-    ],do:"去 Jacob Ballas 儿童花园,找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit",wc:"第 1 组 · 植物",ans:["The roots **absorb** water and mineral salts from the soil.", "The stem **transports** water to the leaves.", "The stem **supports** the plant so that it can get more sunlight."]},
+      {n:"Secrets of Singapore: Botanic Gardens",a:"新加坡植物园，去之前读",q:"Secrets of Singapore Botanic Gardens"}
+    ],do:"去 Jacob Ballas 儿童花园，找根、茎、叶、花、果",w:"root · stem · leaf · flower · fruit",wc:"第 1 组 · 植物",ans:["The roots **absorb** water and mineral salts from the soil.", "The stem **transports** water to the leaves.", "The stem **supports** the plant so that it can get more sunlight."]},
     {t:"物质三态",books:[
       {n:"What Is the World Made Of?",a:"Kathleen Weidner Zoehfeld",q:"What Is the World Made Of Zoehfeld"},
       {n:"Matter: See It, Touch It, Taste It, Smell It",a:"Darlene R. Stille",q:"Matter See It Touch It Taste It Smell It"},
@@ -921,21 +1024,21 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     ],do:"冰块融化、烧开水看水蒸气",w:"solid · liquid · gas · melt",wc:"第 2 组 · 物质",ans:["A solid has a **definite shape** and a **definite volume**.", "A liquid has **no definite shape** but has a **definite volume**.", "A gas has **no definite shape** and **no definite volume**."]},
     {t:"消化系统",books:[
       {n:"What Happens to a Hamburger?",a:"Paul Showers",q:"What Happens to a Hamburger Showers"},
-      {n:"The Magic School Bus Inside the Human Body",a:"Joanna Cole · 漫画式,热闹",q:"Magic School Bus Inside the Human Body"},
-      {n:"Burp!",a:"Diane Swanson · 字多一点,大人可以读给他听",q:"Burp Diane Swanson"}
+      {n:"The Magic School Bus Inside the Human Body",a:"Joanna Cole · 漫画式，热闹",q:"Magic School Bus Inside the Human Body"},
+      {n:"Burp!",a:"Diane Swanson · 字多一点，大人可以读给他听",q:"Burp Diane Swanson"}
     ],do:"吃饭时说说食物“走到哪里了”",w:"mouth · stomach · intestine · digest",wc:"第 3 组 · 消化",ans:["Food is **broken down** into simpler substances in the mouth, stomach and small intestine.", "**Digested food** is **absorbed** into the blood in the **small intestine**.", "**Water** is absorbed in the **large intestine**."]},
     {t:"光和影子",books:[
       {n:"What Makes a Shadow?",a:"Clyde Robert Bulla",q:"What Makes a Shadow Bulla"},
       {n:"Light Is All Around Us",a:"Wendy Pfeffer",q:"Light Is All Around Us Pfeffer"},
       {n:"Light: Shadows, Mirrors, and Rainbows",a:"Natalie M. Rosinsky",q:"Light Shadows Mirrors and Rainbows Rosinsky"}
-    ],do:"手电筒玩手影;去科学馆",w:"light · shadow · block · reflect",wc:"第 4 组 · 光",ans:["A shadow is formed when an **opaque** object **blocks light**.", "We see an object when light **reflected** from it **enters our eyes**.", "The **closer** the object is to the light source, the **bigger** the shadow."]},
+    ],do:"手电筒玩手影；去科学馆",w:"light · shadow · block · reflect",wc:"第 4 组 · 光",ans:["A shadow is formed when an **opaque** object **blocks light**.", "We see an object when light **reflected** from it **enters our eyes**.", "The **closer** the object is to the light source, the **bigger** the shadow."]},
     {t:"热",books:[
       {n:"Heating and Cooling",a:"Cody Crane",q:"Heating and Cooling Cody Crane"},
       {n:"Energy Makes Things Happen",a:"Kimberly Brubaker Bradley",q:"Energy Makes Things Happen Bradley"},
       {n:"Temperature: Heating Up and Cooling Down",a:"Darlene R. Stille",q:"Temperature Heating Up and Cooling Down Stille"}
-    ],do:"摸太阳下和阴凉处的东西;冰水、温水比一比",w:"heat · hot · cold · temperature",wc:"第 5 组 · 热",ans:["Heat flows from a **hotter** place to a **colder** place.", "Metal is a **good conductor of heat**, so it **gains heat** quickly.", "The metal lid **gains heat** and **expands**, so it is easier to open."]},
+    ],do:"摸太阳下和阴凉处的东西；冰水、温水比一比",w:"heat · hot · cold · temperature",wc:"第 5 组 · 热",ans:["Heat flows from a **hotter** place to a **colder** place.", "Metal is a **good conductor of heat**, so it **gains heat** quickly.", "The metal lid **gains heat** and **expands**, so it is easier to open."]},
     {t:"复习 + 出游",books:[
-      {n:"The Stars of Chek Jawa",a:"学校发的 STELLAR 书,先重读这本"},
+      {n:"The Stars of Chek Jawa",a:"学校发的 STELLAR 书，先重读这本"},
       {n:"Starfish",a:"Edith Thacher Hurd",q:"Starfish Edith Thacher Hurd"},
       {n:"What Lives in a Shell?",a:"Kathleen Weidner Zoehfeld",q:"What Lives in a Shell Zoehfeld"}
     ],do:"去乌敏岛 Chek Jawa 走木板道",w:"shore · crab · sea star",wc:"第 6–8 组 · P3 复习词和考试指令词",ans:["A magnet **attracts** things made of **iron or steel**.", "**Like poles repel**, **unlike poles attract**.", "Rubber is **flexible** and **waterproof**, so it is used to make boots."]}
@@ -947,14 +1050,14 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     }).join('')+'</ul>';
   }
   var MWEEKS=[
-    {t:"第1章 十万以内的数",pg:"4A 课本第 1–25 页",pre:"读收据、广告上的五位数,说出每一位是万、千、百、十、个;比大小;找规律(45 300、45 400、45 500,下一个是几?);最后学四舍五入到十、百、千。",rev:"线段图:几倍,知道大的求小的",ex:"Tom 有 34 张卡,是 Diana 的 2 倍。两人一共有几张?",ans:"Tom 画 2 格、Diana 画 1 格;2 格 = 34,1 格 = 17 是 Diana 的;一共 34 + 17 = 51 张"},
-    {t:"第2章 因数和倍数",pg:"第 27–42 页",pre:"12 颗糖平均分,可以分成几份、每份几颗?(1×12、2×6、3×4)这些就是 12 的因数。再数 3 的倍数:3、6、9、12……最后找两个数都有的(公因数、公倍数)。",rev:"线段图:几倍 + 相差",ex:"A 的是 B 的 7 倍,B 比 A 少 168。两人一共有多少?",ans:"A 画 7 格、B 画 1 格,多出来 6 格 = 168;1 格 = 28;一共 8 格 = 224"},
-    {t:"第3章 乘法",pg:"第 43–53 页",pre:"23 × 12 拆开算:23 × 10 + 23 × 2。先用小数字试,算对就停。",rev:"线段图:和差,算出的数是谁的?",ex:"两人一共 230 支笔,Alan 比 Siti 多 90 支。Siti 有几支?",ans:"230 − 90 = 140,÷ 2 = 70。70 是 Siti 的(少的那个),到这里就停"},
-    {t:"第3章 除法和应用题",pg:"第 54–69 页",pre:"分东西学除法:52 颗糖平均分给 4 个人,每人几颗?53 颗呢?多出来的就是余数(remainder),余数要比除数小。",rev:"线段图:三个量",ex:"三根绳一共 470 cm。A 比 B 长 30 cm,C 比 A 短 10 cm。B 多长?",ans:"C 比 B 长 30 − 10 = 20;470 − 30 − 20 = 420,÷ 3 = 140 cm"},
-    {t:"第4章 表格和折线图",pg:"第 71–82 页",pre:"配科学“热”这个主题:每小时量一次温度或看天气预报,画成折线图;看哪一段往上、哪一段往下。",rev:"线段图:前后变化,倒推",ex:"Jerry 比 Roy 多 24 颗。Jerry 给了 Roy 116 颗后,Roy 有 238 颗。Jerry 原来有多少?",ans:"Roy 原来 238 − 116 = 122;Jerry 原来 122 + 24 = 146。三个数都用上了"},
-    {t:"第5–6章 分数",pg:"第 83–118 页",pre:"切蛋糕或披萨:一个半 = 1½ = 3/2。12 个饺子的 1/4 是 3 个(课本封面那张图:4 份 = 12,1 份 = 3)。照课本的图讲,不教别的口诀。",rev:"关键词:each 不一定是除,gave 不一定是减",ex:"38 个人每人 6 支笔,还剩 2 支。一共有多少支笔?",ans:"38 × 6 + 2 = 230 支(每人几支、几个人,是乘)"},
-    {t:"第7章 角",pg:"第 119–131 页",pre:"买一个量角器,量家里的角:书角、打开的门、剪刀张开。先找直角 90°,再分锐角(比 90° 小)和钝角(比 90° 大)。角的大小看张开多少,不看边画得多长。",rev:"线段图:几倍 + 相差(换个说法)",ex:"A 是 B 的 4 倍,A 比 B 多 45。A 有多少?",ans:"多出来 3 格 = 45,1 格 = 15,A = 4 格 = 60"},
-    {t:"第8章 长方形和正方形",pg:"第 133–146 页",pre:"找家里的长方形和正方形:书、门、瓷砖。用尺子量对边是不是一样长,用量角器量四个角是不是都是 90°,再在方格纸上画一个。",rev:"线段图:倒推 + 三个量,混着来",ex:"Mei 比 Ali 多 15。Mei 给了 Ali 20 后,Ali 有 50。Mei 原来有多少?",ans:"Ali 原来 50 − 20 = 30;Mei 原来 30 + 15 = 45"}
+    {t:"第 1 章 十万以内的数",pg:"4A 课本第 1–25 页",pre:"读收据、广告上的五位数，说出每一位是万、千、百、十、个；比大小；找规律（45 300、45 400、45 500，下一个是几？）；最后学四舍五入到十、百、千。",rev:"线段图：几倍，知道大的求小的",ex:"Tom 有 34 张卡，是 Diana 的 2 倍。两人一共有几张？",ans:"Tom 画 2 格、Diana 画 1 格；2 格 = 34，1 格 = 17 是 Diana 的；一共 34 + 17 = 51 张"},
+    {t:"第 2 章 因数和倍数",pg:"第 27–42 页",pre:"12 颗糖平均分，可以分成几份、每份几颗？（1×12、2×6、3×4）这些就是 12 的因数。再数 3 的倍数：3、6、9、12……最后找两个数都有的（公因数、公倍数）。",rev:"线段图：几倍 + 相差",ex:"A 的是 B 的 7 倍，B 比 A 少 168。两人一共有多少？",ans:"A 画 7 格、B 画 1 格，多出来 6 格 = 168；1 格 = 28；一共 8 格 = 224"},
+    {t:"第 3 章 乘法",pg:"第 43–53 页",pre:"23 × 12 拆开算：23 × 10 + 23 × 2。先用小数字试，算对就停。",rev:"线段图：和差，算出的数是谁的？",ex:"两人一共 230 支笔，Alan 比 Siti 多 90 支。Siti 有几支？",ans:"230 − 90 = 140，÷ 2 = 70。70 是 Siti 的（少的那个），到这里就停"},
+    {t:"第 3 章 除法和应用题",pg:"第 54–69 页",pre:"分东西学除法：52 颗糖平均分给 4 个人，每人几颗？53 颗呢？多出来的就是余数（remainder），余数要比除数小。",rev:"线段图：三个量",ex:"三根绳一共 470 cm。A 比 B 长 30 cm,C 比 A 短 10 cm。B 多长？",ans:"C 比 B 长 30 − 10 = 20;470 − 30 − 20 = 420,÷ 3 = 140 cm"},
+    {t:"第 4 章 表格和折线图",pg:"第 71–82 页",pre:"配科学“热”这个主题：每小时量一次温度或看天气预报，画成折线图；看哪一段往上、哪一段往下。",rev:"线段图：前后变化，倒推",ex:"Jerry 比 Roy 多 24 颗。Jerry 给了 Roy 116 颗后，Roy 有 238 颗。Jerry 原来有多少？",ans:"Roy 原来 238 − 116 = 122;Jerry 原来 122 + 24 = 146。三个数都用上了"},
+    {t:"第 5–6 章 分数",pg:"第 83–118 页",pre:"切蛋糕或披萨：一个半 = 1½ = 3/2。12 个饺子的 1/4 是 3 个（课本封面那张图：4 份 = 12，1 份 = 3）。照课本的图讲，不教别的口诀。",rev:"关键词：each 不一定是除，gave 不一定是减",ex:"38 个人每人 6 支笔，还剩 2 支。一共有多少支笔？",ans:"38 × 6 + 2 = 230 支（每人几支、几个人，是乘）"},
+    {t:"第 7 章 角",pg:"第 119–131 页",pre:"买一个量角器，量家里的角：书角、打开的门、剪刀张开。先找直角 90°，再分锐角（比 90° 小）和钝角（比 90° 大）。角的大小看张开多少，不看边画得多长。",rev:"线段图：几倍 + 相差（换个说法）",ex:"A 是 B 的 4 倍，A 比 B 多 45。A 有多少？",ans:"多出来 3 格 = 45，1 格 = 15，A = 4 格 = 60"},
+    {t:"第 8 章 长方形和正方形",pg:"第 133–146 页",pre:"找家里的长方形和正方形：书、门、瓷砖。用尺子量对边是不是一样长，用量角器量四个角是不是都是 90°，再在方格纸上画一个。",rev:"线段图：倒推 + 三个量，混着来",ex:"Mei 比 Ali 多 15。Mei 给了 Ali 20 后，Ali 有 50。Mei 原来有多少？",ans:"Ali 原来 50 − 20 = 30;Mei 原来 30 + 15 = 45"}
   ];
   var MKEY="xx-4a-math", mdone={};
   try{mdone=JSON.parse(localStorage.getItem(MKEY)||"{}")||{};}catch(e){mdone={};}
@@ -967,8 +1070,8 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     var d=document.createElement("details"); d.className="week";
     d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">'+w.t+'</span><span class="ok" data-ok></span></summary>'+
       '<div class="body"><p><span class="lbl">课本</span>'+w.pg+'</p><p><span class="lbl">预习一小步</span>'+w.pre+'</p>'+
-      '<p><span class="lbl">复习一类题(纸上画图)</span>'+w.rev+'</p>'+
-      '<p><span class="lbl">大人读给他听</span>'+w.ex+'<br><span class="muted">答案:'+w.ans+'</span></p>'+
+      '<p><span class="lbl">复习一类题（纸上画图）</span>'+w.rev+'</p>'+
+      '<p><span class="lbl">大人读给他听</span>'+w.ex+'<br><span class="muted">答案：'+w.ans+'</span></p>'+
       '<label class="done"><input type="checkbox" id="'+id+'">完成了</label></div>';
     mbox.appendChild(d);
     var cb=d.querySelector("input"), ok=d.querySelector("[data-ok]");
@@ -979,12 +1082,12 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 
 
   var SP=[
-   {t:"动物和植物的一生",u:"P3 植物的一生 · P3 动物的一生",m:["A cockroach has **3 stages**: egg, **nymph**, adult.","A butterfly has **4 stages**: egg, **larva**, **pupa**, adult.","A seed needs **water**, **air** and **warmth** to **germinate**."],ask:["What is the young of a cockroach called? = 蟑螂幼体叫什么","Which stage does not feed? = pupa(蛹不吃东西)"],trap:"蟑螂、蚱蜢没有蛹;发芽不需要光。"},
-   {t:"分类、真菌和细菌",u:"P3 生物与非生物 · P3 真菌和细菌",m:["Fungi **cannot make their own food**.","Fungi **reproduce by spores**.","Bacteria can only be seen under a **microscope**."],ask:["How do fungi get food? = from the things they grow on","Why is bread kept in the fridge? = fungi grow slowly in the cold"],trap:"蘑菇不是植物;真菌不能自己制造食物。"},
-   {t:"磁铁和材料",u:"P3 磁铁 · P3 材料",m:["**Like poles repel**, **unlike poles attract**.","**More turns of wire** make the electromagnet **stronger**.","Metal is a **good conductor of heat**."],ask:["Which is NOT magnetic? = 先圈 NOT","How to test if X is a magnet? = 看它会不会和磁铁互相排斥(repel)"],trap:"只有排斥(repel)才能证明是磁铁;铜、铝不是磁性材料。"},
-   {t:"光和植物系统",u:"P4 光 · P4 植物各部分",m:["We see an object when **light** from it **enters our eyes**.","**Opaque** objects **block light** completely.","The **roots absorb water** and **mineral salts** from the soil."],ask:["Why can we see the book? = light reflected from the book enters our eyes","The Moon is a light source? = No, it reflects light"],trap:"月亮不是光源;烟花是人造光源。"},
-   {t:"人体和影子",u:"P4 消化系统 · P4 影子",m:["**Digestion** breaks down food into **simpler substances**.","Digested food is **absorbed** in the **small intestine**.","A shadow forms when an **opaque** object **blocks light**."],ask:["Where is digestion completed? = small intestine","Object nearer to the torch → shadow? = bigger"],trap:"大肠吸收的是水,不是养分;影子在物体背着光的那一边。"},
-   {t:"物质和热",u:"P4 物质 · P4 热",m:["Matter has **mass** and **occupies space**.","Heat flows from a **hotter** to a **colder** object.","When heated, most things **expand**; when cooled, they **contract**."],ask:["Why does the air in the balloon show it is matter? = it occupies space","Why is the pot handle made of plastic? = poor conductor of heat"],trap:"温度不是热;空气有质量,也占空间。"}
+   {t:"动物和植物的一生",u:"P3 植物的一生 · P3 动物的一生",m:["A cockroach has **3 stages**: egg, **nymph**, adult.","A butterfly has **4 stages**: egg, **larva**, **pupa**, adult.","A seed needs **water**, **air** and **warmth** to **germinate**."],ask:["What is the young of a cockroach called? = 蟑螂幼体叫什么","Which stage does not feed? = pupa（蛹不吃东西）"],trap:"蟑螂、蚱蜢没有蛹；发芽不需要光。"},
+   {t:"分类、真菌和细菌",u:"P3 生物与非生物 · P3 真菌和细菌",m:["Fungi **cannot make their own food**.","Fungi **reproduce by spores**.","Bacteria can only be seen under a **microscope**."],ask:["How do fungi get food? = from the things they grow on","Why is bread kept in the fridge? = fungi grow slowly in the cold"],trap:"蘑菇不是植物；真菌不能自己制造食物。"},
+   {t:"磁铁和材料",u:"P3 磁铁 · P3 材料",m:["**Like poles repel**, **unlike poles attract**.","**More turns of wire** make the electromagnet **stronger**.","Metal is a **good conductor of heat**."],ask:["Which is NOT magnetic? = 先圈 NOT","How to test if X is a magnet? = 看它会不会和磁铁互相排斥（repel）"],trap:"只有排斥（repel）才能证明是磁铁；铜、铝不是磁性材料。"},
+   {t:"光和植物系统",u:"P4 光 · P4 植物各部分",m:["We see an object when **light** from it **enters our eyes**.","**Opaque** objects **block light** completely.","The **roots absorb water** and **mineral salts** from the soil."],ask:["Why can we see the book? = light reflected from the book enters our eyes","The Moon is a light source? = No, it reflects light"],trap:"月亮不是光源；烟花是人造光源。"},
+   {t:"人体和影子",u:"P4 消化系统 · P4 影子",m:["**Digestion** breaks down food into **simpler substances**.","Digested food is **absorbed** in the **small intestine**.","A shadow forms when an **opaque** object **blocks light**."],ask:["Where is digestion completed? = small intestine","Object nearer to the torch → shadow? = bigger"],trap:"大肠吸收的是水，不是养分；影子在物体背着光的那一边。"},
+   {t:"物质和热",u:"P4 物质 · P4 热",m:["Matter has **mass** and **occupies space**.","Heat flows from a **hotter** to a **colder** object.","When heated, most things **expand**; when cooled, they **contract**."],ask:["Why does the air in the balloon show it is matter? = it occupies space","Why is the pot handle made of plastic? = poor conductor of heat"],trap:"温度不是热；空气有质量，也占空间。"}
   ];
   var PK="xx-sci-plan",pd={};try{pd=JSON.parse(localStorage.getItem(PK)||"{}")||{};}catch(e){pd={};}
   var pb=document.getElementById("sciPlan");
@@ -992,7 +1095,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   SP.forEach(function(w,i){var id="sp"+(i+1),d=document.createElement("details");d.className="week";
     d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">第 '+(i+1)+' 周 · '+w.t+'</span><span class="ok" data-ok></span></summary><div class="body">'+
      '<p><span class="lbl">问答卡单元</span>'+w.u+'</p>'+
-     '<p><span class="lbl">这周的魔法句(加粗是关键词)</span>'+w.m.map(function(a){return '<span class="en">'+bb(a)+'</span>';}).join('<br>')+'</p>'+
+     '<p><span class="lbl">这周的魔法句（加粗是关键词）</span>'+w.m.map(function(a){return '<span class="en">'+bb(a)+'</span>';}).join('<br>')+'</p>'+
      '<p><span class="lbl">大人换个问法考他</span>'+w.ask.join('<br>')+'</p>'+
      '<p><span class="lbl">易错点</span>'+w.trap+'</p>'+
      '<label class="done"><input type="checkbox"> 这周完成</label></div>';
@@ -1007,11 +1110,11 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     var id="wk"+(i+1);
     var d=document.createElement("details"); d.className="week";
     d.innerHTML='<summary><span class="wk">'+(i+1)+'</span><span class="tt">'+w.t+'</span><span class="ok" data-ok></span></summary>'+
-      '<div class="body"><p><span class="lbl">先读 / 先听(找到一本就行)</span></p>'+bookList(w.books)+
+      '<div class="body"><p><span class="lbl">先读 / 先听（找到一本就行）</span></p>'+bookList(w.books)+
       '<p><span class="lbl">出门看、动手做</span>'+w.do+'</p>'+
       '<p><span class="lbl">关键词</span><span class="q">'+w.w+'</span></p>'+
-      '<p><span class="lbl">单词卡(开始这个主题那天学)</span>科学 app '+w.wc+'</p>'+
-      '<p><span class="lbl">答题句子(先说,再写一句)</span>'+w.ans.map(function(a){return '<span class="en">'+a.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')+'</span>';}).join('<br>')+'</p>'+
+      '<p><span class="lbl">单词卡（开始这个主题那天学）</span>科学 app '+w.wc+'</p>'+
+      '<p><span class="lbl">答题句子（先说，再写一句）</span>'+w.ans.map(function(a){return '<span class="en">'+a.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')+'</span>';}).join('<br>')+'</p>'+
       '<label class="done"><input type="checkbox" id="'+id+'">完成了</label></div>';
     box.appendChild(d);
     var cb=d.querySelector("input"), ok=d.querySelector("[data-ok]");
@@ -1048,24 +1151,24 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
       cloudState="ok";renderSync();renderProg();
     }).catch(function(e){cloudState=e==="rules"?"rules":"net";renderSync();renderProg();});}
   /* math app: this week's chapter of 4A. Saved next to the math records (math/cfg); the iPad picks it up when the math app opens. */
-  var CHN=["十万以内的数","因数和倍数","整数四则","表格和折线图","分数(一)","分数(二)","角","长方形和正方形"],chMsg="";
+  var CHN=["十万以内的数","因数和倍数","整数四则","表格和折线图","分数（一）","分数（二）","角","长方形和正方形"],chMsg="";
   function chPick(){if(cloudState!=="ok")return "";
-    if(!(cloud&&cloud.math))return '<div class="chpick"><p><b>数学 app:这周预习第几章</b></p><p class="muted">小小在 iPad 上做过一轮数学、记录传过来以后,这里就能选。</p></div>';var m=cloud&&cloud.math?cloud.math.S:null,cf=cloud&&cloud.cfg,mAt=m&&m.chAt||0;
+    if(!(cloud&&cloud.math))return '<div class="chpick"><p><b>数学 app：这周预习第几章</b></p><p class="muted">小小在 iPad 上做过一轮数学、记录传过来以后，这里就能选。</p></div>';var m=cloud&&cloud.math?cloud.math.S:null,cf=cloud&&cloud.cfg,mAt=m&&m.chAt||0;
     var cur=cf&&cf.at>mAt?cf.ch:(m&&typeof m.ch==="number"?m.ch:0),pending=cf&&cf.at>mAt&&!(m&&m.ch===cf.ch);
     var st=chMsg||(pending?"等小小下次打开数学 app 就换成这一章。":m&&cur?"iPad 上的数学 app 现在用这一章。":"");
-    return '<div class="chpick"><p><b>数学 app:这周预习第几章</b></p><p class="muted">选了以后,“预习 4A”和每天的一轮里,四年级题多数出这一章,也复习前面几章。和数学页“预习 4A:8 小步”对着选。</p><div class="chs">'+
-      ["全部"].concat(CHN.map(function(t,i){return "第"+(i+1)+"章 "+t;})).map(function(t,i){return '<button type="button" class="hb'+(i===cur?'':' ghost')+'" data-s="ch" data-ch="'+i+'"'+(i===cur?' aria-pressed="true"':'')+'>'+t+'</button>';}).join("")+
+    return '<div class="chpick"><p><b>数学 app：这周预习第几章</b></p><p class="muted">选了以后，“预习 4A”和每天的一轮里，四年级题多数出这一章，也复习前面几章。和数学页“预习 4A · 8 小步”对着选。</p><div class="chs">'+
+      ["全部"].concat(CHN.map(function(t,i){return "第 "+(i+1)+" 章 "+t;})).map(function(t,i){return '<button type="button" class="hb'+(i===cur?'':' ghost')+'" data-s="ch" data-ch="'+i+'"'+(i===cur?' aria-pressed="true"':'')+'>'+t+'</button>';}).join("")+
       '</div><p class="muted" role="status">'+st+'</p></div>';}
   function chSet(n){var c=sget();if(!c||!SYNC_ON)return;chMsg="正在保存……";renderSync();var v={ch:n,at:Date.now()};
     fetch(SYNC_DB.replace(/\/+$/,"")+"/sync/"+c+"/math/cfg.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)}).then(function(r){
       if(r.status===401||r.status===403||r.status===400)throw "rules";if(!r.ok)throw 0;cloud.cfg=v;chMsg="";renderSync();
-    }).catch(function(e){chMsg=e==="rules"?(cloud&&cloud.math?"数据库不让保存。可以在 iPad 的数学 app → 我的进步 → 家长入口 里选。":"小小先在 iPad 上做一轮数学,这里才能选。"):"现在连不上网络,等一下再试。";renderSync();});}
+    }).catch(function(e){chMsg=e==="rules"?(cloud&&cloud.math?"数据库不让保存。可以在 iPad 的数学 app → 我的进步 → 家长入口 里选。":"小小先在 iPad 上做一轮数学，这里才能选。"):"现在连不上网络，等一下再试。";renderSync();});}
   /* English: each grammar cell's last 20 answers, and the phrases deck */
   var CELLS=[["Prepositions · 介词","介词"],["were · 复数主语","were"],["was · 单数主语","was"],["Happening now · 进行时","进行时"],["Past tense · 过去式","过去时"],["While … · 过去进行时","过去进行时"],["this · that · these · those","指示词"],["Joining words · 连接词","连词"],["many · a few · 可数","可数"],["much · a little · 不可数","不可数"],["myself · themselves · 反身代词","反身代词"],["Question tags · 反问句尾","反问句尾"]];
   function enRows(x){if(!x)return "";var L=Array.isArray(x.log)?x.log:[],out=[];
     CELLS.forEach(function(c){var a=L.filter(function(e){return e.t===c[0];}).slice(-20);if(a.length>=5){var p=Math.round(a.filter(function(e){return e.ok;}).length/a.length*100);out.push((p<80?'<b class="lo">':'<b>')+c[1]+' '+p+'%</b>');}});
     var pp=x.pp&&typeof x.pp==="object"?x.pp:{},n=0,m=0;for(var k in pp){n++;if(pp[k].box>=4)m++;}
-    return '<div class="pr"><span class="pl">英文语法</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">每格最近 20 题;到 80% 换 P4 的题,目标 95%</span>':'<span class="muted">每格做满 5 题后显示</span>')+'</span></div>'+
+    return '<div class="pr"><span class="pl">英文语法</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">每格最近 20 题；到 80% 换 P4 的题，目标 95%</span>':'<span class="muted">每格做满 5 题后显示</span>')+'</span></div>'+
       '<div class="pr"><span class="pl">介词词组</span><span class="pv">'+(n?'学过 <b>'+n+'</b>/60 个 · 记住了 <b>'+m+'</b> 个':'<span class="muted">还没开始 · 英文 app 首页的“Phrases”</span>')+'</span></div>';}
   /* Math: Math Island progress and how often each of the 4 steps is right on the first try (S.isl.sk = {step:[tries, right first time]}) */
   var ISTEP=[["ask","① 看问题"],["plan","② 提炼"],["fig","③ 选图"],["mk","③ 标数字"],["ans","④ 答案"],["pa","(a) 小问"]];
@@ -1077,36 +1180,36 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     var miss=Array.isArray(I.miss)?I.miss.length:0,out=[];
     ISTEP.forEach(function(s){var a=sk[s[0]];if(Array.isArray(a)&&a[0]>=3){var p=Math.round(a[1]/a[0]*100);out.push('<span style="white-space:nowrap">'+(p<70?'<b class="lo">':'<b>')+s[1]+' '+p+'%</b> <span class="muted">('+a[0]+')</span></span>');}});
     return '<div class="pr"><span class="pl">数学小岛</span><span class="pv">过了 <b>'+n+'</b>/19 站 · 金奖杯 <b>'+g+'</b> 个'+(miss?' · 还有 <b>'+miss+'</b> 道错题':'')+'</span></div>'+
-      '<div class="pr"><span class="pl">应用题每一步</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">第一次就做对的比例,括号里是做了几次。红的那一步,小卷上多练。</span>':'<span class="muted">每一步做满 3 次后显示</span>')+'</span></div>'+barRow;}
+      '<div class="pr"><span class="pl">应用题每一步</span><span class="pv">'+(out.length?out.join(' · ')+'<br><span class="muted">第一次就做对的比例，括号里是做了几次。红的那一步，小卷上多练。</span>':'<span class="muted">每一步做满 3 次后显示</span>')+'</span></div>'+barRow;}
   function renderSync(){var sec=document.getElementById("syncSec"),box=document.getElementById("syncBox");if(!sec||!box)return;
     sec.hidden=!SYNC_ON;if(!SYNC_ON)return;var c=sget(),h;
     if(!c){
-      h='<p>小小在自己的 iPad 上做题,记录可以自动传到这台手机。第一次要连一下:</p><div class="rows">'+
+      h='<p>小小在自己的 iPad 上做题，记录可以自动传到这台手机。第一次要连一下：</p><div class="rows">'+
         '<div class="row"><span class="n">1</span><div><b>在这里生成同步码</b><p class="muted">只要生成一次。</p><button type="button" class="hb" data-s="new">生成同步码</button></div></div>'+
-        '<div class="row"><span class="n">2</span><div><b>在小小的 iPad 上输入</b><p class="muted">打开练习 app,点首页最下面“我的进步”,再点最下面的“家长入口”,在“同步到家长手机”里输入同步码,点“连上”。英文、科学、数学三个都看一下,已经写着“已同步”的就不用再输。</p></div></div>'+
-        '<div class="row"><span class="n">3</span><div><b>回到这里看</b><p class="muted">他做完一轮,这里就会有记录。</p></div></div></div>'+
-        '<details class="inl"><summary>已经有同步码了(比如家里别人生成过)</summary><div class="inrow"><input class="code" id="sIn" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="9" placeholder="比如 K7QM-3XPA" aria-label="同步码"><button type="button" class="hb" data-s="use">用这个码</button></div><p class="muted" id="sMsg" role="status"></p></details>';
+        '<div class="row"><span class="n">2</span><div><b>在小小的 iPad 上输入</b><p class="muted">打开练习 app，点首页最下面“我的进步”，再点最下面的“家长入口”，在“同步到家长手机”里输入同步码，点“连上”。英文、科学、数学三个都看一下，已经写着“已同步”的就不用再输。</p></div></div>'+
+        '<div class="row"><span class="n">3</span><div><b>回到这里看</b><p class="muted">他做完一轮，这里就会有记录。</p></div></div></div>'+
+        '<details class="inl"><summary>已经有同步码了（比如家里别人生成过）</summary><div class="inrow"><input class="code" id="sIn" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="9" placeholder="比如 K7QM-3XPA" aria-label="同步码"><button type="button" class="hb" data-s="use">用这个码</button></div><p class="muted" id="sMsg" role="status"></p></details>';
     }else{
       var S3=APPS.map(function(a){var e=cloud&&cloud[a[0]];return e?e.S:null;});
       var we=setsDone(S3[0]),ws=setsDone(S3[1]),days=0,today=false,d=new Date();
       for(var i=0;i<7;i++){var k=dk(d);if(S3.some(function(x){return x&&x.days&&x.days[k];})){days++;if(i===0)today=true;}d.setDate(d.getDate()-1);}
       var any=S3.some(function(x){return !!x;});
-      h=(cloudState==="loading"?'<p class="muted">正在读取……</p>':cloudState==="net"?'<p class="muted">现在连不上网络,等一下再打开。</p>':cloudState==="rules"?'<p class="muted">数据库不让读:Firebase 里的“规则”还没设置好。</p>':'')+
+      h=(cloudState==="loading"?'<p class="muted">正在读取……</p>':cloudState==="net"?'<p class="muted">现在连不上网络，等一下再打开。</p>':cloudState==="rules"?'<p class="muted">数据库不让读：Firebase 里的“规则”还没设置好。</p>':'')+
         '<div class="prog">'+APPS.map(function(a,i){var x=S3[i];
-          return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
+          return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录</span></a>';}).join('')+
         (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
              '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/18 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>'+
              enRows(S3[0])+mathRows(S3[2]):'')+'</div>'+
         chPick()+
         '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
-        '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里,都要写着“已同步”。没有的话,在那里输入这个码。家里别人想看,在他们手机的手册里输同一个码。</p>'+
-        (askNew?'<p class="muted">换了以后,iPad 上三个 app 都要重新输入新码。</p><div class="inrow"><button type="button" class="hb" data-s="reset">确定换</button><button type="button" class="hb ghost" data-s="keep">不换了</button></div>'
+        '<p class="muted">小小 iPad 上三个练习 app 的“我的进步 → 家长入口”里，都要写着“已同步”。没有的话，在那里输入这个码。家里别人想看，在他们手机的手册里输同一个码。</p>'+
+        (askNew?'<p class="muted">换了以后，iPad 上三个 app 都要重新输入新码。</p><div class="inrow"><button type="button" class="hb" data-s="reset">确定换</button><button type="button" class="hb ghost" data-s="keep">不换了</button></div>'
                :'<button type="button" class="hb ghost" data-s="ask">换一个码</button>')+'</details>';
     }
     box.innerHTML=h;}
   document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-s]");if(!b)return;var k=b.getAttribute("data-s");
     if(k==="new"){sset(newCode());askNew=false;syncLoad();}
-    else if(k==="use"){var v=sclean((document.getElementById("sIn")||{}).value);if(v.length!==8){var m=document.getElementById("sMsg");if(m)m.textContent="同步码是 8 位,字母和数字。";return;}sset(v);askNew=false;syncLoad();}
+    else if(k==="use"){var v=sclean((document.getElementById("sIn")||{}).value);if(v.length!==8){var m=document.getElementById("sMsg");if(m)m.textContent="同步码是 8 位，字母和数字。";return;}sset(v);askNew=false;syncLoad();}
     else if(k==="ch"){chSet(+b.getAttribute("data-ch"));}
     else if(k==="ask"){askNew=true;renderSync();}
     else if(k==="keep"){askNew=false;renderSync();}
@@ -1114,7 +1217,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   });
 
   /* ===== 现在到哪了: reading level (saved here), science/math from the ticks, word cards and practice days read from the three apps (same site, same storage) ===== */
-  var LVKEY="xx-holiday-level", LVS=["大人读","轮流读","他读多","自己读"], LVN=["大人读,他读一小部分","你一页,我一页","他读大部分","他自己读,读完说一句"], lvMem=1;
+  var LVKEY="xx-holiday-level", LVS=["大人读","轮流读","他读多","自己读"], LVN=["大人读，他读一小部分","你一页，我一页","他读大部分","他自己读，读完说一句"], lvMem=1;
   try{lvMem=parseInt(localStorage.getItem(LVKEY),10)||1;}catch(e){}
   lvMem=Math.min(4,Math.max(1,lvMem));
   function segHTML(cur){var h="";for(var i=1;i<=4;i++)h+='<button type="button" data-lv="'+i+'" aria-pressed="'+(i===cur)+'">'+LVS[i-1]+'</button>';return h;}
@@ -1123,14 +1226,14 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   function dk(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
   function stepOf(list,obj,pre){var n=0,nx=-1;list.forEach(function(w,i){if(obj[pre+(i+1)])n++;else if(nx<0)nx=i;});
     if(nx<0)return '<b>'+list.length+' 个都做完了 ✓</b>';
-    return (n?'<b>做完 '+n+'/'+list.length+'</b> · 下一个:':'下一个:')+'<b>'+list[nx].t+'</b>';}
+    return (n?'<b>做完 '+n+'/'+list.length+'</b> · 下一个：':'下一个：')+'<b>'+list[nx].t+'</b>';}
   function renderProg(){
     var box=document.getElementById("prog");if(!box)return;
     var lv=lvMem;
     box.innerHTML=
       '<div class="pr"><span class="pl">英文阅读</span><span class="pv"><b>'+LVN[lv-1]+'</b></span><div class="seg" data-seg></div></div>'+
-      '<a class="pr" href="#science"><span class="pl">科学主题</span><span class="pv">'+stepOf(WEEKS,done,"wk")+'</span><span class="go">→</span></a>'+
-      '<a class="pr" href="#math"><span class="pl">预习 4A</span><span class="pv">'+stepOf(MWEEKS,mdone,"mw")+'</span><span class="go">→</span></a>';
+      '<a class="pr" href="#science-topics"><span class="pl">科学主题</span><span class="pv">'+stepOf(WEEKS,done,"wk")+'</span><span class="go"></span></a>'+
+      '<a class="pr" href="#math-4a"><span class="pl">预习 4A</span><span class="pv">'+stepOf(MWEEKS,mdone,"mw")+'</span><span class="go"></span></a>';
     document.querySelectorAll("[data-seg]").forEach(function(sg){sg.innerHTML=segHTML(lv);});
     document.querySelectorAll("details.lvl").forEach(function(dt){dt.querySelector("[data-now]").textContent=(+dt.getAttribute("data-lvl")===lv)?"现在用这个":"";});
   }
