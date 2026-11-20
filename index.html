@@ -40,6 +40,8 @@
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.65;-webkit-text-size-adjust:100%;}
 .wrap{max-width:35rem;margin:0 auto;padding-left:max(1rem,env(safe-area-inset-left,0px));padding-right:max(1rem,env(safe-area-inset-right,0px));}
 header{padding-block:1.25rem 0.375rem;}
+.hd-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap}.hd-row h1{margin:0}
+.upd-btn{flex:none;font-size:0.875rem;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:0.375rem 0.875rem;text-decoration:none;white-space:nowrap}
 .eyebrow{font-family:var(--f-latin);font-size:0.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;}
 h1{font-size:1.625rem;font-weight:900;line-height:1.3;margin:4px 0 0;}
 main{padding-block:0.625rem calc(var(--nav-h) + 1.75rem + env(safe-area-inset-bottom,0px));}
@@ -158,7 +160,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 
 <header><div class="wrap">
   <div class="eyebrow">Holiday 2026 · P3 → P4</div>
-  <h1>小小假期学习手册</h1>
+  <div class="hd-row"><h1>小小假期学习手册</h1><a class="upd-btn" href="#updates">更新记录</a></div>
 </div></header>
 
 <main><div class="wrap">
@@ -175,14 +177,16 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <h2>每天做什么</h2>
   <div class="card"><h3>每天必做 · 30 分钟左右</h3>
     <p class="muted"><b>同一个时间、同样的顺序。</b>开始前告诉他今天做哪几样,做完一样勾一样;全部做完就结束,不临时加量。</p><ol>
+    <li><b>拼读 10 分钟</b>(英文页 ①)。</li>
     <li><b>一起读 10 分钟</b>:用他现在的读法(英文页)。</li>
-    <li><b>拼读 10 分钟</b>。</li>
     <li><b><a href="#practice">练习 app</a></b>:做完首页的“今天的任务”就停。英文、数学、科学轮着来,一天一个;<b>周一</b>用英文 app 学新的一组单词卡。</li>
+    <li><b>写作工坊“基本功”一轮</b>:英文 app 里,8 题,5 分钟。</li>
     <li><b>睡前听书</b>,不算在时间里。</li>
   </ol></div>
   <div class="card"><h3>每周两三次</h3><ul>
     <li><b>数学 15 分钟</b>:预习 4A 一小步 + 复习一类常错的题;应用题按数学页的“读题三步”,在纸上画线段图。</li>
     <li><b>科学一个主题</b>:先听或读,再出门看或动手,回来说一说。开始新主题那天,在科学 app 学同一主题的单词卡。</li>
+    <li><b>作文一次</b>:一套作文小卷(30–40 分钟),或英文 app 写作工坊的一套连环图。做法看英文页“作文”。一周最多两次。</li>
     <li><b>华文书</b>:读一本他喜欢的。华文是强项,别停。</li>
   </ul></div>
   <div class="card"><h3>有空再做</h3><ul>
@@ -193,7 +197,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 
   <h2>下学期(P4 上半年)学什么</h2>
   <div class="card prog">
-    <a class="pr" href="#english"><span class="pl">英文</span><span class="pv">理解题变成两篇、文章更长;有的学校加看图文和改错</span><span class="go">→</span></a>
+    <a class="pr" href="#english"><span class="pl">英文</span><span class="pv">理解题变成两篇、文章更长;作文变成“题目 + 3 张图”;有的学校加看图文和改错</span><span class="go">→</span></a>
     <a class="pr" href="#science"><span class="pl">科学</span><span class="pv">植物各部分、消化系统、物质三态、光和影子、热</span><span class="go">→</span></a>
     <a class="pr" href="#math"><span class="pl">数学</span><span class="pv">十万以内的数、因数和倍数、乘除、折线图、分数、角、长方形和正方形</span><span class="go">→</span></a>
   </div>
@@ -203,18 +207,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>短短做、常常做,比一次做一小时有用</li>
     <li>先做得完,再加难度;喜欢的书反复读</li>
     <li>夸具体的事:“这段第三遍读得好顺!”<br><a href="#praise" data-jump="praiseTop">现成的话在这页最下面 ↓</a></li>
-    <li>练习 app 每天 10 分钟以内,不拿它代替读书</li>
+    <li>练习 app 每天 10 分钟以内(作文小卷和写作工坊的连环图另算,一周一两次),不拿它代替读书</li>
     <li>累了就停</li>
   </ul></div>
 
-  <details class="more"><summary>开学第一周可以问学校的事</summary><div class="body"><ol>
-    <li>学校有没有给 P3–P4 的英文读写小组辅导?他现在在不在里面?</li>
-    <li>开学能不能请英文老师给他做一次阅读评估?</li>
-    <li>如果评估结果支持,考试的特别安排(比如延长时间、有人读题、放大字体、安静的考场)要学校申请,怎么申请?数学和科学考试能不能有人读题?</li>
-    <li>学校有没有学习支援的辅助老师(AED)?他有没有在跟进?家里要怎么配合?</li>
-    <li>升 P4 会换老师、换教室:开学前能不能先去看看教室、认识新老师?课表能不能先给他看?</li>
-    <li>高级华文要不要考虑?什么时候要决定?</li>
-  </ol><p class="muted">最好约班主任和英文老师当面谈一次,把在家的情况讲清楚。目的是拿到学校的支持。</p></div></details>
 
   <h2 id="praiseTop">夸夸:现成的话</h2>
   <div class="card soft"><p class="big">夸他做了什么,不夸他聪明。<br>说具体、看得见的事,说一次就够。</p></div>
@@ -254,6 +250,13 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p>“改对了,就是学会了。”</p>
     <p>“今天到这里,你做了很多了。”</p>
   </div></details>
+  <details class="more"><summary>写作文时</summary><div class="body say">
+    <p>“你这篇从头到尾都是 he,一次都没换。”</p>
+    <p>“你先说了一遍再写,写得顺多了。”</p>
+    <p>“第 4 段有结局了。”</p>
+    <p>“这句你用了句号,下一句也大写了。”</p>
+    <p>“这个词你放对格子了,是兔子做的。”</p>
+  </div></details>
   <details class="more"><summary>对别人好的时候</summary><div class="body say">
     <p>“你教了他那一题,你是个好老师。”</p>
     <p>“你等妹妹先玩,很体贴。”</p>
@@ -268,7 +271,6 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   </ul></div>
   <div class="card no"><b>尽量不说:</b>“你真聪明” · “这么简单” · “你看人家” · “怎么又错了” · “笨”</div>
 
-  <a class="btn" href="#updates">手册更新记录</a>
 </section>
 
 <!-- ===== 英文 ===== -->
@@ -292,7 +294,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
         <tr><th>什么</th><th>多久</th><th>多少次</th><th>谁陪</th></tr>
         <tr><td>拼读</td><td>10 分钟</td><td>每天</td><td>家里大人</td></tr>
         <tr><td>一起读书</td><td>10–15 分钟</td><td>每天</td><td>家里大人;一周 3–4 次视频陪读</td></tr>
-        <tr><td>英文 app 基本功一轮</td><td>5 分钟</td><td>每天</td><td>他自己</td></tr>
+        <tr><td>写作工坊基本功一轮</td><td>5 分钟</td><td>每天</td><td>他自己</td></tr>
         <tr><td>听书</td><td>随意</td><td>睡前</td><td>他自己</td></tr>
         <tr><td>作文小卷</td><td>30–40 分钟</td><td>一周 1–2 套</td><td>大人带着看范文,拍照发来</td></tr>
       </table></div>
@@ -319,6 +321,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card">
     <span class="tag">10 分钟</span><h3>② 一起读</h3>
     <p>用他现在的读法(看下面)。读错了只轻轻纠正影响意思的;用卡片压住正在读的那一行。</p>
+    <p><b>读什么:</b>英文 app 家长入口里的「一起读」有 30 篇短文,带三个问题和这篇的词;也有打印版《30 天精读 · 每天一页》,第几天就是第几篇。读书的话看下面的四种读法。</p>
     <p>读出声只在一对一时做(一个大人陪着,或视频陪读)。不要当着亲戚、客人或兄弟姐妹让他“读给大家听”:读错了被人看着,他会怕读、躲着读。</p>
   </div>
   <div class="card">
@@ -403,7 +406,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li><b>从喜欢的东西开始</b>:游戏里本来就有很多词(<span class="en">collect · defeat · obstacle · unlock · explore</span>)。打完一关,用 <span class="q">First… Then… Finally…</span> 讲一遍。</li>
     <li><b>猜词游戏</b>:大人用中文说意思,孩子说英文词;也可以反过来。不懂英文的大人也能玩,发音用 app 的朗读听。</li>
   </ul></div></details>
-  <details class="more"><summary>英文单词卡 17 组(和 app 里一样)</summary><div class="body">
+  <details class="more"><summary>英文单词卡 18 组(和 app 里一样)</summary><div class="body">
     <p><b>第 1 组 · 感受 1</b><br><span class="en">delighted <span class="muted">很高兴的</span> · nervous <span class="muted">紧张的</span> · furious <span class="muted">非常生气的</span> · exhausted <span class="muted">筋疲力尽的</span> · curious <span class="muted">好奇的</span></span></p>
     <p><b>第 2 组 · 感受 2</b><br><span class="en">proud <span class="muted">自豪的</span> · worried <span class="muted">担心的</span> · relieved <span class="muted">松了一口气的</span> · lonely <span class="muted">孤单的</span> · frightened <span class="muted">害怕的</span></span></p>
     <p><b>第 3 组 · 怎么走、怎么跑</b><br><span class="en">rush <span class="muted">赶紧去</span> · creep <span class="muted">悄悄地走</span> · stumble <span class="muted">绊了一下</span> · wander <span class="muted">闲逛</span> · dash <span class="muted">猛冲</span></span></p>
@@ -421,6 +424,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p><b>第 15 组 · 长得像的词</b> <span class="muted">Look-alike words</span><br><span class="en">recipe <span class="muted">食谱</span> · menu <span class="muted">菜单</span> · ingredients <span class="muted">原料</span> · fee <span class="muted">费用（门票、学费）</span> · fare <span class="muted">车费</span></span></p>
     <p><b>第 16 组 · 习语</b> <span class="muted">Sayings</span><br><span class="en">as quiet as a mouse <span class="muted">非常安静</span> · as strong as an ox <span class="muted">非常强壮</span> · like two peas in a pod <span class="muted">长得一模一样</span> · butterflies in my stomach <span class="muted">心里发慌、很紧张</span> · stuck out like a sore thumb <span class="muted">特别显眼</span></span></p>
     <p><b>第 17 组 · 难拼的词</b> <span class="muted">Tricky spellings</span><br><span class="en">embarrassed <span class="muted">难为情的</span> · immediately <span class="muted">马上</span> · beautiful <span class="muted">美丽的</span> · disappeared <span class="muted">消失了</span> · shelves <span class="muted">架子（复数）</span></span></p>
+    <p><b>第 18 组 · 作文里拼错过的词</b> <span class="muted">My writing words</span><br><span class="en">computer <span class="muted">电脑</span> · assessment <span class="muted">测验、考试</span> · pavement <span class="muted">人行道</span> · consequences <span class="muted">后果</span> · apologised <span class="muted">道歉了</span></span></p>
   </div></details>
 
   <h2>语法:按格子练</h2>
@@ -460,7 +464,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
       <li><b>学的时候</b>:同样的句子空出小词,四选一,有用法提示。</li>
       <li><b>复习时</b>:不给提示;熟了以后还会问“哪一句的小词用错了”。</li>
     </ol>
-    <p class="muted">首页紫色“Phrases 介词词组”方块进地图,25 组按顺序闯关:常用词组 → 语法选择 → 语法完形 → 开放式完形 → 短语动词。每 3 组一个复习站。四个选项里不会出现另一个也对的词。</p>
+    <p class="muted">首页「单词铁路」里的“介词词组”车票进地图,25 组按顺序闯关:常用词组 → 语法选择 → 语法完形 → 开放式完形 → 短语动词。每 3 组一个复习站。四个选项里不会出现另一个也对的词。</p>
   </div>
   <div class="card say"><p><b>日常练法</b>:一起读书时,读到这类词组就停一下,让他说出后面那个小词。每天 2 到 3 个就够。</p></div>
   <details class="more"><summary>时间和地点的小规则</summary><div class="body"><ul>
@@ -485,6 +489,27 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <tr><td>12</td><td>短语动词 2</td><td class="en">look <b class="pp-k">up</b> · put <b class="pp-k">out</b> · give <b class="pp-k">up</b> · break <b class="pp-k">down</b> · come up <b class="pp-k">with</b></td></tr>
   </table></div></div></details>
 
+  <h2>作文:先看图,再说,再写</h2>
+  <div class="card"><h3>写之前:看图 · 分格子 · 找主人</h3><ul>
+    <li><b>框里的词是打乱的</b>,不是按顺序用。先看图,给每个词标上它在第几格。</li>
+    <li><b>问“这是谁做的”</b>:有的词是孩子做的,有的是大人或动物的。标上主人,写的时候就不会全写成 we。</li>
+    <li><b>第 4 格自己编结局</b>:发生了什么,最后怎样了,学到什么。</li>
+  </ul></div>
+  <div class="card"><h3>写的时候:四条规则</h3><ol>
+    <li><b>人称选好一个,从头到尾不变。</b>写别人就一直用名字 / <span class="en">he / she / they</span>;题目说 <span class="en">a time when you…</span> 就一直用 <span class="en">I / we</span>。“他们”是 <span class="en">they</span>,不是 <span class="en">there</span>。</li>
+    <li><b>故事全用过去式</b>:<span class="en">went、saw、-ed</span>,不用 <span class="en">is playing、will</span>。</li>
+    <li><b>一件事一句话</b>:句号结束,下一句开头大写,不用逗号连成一长串。</li>
+    <li><b>每段 3 句</b>:发生了什么 + 他觉得怎样 + 他说了什么。第 4 段一定要有结局。</li>
+  </ol></div>
+  <div class="card"><h3>先说再写,写完三查</h3><ul>
+    <li><b>先说再写</b>:看着计划,把故事从头到尾讲一遍,讲不出的词可以用中文。讲顺了再写。</li>
+    <li><b>写完三查</b>:都是过去式吗?每句开头大写、结尾有句号吗?人称从头到尾一样吗?</li>
+    <li><b>大人怎么改</b>:范文写完才看,大人带着看。每篇只改一两个点,比如这篇只看过去式和句号;先说他写得好的地方。</li>
+  </ul></div>
+  <div class="card"><h3>两种题型,先练哪种</h3>
+    <p><b>P3</b> 一半是连环图(4 格,第 4 格自己编结局),一半是“题目 + 3 张图”;<b>P4 全部是“题目 + 3 张图”</b>,至少 120 词。</p>
+    <p><b>练的顺序</b>:先做英文 app 写作工坊的 9 套连环图和连环图小卷(第 1–9 套);格子和人称稳了,再做题目式小卷(第 10–18 套)。</p></div>
+
   <h2>要动笔的题型</h2>
   <div class="card"><ul>
     <li><b>开放式完形</b>:一半以上的空填小词,固定搭配最多(<span class="en">look forward to、instead of、a sigh of relief</span>),就是上面介词词组练的。读完空格前后各 5 个词,先问“这里缺的是什么词”。</li>
@@ -503,8 +528,8 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <p class="muted">P4 和 P3 大体一样,但理解题变成两篇、分数更多,有的学校还加了“看图文”和“改错”。各校格式略有不同,以学校明年发的 P4 考试通知为准。假期不用刷题,一次几题就好,重点还是常常读。</p>
     <h3>阅读理解 · 两篇,分数最多</h3>
     <p>P4 通常有两篇理解,开放题加起来约 18 分,比 P3 多一倍。要能读完较长的文章。<br><b>在家练:</b>常常读书就是在练;读完照上面的问题问他,回答用题目里的词开头、写完整句子。</p>
-    <h3>作文 · 看图写故事</h3>
-    <p>还是写一篇故事(约 50 分钟,20 分),要写得比 P3 长一些。<br><b>在家练:</b>读完一章,让他用 “First… Then… After that… Finally…” 说一遍,再写 2–3 句。他说、大人帮着记下来也算。</p>
+    <h3>作文 · 题目 + 3 张图</h3>
+    <p>P4 作文给一个题目(比如 <span class="en">a kind act、a mistake、a time you were lost</span>),配 3 张不按顺序的图和几个提示问题,可以只用其中一两张图,至少 120 词(约 50 分钟,20 分)。近三年外校 P4 卷全是这种;他学校的以 P4 考试通知为准。<br><b>在家练:</b>先把 P3 连环图练稳,再做题目式小卷(看上面“作文”);读完一章,用 “First… Then… After that… Finally…” 说一遍。</p>
     <h3>语法 · 选择和填空</h3>
     <p>语法选择约 10 题、语法填空约 8 题。时态、主谓一致、代词、介词、连接词、可数和不可数还是重点。<br><b>在家练:</b>一起读书时,遇到一个就指出来,比如 <span class="en">was eating</span>、<span class="en">a few</span>。</p>
     <h3>词汇 · 选词</h3>
@@ -692,7 +717,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">小小的练习 app 和做题记录,<br>都在这一页。</p></div>
 
   <h2>练习 app</h2>
-  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 数学小岛、线段图、预习 4A</a>
+  <div class="card"><p>英文、科学、数学选择题,每轮 5 题,没事做几题。</p><a class="btn" href="english/?from=handbook">英文练习 · 写作工坊、语法、词汇、阅读</a><a class="btn" href="science/?from=handbook">科学练习 · P3 复习、P4 预习</a><a class="btn" href="math/?from=handbook">数学练习 · 数学小岛、线段图、预习 4A</a>
     <p class="muted"><b>小小用自己的 iPad 做:</b>在 iPad 的 Safari 里打开手册的这一页,点进每个练习,各自“添加到主屏幕”,以后都从图标打开。</p></div>
 
   <div id="syncSec" class="view" hidden>
@@ -704,7 +729,9 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <details class="more"><summary>练习 app 里有什么</summary><div class="body"><ul>
     <li><b>每轮 5 题</b>:英文分语法、词汇、阅读;科学分 P3 复习和 P4 预习;数学是数学小岛(应用题地图)、线段图和预习 4A。</li>
     <li><b>今天的任务</b>:首页上 2–3 件事,做完一件亮一件,全亮就是今天做完了,可以停。</li>
-    <li><b>英文</b>:语法按格子出题(答错只给一句“看哪个线索词”);词汇有“找证据词”;代词完形一空一空做;首页紫色“Phrases 介词词组”,一周两组;“Words 词汇题”每轮 5 题里有 2 题是拼一拼。</li>
+    <li><b>英文 · 写作工坊</b>:首页最上面的大格子。第一次打开要输入他的英文名字。9 套连环图,每套三步:放格子 · 找主人 → 拼句子 → 纸上写;“基本功”一轮 8 题(时态、人称、断句、感觉和对话、词组意思);“听写”每天 3 句,写在纸上再对一对。</li>
+    <li><b>英文 · 单词铁路</b>:单词卡和介词词组两张车票,各自写着下一站;每 3 站一个复习站,旁边有工具箱。</li>
+    <li><b>英文 · 其他</b>:语法按格子出题(答错只给一句“看哪个线索词”);词汇有“找证据词”;代词完形一空一空做;“Words 词汇题”每轮 5 题里有 2 题是拼一拼。</li>
     <li><b>画线段图</b>(数学):点开是图鉴,17 种图都能直接选,“⭐ 推荐”挑他自己做对最少的一种。8 种自己搭格子(几倍、几倍 + 相差、和差、三个量、前后变化倒推、给多少才一样多、买了以后反过来多),9 种看图标数(图画好了,把数字和问号放上去,再用图算)。</li>
     <li><b>数学小岛</b>:应用题地图,每题四步:看问题 → 划重点 → 选图并在画好的图上标数字 → 算答案。“练习”页的做题记录里能看每一步的正确率。</li>
     <li><b>应用题</b>:数学、科学的题一句一行,数字加粗,问句前面标“问”;分步的题第一步先问“这题要你求什么”(选项是中文)。</li>
@@ -714,7 +741,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li><b>我的进步</b>:首页最下面,小小自己看的,只说他做到了什么。</li>
     <li><b>朗读的声音</b>:默认用设备设置里打勾的英文声音。想用 Kate(英国口音):在 iPad 的 设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里下载 Kate 并打勾。家长入口最下面可以试听、换一个。</li>
     <li><b>数学预习 4A</b>:四年级题按课本 8 章出,有的题带图(折线图、角、长方形)。在手册“练习”页选“这周预习第几章”(iPad 的家长入口里也能选),题目就多出这一章;每天的一轮里有 3 题是 4A。</li>
-    <li><b>家长入口</b>:“我的进步”最下面的小字,里面是完整记录、复制报告和同步码。数据库万一不工作,也能在 iPad 上看这里。</li>
+    <li><b>家长入口</b>:“我的进步”最下面的小字,里面是完整记录、复制报告和同步码。数据库万一不工作,也能在 iPad 上看这里。英文 app 的家长入口里还有大人用的「一起读」(30 篇短文)和「一分钟朗读」(每月一次,记下读对了多少个词)。</li>
   </ul></div></details>
 </section>
 
@@ -723,6 +750,12 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新,都记在这里。<br>新的在最上面。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的,就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.45 · 11 月 19 日</span><h3>手册:作文一节、更新记录按钮</h3><ul>
+    <li>英文页加了“作文:先看图,再说,再写”:写之前分格子、找主人;写的时候四条规则(人称不变、过去式、一件事一句话、每段 3 句);先说再写、写完三查;先练连环图,再练题目式。</li>
+    <li>P4 作文改正为“题目 + 3 张图”,至少 120 词(近三年外校 P4 卷全是这种)。</li>
+    <li>总览的每天安排和英文页统一:拼读、一起读、练习 app 一轮、写作工坊基本功一轮;作文一周最多两次。</li>
+    <li>“一起读”写明去哪找短文(app 里 30 篇、打印版 30 天精读);单词卡改成 18 组;练习页补上写作工坊、单词铁路、一起读和一分钟朗读。</li>
+    <li>夸夸话加了“写作文时”一组。更新记录挪到标题旁边的按钮。总览里“开学可以问学校的事”拿掉了。</li></ul></div>
   <div class="card"><span class="tag">v4.44 · 11 月 19 日</span><h3>一起读增加到 30 篇,配 30 天精读 PDF</h3><ul>
     <li>英文 app 家长入口的「一起读」从 20 篇加到 30 篇,新加的 10 篇也是从真题短文改写的。</li>
     <li>另有一份《30 天精读_每天一页》A4 打印版:第几天就是 app 里第几篇,每页一篇短文、这篇的词、三个问题和写答案的横线,答案在最后两页。</li></ul></div>
@@ -1289,7 +1322,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
         '<div class="prog">'+APPS.map(function(a,i){var x=S3[i];
           return '<a class="pr" href="'+a[0]+'/?remote=1&amp;from=handbook"><span class="pl">'+a[1]+'</span><span class="pv">'+(x&&lastSess(x)?sessText(lastSess(x)):'<span class="muted">还没传过记录</span>')+'</span><span class="go">看记录 →</span></a>';}).join('')+
         (any?'<div class="pr"><span class="pl">最近 7 天</span><span class="pv">练了 <b>'+days+'</b> 天 · '+(today?'今天练过了':'今天还没练')+'</span></div>'+
-             '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/17 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>'+
+             '<div class="pr"><span class="pl">单词卡</span><span class="pv">'+((we||ws)?'英文 <b>'+we+'</b>/18 组 · 科学 <b>'+ws+'</b>/8 组':'还没开始 · 周一在英文 app 学第 1 组')+'</span></div>'+
              enRows(S3[0])+mathRows(S3[2]):'')+'</div>'+
         chPick()+
         '<details class="inl"'+(askNew?' open':'')+'><summary>同步码 '+pretty(c)+'</summary>'+
