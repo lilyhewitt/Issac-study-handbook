@@ -41,7 +41,16 @@ for(const [dev,scheme] of [['iPhone 13','light'],['iPad (gen 7) landscape','dark
   await p.click('#prog [data-lv="1"]');
   // progress rows go to the right pages
   await p.click('#prog a[href="#math-4a"]');await p.waitForTimeout(150);ok(await p.isVisible('#mweeks'),dev+': 预习 4A row opens the 8 steps');
-  await p.goto(U+'#updates');await p.waitForTimeout(150);ok(await p.isVisible('#v-updates .bar')&&(await p.textContent('#v-updates')).includes('v4.47'),dev+': update log opens with a Back bar');
+  // read-together entry on the English tab, and the science textbook pane under 下学期学什么
+  await p.goto(U+'#english');await p.waitForTimeout(150);
+  ok((await p.textContent('#v-english a.ent')).includes('一起读'),dev+': 一起读 is the first entry on the English tab');
+  await p.click('#v-english a.ent[href="#english-together"]');await p.waitForTimeout(120);
+  ok(await p.isVisible('#v-english-together a.btn[href^="english/"]')&&(await p.textContent('#v-english-together')).includes('30 篇'),dev+': the read-together page opens with the app button');
+  await p.goto(U+'#overview-next');await p.waitForTimeout(150);
+  ok(await p.isVisible('[data-pane="n1"].pane')&&!(await p.isVisible('[data-pane="n2"].pane')),dev+': 下学期学什么 opens on 三科概览');
+  await p.click('#v-overview-next .segc button[data-pane="n2"]');await p.waitForTimeout(100);
+  ok(await p.isVisible('[data-pane="n2"].pane')&&(await p.textContent('[data-pane="n2"].pane')).includes('热的效应')&&(await p.$$('[data-pane="n2"] .li')).length>=10,dev+': 科学课本 pane lists the seven P4 chapters');
+  await p.goto(U+'#updates');await p.waitForTimeout(150);ok(await p.isVisible('#v-updates .bar')&&(await p.textContent('#v-updates')).includes('v4.4'),dev+': update log opens with a Back bar');
   await p.goto(U+'#nowhere');await p.waitForTimeout(150);ok(await p.isVisible('#v-overview'),dev+': an unknown link falls back to the overview');
 }
 // punctuation: no ASCII , : ; ( ) ? ! touching Chinese in the visible text
