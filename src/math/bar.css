@@ -66,3 +66,14 @@
 .bc-i.got{border-color:var(--good);background:var(--good-bg)}
 @media (min-width:700px){.bc-g{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (min-width:1000px){.bc-g{grid-template-columns:repeat(5,minmax(0,1fr))}#vBarCat{max-width:60rem;margin:0 auto}}
+/* 线段图路线 */
+.pt-intro{color:var(--ink-2);margin:0.25rem 0 0.75rem;line-height:1.6;text-align:center}
+.pt-go{display:block;margin:0 auto 0.75rem;max-width:100%}
+.pt-list{display:flex;flex-direction:column;gap:0.5rem;max-width:44rem;margin:0 auto}
+.pt-g{margin:0.75rem 0 0.125rem;font-family:var(--f-display);font-size:1rem;color:var(--ink-2)}
+.pt-st{display:flex;align-items:center;gap:0.75rem;text-align:left;background:var(--surface);color:var(--ink);border:2.5px solid var(--line);border-radius:1rem;padding:0.55rem 0.85rem;font:inherit;cursor:pointer;min-height:3rem}
+.pt-st b{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;background:var(--line);flex:none;font-size:.95rem}
+.pt-st .t{flex:1;min-width:0;font-weight:800}.pt-st small{display:block;font-weight:500;color:var(--ink-2);font-size:.85rem;margin-top:0.1rem}
+.pt-st .r{font-size:.85rem;color:var(--ink-2);white-space:nowrap}
+.pt-st.done b{background:var(--good,#2f9e7a);color:#fff}
+.pt-st.now{border-color:var(--mix)}.pt-st.now b{background:var(--mix);color:var(--on-mix)}

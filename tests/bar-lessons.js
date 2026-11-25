@@ -9,7 +9,7 @@ ok(await p.isVisible('#tBar'),'home has the 画线段图 tile: '+(await p.innerT
 ok((await p.innerText('#tasks')).includes('画一题线段图'),'today\'s tasks include 画一题线段图');
 const txt=s=>p.innerText(s);const msg=()=>txt('#brMsg');
 const ev=q=>{const m=q.match(/=\s*([\d\s×÷+−-]+)=\s*\?/)||q.match(/[:：]\s*([\d\s×÷+−-]+)=\s*\?/);if(!m)return null;try{return String(eval(m[1].replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-')));}catch(e){return null;}};
-async function solve(ti,right,shot){if(!(await p.isVisible('#vBar')))await p.click('#tBar');if(await p.isVisible('#brTypes'))await p.click('#brTypes');await p.click(`[data-bt="${ti}"]`);await p.waitForTimeout(80);
+async function solve(ti,right,shot){if(!(await p.isVisible('#vBar')))await p.click('#tBar');if(await p.isVisible('#ptBook'))await p.click('#ptBook');if(await p.isVisible('#brTypes'))await p.click('#brTypes');await p.click(`[data-bt="${ti}"]`);await p.waitForTimeout(80);
   const P=(await txt('#brP')).replace(/\n/g,' ');const nm=(P.match(/^(.+?) (?:has|and|had) /)||[0,''])[1];
   if(await p.isVisible('#brDone')){
     if(right){const k=/twice/.test(P)?2:+(P.match(/(\d) times/)||[0,1])[1];

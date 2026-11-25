@@ -126,7 +126,7 @@ def edition(app):
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'island.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
         s = s[:i] + read('math', 'island.css') + read('math', 'ocean.css') + s[i:]
-        s = rep(s, 'function home(){', read('math', 'island-icons.js') + '\n' + read('math', 'island-data.js') + '\n' + read('math', 'island-fig.js') + '\n' + read('math', 'island.js') + '\n' + read('math', 'bar2.js') + '\nfunction home(){')
+        s = rep(s, 'function home(){', read('math', 'island-icons.js') + '\n' + read('math', 'island-data.js') + '\n' + read('math', 'island-fig.js') + '\n' + read('math', 'island.js') + '\n' + read('math', 'bar2.js') + '\n' + read('math', 'path.js') + '\nfunction home(){')
     return s
 
 def page(app, db):
