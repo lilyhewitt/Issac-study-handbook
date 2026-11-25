@@ -1428,7 +1428,7 @@ const DEM=[
 ['Can you pass me ___ book over there?',['that','this','these','those'],'over there 远处、一本 → **that**。'],
 ['___ children sitting next to me are my cousins.',['These','This','That','Those'],'next to me 很近、很多人 → **These**。'],
 ['Do you see ___ tall building far away?',['that','this','these','those'],'远处、一栋 → **that**。'],
-['I picked ___ flowers in my hand from the garden.',['these','this','that','those'],'在手里（近）、很多朵 → **these**。'],
+['Look at ___ flowers in my hand. I picked them from the garden.',['these','this','that','those'],'在手里（近）、很多朵 → **these**。'],
 ['___ is my house over there, the one with the red roof.',['That','This','These','Those'],'over there 远处、一栋 → **That**。'],
 ];
 G('gram','this · that · these · those',1,.5,()=>{const [q,o,ex]=pick(DEM);return mk({q,zh:'近还是远？一个还是很多？',a:o[0],d:o.slice(1),ex});});
@@ -2127,7 +2127,7 @@ const P4ITEMS={
 ['The thief ran away while the shopkeeper ___ a customer.',['was serving','served','is serving','were serving'],'shopkeeper 一个人，正在做的事用 was + ing → **was serving**。',3],
 ['When the fire alarm rang, the pupils ___ their lunch in the canteen.',['were having','had','are having','was having'],'正在吃，警报突然响；pupils 很多人 → **were having**。',3],
 ['Ben ___ along the corridor when he slipped on the wet floor.',['was running','ran','is running','were running'],'正在跑，突然滑倒 → **was running**。',3],
-['The lights went out when the whole family ___ dinner together.',['was having','were having','is having','had'],'正在吃，灯突然灭；the whole family 算一个 → **was having**。',3],
+['The lights went out when Grandma ___ dinner in the kitchen.',['was cooking','were cooking','is cooking','cooks'],'正在煮饭，灯突然灭；Grandma 一个人 → **was cooking**。',3],
 ['My parents ___ in the living room when the thunder struck.',['were chatting','chatted','was chatting','chat'],'正在聊，突然打雷；parents 很多人 → **were chatting**。',3],
 ['Nobody noticed the cat sneaking in because everyone ___ to the magician.',['was listening','were listening','listened','listens'],'当时大家正在听；everyone 算一个 → **was listening**。',3]],
 'many · a few · 可数':[
@@ -2148,11 +2148,11 @@ const P4ITEMS={
 ['Mr Tan told his sons that he would paint the fence ___.',['himself','themselves','yourself','ourselves'],'刷漆的是爸爸（he），不是儿子 → **himself**。',3],
 ['"You two should be ashamed of ___!" said the teacher to the boys.',['yourselves','yourself','themselves','ourselves'],'对两个人说“你们自己” → **yourselves**。',3],
 ['The robot switched ___ off after ten minutes.',['itself','himself','themselves','myself'],'robot 是一个东西 → **itself**。',3],
-['After the long hike, we treated ___ to ice cream.',['ourselves','themselves','ourself','myself'],'We（我们）→ **ourselves**。',3]],
+['After the long hike, we treated ___ to ice cream.',['ourselves','themselves','yourselves','myself'],'We（我们）→ **ourselves**。',3]],
 'Question tags · 反问句尾':[
 ['Nobody called last night, ___?',['did they','didn’t they','was it','wasn’t it'],'Nobody 是否定意思，后面用肯定；代词用 they → **did they**。',3],
 ['Let’s go for a swim, ___?',['shall we','will we','don’t we','aren’t we'],'Let’s … 后面固定用 **shall we**。',3],
-['I am late, ___?',['aren’t I','am I','don’t I','isn’t I'],'I am 的反问固定用 **aren’t I**。',3],
+['I am late, ___?',['aren’t I','am I','don’t I','wasn’t I'],'I am 的反问固定用 **aren’t I**。',3],
 ['There is a spider on the wall, ___?',['isn’t there','isn’t it','is there','doesn’t it'],'There is … → **isn’t there**（There 不换成 it）。',3],
 ['Everyone has finished the test, ___?',['haven’t they','hasn’t it','have they','didn’t they'],'Everyone 用 they，前面是 has（肯定）→ **haven’t they**。',3],
 ['The children had never seen snow before, ___?',['had they','hadn’t they','did they','didn’t they'],'never 是否定意思，后面用肯定；前面是 had → **had they**。',3]],
@@ -2160,7 +2160,7 @@ const P4ITEMS={
 ['"I like ___ red dress in the shop window across the road."',['that','those','this','these'],'across the road（远）+ 一件 → **that**。',3],
 ['"___ scissors in my hand are very sharp," said Dad.',['These','Those','This','That'],'在我手上（近）+ scissors 是复数 → **These**。',3],
 ['"Could you carry ___ boxes over there to the storeroom?"',['those','these','that','this'],'over there（远）+ 很多个 → **those**。',3],
-['"Hello, ___ is Mei speaking."',['This','That','These','It'],'打电话说自己是谁 → **This** is …。',3]],
+['"Are ___ your gloves on the chair over there?" asked Mum.',['those','these','that','this'],'over there（远）+ gloves 是复数 → **those**。',3]],
 'Joining words · 连接词':[
 ['___ it was raining heavily, the match went on as planned.',['Although','Because','Unless','So'],'前后相反（下大雨，比赛照常）→ **Although**。',3],
 ['You will not pass the test ___ you revise your work.',['unless','although','because','until'],'不复习就不会过 = 除非复习 → **unless**。',3],
@@ -2213,11 +2213,11 @@ cell('While … · 过去进行时',1,[
 ['We ___ TV when we heard a loud bang.',['were watching','watched','are watching','was watching'],'正在看，突然一声响；We → **were watching**。',1],
 ['Ali ___ his bicycle when he fell.',['was riding','rode','is riding','were riding'],'正在骑，突然摔倒 → **was riding**。',1],
 ['The baby ___ when the doorbell rang.',['was sleeping','slept','is sleeping','were sleeping'],'正在睡，门铃突然响 → **was sleeping**。',1],
-['While Siti ___ her homework, her brother played games.',['was doing','did','does','were doing'],'While + 正在做的事 → **was doing**。',2],
+['While Siti ___ her homework, the doorbell rang.',['was doing','did','does','were doing'],'正在做作业，门铃突然响 → **was doing**。',2],
 ['As the boys ___ to school, they saw a rainbow.',['were walking','walked','walk','was walking'],'As + 正在做的事，boys 很多人 → **were walking**。',2],
-['While everyone ___ lunch, Kai went to the library.',['was eating','ate','were eating','eats'],'While + 正在做；everyone 算一个 → **was eating**。',2],
+['While everyone ___ lunch, the fire alarm went off.',['was eating','ate','were eating','eats'],'正在吃，警报突然响；everyone 算一个 → **was eating**。',2],
 ['Grandma ___ in the garden when it began to rain.',['was working','worked','works','were working'],'正在干活，突然下雨 → **was working**。',2],
-['While Dad ___ the car, I washed the windows.',['was washing','washed','washes','were washing'],'While + 正在做的事 → **was washing**。',2],
+['While Dad ___ the car, it started to rain.',['was washing','washed','washes','were washing'],'正在洗车，突然下雨 → **was washing**。',2],
 ['The birds ___ loudly when we woke up this morning.',['were singing','sang','sing','was singing'],'我们醒来时鸟正在叫；birds 很多只 → **were singing**。',2],
 ],'一件事正在做，另一件事突然发生：正在做的那件用 was / were + ing。');
 cell('many · a few · 可数',1,[
@@ -2324,8 +2324,8 @@ G('gram','Subject and verb · 主谓一致',2,.8,()=>{const [q,o,ex]=pick(SVA);r
 const PCL=[
 ['Mei and Jun went to the beach. {They} built a big sandcastle. A wave came and washed {it} away. Mei laughed and said, "Let’s build {it} again!"',
  ['开头做事的是 Mei and Jun 两个人 → They。','被冲走的是 sandcastle（一个东西）→ it。','再建的还是那个 sandcastle → it。']],
-['Ravi has a little dog. {Its} name is Lucky. Every evening, Ravi takes {him} for a walk. Lucky always wags {his} tail when he sees Ravi.',
- ['“它的”名字，名词 name 前面 → Its。','Ravi 带“他”（Lucky）去散步，放在动词后面 → him。','“他的”尾巴，名词 tail 前面 → his。']],
+['Ravi has a little dog. {Its} name is Lucky. Every evening, Ravi takes {it} for a walk. Lucky always wags {its} tail when it sees Ravi.',
+ ['“它的”名字，名词 name 前面 → Its。','Ravi 带“它”（Lucky）去散步，放在动词后面 → it。','“它的”尾巴，名词 tail 前面 → its。']],
 ['Grandma lives with {us}. She tells my brother and {me} stories every night. {We} love her stories very much.',
  ['住在“我们”家，放在 with 后面 → us。','my brother and ___ 放在动词后面 → me。','开头做事的是我和弟弟 → We。']],
 ['The children found a bird with a broken wing. {They} put {it} in a box. Their teacher helped {them} to take care of the bird.',
@@ -2362,7 +2362,7 @@ const CLUE=[
 ['A ___ of sheep followed the farmer.',['flock','herd','troop','swarm'],'sheep','一群羊 → flock。'],
 ['A ___ of monkeys swung from tree to tree.',['troop','flock','herd','swarm'],'monkeys','一群猴子 → troop。'],
 ['A ___ of bees flew out of the hive.',['swarm','troop','flock','herd'],'bees','一群蜜蜂 → swarm。'],
-['Kai did not want to share his toys, so he gave them to his sister ___.',['reluctantly','eagerly','happily','proudly'],'did not want to','不想做但还是做了 → reluctantly。'],
+['Kai did not want to share his toys, but Mum told him to. He gave one to his sister ___.',['reluctantly','eagerly','happily','proudly'],'did not want to','不想做但还是做了 → reluctantly。'],
 ['The cat moved ___ towards the bird so that it would not fly away.',['stealthily','noisily','carelessly','cheerfully'],'so that it would not fly away','悄悄地，不让鸟发现 → stealthily。'],
 ['The dancer moved ___ across the stage like a swan.',['gracefully','clumsily','angrily','lazily'],'like a swan','像天鹅一样优美 → gracefully。'],
 ['Siti always arrives ___. She is never late.',['punctually','lazily','slowly','rudely'],'never late','准时 → punctually。'],
