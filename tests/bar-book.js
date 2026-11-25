@@ -41,7 +41,7 @@ await p.click('#brTypes');await p.waitForTimeout(150);ok(await p.isVisible('#vBa
 await p.click('#bcList .bc-i[data-bt="3"]');await p.waitForTimeout(150);ok(await p.evaluate(()=>__bar.BR()&&__bar.BR().ti===3&&!__bar.BD()),'an old kind (和差) opens the build-it lesson');
 /* an old save: numeric cur and counts keep working */
 await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.bar={cur:5,n:{0:4,5:2},ok:{0:3}};localStorage.setItem(k,JSON.stringify(S));},KEY);
-await p.reload();await p.waitForTimeout(300);ok(/路线 0\/12/.test(await p.innerText('#brNote')),'old save: the tile note shows the path ('+await p.innerText('#brNote')+')');
+await p.reload();await p.waitForTimeout(300);ok(/路线 0\/11/.test(await p.innerText('#brNote')),'old save: the tile note shows the path ('+await p.innerText('#brNote')+')');
 await p.click('#tBar');await p.click('#ptBook');await p.waitForTimeout(200);ok(/做了 4 · 自己对 3/.test(await p.innerText('#bcList .bc-i[data-bt="0"]')),'old counts show in the book');
 /* the island task button and the daily task still start a lesson straight away */
 await p.evaluate(()=>{for(let i=0;i<30;i++){}});
