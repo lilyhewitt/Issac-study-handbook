@@ -816,8 +816,10 @@ function pickCat(){return wpick(Object.keys(CATW),k=>CATW[k]);}
 function key(q){return (q.p||'')+'|'+q.q+(q.fig?'|'+hash(q.fig):'')+'|'+q.opts.slice().sort().join('|');}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
 function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.length)pool=GENS.filter(g=>g.c===c);let q;
-  const F=W.QB&&W.QB.focus;if(c==='p4'&&F){const ch=g=>+((/^Ch(\d)/.exec(g.t)||[])[1]||0),cur=GENS.filter(g=>g.c==='p4'&&ch(g)===F),lv=cur.filter(g=>g.l===l),prev=pool.filter(g=>ch(g)<F);
-    if(cur.length)pool=(Math.random()<.7||!prev.length)?(lv.length?lv:cur):prev;}
+  /* this week's chapters (QB.focus = [3,5] …; a plain number from an older save still works): 7 in 10 from them, the rest reviews earlier chapters */
+  const F0=W.QB&&W.QB.focus,F=Array.isArray(F0)?F0:F0?[F0]:[];if(c==='p4'&&F.length){const ch=g=>+((/^Ch(\d)/.exec(g.t)||[])[1]||0),top=Math.max(...F),cur=GENS.filter(g=>g.c==='p4'&&F.includes(ch(g))),prev=pool.filter(g=>ch(g)<top&&!F.includes(ch(g)));
+    /* the chosen chapters take turns evenly, however many question types each one has */
+    if(cur.length){if(Math.random()<.7||!prev.length){const has=F.filter(f=>cur.some(g=>ch(g)===f)),f=has[Math.floor(Math.random()*has.length)],cf=cur.filter(g=>ch(g)===f),cl=cf.filter(g=>g.l===l);pool=cl.length?cl:cf;}else pool=prev;}}
   const one=()=>{const g=wpick(pool,x=>x.w);const x=g.f();(Array.isArray(x)?x:[x]).forEach(y=>{y.c=c;y.t=g.t;y.l=g.l;});return x;};
   const k0=x=>key(Array.isArray(x)?x[x.length-1]:x);
   for(let k=0;k<60;k++){q=one();if(!fresh||fresh(k0(q)))return q;}

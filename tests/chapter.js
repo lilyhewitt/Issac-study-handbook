@@ -17,19 +17,33 @@ const chOn=p=>p.$eval('.chpick [aria-pressed="true"]',e=>e.textContent).catch(()
  await mom.click('.chpick [data-ch="3"]');await mom.waitForTimeout(500);d=await dump();
  ok(d.sync[code].math.cfg&&d.sync[code].math.cfg.ch===3,'choice saved next to math records '+JSON.stringify(d.sync[code].math.cfg));
  ok((await chOn(mom)).includes('第 3 章'),'handbook shows 第 3 章 selected');out.push('   status: '+(await mom.innerText('.chpick [role="status"]')));
+ /* more than one chapter */
+ await mom.click('.chpick [data-ch="5"]');await mom.waitForTimeout(500);d=await dump();
+ ok(JSON.stringify(d.sync[code].math.cfg.chs)==='[3,5]'&&d.sync[code].math.cfg.ch===3,'two chapters saved, the first kept as ch for older apps '+JSON.stringify(d.sync[code].math.cfg));
+ ok((await mom.$$('.chpick [aria-pressed="true"]')).length===2&&(await mom.getAttribute('.chpick [data-ch="0"]','aria-pressed'))==='false','handbook shows both chapters pressed, 全部 not');
  await pad.reload();await pad.waitForTimeout(900);
- ok((await pad.innerText('#tP4')).includes('这周：第 3 章'),'iPad picked it up on opening: '+(await pad.innerText('#tP4')).replace(/\n/g,' '));
+ ok((await pad.innerText('#tP4')).includes('这周：第 3、5 章'),'iPad picked both up on opening: '+(await pad.innerText('#tP4')).replace(/\n/g,' '));
+ ok(await pad.evaluate(()=>JSON.stringify(QB.focus))==='[3,5]','questions focus on chapters 3 and 5');
+ const tops=await pad.evaluate(()=>{const n={};for(let i=0;i<300;i++){const q=QB.make('p4',1);const x=Array.isArray(q)?q[q.length-1]:q;const c=+((/^Ch(\d)/.exec(x.t)||[])[1]||0);n[c]=(n[c]||0)+1;}return n;}).catch(e=>({err:e.message}));
+ out.push('   300 four-level questions by chapter: '+JSON.stringify(tops));
+ if(!tops.err)ok(((tops[3]||0)+(tops[5]||0))>150&&Math.abs((tops[3]||0)-(tops[5]||0))<45&&!tops[6]&&!tops[7]&&!tops[8],'most questions from 3 and 5 in about equal numbers, the rest from earlier chapters, none from later ones');
  await round(pad,'#tWp');await pad.waitForTimeout(2000);d=await dump();
- ok(d.sync[code].math.cfg&&d.sync[code].math.cfg.ch===3,'iPad syncing records keeps the choice (PATCH)');ok(JSON.parse(d.sync[code].math.v).ch===3,'iPad records now say chapter 3');
+ ok(d.sync[code].math.cfg&&d.sync[code].math.cfg.ch===3,'iPad syncing records keeps the choice (PATCH)');ok(JSON.parse(d.sync[code].math.v).ch===3&&JSON.stringify(JSON.parse(d.sync[code].math.v).chs)==='[3,5]','iPad records now say chapters 3 and 5');
  await mom.reload();await mom.waitForTimeout(500);out.push('   status after iPad used it: '+(await mom.innerText('.chpick [role="status"]')));
- ok(/现在用这一章/.test(await mom.innerText('.chpick [role="status"]')),'handbook says the iPad is using it');
+ ok(/现在用这几章/.test(await mom.innerText('.chpick [role="status"]')),'handbook says the iPad is using it');
  /* a later choice on the iPad itself wins over the older handbook one */
- await pad.click('#bStats');await pad.click('#bParent');await pad.waitForTimeout(200);await pad.click('#chCard [data-ch="5"]');await pad.click('#bStatsBack');if(await pad.isVisible('#bMeBack'))await pad.click('#bMeBack');
+ await pad.click('#bStats');await pad.click('#bParent');await pad.waitForTimeout(200);await pad.click('#chCard [data-ch="0"]');await pad.click('#chCard [data-ch="5"]');
+ ok((await pad.$$('#chCard .ch-b.on')).length===1,'on the iPad, 全部 clears the choice and a tap picks one');await pad.click('#bStatsBack');if(await pad.isVisible('#bMeBack'))await pad.click('#bMeBack');
  await round(pad,'#tWp');await pad.waitForTimeout(2000);await pad.reload();await pad.waitForTimeout(900);
  ok((await pad.innerText('#tP4')).includes('第 5 章'),'choice made on the iPad stays after reopening');
  await mom.reload();await mom.waitForTimeout(500);ok((await chOn(mom)).includes('第 5 章'),'handbook follows the newer iPad choice: '+await chOn(mom));
  /* then the handbook again */
- await mom.click('.chpick [data-ch="1"]');await mom.waitForTimeout(400);await pad.reload();await pad.waitForTimeout(900);ok((await pad.innerText('#tP4')).includes('第 1 章'),'handbook again → iPad 第1章');
+ await mom.click('.chpick [data-ch="0"]');await mom.waitForTimeout(400);await mom.click('.chpick [data-ch="1"]');await mom.waitForTimeout(400);await pad.reload();await pad.waitForTimeout(900);ok((await pad.innerText('#tP4')).includes('这周：第 1 章'),'handbook again → iPad 第 1 章');
+ /* a choice written by an older handbook (one number, no list) still works */
+ await fetch('http://localhost:8766/sync/'+code+'/math/cfg.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({ch:4,at:Date.now()})});
+ await pad.reload();await pad.waitForTimeout(900);ok((await pad.innerText('#tP4')).includes('这周：第 4 章'),'an old single-chapter choice is read as one chapter');
+ await mom.reload();await mom.waitForTimeout(500);ok((await chOn(mom)).includes('第 4 章'),'handbook reads the old choice too');
+ await mom.click('.chpick [data-ch="4"]');await mom.waitForTimeout(400);await mom.click('.chpick [data-ch="1"]');await mom.waitForTimeout(400);
  /* database refusing */
  await fetch('http://localhost:8766/__deny');await mom.click('.chpick [data-ch="2"]');await mom.waitForTimeout(400);out.push('   when refused: '+(await mom.innerText('.chpick [role="status"]').catch(()=>'(picker gone)')));await fetch('http://localhost:8766/__deny');
  /* PATCH refused: records still sync and the choice is carried over */

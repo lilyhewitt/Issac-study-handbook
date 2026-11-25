@@ -825,7 +825,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
 <section class="view" id="v-math-4a" data-tab="math" hidden>
   <div class="bar"><a class="bk" href="#math">数学</a><h2 class="ti">预习 4A · 8 小步</h2></div>
   <div class="card warm"><p><b>假期主要预习 4A</b>：按课本一章一章来。家里有课本就照课本的例题和图讲，用课本的画法（比如分数画成一格一格），不教别的口诀，开学才不会和老师的教法打架。练习 app 里的 4A 题错了没关系，错的会再出现。</p></div>
-  <p class="muted">按课本顺序，做不完没关系。每一步开始时，在<a href="#practice">练习</a>页的“数学 app：这周预习第几章”选同一章，数学 app 里的四年级题就多出这一章，也会复习前面几章。</p>
+  <p class="muted">按课本顺序，做不完没关系。每一步开始时，在<a href="#practice">练习</a>页的“数学 app：这周预习哪几章”选上对应的章（可以选好几章），数学 app 里的四年级题就多出这几章，也会复习前面几章。</p>
   <div id="mweeks" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="muted">打勾只存在这台设备上。复习那题由大人读给他听，练的是想，不是认字。</p>
 </section>
@@ -925,7 +925,7 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li><b>拼一拼</b>（英文，试用中）：混在橙色“Words 词汇题”的每一轮里（5 题里 2 题），用字母块拼单词卡里学过的词，一次 4 个。拼错了只给他看正确的拼法，再照着拼一次；拼过的词过几天会再来。</li>
     <li><b>我的进步</b>：首页最下面，小小自己看的，只说他做到了什么。</li>
     <li><b>朗读的声音</b>：默认用设备设置里打勾的英文声音。想用 Kate（英国口音）：在 iPad 的 设置 → 辅助功能 → 朗读内容 → 声音 → 英语 里下载 Kate 并打勾。家长入口最下面可以试听、换一个。</li>
-    <li><b>数学预习 4A</b>：四年级题按课本 8 章出，有的题带图（折线图、角、长方形）。在手册“练习”页选“这周预习第几章”（iPad 的家长入口里也能选），题目就多出这一章；每天的一轮里有 3 题是 4A。</li>
+    <li><b>数学预习 4A</b>：四年级题按课本 8 章出，有的题带图（折线图、角、长方形）。在手册“练习”页选“这周预习哪几章”（可以选好几章，iPad 的家长入口里也能选），题目就多出这几章；每天的一轮里有 3 题是 4A。</li>
     <li><b>家长入口</b>：“我的进步”最下面的小字，里面是完整记录、复制报告和同步码。数据库万一不工作，也能在 iPad 上看这里。英文 app 首页有大人陪读的“一起读”（30 篇短文），家长入口里还有“一分钟朗读”（每月一次，记下读对了多少个词）。</li>
   </ul></div></details>
 </section>
@@ -937,6 +937,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card soft"><p class="big">手册和练习 app 每次更新，都记在这里。<br>新的在最上面，只留最近一周。</p></div>
   <p class="muted">从主屏幕打开时会自动换成最新版。看起来还是旧的，就在后台划掉再打开。</p>
 
+  <div class="card"><span class="tag">v4.50 · 11 月 24 日</span><h3>数学预习 4A 可以选好几章；英文 app 换新图标</h3><ul>
+    <li>“练习”页的“数学 app：这周预习哪几章”可以选好几章，再点一下取消，点“全部”就 8 章都出。选中的几章轮流出题，也会复习前面的章。iPad 数学 app 的家长入口里一样可以多选，首页的“预习 4A”会写着“这周：第 3、5 章”。</li>
+    <li>以前选好的一章照样有效。</li>
+    <li>英文 app 换成戴护目镜的小发明家图标，和科学的宇航员、数学的水手一个样子。主屏幕上的旧图标要删掉，再从浏览器“添加到主屏幕”才会换。</li></ul></div>
   <div class="card"><span class="tag">v4.49 · 11 月 20 日</span><h3>手册：英文页加“一起读”，下学期加科学课本</h3><ul>
     <li>英文页第一项是“一起读”：app 里 30 篇短文、打印版《30 天精读》和怎么陪读，一页讲完，里面有打开 app 的按钮。</li>
     <li>总览的“下学期学什么”加了“科学课本”小标签：P4 七章每章记什么、从 P3 接上来的地方、预习的先后。</li></ul></div>
@@ -1042,11 +1046,6 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
     <li>每题四步：侦探看问题 → 划重点、拼提炼 → 选图 → 闪电算，答对显示答句。提示逐步撤掉：每站前两题四步全给，后面只给第一步，最后一题不给。</li>
     <li>星星、金银铜奖杯、Combo、开宝箱；“我的进步”里有奖杯柜。做错的题进“错题重练”，再做对就消掉。</li>
     <li>每日任务：小岛下一站、线段图、错题重练（不够时补小岛复习）；混合练习里不再出计算题。</li>
-  </ul></div>
-  <div class="card"><span class="tag">v4.26 · 11 月 17 日</span><h3>数学 app 补了四种三年级题</h3><ul>
-    <li>新加：柱状图、平行和垂直、容量（mℓ）应用题、数格子求面积。在“计算”和“应用题”里会混着出。</li>
-    <li>以前存下的数学分步错题，“再练一次”时上面不再带最后那一问，和新题一样一屏只问一步。</li>
-    <li>做过的记录、星星和错题都保留，不受影响。</li>
   </ul></div>
 </section>
 
@@ -1224,18 +1223,25 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
       cloud.cfg=x&&x.math&&x.math.cfg&&typeof x.math.cfg.ch==="number"?x.math.cfg:null;
       cloudState="ok";renderSync();renderProg();
     }).catch(function(e){cloudState=e==="rules"?"rules":"net";renderSync();renderProg();});}
-  /* math app: this week's chapter of 4A. Saved next to the math records (math/cfg); the iPad picks it up when the math app opens. */
+  /* math app: this week's chapters of 4A (any number; none = all). Saved next to the math records (math/cfg) as
+     {chs:[…], ch:first or 0, at}; ch stays for older copies of the math app. The iPad picks it up when the math app opens. */
   var CHN=["十万以内的数","因数和倍数","整数四则","表格和折线图","分数（一）","分数（二）","角","长方形和正方形"],chMsg="";
+  function chArr(o){var a=o&&Array.isArray(o.chs)?o.chs:o&&o.ch?[o.ch]:[];return a.map(Number).filter(function(x,i,A){return x>=1&&x<=CHN.length&&A.indexOf(x)===i;}).sort(function(x,y){return x-y;});}
+  function chSame(a,b){return a.join()===b.join();}
   function chPick(){if(cloudState!=="ok")return "";
-    if(!(cloud&&cloud.math))return '<div class="chpick"><p><b>数学 app：这周预习第几章</b></p><p class="muted">小小在 iPad 上做过一轮数学、记录传过来以后，这里就能选。</p></div>';var m=cloud&&cloud.math?cloud.math.S:null,cf=cloud&&cloud.cfg,mAt=m&&m.chAt||0;
-    var cur=cf&&cf.at>mAt?cf.ch:(m&&typeof m.ch==="number"?m.ch:0),pending=cf&&cf.at>mAt&&!(m&&m.ch===cf.ch);
-    var st=chMsg||(pending?"等小小下次打开数学 app 就换成这一章。":m&&cur?"iPad 上的数学 app 现在用这一章。":"");
-    return '<div class="chpick"><p><b>数学 app：这周预习第几章</b></p><p class="muted">选了以后，“预习 4A”和每天的一轮里，四年级题多数出这一章，也复习前面几章。和数学页“预习 4A · 8 小步”对着选。</p><div class="chs">'+
-      ["全部"].concat(CHN.map(function(t,i){return "第 "+(i+1)+" 章 "+t;})).map(function(t,i){return '<button type="button" class="hb'+(i===cur?'':' ghost')+'" data-s="ch" data-ch="'+i+'"'+(i===cur?' aria-pressed="true"':'')+'>'+t+'</button>';}).join("")+
+    if(!(cloud&&cloud.math))return '<div class="chpick"><p><b>数学 app：这周预习哪几章</b></p><p class="muted">小小在 iPad 上做过一轮数学、记录传过来以后，这里就能选。</p></div>';
+    var m=cloud.math.S,cf=cloud.cfg,mAt=m&&m.chAt||0,useCf=cf&&cf.at>mAt;
+    var cur=useCf?chArr(cf):chArr(m),pending=useCf&&!chSame(chArr(m),cur);
+    var st=chMsg||(pending?"等小小下次打开数学 app 就换过去。":m&&cur.length?"iPad 上的数学 app 现在用这几章。":"");
+    return '<div class="chpick"><p><b>数学 app：这周预习哪几章</b></p><p class="muted">可以选好几章，再点一下就取消。选了以后，“预习 4A”和每天的一轮里，四年级题多数出选中的章，也复习前面几章。和数学页“预习 4A · 8 小步”对着选。</p><div class="chs">'+
+      ["全部"].concat(CHN.map(function(t,i){return "第 "+(i+1)+" 章 "+t;})).map(function(t,i){var on=i?cur.indexOf(i)>=0:!cur.length;return '<button type="button" class="hb'+(on?'':' ghost')+'" data-s="ch" data-ch="'+i+'" aria-pressed="'+on+'">'+t+'</button>';}).join("")+
       '</div><p class="muted" role="status">'+st+'</p></div>';}
-  function chSet(n){var c=sget();if(!c||!SYNC_ON)return;chMsg="正在保存……";renderSync();var v={ch:n,at:Date.now()};
+  function chSet(n){var c=sget();if(!c||!SYNC_ON||!cloud)return;
+    var m=cloud.math&&cloud.math.S,cf=cloud.cfg,cur=cf&&cf.at>(m&&m.chAt||0)?chArr(cf):chArr(m);
+    var a=n?(cur.indexOf(n)>=0?cur.filter(function(x){return x!==n;}):cur.concat(n)):[];a=chArr({chs:a});
+    var v={chs:a,ch:a[0]||0,at:Date.now()};cloud.cfg=v;chMsg="正在保存……";renderSync();
     fetch(SYNC_DB.replace(/\/+$/,"")+"/sync/"+c+"/math/cfg.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)}).then(function(r){
-      if(r.status===401||r.status===403||r.status===400)throw "rules";if(!r.ok)throw 0;cloud.cfg=v;chMsg="";renderSync();
+      if(r.status===401||r.status===403||r.status===400)throw "rules";if(!r.ok)throw 0;if(cloud.cfg===v){chMsg="";renderSync();}
     }).catch(function(e){chMsg=e==="rules"?(cloud&&cloud.math?"数据库不让保存。可以在 iPad 的数学 app → 我的进步 → 家长入口 里选。":"小小先在 iPad 上做一轮数学，这里才能选。"):"现在连不上网络，等一下再试。";renderSync();});}
   /* English: each grammar cell's last 20 answers, and the phrases deck */
   var CELLS=[["Prepositions · 介词","介词"],["were · 复数主语","were"],["was · 单数主语","was"],["Happening now · 进行时","进行时"],["Past tense · 过去式","过去时"],["While … · 过去进行时","过去进行时"],["this · that · these · those","指示词"],["Joining words · 连接词","连词"],["many · a few · 可数","可数"],["much · a little · 不可数","不可数"],["myself · themselves · 反身代词","反身代词"],["Question tags · 反问句尾","反问句尾"]];
