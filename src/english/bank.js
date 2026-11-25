@@ -863,7 +863,78 @@ const WORDSETS=[
 /* ========== GRAMMAR CELLS (P3) ==========
    The P3/P4 papers ask the same small set of grammar points again and again. Each point is one "cell" with its own topic name,
    so the records show how each cell is going. Every explanation is one line: which clue word decides it. Level 2 = the traps. */
-function cell(t,w,items,zh){[1,2].forEach(l=>{const sub=items.filter(x=>x[3]===l);if(sub.length)G('gram',t,l,w,()=>{const [q,o,ex]=pick(sub);return mk({q,zh,a:o[0],d:o.slice(1),ex});});});}
+/* P4 level (level 3): once a cell's last 20 P3 answers are 80% or better, the app serves that cell's P4 questions instead
+   (the apps' p4Sync marks it in S.p4; make() below reads QB.p4). Written from the P4 papers' traps: longer stems, together with / neither of,
+   few vs a few, "Nobody … they", as soon as / although / unless. */
+const P4ITEMS={
+'were · 复数主语':[
+['Both the principal and the teachers ___ proud of the pupils at the concert last night.',['were','was','is','be'],'Both … and … = 很多人，last night = 过去 → **were**。',3],
+['The pupils, together with their teacher, ___ waiting at the gate when the bus arrived.',['were','was','is','are'],'together with 不改变主语，主语是 pupils（很多人）→ **were**。',3],
+['Neither of the boys ___ at home when the thief broke in.',['was','were','is','are'],'Neither of … = 两个人里没有一个，算一个 → **was**。',3],
+['A pair of scissors ___ left on the table after the art lesson.',['was','were','is','are'],'主语是 pair（一副），不是 scissors → **was**。',3],
+['Many of the pupils ___ late for the briefing because the road was flooded.',['were','was','is','be'],'Many of the pupils = 很多人 → **were**。',3],
+['My cousins, who live in Perth, ___ here during the holidays last year.',['were','was','is','are'],'主语是 cousins（很多人），who live in Perth 只是补充 → **were**。',3]],
+'was · 单数主语':[
+['The flock of sheep ___ grazing peacefully on the hill when the storm began.',['was','were','is','are'],'主语是 flock（一群，算一个），不是 sheep → **was**。',3],
+['Everybody in the hall ___ stunned when the lights suddenly went out.',['was','were','is','are'],'everybody 算一个 → **was**。',3],
+['Mark, as well as his friends, ___ invited to the party.',['was','were','is','are'],'as well as 不算进主语，主语是 Mark → **was**。',3],
+['The news about the school trip ___ announced during assembly yesterday.',['was','were','is','are'],'news 不能数，算一个 → **was**。',3],
+['Each of the contestants ___ given a certificate last Friday.',['was','were','is','are'],'Each of … = 每一个 → **was**。',3],
+['The box of chocolates that Aunt Mei bought ___ finished in a day.',['was','were','is','are'],'主语是 box（一盒），不是 chocolates → **was**。',3]],
+'Happening now · 进行时':[
+['"Don’t switch off the light. Grandpa ___ a book," whispered Mum.',['is reading','reads','read','was reading'],'Don’t switch off（现在）→ **is reading**。',3],
+['"We ___ to Perth next month. Dad has already booked the flights," said Kai.',['are flying','fly','flew','were flying'],'已经订好的安排，也用 **are flying**。',3],
+['"May I speak to Ravi?" "Sorry, he ___ his piano lesson right now."',['is having','has','had','was having'],'right now = 现在 → **is having**。',3],
+['"Why are the children so quiet?" "They ___ a test at the moment."',['are taking','take','took','is taking'],'at the moment = 现在，children 很多人 → **are taking**。',3],
+['"Look at the sky! Dark clouds ___ over the school," said Siti.',['are gathering','gather','gathered','is gathering'],'Look at the sky! = 现在正在发生，clouds 很多 → **are gathering**。',3],
+['"Dad and I ___ the new mall tomorrow. We have already bought the tickets."',['are visiting','visit','visited','was visiting'],'tomorrow + 已经买了票（安排好了）→ **are visiting**。',3]],
+'While … · 过去进行时':[
+['The thief ran away while the shopkeeper ___ a customer.',['was serving','served','is serving','were serving'],'shopkeeper 一个人，正在做的事用 was + ing → **was serving**。',3],
+['When the fire alarm rang, the pupils ___ their lunch in the canteen.',['were having','had','are having','was having'],'正在吃，警报突然响；pupils 很多人 → **were having**。',3],
+['Ben ___ along the corridor when he slipped on the wet floor.',['was running','ran','is running','were running'],'正在跑，突然滑倒 → **was running**。',3],
+['The lights went out when the whole family ___ dinner together.',['was having','were having','is having','had'],'正在吃，灯突然灭；the whole family 算一个 → **was having**。',3],
+['My parents ___ in the living room when the thunder struck.',['were chatting','chatted','was chatting','chat'],'正在聊，突然打雷；parents 很多人 → **were chatting**。',3],
+['Nobody noticed the cat sneaking in because everyone ___ to the magician.',['was listening','were listening','listened','listens'],'当时大家正在听；everyone 算一个 → **was listening**。',3]],
+'many · a few · 可数':[
+['Siti has ___ friends, so she often feels lonely.',['few','a few','little','much'],'friends 能数，很少、不够 → **few**（lonely 说明不够）。',3],
+['It was quiet at the hawker centre. There were ___ customers, so the stall owner closed early.',['few','a few','little','much'],'customers 能数，很少、不够 → **few**。',3],
+['Don’t worry! There are ___ pieces of cake left. You can still have one.',['a few','few','much','little'],'pieces 能数，还有几块（还够）→ **a few**。',3],
+['There were ___ spectators at the match, so the stadium was almost full.',['a lot of','a little','much','few'],'spectators 能数，几乎坐满 → 很多 → **a lot of**。',3],
+['The farmer sold ___ eggs yesterday, about two hundred of them.',['many','much','little','a little'],'eggs 能数，两百个 = 很多 → **many**。',3]],
+'much · a little · 不可数':[
+['Mum put too ___ chilli in the sauce, so nobody could finish it.',['much','many','a few','few'],'chilli 不能数，太辣 = 太多 → too **much**。',3],
+['There was ___ traffic on the road at midnight, so we reached home quickly.',['little','few','many','a few'],'traffic 不能数，很少、快到家 → **little**。',3],
+['Could I have ___ more rice, please? I am still hungry.',['a little','a few','many','few'],'rice 不能数，再要一点 → **a little**。',3],
+['The dish was bland. It needed ___ more salt.',['a little','a few','many','few'],'salt 不能数，再加一点 → **a little**。',3],
+['There was not ___ water in the tank, so the plants withered.',['much','many','few','a few'],'water 不能数，否定句 → **much**。',3],
+['Dad gave me ___ useful advice before the test.',['some','many','a few','few'],'advice 不能数，肯定句 → **some**。',3]],
+'myself · themselves · 反身代词':[
+['The little boy refused to let anyone help him. He insisted on carrying the bag ___.',['himself','itself','herself','themselves'],'little boy 一个男孩，自己做 → **himself**。',3],
+['Mr Tan told his sons that he would paint the fence ___.',['himself','themselves','yourself','ourselves'],'刷漆的是爸爸（he），不是儿子 → **himself**。',3],
+['"You two should be ashamed of ___!" said the teacher to the boys.',['yourselves','yourself','themselves','ourselves'],'对两个人说“你们自己” → **yourselves**。',3],
+['The robot switched ___ off after ten minutes.',['itself','himself','themselves','myself'],'robot 是一个东西 → **itself**。',3],
+['After the long hike, we treated ___ to ice cream.',['ourselves','themselves','ourself','myself'],'We（我们）→ **ourselves**。',3]],
+'Question tags · 反问句尾':[
+['Nobody called last night, ___?',['did they','didn’t they','was it','wasn’t it'],'Nobody 是否定意思，后面用肯定；代词用 they → **did they**。',3],
+['Let’s go for a swim, ___?',['shall we','will we','don’t we','aren’t we'],'Let’s … 后面固定用 **shall we**。',3],
+['I am late, ___?',['aren’t I','am I','don’t I','isn’t I'],'I am 的反问固定用 **aren’t I**。',3],
+['There is a spider on the wall, ___?',['isn’t there','isn’t it','is there','doesn’t it'],'There is … → **isn’t there**（There 不换成 it）。',3],
+['Everyone has finished the test, ___?',['haven’t they','hasn’t it','have they','didn’t they'],'Everyone 用 they，前面是 has（肯定）→ **haven’t they**。',3],
+['The children had never seen snow before, ___?',['had they','hadn’t they','did they','didn’t they'],'never 是否定意思，后面用肯定；前面是 had → **had they**。',3]],
+'this · that · these · those':[
+['"I like ___ red dress in the shop window across the road."',['that','those','this','these'],'across the road（远）+ 一件 → **that**。',3],
+['"___ scissors in my hand are very sharp," said Dad.',['These','Those','This','That'],'在我手上（近）+ scissors 是复数 → **These**。',3],
+['"Could you carry ___ boxes over there to the storeroom?"',['those','these','that','this'],'over there（远）+ 很多个 → **those**。',3],
+['"Hello, ___ is Mei speaking."',['This','That','These','It'],'打电话说自己是谁 → **This** is …。',3]],
+'Joining words · 连接词':[
+['___ it was raining heavily, the match went on as planned.',['Although','Because','Unless','So'],'前后相反（下大雨，比赛照常）→ **Although**。',3],
+['You will not pass the test ___ you revise your work.',['unless','although','because','until'],'不复习就不会过 = 除非复习 → **unless**。',3],
+['Dad waited at the gate ___ the school bus arrived.',['until','unless','although','because'],'一直等到车来 → **until**。',3],
+['___ the bell rang, the pupils rushed out of the classroom.',['As soon as','Unless','Although','Until'],'铃一响就冲出去 → **As soon as**。',3],
+['I will lend you my umbrella ___ you promise to return it tomorrow.',['as long as','although','until','because'],'只要你答应还 → **as long as**。',3],
+['We cancelled the picnic ___ the weather forecast warned of thunderstorms.',['since','although','unless','until'],'后半句是原因 → **since**（因为）。',3]]
+};
+function cell(t,w,items,zh){items=items.concat(P4ITEMS[t]||[]);[1,2,3].forEach(l=>{const sub=items.filter(x=>x[3]===l);if(sub.length)G('gram',t,l,w,()=>{const [q,o,ex]=pick(sub);return mk({q,zh,a:o[0],d:o.slice(1),ex});});});}
 cell('were · 复数主语',.9,[
 ['Ravi and Ben ___ tired after the race yesterday.',['were','was','is','be'],'Ravi and Ben = 两个人，yesterday = 过去 → **were**。',1],
 ['My sister and I ___ at the beach last Sunday.',['were','was','am','is'],'my sister and I = 两个人，last Sunday = 过去 → **were**。',1],
@@ -978,6 +1049,24 @@ cell('Joining words · 连接词',.5,[
 ['You can have juice ___ milk.',['or','but','so','because'],'两样选一样 → **or**。',2],
 ['Both Mei ___ Siti are in the choir.',['and','or','but','so'],'both … **and** …。',2],
 ],'两部分是什么关系：原因、结果、相反，还是选一个？');
+/* P4 level for the two cells that are built from word lists above (prepositions, past tense) */
+const P4X=(t,w,zh,items)=>G('gram',t,3,w,()=>{const [q,o,ex]=pick(items);return mk({q,zh,a:o[0],d:o.slice(1),ex});});
+P4X('Prepositions · 介词',.8,'想一想：是时间、地点，还是固定搭配（good at / filled with）？',[
+['The pupils must stay quiet ___ the whole performance.',['during','for','since','at'],'during + 一段活动（整场表演的过程中）→ **during**。'],
+['We have lived in this flat ___ five years.',['for','since','during','at'],'five years = 一段时间的长度 → **for**。'],
+['The thief was caught ___ the police near the bridge.',['by','with','at','on'],'被警察抓住，做事的人 → **by**。'],
+['My grandmother has been ill ___ Monday.',['since','for','during','at'],'Monday = 起点 → **since**。'],
+['The shop is open ___ 9 a.m. to 9 p.m.',['from','since','by','at'],'from … to … = 从……到…… → **from**。'],
+['Please hand in your project ___ Friday. That is the deadline.',['by','until','during','in'],'最晚到星期五交 → **by**。'],
+['Ali is very good ___ solving puzzles.',['at','in','with','for'],'good **at**（擅长）。'],
+['She was filled ___ joy when she saw her puppy.',['with','of','by','in'],'filled **with**（装满）。']]);
+P4X('Past tense · 过去式',1,'找一找句子里的时间词（yesterday / last … / … ago / just now），再想不规则过去式。',[
+['Last week, my sister ___ a new bag at the sale.',['bought','buy','buys','was buying'],'Last week = 过去 → buy 的过去式 **bought**。'],
+['The goalkeeper ___ the ball just before it crossed the line.',['caught','catches','catch','was catching'],'just before 说的是已经发生的事 → catch 的过去式 **caught**。'],
+['Two days ago, the birds ___ south for the winter.',['flew','fly','flown','flies'],'Two days ago = 过去 → fly 的过去式 **flew**（flown 不能单独用）。'],
+['Ben ___ his wallet on the bus yesterday and had to go back.',['lost','lose','loses','was losing'],'yesterday = 过去 → lose 的过去式 **lost**。'],
+['The little girl ___ all the milk in one go this morning.',['drank','drink','drunk','drinks'],'this morning（已经过去）→ drink 的过去式 **drank**（drunk 不能单独用）。'],
+['I ___ my grandparents in Penang three years ago.',['visited','visit','visits','am visiting'],'three years ago = 过去 → **visited**。']]);
 
 /* ---------- subject and verb: the real subject, two choices ---------- */
 const SVA=[
@@ -1112,11 +1201,13 @@ function key(q){if(Array.isArray(q))q=q[0];   /* a step-by-step question is know
   return (q.p||'')+'|'+q.q+'|'+q.opts.slice().sort().join('|');}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
 /* fresh: never seen before; ok2: at least not seen recently */
-function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.length)pool=GENS.filter(g=>g.c===c);let q;
+function make(c,l,fresh,ok2){const P4=QB.p4||{},all=GENS.filter(g=>g.c===c),has3=new Set(all.filter(g=>g.l===3).map(g=>g.t));
+  /* a cell that has reached 80% serves only its P4 (level 3) questions; every other cell keeps its P3 levels */
+  let pool=all.filter(g=>P4[g.t]&&has3.has(g.t)?g.l===3:g.l===l);if(!pool.length)pool=all.filter(g=>g.l!==3||P4[g.t]);let q;
   const one=()=>{const g=wpick(pool,x=>x.w);const x=g.f();(Array.isArray(x)?x:[x]).forEach(y=>{y.c=c;y.t=g.t;y.l=g.l;});return x;};
   for(let k=0;k<80;k++){q=one();if(!fresh||fresh(key(q)))return q;}
   if(ok2)for(let k=0;k<40;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return PAST.length+PF.length*18+CF.length*14+BE.length+PRON.length+PREP.length+QUANT.length+CONJ.length+DEM.length+PLUR.length+SYN.length+VOC.length+OPP.length+SPELL.length+FILL.length+QW.length*4+RD.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,spell:true,PPG,PP,PPX};
+W.QB={P4CELLS:[...new Set(GENS.filter(g=>g.l===3).map(g=>g.t))],GENS,make,pickCat,key,hash,shuf,size,WORDSETS,spell:true,PPG,PP,PPX};
 })(typeof window!=='undefined'?window:globalThis);

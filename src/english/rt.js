@@ -147,4 +147,6 @@ function rtHomeStat(){const el=$('rtHomeNext');if(!el)return;rtSt();const i=rtNe
   el.innerHTML=n>=RTP.length?`30 篇都读过了 🎉 · 可以挑喜欢的再读一遍`:`下一篇：第 ${i+1} 篇 · <b>${rtEsc(RTP[i].t)}</b> · 读过 ${n} / ${RTP.length}`;}
 HOOK.home.push(rtHomeStat);
 $('tRT').addEventListener('click',()=>rtOpen(null,'home'));
+/* the handbook's “一起读” button opens english/?go=together: go straight to the next passage (home is built first, so Back lands on it) */
+try{if(new URLSearchParams(location.search).get('go')==='together')setTimeout(()=>{if(!REMOTE)rtOpen(null,'home');},0);}catch(e){}
 window.__rt={OR:()=>OR,DC:()=>DC,orfEnd:()=>{if(OR){OR.end=Date.now();orfTick();}},rtOpen,orfOpen,dcStart};

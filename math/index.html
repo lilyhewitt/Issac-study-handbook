@@ -2512,12 +2512,13 @@ function home(){
 
 /* round */
 let R=null;
+window.__round=()=>R;   /* for the tests */
 function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts.map((_,i)=>i));['opts','zo','why','err'].forEach(f=>{if(Array.isArray(m[f]))q[f]=idx.map(i=>m[f][i]);});q.ans=idx.indexOf(m.ans);q.again=true;
   /* step questions saved by older versions kept the whole problem's question on top: take it off (and fix "p.m.." from then) */
   if(q.step&&!q.ask&&typeof q.p==='string'){q.p=q.p.replace(/\s*[^.?!]*\?\s*$/,'');if(typeof q.zh==='string'){const k=q.zh.indexOf('\n\n');if(k>0)q.zh=q.zh.slice(0,k).replace(/[^。？！]*？\s*$/,'')+q.zh.slice(k);}}
   ['p','q','ex'].forEach(f=>{if(typeof q[f]==='string')q[f]=q[f].replace(/\b([ap])\.m\.\./g,'$1.m.');});
   return q;}
-function startRound(mode){if(QB.CH)QB.focus=S.chs||[];
+function startRound(mode){if(QB.CH)QB.focus=S.chs||[];p4Sync();
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);let hq=null;
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
   else if(mode==='wall'){QB.shuf(WL.filter(w=>S.wd[w.w])).sort((x,y)=>(S.wd[y.w].bad||0)-(S.wd[x.w].bad||0)).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
@@ -2616,6 +2617,7 @@ function finish(){
   const m=perfect?['Perfect round!',n+' 题全对，再奖励 +2 ★']:s>=n-1?['Great job!','很棒，只差一点点。']:s>=Math.ceil(n/2)?['Good work!','一半以上都对了。']:['Nice try!','每做一轮都在进步。'];
   $('dMsg').textContent=m[0];
   $('dSub').textContent=m[1]+(s<n?' 错的题以后会再出现，做对就消掉。':'');
+  if(R.p4new&&R.p4new.length)$('dSub').textContent+=' 「'+R.p4new.map(t=>t.split(' · ')[0]).join('、')+'」这一格做到 80% 了，下次起换成 P4 的题。';
   $('bAgain').dataset.mode=R.mode==='redo'&&!S.misses.length?'mix':R.mode;
   const side=HOOK.side&&HOOK.side(R.mode),wordRound=/^learn:|^review$|^wall$/.test(R.mode)||!!side;
   {const t=tkDay();if(R.tk)t[R.tk]=1;if(/^learn:/.test(R.mode))t.wnew=1;if(R.mode==='redo')t.redo=1;if(R.mode==='wall')t.wall=1;if(R.mode==='review')t.words=1;else if(side)t[side.task]=1;else if(!wordRound)t.round=(t.round||0)+1;save();}
@@ -2742,9 +2744,16 @@ function kindOf(q){if(q.c!=='read'||!q.p)return '';const s=q.q;
   if(/feel/i.test(s))return '感受';
   return '找细节';}
 function logAnswer(q,i,ok){if(!Array.isArray(S.log))S.log=[];
-  const e={d:dkey(new Date()),ts:Date.now(),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;
+  const e={d:dkey(new Date()),ts:Date.now(),c:q.c,t:q.t,h:QB.hash(QB.key(q)),ok:ok?1:0};const k=kindOf(q);if(k)e.k=k;if(q.l)e.l=q.l;
   if(!ok){e.q=q.q.replace(/\*\*/g,'').replace(/\s*\n\s*/g,' ').slice(0,160);if(q.p)e.p=q.p.replace(/\s*\n\s*/g,' ').slice(0,90);e.a=q.opts[i];e.r=q.opts[q.ans];if(q.err&&q.err[i])e.err=q.err[i];}
-  S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);}
+  S.log.push(e);if(S.log.length>5000)S.log=S.log.slice(-5000);
+  if(R){const nw=p4Sync();if(nw.length)R.p4new=(R.p4new||[]).concat(nw);}}
+/* English grammar cells: a cell whose last 20 P3 answers (at least 10 answered) are 80% right moves to P4-level questions for good (S.p4) */
+function p4Sync(){const nw=[];if(!QB.P4CELLS||!QB.P4CELLS.length)return nw;if(!S.p4||typeof S.p4!=='object')S.p4={};
+  const L=Array.isArray(S.log)?S.log:[];
+  QB.P4CELLS.forEach(t=>{if(S.p4[t])return;const a=L.filter(e=>e.c==='gram'&&e.t===t&&!(e.l>=3)).slice(-20);
+    if(a.length>=10&&a.reduce((n,e)=>n+(e.ok?1:0),0)/a.length>=.8){S.p4[t]=dkey(new Date());nw.push(t);}});
+  if(nw.length)save();QB.p4=S.p4;return nw;}
 function errCounts(){const c={};(Array.isArray(S.log)?S.log:[]).forEach(e=>{if(e.err)c[e.err]=(c[e.err]||0)+1;});return Object.entries(c).sort((a,b)=>b[1]-a[1]);}
 function stats(){const L=Array.isArray(S.log)?S.log:[];const g={};
   L.forEach(e=>{const name=e.t+(e.k?' · '+e.k:'');const x=g[name]||(g[name]={name,n:0,ok:0});x.n++;x.ok+=e.ok;});
