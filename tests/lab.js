@@ -43,14 +43,14 @@ for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
   // redo one: +1
   await p.click('[data-lab="0"]');await p.click('[data-go="1"]');await p.click('[data-guess="0"]');await p.click('[data-go="2"]');
   for(const [k,v] of Object.entries(REC.shadow))await p.fill(`input[data-rk="${k}"]`,v);await p.click('#labRecGo');
-  for(const [j,v] of [[0,'c'],[1,'m'],[2,'k'],[3,'k']])await p.click(`[data-var="${j}"][data-v="${v}"]`);await p.click('[data-pick="bigger"]');await p.click('[data-check]');
+  for(const [j,v] of [[0,'c'],[1,'m'],[2,'k'],[3,'k']])await p.click(`[data-var="${j}"][data-v="${v}"]`);await p.click('[data-pick="increases"]');await p.click('[data-check]');
   let s=await S();ok(s.stars===stars+1&&s.lab.done.shadow.n===2,dev+': doing it again gives +1 ★');
   ok(s.log.filter(e=>e.t==='家里实验室 · Home Lab').length===6,dev+': each finish is in the practice record');
   // a measurement that goes the wrong way asks to measure again; the second wrong try shows the answer
   await p.click('[data-lab-again]');await p.click('[data-go="1"]');await p.click('[data-guess="0"]');await p.click('[data-go="2"]');
   for(const [k,v] of Object.entries({d30:'20',d20:'15',d10:'10'}))await p.fill(`input[data-rk="${k}"]`,v);await p.click('#labRecGo');
   ok(await p.isVisible('.lb-tip.warn')&&(await p.textContent('.lb-tip.warn')).includes('再量一次'),dev+': shadow getting smaller → asked to measure again');
-  await p.click('[data-pick="darker"]');await p.click('[data-check]');await p.click('[data-check]');
+  await p.click('[data-pick="stays the same"]');await p.click('[data-check]');await p.click('[data-check]');
   ok((await p.textContent('#labMsg')).includes('答案是'),dev+': second wrong try shows the answer');
   await p.click('#labXBack');await p.click('#labBack');await p.waitForTimeout(200);
   ok((await p.textContent('#labNote')).includes('5 / 5'),dev+': the tile shows 5 / 5 done');
