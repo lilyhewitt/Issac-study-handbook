@@ -43,6 +43,7 @@ if [ "${1:-}" != quick ]; then
   run "Math Island" node tests/island.js
   run "bar-model book and drawn kinds" node tests/bar-book.js
   run "Space Mission (science)" node tests/space.js
+  run "Home Lab (science)" node tests/lab.js
   [ -f tools/ws/.names ] && export WW_NAME=$(cut -d, -f1 tools/ws/.names)
   run "Writing Workshop (English)" node tests/ww.js
   run "Read together, reading check, dictation (English)" node tests/rt.js

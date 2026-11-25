@@ -62,7 +62,7 @@ def edition(app):
     s = rep(s, '/*__BANK__*/', read(app, 'bank.js'))
     if app != 'english':
         s = rep(s, "const KEY='xiaoxiao-english-v1'", "const KEY='%s'" % c['key'])
-        s = rep(s, "const NEWV={cards:1,pp:1,ww:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{sp:1,tool:1}'))
+        s = rep(s, "const NEWV={cards:1,pp:1,ww:1};", "const NEWV=%s;" % ('{isl:1,bar:1}' if app == 'math' else '{sp:1,tool:1,lab:1}'))
         s = rep(s, "const CATS={gram:'Grammar 语法',word:'Words 词汇',read:'Reading 阅读'};", 'const CATS=%s;' % c['cats'])
         s = rep(s, '.ico-flame{fill:var(%s)}' % c['flame'], '.ico-flame{fill:var(--p4)}')
     # home in every app: square tiles (word cards first, try again last), no Mix, word-cards bar gone
@@ -112,6 +112,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('science', 'space.css') + s[i:]
         s = rep(s, 'function home(){', read('science', 'space-data.js') + '\n' + read('science', 'space.js') + '\nfunction home(){')
+        # 家里实验室 Home Lab: five experiments at home (pictures drawn by tools/lab_scenes.py into lab-scenes.js)
+        s = rep(s, '  <section id="vSpell" class="view"', read('science', 'lab.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('science', 'lab.css') + s[i:]
+        s = rep(s, 'function home(){', read('science', 'lab-scenes.js') + '\n' + read('science', 'lab-data.js') + '\n' + read('science', 'lab.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')
