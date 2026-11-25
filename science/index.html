@@ -112,6 +112,7 @@ html{touch-action:manipulation}
 .chip[data-c="mat"]{background:var(--mat-tint);color:var(--mat-ink)}
 .chip[data-c="p4"]{background:var(--p4-tint);color:var(--p4-ink)}
 .chip.again{background:var(--miss-bg);color:var(--miss)}
+.pass.long{max-height:50vh;overflow-y:auto;-webkit-overflow-scrolling:touch}.pass.long p{margin:0 0 .7em}.pass.long p:last-child{margin:0}
 .pass{background:var(--paper);border:1px solid var(--line);border-radius:0.875rem;padding:0.75rem 0.875rem;font-size:1.08rem;line-height:1.65}
 .pass .ln{display:block}
 .pass .ln+.ln{margin-top:0.25rem}
@@ -2032,7 +2033,8 @@ function showQ(){
   /* math and science: one sentence per line, numbers in bold, the question on its own line marked 问 */
   let P=q.p,Q=q.q;
   if(QB.lines&&!P&&!q.ask){const ss=sents(Q);if(ss.length>1&&/\?\s*$/.test(ss[ss.length-1])){P=ss.slice(0,-1).join(' ');Q=ss[ss.length-1];}}
-  $('qPass').hidden=!P;$('qPass').innerHTML=P?(QB.lines?lines(P):fmt(P)):'';
+  $('qPass').hidden=!P;{const lg=!!P&&P.length>800;$('qPass').classList.toggle('long',lg);   /* a P4-length passage: paragraphs, scrolls in its own box so the question stays on screen */
+  $('qPass').innerHTML=!P?'':lg?P.split('\n').map(x=>'<p>'+fmt(x)+'</p>').join(''):(QB.lines?lines(P):fmt(P));if(lg)$('qPass').scrollTop=0;}
   $('qFig').hidden=!q.fig;$('qFig').innerHTML=q.fig||'';
   if(q.say)setTimeout(()=>speakText(q.say),250);
   $('qText').innerHTML=(QB.lines&&P&&!q.ask&&/\?\s*$/.test(Q)?'<span class="ask">问</span>':'')+(QB.lines?numB(fmt(Q)):fmt(Q));

@@ -745,6 +745,88 @@ P('P3 CAMP — THINGS TO BRING\n• 2 sets of clothes\n• Towel and toothbrush\
 const RD=[];RP.forEach(r=>r.q.forEach(x=>RD.push([r.p,...x])));
 bank('read','Reading · 阅读',2.4,RD,x=>x[4],([p,q,o,ex])=>mk({p,q,zh:'回到短文里，找到和问题一样的词，答案就在附近。',a:o[0],d:o.slice(1),ex}));
 
+/* ---------- P4-length reading (250–300 words), rewritten from P4 2024 exam passages: names and details changed.
+   Three questions a time, in passage order: why, how do you know, which line proves a statement wrong, word in context, feelings. ---------- */
+const LONG=[
+{src:'P4 2024 Nan Hua',p:`"Just one more story, please!" Ryan begged as Mum closed the book. Mum knew what he was doing. Ryan was afraid of the dark, and he wanted her to stay until he fell asleep. A few days earlier, she had bought him a night-light shaped like a dinosaur.
+"Dino will keep the dark away," Mum said gently, stroking his hair. Then she walked out of the room without looking back. She believed that sleeping with a small light was the first step to getting over his fear.
+The room was filled with a soft green glow. The curtains moved in the breeze and made shadows dance on the wall. "M-monsters!" Ryan whispered. He shut his eyes tightly.
+Suddenly, there was a small pop. Ryan opened his eyes. Everything was black. The night-light had stopped working! He was too frightened even to scream.
+Then he saw it: a fat lizard crawling across the ceiling. Ryan hated lizards more than anything. He was sure they would drop into his mouth while he was asleep.
+Ryan jumped out of bed and threw his bolster at the lizard, but it fell far short. Next, he grabbed his pencils, erasers and rulers from the table and threw them one by one. They clattered onto the floor. Frightened by the noise, the lizard scuttled out of the window.
+"Good riddance!" Ryan said, sinking onto his bed. Then he remembered the mess on the floor. As he crawled around picking up his stationery in the dark, he suddenly realised something. He was not afraid any more. That night, he had got rid of two things that had troubled him. He could not wait to tell Mum.`,q:[
+['Why did Ryan ask for one more story?',['He wanted Mum to stay until he fell asleep.','He had not heard that story before.','He was not tired at all.','He wanted to learn to read.'],'第一段：Ryan was afraid of the dark, and he wanted her to **stay until he fell asleep**。'],
+['Why did Mum buy the night-light?',['to help Ryan get over his fear of the dark','because Ryan liked dinosaurs','because the room was too hot','so that Ryan could read in bed'],'第二段：She believed that sleeping with a small light was the first step to **getting over his fear**。'],
+['There were no real monsters in Ryan’s room. Which sentence shows this?',['The curtains moved in the breeze and made shadows dance on the wall.','He shut his eyes tightly.','The room was filled with a soft green glow.','Ryan whispered, “M-monsters!”'],'他以为是怪物，其实是**窗帘被风吹动的影子**。答“对还是错”的题，要找能证明的那一句。'],
+['Why did the room suddenly become dark?',['The night-light had stopped working.','Ryan pulled the blanket over his head.','Mum switched off the light.','The curtains were closed.'],'第四段：there was a small pop … **The night-light had stopped working**!'],
+['What does “fell far short” mean?',['did not reach the lizard','hit the lizard hard','fell onto Ryan’s head','broke into pieces'],'枕头扔出去，离壁虎还差很远 → **没有扔到**。'],
+['What were the two things that Ryan got rid of that night?',['the lizard and his fear of the dark','the lizard and the night-light','his bolster and his stationery','the monsters and the curtains'],'壁虎被赶走了，他在黑暗里捡东西时发现**自己不怕黑了**。'],
+['How did Ryan feel at the end? How do you know?',['He was proud, because he could not wait to tell Mum.','He was scared, because the room was dark.','He was angry, because the floor was messy.','He was sad, because the night-light was broken.'],'最后一句：He **could not wait to tell Mum** → 很得意、很开心。感受题要说感受，再给原文证据。']]},
+{src:'P4 2024 Rosyth',p:`Hafiz worked part-time at a small grocery shop. One afternoon, he was cycling to deliver a basket of eggs to a customer. As he turned a corner, his front wheel hit a stone. He lost control of his bicycle and fell. The basket landed on the road, and every single egg broke. Yellow yolks spread across the hot road.
+A crowd quickly gathered around Hafiz. Nobody helped him up. Instead, they whispered among themselves. A lady shook her head and said, "Young people these days should look where they are going." Hafiz's face turned red. His knee was bleeding, but he felt even worse about the eggs.
+An old man pushed his way through the crowd. "Can you pay for the eggs?" he asked kindly. Hafiz shook his head. The eggs cost more than he earned in a week.
+"Then let me help," the old man said. He took out two dollars and pressed them into Hafiz's hand. Then he turned to the crowd. "These are good people," he said loudly. "I am sure they will help too."
+For a moment, nobody moved. Then the lady who had spoken unkindly opened her purse and gave Hafiz five dollars. One by one, the others did the same. Soon, Hafiz had more than enough money to pay for the eggs.
+"If that old man had not spoken up, I don't know what you would have done," someone said. Hafiz turned around to thank the old man, but he had already gone. Hafiz smiled. There were kind people in his neighbourhood after all.`,q:[
+['What made Hafiz fall?',['His front wheel hit a stone.','A car knocked into him.','The basket was too heavy.','He was riding too fast.'],'第一段：his front wheel **hit a stone**。'],
+['Which words show that the crowd did not help Hafiz at first?',['they whispered among themselves','a crowd quickly gathered','the others did the same','pushed his way through the crowd'],'Nobody helped him up. Instead, **they whispered among themselves**。'],
+['Why did Hafiz’s face turn red?',['He was embarrassed by what the lady said.','He was hot from cycling.','He was angry with the old man.','He had hurt his face.'],'那位女士当众说他不看路，他**难为情**，脸红了。'],
+['Why did the old man say “These are good people” loudly?',['to encourage the crowd to give money too','to scold the lady','to ask the crowd to go away','to call the shop owner'],'他先给钱，再大声说大家都是好人 → **鼓励大家也来帮忙**。'],
+['“The old man was the only person who gave Hafiz money.” Which sentence shows this is NOT true?',['One by one, the others did the same.','He took out two dollars.','For a moment, nobody moved.','Hafiz shook his head.'],'女士给了五块，**One by one, the others did the same**（别人也照做）。'],
+['How did the lady change in the story?',['She was unkind at first, but later she helped Hafiz.','She was kind at first, but later she scolded Hafiz.','She was angry the whole time.','She did not do anything.'],'先说难听的话，后来**第一个掏钱** → 前后变化。']]},
+{src:'P4 2024 Singapore Chinese Girls’',p:`Aisha stood on a stool and watched her mother fry fish.
+"Turn the fish over every now and then," Mother explained. "Then both sides will cook evenly, and the skin will be crispy." She also warned Aisha never to go near the pan with wet hands. "If water drops into hot oil, the oil will splatter and burn you."
+Just then, Father came into the kitchen. He frowned. "Why is Aisha standing so close to the stove? It's dangerous," he said.
+"Don't worry," Mother replied. "I have told her many times not to lean over the stove or touch the pots. She always listens to me." Father shook his head, but he said nothing more.
+Three days later, Aisha was in the kitchen again. Mother was frying chicken wings, and a pot of soup was boiling on the stove. Suddenly, the telephone rang in the living room. Mother went to answer it, leaving Aisha alone.
+A few minutes later, Mother heard a loud scream and the crash of metal on the floor. She dropped the phone and rushed back. Aisha was lying on the floor, crying in pain. Soup and oil were everywhere, and chicken wings were scattered across the tiles. Aisha had hurt her wrist and burnt her arm badly. She had to stay in hospital for nine days. Later, she told Mother that she had only wanted to see what was in the pot.
+From that day on, Mother never left the stove when Aisha was in the kitchen.`,q:[
+['Give one reason why Mother turned the fish over every now and then.',['so that both sides would cook evenly','so that the fish would not smell','so that Aisha could see it','so that the oil would not splatter'],'第二段：**both sides will cook evenly**，还有 the skin will be crispy。'],
+['Why must you not go near the pan with wet hands?',['The water could make the hot oil splatter and burn you.','Your hands would become oily.','The fish would not be crispy.','The stove would stop working.'],'水滴进热油，**油会溅出来烫伤人**。'],
+['Did Father agree that Aisha could stand near the stove? Which sentence shows this?',['No. He said, “It’s dangerous.”','Yes. He said, “Don’t worry.”','Yes. He smiled at Aisha.','No. He took Aisha out of the kitchen.'],'Father **frowned** 还说 It’s dangerous → 他不同意。“Don’t worry” 是妈妈说的。'],
+['Why did Mother think that Aisha would be safe?',['She had told Aisha the rules many times, and Aisha always listened.','Father was in the kitchen with them.','The stove was switched off.','Aisha was standing on a stool.'],'Mother replied: I have told her many times … **She always listens to me**。'],
+['Why was Aisha alone in the kitchen?',['Mother went to answer the telephone.','Mother went to buy chicken wings.','Father called Mother away.','Aisha wanted to cook by herself.'],'the telephone rang … **Mother went to answer it**, leaving Aisha alone。'],
+['What lesson did Mother learn?',['Never leave a child alone near a hot stove.','Never fry fish at home.','Children should not drink soup.','Always answer the phone quickly.'],'最后一句：Mother **never left the stove** when Aisha was in the kitchen。']]},
+{src:'P4 2024 St Hilda’s',p:`Mei Xin loved writing stories, but she dreaded speaking in front of the class. Whenever she had to, her voice shook and her face turned pink.
+One day, her teacher, Mrs Rao, told her about a storytelling competition. "But I get so nervous," Mei Xin said. "Everyone gets nervous," Mrs Rao replied. "What matters is that you try. Your stories are wonderful, and I would love other people to hear them." After thinking about it for a whole day, Mei Xin decided to take part.
+Every evening, she practised telling her story in front of the mirror. She also learnt to breathe slowly to calm herself down. Still, her stomach felt tight whenever she thought about the competition.
+On the day itself, Mrs Rao patted her on the back before she went up on stage. Mei Xin looked at the rows of faces and opened her mouth. Only a whisper came out. Some children in the front row giggled.
+Then she saw her best friend, Joy, in the audience, smiling and giving her a thumbs-up. Mei Xin took a deep breath and started again. This time, her voice was clear. She pretended she was telling the story to Joy alone. As the story went on, she forgot about the audience and even began to use funny voices for the characters.
+When she finished, the hall burst into loud applause. Mei Xin grinned from ear to ear. She had learnt that being brave does not mean having no fear. It means trying your best even when you are afraid.`,q:[
+['Which word in the first paragraph means “was very afraid of”?',['dreaded','loved','shook','turned'],'she **dreaded** speaking in front of the class = 非常害怕。'],
+['Why did Mrs Rao want Mei Xin to join the competition?',['She thought Mei Xin’s stories were wonderful.','Nobody else wanted to join.','Mei Xin was the best speaker in class.','She wanted Mei Xin to win a prize.'],'Mrs Rao 说：**Your stories are wonderful**, and I would love other people to hear them。'],
+['Why did Mei Xin practise in front of the mirror every evening?',['to prepare for the competition and feel less nervous','because she liked looking at herself','because Mrs Rao told her to','to learn new stories'],'她很紧张，所以每天练、还学慢慢呼吸 → **为比赛做准备、让自己不那么紧张**。'],
+['What helped Mei Xin to start again?',['She saw Joy smiling and giving her a thumbs-up.','The children in the front row giggled.','Mrs Rao spoke to her on stage.','She looked at the rows of faces.'],'Then she saw her best friend, Joy … **smiling and giving her a thumbs-up**。'],
+['Which words show that Mei Xin was no longer nervous near the end?',['she even began to use funny voices for the characters','only a whisper came out','her stomach felt tight','she looked at the rows of faces'],'敢用搞笑的声音演角色 → **已经放松了**。另外三个都是紧张的时候。'],
+['What did Mei Xin learn?',['Being brave means trying your best even when you are afraid.','Brave people are never afraid.','It is better not to join competitions.','Practising in front of a mirror is enough.'],'最后两句：being brave does not mean having no fear. It means **trying your best even when you are afraid**。']]},
+{src:'P4 2024 St Joseph’s Institution Junior',p:`Nine-year-old Wei Lun envied his friends who whizzed past on their bicycles, laughing as they rode. He had never learnt to ride because he was afraid of falling. One Saturday morning, he decided that enough was enough.
+He went to the storeroom and pulled out his old bicycle. Its tyres were flat and its chain was rusty because nobody had used it for years. His father saw him and smiled. "Let's get this bicycle ready," he said, kneeling down to look at it.
+Together, they pumped the tyres and oiled the chain. Then they went down to the open space near their block. Father taught Wei Lun how to hold the handlebars firmly, how to keep his balance and when to push off.
+Again and again, Wei Lun wobbled and fell. He scraped both knees, and once he crashed into a bush while some older boys watched. His cheeks burned, but he picked up the bicycle and tried again. Each fall taught him something new.
+As the sun was setting, Wei Lun pushed off one last time. Father ran beside him with a hand on his back. Then, without saying a word, Father let go. Wei Lun kept pedalling. He was riding on his own! His mother, who was watching from the corridor above, clapped loudly.
+That evening, he went home dusty and sore, with plasters on both knees. But he was smiling. He patted his bicycle as if it were an old friend. He could not wait to ride with his friends the next day.`,q:[
+['Which word shows that Wei Lun wished he could do what his friends did?',['envied','whizzed','laughing','decided'],'Wei Lun **envied** his friends = 羡慕。'],
+['Why had Wei Lun never learnt to ride a bicycle?',['He was afraid of falling.','He did not have a bicycle.','His father was too busy.','He did not like cycling.'],'第一段：because he was **afraid of falling**。'],
+['Why was the bicycle’s chain rusty?',['Nobody had used the bicycle for years.','It had been left in the rain.','Wei Lun’s father had broken it.','It was a very cheap bicycle.'],'第二段：because **nobody had used it for years**。'],
+['“His cheeks burned.” How did Wei Lun feel at that moment?',['embarrassed','excited','proud','sleepy'],'摔进草丛，还被大男孩看见，**脸发烫** → 难为情。'],
+['Which words show that Wei Lun did not give up?',['he picked up the bicycle and tried again','he crashed into a bush','he scraped both knees','some older boys watched'],'His cheeks burned, **but he picked up the bicycle and tried again**。'],
+['Why do you think Father let go without saying a word?',['so that Wei Lun would not get nervous and would ride on his own','because Father was tired of running','because Father wanted Wei Lun to fall','because Father had to answer a phone call'],'如果先说“我要放手了”，他可能会紧张。爸爸**悄悄放手**，他就自己骑起来了。'],
+['How do you know Wei Lun was happy at the end?',['He was smiling and patted his bicycle like an old friend.','He was dusty and sore.','He had plasters on both knees.','The sun was setting.'],'But **he was smiling**. He patted his bicycle as if it were an old friend。']]},
+{src:'P4 2024 Nan Hua',p:`Keiko was a killer whale. In 1979, when he was about two years old, he was caught in a fishing net near Iceland. He was sent to an aquarium in Canada, where he had to perform for visitors.
+Later, Keiko was sold to an amusement park in Mexico. His pool there was small, and the water was too warm for him. He became sick, and the other whales bullied him because he was the youngest and the most timid. Even so, he became the park's star and had to perform five times a day.
+In 1993, Keiko starred in a film called Free Willy. It told the story of a boy who helps a captured whale escape to the sea. The film was a big hit. Many children who watched it wrote letters and gave money to help set Keiko free.
+With the money, Keiko was moved to a much bigger pool in the United States. There, his health improved, and trainers taught him to catch live fish so that he could survive in the wild.
+In 1998, Keiko was flown back to Iceland in a large plane, lying in a special tank of water. He was finally released into the open sea in 2002. However, he had lived with people for so long that he did not join the other whales. Instead, he often swam close to boats, looking for human company. Keiko died in 2003, when he was about 27 years old. Many people feel that he never truly enjoyed the freedom he deserved.`,q:[
+['How was Keiko first caught?',['in a fishing net near Iceland','by a boy in a boat','at an amusement park in Mexico','while performing in Canada'],'第一段：he was caught **in a fishing net near Iceland**。'],
+['Why was Keiko bullied in Mexico?',['He was the youngest and the most timid whale.','He was the biggest whale.','He was the park’s star.','He would not perform.'],'第二段：because he was **the youngest and the most timid**。'],
+['How often did Keiko have to perform in Mexico?',['five times a day','once a day','five times a week','only on weekends'],'第二段：perform **five times a day**。'],
+['Why were people able to move Keiko to a bigger pool?',['Many people gave money after watching Free Willy.','The park in Mexico closed down.','Keiko escaped from his pool.','The government of Iceland paid for it.'],'第三、四段：children **gave money** to help set Keiko free. With the money, Keiko was moved…'],
+['Why did the trainers teach Keiko to catch live fish?',['so that he could survive in the wild','so that he could perform new tricks','because he was hungry','because he did not like dead fish'],'第四段：**so that he could survive in the wild**。'],
+['Why do people feel that Keiko never truly enjoyed his freedom?',['He stayed near boats and never joined the other whales.','He was never released into the sea.','He died in a small pool in Mexico.','He did not like Iceland.'],'他被放回大海，却 **did not join the other whales**，还常常跟着船找人。']]}
+];
+G('read','P4 reading · 长文阅读',2,1.1,()=>{const x=pick(LONG),n=x.q.length,pk=shuf([...Array(n).keys()]).slice(0,3).sort((a,b)=>a-b);
+  return pk.map((k,i)=>{const [q,o,ex]=x.q[k];const r=mk({p:x.p,q,zh:'先在文章里找到问题说的那一段，答案和证据都在那里。',a:o[0],d:o.slice(1),ex});r.step=(i+1)+'/3';return r;});});
+
 /* ---------- word cards: one set of 5 a week. [word, 中文, simple meaning, example with **word**] ---------- */
 const WORDSETS=[
 {title:'Feelings 1',zh:'感受 1',words:[
@@ -934,7 +1016,79 @@ const P4ITEMS={
 ['I will lend you my umbrella ___ you promise to return it tomorrow.',['as long as','although','until','because'],'只要你答应还 → **as long as**。',3],
 ['We cancelled the picnic ___ the weather forecast warned of thunderstorms.',['since','although','unless','until'],'后半句是原因 → **since**（因为）。',3]]
 };
-function cell(t,w,items,zh){items=items.concat(P4ITEMS[t]||[]);[1,2,3].forEach(l=>{const sub=items.filter(x=>x[3]===l);if(sub.length)G('gram',t,l,w,()=>{const [q,o,ex]=pick(sub);return mk({q,zh,a:o[0],d:o.slice(1),ex});});});}
+
+/* more P4 questions so each cell has 10 or more */
+const P4MORE={
+'were · 复数主语':[
+['The keys that I lost yesterday ___ under the sofa.',['were','was','is','be'],'主语是 keys（很多把），that I lost yesterday 只是说明 → **were**。',3],
+['Neither Ali nor his brothers ___ at the party last night.',['were','was','is','be'],'Neither … nor …，动词跟最靠近的 brothers（很多人）→ **were**。',3],
+['Most of the cookies ___ eaten before the guests arrived.',['were','was','is','are'],'Most of the cookies = 大部分饼干（很多块）→ **were**。',3],
+['The police ___ searching the area when we arrived.',['were','was','is','be'],'police 永远当复数用 → **were**。',3],
+['The scissors on Dad’s desk ___ too blunt to cut the cardboard.',['were','was','is','be'],'scissors 是复数，不是 desk → **were**。',3]],
+'was · 单数主语':[
+['Either Mum or Dad ___ going to fetch us after school yesterday.',['was','were','is','are'],'Either … or …，动词跟最靠近的 Dad（一个人）→ **was**。',3],
+['The bag of marbles ___ heavier than I expected.',['was','were','is','are'],'主语是 bag（一袋），不是 marbles → **was**。',3],
+['Mathematics ___ my favourite subject last year.',['was','were','is','are'],'Mathematics 虽然有 s，是一门学科，算一个 → **was**。',3],
+['The teacher, along with her pupils, ___ excited about the trip.',['was','were','is','are'],'along with 不算进主语，主语是 teacher → **was**。',3],
+['There ___ a lot of noise coming from the hall during recess.',['was','were','is','are'],'There ___ 看后面：noise 不能数，算一个 → **was**。',3]],
+'Happening now · 进行时':[
+['"Shh! The principal ___ an announcement now."',['is making','makes','made','are making'],'Shh! + now = 现在正在 → **is making**。',3],
+['"Can you help me later? I ___ my science project at the moment."',['am finishing','finish','finished','was finishing'],'at the moment = 现在，主语 I → **am finishing**。',3],
+['"Look! The children ___ the fallen leaves in the garden."',['are sweeping','sweep','swept','is sweeping'],'Look! = 正在发生，children 很多人 → **are sweeping**。',3],
+['"My grandparents ___ to Singapore next Friday. We are meeting them at the airport."',['are coming','come','came','was coming'],'已经安排好的事（要去机场接）→ **are coming**。',3],
+['"Turn down the radio, please. Your sister ___ for her exam."',['is revising','revises','revised','are revising'],'请把收音机关小，因为她现在正在复习 → **is revising**。',3]],
+'While … · 过去进行时':[
+['The phone rang while I ___ a shower.',['was taking','took','am taking','were taking'],'正在洗澡，电话突然响 → **was taking**。',3],
+['Siti cut her finger while she ___ the onions.',['was slicing','sliced','slices','were slicing'],'正在切洋葱时切到手 → **was slicing**。',3],
+['We ___ along the forest trail when a snake suddenly appeared.',['were walking','walked','was walking','walk'],'正在走，突然出现一条蛇；We → **were walking**。',3],
+['It ___ heavily when we left the cinema, so we took a taxi.',['was raining','rained','rains','were raining'],'我们出来时，外面正在下大雨 → **was raining**。',3],
+['Dad came home while the twins ___ their homework.',['were doing','did','was doing','do'],'爸爸回来时，双胞胎正在做作业；twins 两个人 → **were doing**。',3]],
+'many · a few · 可数':[
+['Only ___ of my classmates have been to Japan.',['a few','a little','much','little'],'classmates 能数，only 后面 → **a few**。',3],
+['There were too ___ cars on the road, so we were stuck in a jam.',['many','much','little','a little'],'cars 能数，太多 → too **many**。',3],
+['I have read ___ books by this author, and I enjoyed all of them.',['several','much','a little','little'],'books 能数，好几本 → **several**。',3],
+['Very ___ people turned up for the talk because of the heavy rain.',['few','a few','little','much'],'people 能数，下大雨 → 来的人很少 → **few**。',3],
+['The new library has ___ shelves of comics, so Ben visits it every week.',['many','much','a little','little'],'shelves 能数，很多 → **many**。',3]],
+'much · a little · 不可数':[
+['How ___ milk should I pour into the batter?',['much','many','a few','few'],'milk 不能数 → How **much**。',3],
+['We spent too ___ money at the fair, so we could not buy dinner.',['much','many','a few','few'],'money 不能数，花太多 → too **much**。',3],
+['There is very ___ space in this tiny room for a big bed.',['little','few','many','a few'],'space 不能数，tiny room → 空间很少 → **little**。',3],
+['Grandpa doesn’t drink ___ coffee because it keeps him awake.',['much','many','a few','few'],'coffee 不能数，否定句 → **much**。',3]],
+'myself · themselves · 反身代词':[
+['"Please help ___ to the snacks, everyone," said Mrs Lee.',['yourselves','yourself','themselves','ourselves'],'对 everyone（很多人）说“你们自己” → **yourselves**。',3],
+['My sister and I decorated the classroom by ___.',['ourselves','themselves','myself','yourselves'],'My sister and I = 我们 → **ourselves**。',3],
+['Ben was so proud of ___ for finishing the race.',['himself','herself','itself','themselves'],'Ben 一个男孩 → **himself**。',3],
+['The door closed by ___ because of the strong wind.',['itself','himself','themselves','herself'],'door 是东西 → **itself**。',3],
+['Mrs Tan told her daughter, "You must learn to pack your bag ___."',['yourself','yourselves','herself','myself'],'妈妈对一个女儿说“你自己” → **yourself**。',3]],
+'Question tags · 反问句尾':[
+['Ravi hardly ever eats vegetables, ___?',['does he','doesn’t he','is he','isn’t he'],'hardly ever 是否定意思，后面用肯定 → **does he**。',3],
+['You have finished your homework, ___?',['haven’t you','have you','didn’t you','don’t you'],'前面是 have（肯定）→ **haven’t you**。',3],
+['The children won’t be late, ___?',['will they','won’t they','are they','do they'],'前面是 won’t（否定）→ 后面肯定 **will they**。',3],
+['Somebody left the gate open, ___?',['didn’t they','did they','wasn’t it','isn’t it'],'Somebody 用 they；left 是过去的动词 → **didn’t they**。',3]],
+'this · that · these · those':[
+['"___ is the best mango I have ever eaten!" said Dad, holding it up.',['This','That','These','Those'],'拿在手上（近）+ 一个 → **This**。',3],
+['"Do you remember ___ day we got lost at the zoo?"',['that','this','these','those'],'说的是过去的那一天（远）→ **that**。',3],
+['"Whose are ___ bags under the table over there?"',['those','these','that','this'],'over there（远）+ bags 是复数 → **those**。',3],
+['"___ pencils in my pencil case are all blunt."',['These','Those','This','That'],'在我的笔袋里（近）+ 很多支 → **These**。',3],
+['"Can you see ___ bird on the roof across the street?"',['that','this','these','those'],'across the street（远）+ 一只 → **that**。',3],
+['"___ cookies I am eating are delicious."',['These','Those','This','That'],'正在吃（近）+ 很多块 → **These**。',3]],
+'Joining words · 连接词':[
+['___ he was tired, Ali stayed up to finish his model.',['Even though','Because','So that','Unless'],'很累，还是熬夜做完（相反）→ **Even though**。',3],
+['Grandpa walks every morning ___ he can stay healthy.',['so that','although','unless','until'],'为了保持健康（目的）→ **so that**。',3],
+['Take an umbrella ___ it rains later.',['in case','so that','although','until'],'以防等一下下雨 → **in case**。',3],
+['Ben ran to the bus stop, ___ he still missed the bus.',['but','so','because','unless'],'跑去了，还是错过（相反）→ **but**。',3],
+['Neither Mei ___ her brother knew the answer.',['nor','or','and','but'],'neither … **nor** …（两个都不）。',3]],
+'Prepositions · 介词':[
+['The cat hid ___ the two cupboards.',['between','among','through','across'],'两个东西中间 → **between**（三个以上用 among）。',3],
+['We walked ___ the tunnel to get to the other side.',['through','among','between','at'],'从隧道里面穿过去 → **through**。',3],
+['The rescuers searched ___ the rubble for survivors.',['among','between','across','over'],'在一大堆东西中间找 → **among**。',3]],
+'Past tense · 过去式':[
+['The dog ___ a bone in the garden yesterday.',['buried','bury','buries','burying'],'yesterday = 过去 → bury 的过去式 **buried**（y 变 i 加 ed）。',3],
+['Last night, the thunder ___ me up.',['woke','wake','wakes','woken'],'Last night = 过去 → wake 的过去式 **woke**（woken 不能单独用）。',3],
+['Mei ___ her finger while she was peeling the apple.',['cut','cuts','cutting','is cutting'],'说的是已经发生的事 → cut 的过去式还是 **cut**。',3],
+['Jun ___ all his pocket money on a new game last week.',['spent','spend','spends','spending'],'last week = 过去 → spend 的过去式 **spent**。',3]]
+};
+function cell(t,w,items,zh){items=items.concat(P4ITEMS[t]||[],P4MORE[t]||[]);[1,2,3].forEach(l=>{const sub=items.filter(x=>x[3]===l);if(sub.length)G('gram',t,l,w,()=>{const [q,o,ex]=pick(sub);return mk({q,zh,a:o[0],d:o.slice(1),ex});});});}
 cell('were · 复数主语',.9,[
 ['Ravi and Ben ___ tired after the race yesterday.',['were','was','is','be'],'Ravi and Ben = 两个人，yesterday = 过去 → **were**。',1],
 ['My sister and I ___ at the beach last Sunday.',['were','was','am','is'],'my sister and I = 两个人，last Sunday = 过去 → **were**。',1],
@@ -1050,7 +1204,7 @@ cell('Joining words · 连接词',.5,[
 ['Both Mei ___ Siti are in the choir.',['and','or','but','so'],'both … **and** …。',2],
 ],'两部分是什么关系：原因、结果、相反，还是选一个？');
 /* P4 level for the two cells that are built from word lists above (prepositions, past tense) */
-const P4X=(t,w,zh,items)=>G('gram',t,3,w,()=>{const [q,o,ex]=pick(items);return mk({q,zh,a:o[0],d:o.slice(1),ex});});
+const P4X=(t,w,zh,items)=>{items=items.concat((P4MORE[t]||[]).map(x=>x.slice(0,3)));G('gram',t,3,w,()=>{const [q,o,ex]=pick(items);return mk({q,zh,a:o[0],d:o.slice(1),ex});});};
 P4X('Prepositions · 介词',.8,'想一想：是时间、地点，还是固定搭配（good at / filled with）？',[
 ['The pupils must stay quiet ___ the whole performance.',['during','for','since','at'],'during + 一段活动（整场表演的过程中）→ **during**。'],
 ['We have lived in this flat ___ five years.',['for','since','during','at'],'five years = 一段时间的长度 → **for**。'],

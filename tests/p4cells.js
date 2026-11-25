@@ -37,6 +37,11 @@ for(let r=0;r<40&&!said;r++){if(await p.isVisible('.tile[data-mode="gram"]'))awa
   if(!said){if(await p.isVisible('#bHome'))await p.click('#bHome');await p.waitForTimeout(40);}}
 s=await S();ok(!!(s.p4&&s.p4[B]),'was · 单数主语 reached 80% over 10+ answers → P4');
 ok(said,'the end-of-round screen tells the child the cell moved to P4');
+// every cell has at least 10 different P4 questions; the P4-length passages are 250+ words, three questions each, in their own scrolling box
+{const r=await p.evaluate(()=>{const keep=QB.p4;QB.p4={};QB.P4CELLS.forEach(t=>QB.p4[t]=1);const seen={};for(let i=0;i<30000;i++){const q=QB.make('gram',1+(i%2));const a=Array.isArray(q)?q[0]:q;if(a.l===3)(seen[a.t]=seen[a.t]||new Set()).add(a.q);}QB.p4=keep;
+  const g=QB.GENS.find(g=>g.t==='P4 reading · 长文阅读'),ch=g.f();return {cells:QB.P4CELLS.map(t=>[t,seen[t]?seen[t].size:0]),words:ch[0].p.split(/\s+/).length,n:ch.length};});
+ ok(r.cells.every(c=>c[1]>=10),'every grammar cell has 10+ P4 questions: '+r.cells.map(c=>c[1]).join(','));
+ ok(r.words>=250&&r.n===3,'a P4 reading passage has '+r.words+' words and 3 questions');}
 // the handbook's button
 const q=await (await b.newContext({...devices['iPad (gen 7) landscape']})).newPage();q.on('pageerror',e=>errs.push(e.message));
 await q.goto('http://localhost:8767/english/?from=handbook&go=together');await q.waitForTimeout(600);
