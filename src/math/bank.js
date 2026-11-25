@@ -223,7 +223,7 @@ G('wp',T.times,3,1,()=>{const [x,y]=pick(PAIRS),a=ri(3,12),k=ri(2,5),T2=a*(k+1);
    {q:`If the ${x[0]} is 1 unit, how many units are there altogether?`,qz:`第 1 步：${x[2]}是 1 份，一共有几份？`,a:`${k+1} units`,az:`${k+1} 份`,d:[[`${k} units`,'keyword',`${y[2]}是 ${k} 份，还要加上${x[2]}的 1 份。`,`${k} 份`],[`${k+2} units`,'calc',null,`${k+2} 份`],['1 unit','keyword',null,'1 份']],ex:`${x[2]} 1 份 + ${y[2]} ${k} 份 = ${k+1} 份。`},
    {q:'How much is 1 unit?',qz:'第 2 步：1 份是多少钱？',a:D(a),d:[[D(Math.floor(T2/k)),'keyword',`一共是 ${k+1} 份，要 ÷ ${k+1}，不是 ÷ ${k}。`],[D(T2-k),'keyword','几倍不是减。'],[D(a+1),'calc']],fill:{n:a,step:1,f:D},ex:`$${T2} ÷ ${k+1} = $${a}。`},
    {q:`How much does the ${y[0]} cost?`,qz:`第 3 步：${y[2]}多少钱？`,a:D(a*k),d:[[D(a),'step1',`$${a} 是 1 份，是${x[2]}的价钱。${y[2]}是 ${k} 份。`],[D(T2),'who','这是两样一共的。'],[D(a*k+k),'calc']],fill:{n:a*k,step:1,f:D},ex:`$${a} × ${k} = $${a*k}。`}],[`${y[2]}多少钱`,`${x[2]}多少钱`,'两样一共多少钱',`${y[2]}比${x[2]}贵多少`]);});
-G('wp',T.ap,3,.8,()=>{const s=ri(5,12),P=4*s,u=pick(['cm','m']);
+G('wp',T.ap,3,.8,()=>{const s=ri(5,12),P=4*s,u='m';
   return chain(`A square garden has a perimeter of ${P} ${u}. What is its area?`,`正方形花园的周长是 ${P} ${u}。面积是多少？`,[
    {q:'How long is one side?',qz:'第 1 步：一条边多长？',a:`${s} ${u}`,d:[[`${P/2} ${u}`,'perim','正方形有 4 条边，要 ÷ 4。'],[`${P} ${u}`,'step1','这是周长（4 条边加起来）。'],[`${s+4} ${u}`,'calc']],ex:`周长 ÷ 4：${P} ÷ 4 = ${s} ${u}。`},
    {q:'What is the area?',qz:'第 2 步：面积是多少？',a:`${s*s} ${u}²`,d:[[`${P} ${u}²`,'perim','这是周长的数，不是面积。'],[`${s*4} ${u}`,'perim',`面积 = 边长 × 边长，单位是 ${u}²。`],[`${s*2} ${u}²`,'calc','面积 = 边长 × 边长，不是 × 2。']],ex:`面积 = ${s} × ${s} = ${s*s} ${u}²。`}],['花园的面积是多少','花园的周长是多少','一条边有多长','花园有几条边']);});
@@ -495,7 +495,7 @@ function scaleSvg(mx,maj,sub,val,unit){const W=320,L=20,R=20,y=60,sx=(W-L-R)/mx;
   for(let v=0;v<=mx+1e-9;v+=st){const x=L+v*sx,big=Math.abs(v/maj-Math.round(v/maj))<1e-6;o+=`<line x1="${x.toFixed(1)}" y1="${y}" x2="${x.toFixed(1)}" y2="${y-(big?16:8)}" class="sc-l"/>`;if(big)o+=`<text x="${x.toFixed(1)}" y="${y+18}" text-anchor="middle" class="sc-t">${N(Math.round(v))}</text>`;}
   const px=L+val*sx;o+=`<path d="M${px.toFixed(1)} ${y-18}l-7 -14h14z" class="sc-p"/><text x="${W-R}" y="${y+36}" text-anchor="end" class="sc-t">${unit}</text>`;
   return `<svg viewBox="0 0 ${W} 100" role="img" aria-label="scale">${o}</svg>`;}
-G('calc',T.scale,2,1,()=>{const [maj,sub,unit,zu,what]=pick([[100,5,'g','g','a bag of nuts'],[100,4,'g','g','a bag of beans'],[200,4,'mℓ','mℓ','the water in a jug'],[100,2,'mℓ','mℓ','the juice in a cup'],[1000,5,'g','g','a bag of rice'],[50,5,'cm','cm','a stick']]);
+G('calc',T.scale,2,1,()=>{const [maj,sub,unit,zu,what]=pick([[100,5,'g','g','a bag of nuts'],[100,4,'g','g','a bag of beans'],[200,4,'ml','ml','the water in a jug'],[100,2,'ml','ml','the juice in a cup'],[1000,5,'g','g','a bag of rice'],[50,5,'cm','cm','a stick']]);
   const mx=maj*ri(4,5),st=maj/sub;let val;do{val=st*ri(1,mx/st-1);}while(val%maj===0);const fig=scaleSvg(mx,maj,sub,val,unit),p=`The scale shows ${what}.`,pz=`刻度显示的是${what.replace(/^(a|the) /,'')}。`;
   return chain(p+' What is the reading?',pz+'读数是多少？',[
     {fig,q:`Each small mark stands for how many ${unit}?`,qz:'先看：1 小格是多少？',a:`${N(st)} ${unit}`,d:[['1 '+unit,'place',`一大格 ${N(maj)} 分成 ${sub} 小格。`],[`${N(maj)} ${unit}`,'place','这是一大格。'],[`${N(maj/(sub+1)|0)} ${unit}`,'place','数“格”，不是数刻度线。']],ex:`两个数字之间是 ${N(maj)} ${unit}，分成 ${sub} 小格：${N(maj)} ÷ ${sub} = ${N(st)} ${unit}。`},
