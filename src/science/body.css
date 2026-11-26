@@ -42,3 +42,4 @@
 .bd-pair .bd-opt{margin-top:.35rem;box-shadow:0 2px 0 #d8d2f0;font-size:.9rem}
 .bd-done{text-align:center;background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1.25rem;font-weight:800;font-size:1.2rem}
 .bd-entry{flex:0 1 auto}
+.bd-stage [filter]{animation:bdGlow 1.4s ease-in-out infinite}@keyframes bdGlow{50%{opacity:.82}}@media (prefers-reduced-motion:reduce){.bd-stage [filter]{animation:none}}
