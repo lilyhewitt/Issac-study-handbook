@@ -44,5 +44,5 @@ ok(S2.bar.cur>=0,'next type set');
 /* the daily round now has the four exam types */
 const seen=new Set();for(let r=0;r<60;r++){await mixRound(p);for(let k=0;k<12;k++){if(!await p.isVisible('#opts'))break;await p.click('#opts button >> nth=0');await p.waitForTimeout(30);if(await p.isVisible('#bNext'))await p.click('#bNext');await p.waitForTimeout(30);}if(!(await p.isVisible('#vDone'))&&await p.isVisible('#bQuit'))await p.click('#bQuit');}
 const S3=await p.evaluate(()=>JSON.parse(localStorage.getItem('xiaoxiao-math-v1')));S3.log.forEach(e=>seen.add(e.t));
-ok(['几倍和相差','知道大的','三个量','前后变化'].filter(k=>[...seen].some(t=>t.includes(k))).length>=2,'mixed rounds include the exam types: '+[...seen].filter(t=>/几倍和相差|知道大的|三个量|前后变化/.test(t)).join(' / '));
+ok(['几倍和相差','知道大的','三个量','往回推'].filter(k=>[...seen].some(t=>t.includes(k))).length>=2,'mixed rounds include the exam types: '+[...seen].filter(t=>/几倍和相差|知道大的|三个量|前后变化/.test(t)).join(' / '));
 console.log(out.join('\n'));console.log('errors',errs);await b.close();})();

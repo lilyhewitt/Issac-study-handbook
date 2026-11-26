@@ -5,9 +5,9 @@
 const ISL=QB.ISLAND||[],ICH=QB.ISLAND_CHEST||[];
 const ISLICON={'果园摘果':'fruit','糖果铺':'sweet','跷跷板':'seesaw','长颈鹿家':'giraffe','小蚂蚁洞':'ant','双胞胎桥':'bridge','积木城堡':'castle','时光隧道':'tunnel','宝藏洞':'gem',
   '挑战关 1':'flag','猜猜鸡兔':'bunny','披萨店':'pizza','面包房':'bread','小卖部':'coin','风车坡':'windmill','花园小路':'flower','气象站':'chart','钟楼':'clock','挑战关 2':'flag'};
-const FIGS={pw:['部分-整体','Part-whole'],cmp:['比较图','Comparison'],unit:['单位图','Units'],three:['三个量','Three people'],sd:['和差图','Sum & difference'],
-  ba:['前后图','Before & after'],same:['差不变','Same difference'],move:['转移箭头','Give & take'],flow:['倒推流程','Work backwards'],pie:['分数圆','Fraction circle'],
-  branch:['剩余分支','The remainder'],line:['间隔图','Intervals'],table:['猜测检查表','Guess & check'],angle:['角','Angles'],rect:['长方形','Rectangles'],chart:['读图表','Graphs'],time:['时间线','Time line']};
+const FIGS={pw:['部分和整体','Part-whole model'],cmp:['比较','Comparison model'],unit:['比较·几格','Comparison model (units)'],three:['比较·三个量','Comparison model (three items)'],sd:['比较·和差','Comparison model (total and difference)'],
+  ba:['部分和整体·前后变化','Part-whole model (before and after)'],same:['比较·差不变','Comparison model (difference unchanged)'],move:['比较·总数不变','Comparison model (total unchanged)'],flow:['往回推','Work backwards'],pie:['分数（圆形图）','Fractions (circle)'],
+  branch:['剩下的再取几分之几','Part-whole model (fraction of the remainder)'],line:['间隔','Intervals'],table:['猜测检查表','Guess and check (table)'],angle:['角','Angles'],rect:['长方形','Rectangles'],chart:['读图表','Graphs'],time:['时间线','Timeline']};
 const FIGSVG={ /* tiny pictures for the “which picture?” step */
   pw:'<rect x="4" y="16" width="34" height="12" rx="2" fill="#E2EAFE" stroke="#2F66F0" stroke-width="2"/><rect x="38" y="16" width="18" height="12" rx="2" fill="#FDE8DD" stroke="#E25F2A" stroke-width="2"/><path d="M4 10h52" stroke="#17203B" stroke-width="2"/>',
   cmp:'<rect x="4" y="10" width="40" height="10" rx="2" fill="#E2EAFE" stroke="#2F66F0" stroke-width="2"/><rect x="4" y="26" width="26" height="10" rx="2" fill="#E2EAFE" stroke="#2F66F0" stroke-width="2"/><path d="M30 31h14" stroke="#E25F2A" stroke-width="2" stroke-dasharray="3 2"/>',

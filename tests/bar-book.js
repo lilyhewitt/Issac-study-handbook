@@ -33,7 +33,7 @@ s=await S();ok(hasDec===0||(s.bar.n.cmp===2&&s.bar.ok.cmp===1),'help: done but n
 /* recommendation: the kind done right the fewest times */
 await p.evaluate(k=>{const S=JSON.parse(localStorage.getItem(k));S.bar.ok={0:3,1:3,2:3,3:3,4:3,5:3,6:3,7:3,pw:3,cmp:3,same:3,move:3,flow:3,pie:1,branch:3,line:3,table:3};localStorage.setItem(k,JSON.stringify(S));},KEY);
 await p.reload();await p.waitForTimeout(300);await p.click('#tBar');await p.click('#ptBook');await p.waitForTimeout(200);
-ok(/分数圆/.test(await p.innerText('#bcRec')),'推荐 picks the kind done right the fewest times: '+await p.innerText('#bcRec'));
+ok(/分数（圆形图）/.test(await p.innerText('#bcRec')),'推荐 picks the kind done right the fewest times: '+await p.innerText('#bcRec'));
 ok(/16 \/ 17/.test(await p.innerText('#bcTot')),'count of kinds learned: '+await p.innerText('#bcTot'));
 await p.click('#bcRec');await p.waitForTimeout(150);ok(await p.evaluate(()=>__bar.BD()&&__bar.BD().id==='pie'),'推荐 opens it');
 /* the old kinds still open from the book */

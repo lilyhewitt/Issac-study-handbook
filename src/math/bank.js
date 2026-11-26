@@ -529,7 +529,7 @@ G('wp',T.wtime,3,.8,()=>{const k=kid(),v=Math.random()<.5;
   return mk({q:`A match started at ${h(s)} and ended at ${h(e)} the next day. How long was the match?`,zh:`比赛 ${h(s)} 开始，第二天 ${h(e)} 结束。比赛多长时间？`,a:dur(d),d:[[dur(1440-d),'time','过了午夜，不能大减小。'],[dur(d+60),'time','先算到 24 00，再加上第二天的。'],[dur(d-20>0?d-20:d+20),'time']],ex:`${h(s)} 到 24 00 是 ${dur(1440-s)}，再到 ${h(e)} 是 ${dur(e)}，一共 ${dur(d)}。`});});
 
 const BAR=[
- {t:'几倍 · 知道小的',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(2,5),b=ri(6,25),tot=Math.random()<.4,ans=tot?b*(k+1):b*k;
+ {t:'比较·几格 · 知道小的',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(2,5),b=ri(6,25),tot=Math.random()<.4,ans=tot?b*(k+1):b*k;
    return {p:`${B.n} has ${b} ${it[0]}. ${A.n} has ${tws(k)} as many ${it[0]} as ${B.n}. How many ${it[0]} ${tot?'do they have altogether':`does ${A.n} have`}?`,
      zh:`${B.n} 有 ${b} ${it[1]}。${A.n} 的是 ${B.n} 的 ${k} 倍。${tot?'两人一共有多少？':`${A.n} 有多少？`}`,
      rows:[{n:A.n,u:k,x:0},{n:B.n,u:1,x:0}],hint:`${A.n} 是 ${B.n} 的 ${k} 倍：${B.n} 画 1 格，${A.n} 画 ${k} 格，每格一样长。`,
@@ -540,7 +540,7 @@ const BAR=[
        tot?{q:'一共有几格？ · How many units altogether?',a:k+1,o:nopt(k+1,[k,1,k+2])}:{q:`${A.n} 有几格？ · How many units?`,a:k,o:nopt(k,[1,k+1,2])},
        {q:tot?`一共 = ${k+1} × ${b} = ?`:`${A.n} = ${k} × ${b} = ?`,a:ans,o:nopt(ans,[ans+b,b+k,ans-b])}],
      sum:`1 格 = ${b}。${tot?`一共 ${k+1} 格：${k+1} × ${b} = ${ans}`:`${A.n} 有 ${k} 格：${k} × ${b} = ${ans}`}。`};}},
- {t:'几倍 · 知道大的',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(2,5),b=ri(6,25),a=b*k,tot=Math.random()<.5,ans=tot?a+b:b;
+ {t:'比较·几格 · 知道大的',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(2,5),b=ri(6,25),a=b*k,tot=Math.random()<.5,ans=tot?a+b:b;
    return {p:`${A.n} has ${a} ${it[0]}. ${A.P} has ${tws(k)} as many ${it[0]} as ${B.n}. How many ${it[0]} ${tot?'do they have altogether':`does ${B.n} have`}?`,
      zh:`${A.n} 有 ${a} ${it[1]}，是 ${B.n} 的 ${k} 倍。${tot?'两人一共有多少？':`${B.n} 有多少？`}`,
      rows:[{n:A.n,u:k,x:0},{n:B.n,u:1,x:0}],hint:`${A.n} 是 ${B.n} 的 ${k} 倍：${B.n} 画 1 格，${A.n} 画 ${k} 格。`,
@@ -551,7 +551,7 @@ const BAR=[
        {q:`1 格 = ${a} ÷ ${k} = ?`,a:b,o:nopt(b,[a*k,a-k,a+k])},
        {q:`1 格（${b}）是谁的？ · Whose number is ${b}?`,a:B.n,o:shuf([B.n,A.n,'两人一共'])}].concat(tot?[{q:`一共 = ${a} + ${b} = ?`,a:ans,o:nopt(ans,[a,a*(k+1),a+k])}]:[]),
      sum:`${a} 是 ${k} 格，1 格 = ${a} ÷ ${k} = ${b}，是 ${B.n} 的。${tot?`一共 ${a} + ${b} = ${ans}。`:''}`};}},
- {t:'几倍 + 相差',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(3,7),b=ri(8,30),d=(k-1)*b,v=ri(0,2),ans=[b*(k+1),b*k,b][v],fewer=Math.random()<.5;
+ {t:'比较·几格 · 几倍和相差',f:()=>{const [A,B]=two(),it=pick(STK),k=ri(3,7),b=ri(8,30),d=(k-1)*b,v=ri(0,2),ans=[b*(k+1),b*k,b][v],fewer=Math.random()<.5;
    return {p:`${A.n} has ${tws(k)} as many ${it[0]} as ${B.n}. ${fewer?`${B.n} has ${d} fewer ${it[0]} than ${A.n}`:`${A.n} has ${d} more ${it[0]} than ${B.n}`}. How many ${it[0]} ${['do they have altogether',`does ${A.n} have`,`does ${B.n} have`][v]}?`,
      zh:`${A.n} 的是 ${B.n} 的 ${k} 倍。${fewer?`${B.n} 比 ${A.n} 少 ${d}`:`${A.n} 比 ${B.n} 多 ${d}`} ${it[1]}。${['两人一共有多少？',`${A.n} 有多少？`,`${B.n} 有多少？`][v]}`,
      rows:[{n:A.n,u:k,x:0},{n:B.n,u:1,x:0}],hint:`${k} 倍：${B.n} 画 1 格，${A.n} 画 ${k} 格。`,
@@ -564,7 +564,7 @@ const BAR=[
         [{q:`${A.n} 有几格？ · How many units?`,a:k,o:nopt(k,[k-1,k+1])},{q:`${A.n} = ${k} × ${b} = ?`,a:ans,o:nopt(ans,[b*(k+1),d,b])}],
         [{q:`1 格（${b}）是谁的？ · Whose number is ${b}?`,a:B.n,o:shuf([B.n,A.n,'两人一共'])}]][v]),
      sum:`长出来的 ${k-1} 格 = ${d}，1 格 = ${d} ÷ ${k-1} = ${b}。${[`一共 ${k+1} 格 = ${ans}`,`${A.n} 有 ${k} 格 = ${ans}`,`${B.n} 有 1 格 = ${b}`][v]}。`};}},
- {t:'和差 · 多一段',f:()=>{const [A,B]=two(),it=pick(STK),s=ri(10,45),d=ri(4,20),T2=2*s+d,big=Math.random()<.5,who=big?A.n:B.n;
+ {t:'比较·和差',f:()=>{const [A,B]=two(),it=pick(STK),s=ri(10,45),d=ri(4,20),T2=2*s+d,big=Math.random()<.5,who=big?A.n:B.n;
    return {p:`${A.n} and ${B.n} have ${T2} ${it[0]} altogether. ${A.n} has ${d} more ${it[0]} than ${B.n}. How many ${it[0]} does ${who} have?`,
      zh:`${A.n} 和 ${B.n} 一共有 ${T2} ${it[1]}。${A.n} 比 ${B.n} 多 ${d}。${who} 有多少？`,
      rows:[{n:A.n,u:1,x:d},{n:B.n,u:1,x:0}],xo:[d],uv:s,hint:`${A.n} 比 ${B.n} 多 ${d}：两人都画 1 格，${A.n} 后面再多一段（+${d}）。`,
@@ -575,7 +575,7 @@ const BAR=[
        {q:`剩下 2 格一样长，1 格 = ${T2-d} ÷ 2 = ?`,a:s,o:nopt(s,[T2-d,s+d,Math.floor(T2/2)])},
        {q:`1 格（${s}）是谁的？ · Whose number is ${s}?`,a:B.n,o:shuf([B.n,A.n,'两人一共'])}].concat(big?[{q:`${A.n} = ${s} + ${d} = ?`,a:s+d,o:nopt(s+d,[s,T2-s,s+2*d])}]:[]),
      sum:`${T2} − ${d} = ${T2-d}，÷ 2 = ${s}，这是 ${B.n} 的。${big?`${A.n} 再加 ${d}：${s} + ${d} = ${s+d}。`:''}`};}},
- {t:'三个量',f:()=>{const p=pick([20,25,30,35,40]),q=pick([5,10,15].filter(x=>x<p)),s=ri(8,30)*5,c=p-q,T2=3*s+p+c,askA=Math.random()<.4;
+ {t:'比较·三个量',f:()=>{const p=pick([20,25,30,35,40]),q=pick([5,10,15].filter(x=>x<p)),s=ri(8,30)*5,c=p-q,T2=3*s+p+c,askA=Math.random()<.4;
    return {p:`Three ropes, A, B and C, are ${T2} cm long altogether. Rope A is ${p} cm longer than Rope B. Rope C is ${q} cm shorter than Rope A. How long is Rope ${askA?'A':'B'}?`,
      zh:`A、B、C 三根绳一共长 ${T2} cm。A 比 B 长 ${p} cm，C 比 A 短 ${q} cm。${askA?'A':'B'} 多长？`,
      rows:[{n:'Rope A',u:1,x:p},{n:'Rope B',u:1,x:0},{n:'Rope C',u:1,x:c}],xo:[p,c,q],uv:s,
@@ -587,7 +587,7 @@ const BAR=[
        {q:`剩下 3 格一样长，1 格 = ${3*s} ÷ 3 = ?`,a:s,o:nopt(s,[3*s,s+p,s+c])},
        {q:`1 格（${s} cm）是哪一根？ · Which rope is ${s} cm?`,a:'Rope B',o:shuf(['Rope B','Rope A','Rope C'])}].concat(askA?[{q:`Rope A = ${s} + ${p} = ?`,a:s+p,o:nopt(s+p,[s,s+c,s+q])}]:[]),
      sum:`${T2} − ${p} − ${c} = ${3*s}，÷ 3 = ${s} cm，这是 Rope B。${askA?`Rope A 再加 ${p}：${s+p} cm。`:''}`};}},
- {t:'前后变化 · 倒推',f:()=>{const [J,R]=two(),it=pick(STK),d=ri(10,40),rb=ri(40,150),jb=rb+d,g=ri(20,Math.min(jb-1,150)),aft=rb+g;
+ {t:'前后变化 · 往回推',f:()=>{const [J,R]=two(),it=pick(STK),d=ri(10,40),rb=ri(40,150),jb=rb+d,g=ri(20,Math.min(jb-1,150)),aft=rb+g;
    return {p:`${J.n} had ${d} more ${it[0]} than ${R.n}. ${J.n} gave ${R.n} ${g} ${it[0]}. Then ${R.n} had ${aft} ${it[0]}. How many ${it[0]} did ${J.n} have at first?`,
      zh:`${J.n} 原来比 ${R.n} 多 ${d}。${J.n} 给了 ${R.n} ${g}。之后 ${R.n} 有 ${aft}。${J.n} 原来有多少？`,
      rows:[{n:R.n+' (after)',u:1,x:g,hx:1}],build:false,uv:rb,
@@ -598,7 +598,7 @@ const BAR=[
        {q:`${J.n} 原来比 ${R.n} 原来多 ${d}：${J.n} 原来 = ${rb} + ${d} = ?`,a:jb,o:nopt(jb,[rb-d,rb,jb+g])},
        {q:'题目里每个数都用上了吗？ · Did you use every number?',a:`${d}、${g}、${aft} 都用上了`,o:shuf([`${d}、${g}、${aft} 都用上了`,`只用了 ${g} 和 ${aft}`,`只用了 ${aft}`])}],
      sum:`倒推：${R.n} 原来 = ${aft} − ${g} = ${rb}；${J.n} 原来比他多 ${d}：${rb} + ${d} = ${jb}。`};}},
- {t:'给多少才一样多',f:()=>{const [A,B]=two(),it=pick(STK);
+ {t:'比较·给多少才一样多',f:()=>{const [A,B]=two(),it=pick(STK);
    if(Math.random()<.5){const b=ri(30,300),h=ri(8,90),d=2*h,a=b+d;
      return {p:`${A.n} has ${a} ${it[0]}. ${B.n} has ${b} ${it[0]}. How many ${it[0]} must ${A.n} give ${B.n} so that they have the same number of ${it[0]}?`,
        zh:`${A.n} 有 ${a}，${B.n} 有 ${b}。${A.n} 要给 ${B.n} 多少，两人才一样多？`,
@@ -621,7 +621,7 @@ const BAR=[
        {q:`多出来 ${k-1} 格 = ${k-1} × ${u} = ?`,a:df,o:nopt(df,[u*k,u,df+u])},
        {q:`给一半，两人就一样长：${df} ÷ 2 = ?`,a:g,o:nopt(g,[df,u,g+u])}],
      sum:`1 格 = ${T2} ÷ ${k+1} = ${u}。多出来 ${k-1} 格 = ${df}。给一半：${g}。`};}},
- {t:'买了以后反过来多',f:()=>{const [A,B]=two(),it=pick(STK),a=ri(100,900),b=a+ri(50,700),d=ri(20,300),fin=b+d,buy=fin-a;
+ {t:'比较·买了以后反过来多',f:()=>{const [A,B]=two(),it=pick(STK),a=ri(100,900),b=a+ri(50,700),d=ri(20,300),fin=b+d,buy=fin-a;
    return {p:`${A.n} had ${a} ${it[0]}. ${B.n} had ${b} ${it[0]}. Then ${A.n} bought some more ${it[0]}. In the end, ${A.n} had ${d} more ${it[0]} than ${B.n}. How many ${it[0]} did ${A.n} buy?`,
      zh:`${A.n} 有 ${a}，${B.n} 有 ${b}。${A.n} 又买了一些，最后 ${A.n} 比 ${B.n} 多 ${d}。${A.n} 买了多少？`,
      rows:[{n:B.n,u:1,x:0},{n:A.n+' (end)',u:1,x:d}],xo:[d],uv:b,hint:`最后 ${A.n} 比 ${B.n} 多 ${d}：两人都画 1 格，${A.n} 最后那条再多一段。`,
@@ -725,7 +725,7 @@ const sg=s=>s.split(' ').map(t=>{const m=/^([a-z])([\d.]+)(?:=(.*))?$/.exec(t);r
 const rw=(n,s,o)=>o?{n,s:sg(s),o}:{n,s:sg(s)};
 const wd=(v,tot,span)=>Math.max(1.2,Math.round(v/tot*span*10)/10);
 const BAR2=[
- {id:'pw',t:'部分-整体',f:()=>{const k=kid(),T=ri(32,95)*10,a=ri(12,T/10-12)*10+ri(0,9),b=T-a,v=ri(0,2),c=ri(12,90);
+ {id:'pw',t:'部分和整体',f:()=>{const k=kid(),T=ri(32,95)*10,a=ri(12,T/10-12)*10+ri(0,9),b=T-a,v=ri(0,2),c=ri(12,90);
    const wa=Math.min(6.8,wd(a,T,8)),wb=Math.round((8-wa)*10)/10;
    if(v===0)return{p:`${k.n} has ${T} red and blue beads. ${a} of them are red. How many blue beads does ${k.p} have?`,zh:`${k.n} 有 ${T} 颗红珠和蓝珠，红的 ${a} 颗。蓝的有几颗？`,
      dg:{k:'bar',rows:[rw('Beads',`u${wa}=red a${wb}=blue`)],mk:[['b0',N(T)],['a0:0',N(a)],['a0:1','?']]},
@@ -737,14 +737,14 @@ const BAR2=[
    return{p:`${k.n} had ${T} red and blue beads. ${a} of them were red. Then ${k.p} bought ${c} more blue beads. How many blue beads does ${k.p} have now?`,zh:`${k.n} 有 ${T} 颗红珠和蓝珠，红的 ${a} 颗。后来又买了 ${c} 颗蓝珠。现在蓝珠有几颗？`,
      dg:{k:'bar',rows:[rw('At first',`u${wa}=red a${wb}=blue`),rw('Blue now',`a${wb}=blue a${Math.max(1.2,wc)}=bought`,wa)],mk:[['b0',N(T)],['a0:0',N(a)],['a1:1',String(c)],['b1','?']]},
      calc:[{q:`一开始的蓝 = ${T} − ${a} = ?`,a:b,o:nopt(b,[T+a,a,b+c])},{q:`现在的蓝 = ${b} + ${c} = ?`,a:b+c,o:nopt(b+c,[b,T+c,b-c>0?b-c:b+1])}],sum:`先求蓝：${T} − ${a} = ${b}；再接上买的：${b} + ${c} = ${b+c}。`};}},
- {id:'cmp',t:'比较图',f:()=>{const [A,B]=two(),it=pick(STK),x=ri(120,480),d=ri(25,Math.min(140,x-60)),more=Math.random()<.5,y=more?x-d:x+d,tot=Math.random()<.5,ans=tot?x+y:y;
+ {id:'cmp',t:'比较',f:()=>{const [A,B]=two(),it=pick(STK),x=ri(120,480),d=ri(25,Math.min(140,x-60)),more=Math.random()<.5,y=more?x-d:x+d,tot=Math.random()<.5,ans=tot?x+y:y;
    const rows=more?[rw(A.n,'u5 x2'),rw(B.n,'u5')]:[rw(A.n,'u5'),rw(B.n,'u5 x2')];
    const mk=more?[['a0',String(x)],['b0:1',String(d)],tot?['R0-1','?']:['b1','?']]:[['a0',String(x)],['a1:1',String(d)],tot?['R0-1','?']:['b1','?']];
    return{p:`${A.n} has ${x} ${it[0]}. ${A.P} has ${d} ${more?'more':'fewer'} ${it[0]} than ${B.n}. How many ${it[0]} ${tot?'do they have altogether':`does ${B.n} have`}?`,
      zh:`${A.n} 有 ${x} ${it[1]}，比 ${B.n} ${more?'多':'少'} ${d}。${tot?'两人一共有多少？':`${B.n} 有多少？`}`,dg:{k:'bar',rows,mk},
      calc:[{q:`${B.n} 的那条比 ${A.n} 的${more?'短':'长'}。${B.n} = ${x} ${more?'−':'+'} ${d} = ?`,a:y,o:nopt(y,[more?x+d:x-d,x,d])}].concat(tot?[{q:`一共 = ${x} + ${y} = ?`,a:ans,o:nopt(ans,[x+d,y+d,ans+10])}]:[]),
      sum:`${A.n} ${more?'多':'少'} ${d}，所以 ${B.n} = ${x} ${more?'−':'+'} ${d} = ${y}。${tot?`一共 ${x} + ${y} = ${ans}。`:''}`};}},
- {id:'same',t:'差不变',f:()=>{const [A,B]=two();
+ {id:'same',t:'比较 · 差不变',f:()=>{const [A,B]=two();
    if(Math.random()<.5){const a=ri(8,12),b=ri(32,45),c=a+ri(5,15),ans=b+(c-a),wa=a/10,wb=b/10,wk=(c-a)/10;
      return{p:`${A.n} is ${a} years old. ${A.h[0].toUpperCase()+A.h.slice(1)} uncle is ${b} years old. How old will the uncle be when ${A.n} is ${c} years old?`,zh:`${A.n} ${a} 岁，叔叔 ${b} 岁。${A.n} ${c} 岁时，叔叔几岁？`,
        dg:{k:'bar',rows:[rw('Uncle',`u${wb} a${wk}`),rw(A.n,`u${wa} a${wk}`)],mk:[['a0:0',String(b)],['b1:0',String(a)],['R1-1',String(c)],['R0-0','?']]},
@@ -757,12 +757,12 @@ const BAR2=[
        mk:give?[['a0',String(a)],['b1:0-1',String(b)],['b1:2','?']]:[['a0:0',String(a)],['b1:0',String(b)],['b1:2','?']]},
      calc:[{q:`两人${give?'减掉':'加上'}一样多，差变不变？一开始差 ${a} − ${b} = ?`,a:d,o:nopt(d,[a+b,d+k,d-k>0?d-k:d+2*k])},{q:'最后多多少？',a:d,o:nopt(d,[d+k,d+2*k,d-k>0?d-k:d+3])}],
      sum:`两人${give?'减掉':'加上'}一样多（${k}），差不变：还是 ${a} − ${b} = ${d}。`};}},
- {id:'move',t:'转移箭头',f:()=>{const [A,B]=two(),it=pick(STK),b=ri(20,90),h=ri(6,40),a=b+2*h;
+ {id:'move',t:'比较 · 总数不变（给出去）',f:()=>{const [A,B]=two(),it=pick(STK),b=ri(20,90),h=ri(6,40),a=b+2*h;
    return{p:`${A.n} has ${a} ${it[0]} and ${B.n} has ${b} ${it[0]}. How many ${it[0]} must ${A.n} give ${B.n} so that they have the same number?`,zh:`${A.n} 有 ${a} ${it[1]}，${B.n} 有 ${b}。${A.n} 要给 ${B.n} 多少，两人才一样多？`,
      dg:{k:'bar',rows:[rw(A.n,'u4 x1.2 x1.2'),rw(B.n,'u4 g1.2')],ar:[['0:2','1:1']],mk:[['a0',String(a)],['b1:0',String(b)],['b1:1','?']]},
      calc:[{q:`${A.n} 多出来的那段 = ${a} − ${b} = ?`,a:2*h,o:nopt(2*h,[a+b,h,a])},{q:`多出来的劈成两半，一半给 ${B.n}：${2*h} ÷ 2 = ?`,a:h,o:nopt(h,[2*h,h+b,4*h])}],
      sum:`多出来 ${2*h}，给一半 ${h}，两人就一样多（都是 ${b+h}）。`};}},
- {id:'flow',t:'倒推流程',f:()=>{const k=kid(),it=pick([['beads','颗珠子'],['stickers','张贴纸'],['marbles','颗弹珠']]),st=Math.random()<.5?2:3;
+ {id:'flow',t:'往回推',f:()=>{const k=kid(),it=pick([['beads','颗珠子'],['stickers','张贴纸'],['marbles','颗弹珠']]),st=Math.random()<.5?2:3;
    const s0=ri(150,500),ops=[];let cur=s0;
    for(let i=0;i<st;i++){const add=cur<60||Math.random()<.45,v=add?ri(15,190):ri(15,Math.min(190,cur-30));ops.push([add,v]);cur=add?cur+v:cur-v;}const end=cur;
    const sent=ops.map(([add,v],i)=>add?(i===0?`${k.P} bought ${v} ${it[0]}.`:`Then ${k.p} was given ${v} more.`):(i===0?`${k.P} used ${v} ${it[0]}.`:`Then ${k.p} gave away ${v}.`)).join(' ');
@@ -770,14 +770,14 @@ const BAR2=[
    const calc=[];let back=end;for(let i=st-1;i>=0;i--){const [add,v]=ops[i],nb=add?back-v:back+v;calc.push({q:`倒着走：${back} ${add?'−':'+'} ${v} = ?`,a:nb,o:nopt(nb,[add?back+v:back-v,back,nb+10])});back=nb;}
    return{p:`${k.n} had some ${it[0]}. ${sent} In the end, ${k.p} had ${end} ${it[0]}. How many ${it[0]} did ${k.n} have at first?`,zh:`${k.n} 有一些${it[1].slice(1)}。`+ops.map(([add,v])=>(add?'多了 ':'少了 ')+v).join('，然后')+`。最后有 ${end}。一开始有多少？`,
      dg:{k:'flow',n:st+1,mk},calc,sum:`从最后的 ${end} 倒着走，每一步反过来（+ 变 −，− 变 +）：一开始是 ${s0}。`};}},
- {id:'pie',t:'分数圆',f:()=>{const k=kid(),n=pick([8,12,12]),fr=n===8?[[4,2],[8,1],[2,4]]:[[4,3],[3,4],[6,2],[2,6]];
+ {id:'pie',t:'分数（圆形图）',f:()=>{const k=kid(),n=pick([8,12,12]),fr=n===8?[[4,2],[8,1],[2,4]]:[[4,3],[3,4],[6,2],[2,6]];
    const [f1,f2]=shuf(fr).slice(0,2),p1=n/f1[0],p2=n/f2[0],left=n-p1-p2;if(left<=0)return BAR2[5].f();
    const fd=Math.random()<.5,F=fd?['cake','块蛋糕','slices']:['pizza','块披萨','slices'];
    return{p:`A ${F[0]} was cut into ${n} equal slices. ${k.n} ate 1/${f1[0]} of the ${F[0]} and ${k.h} brother ate 1/${f2[0]} of the ${F[0]}. How many slices were left?`,zh:`${F[0]==='cake'?'蛋糕':'披萨'}切成 ${n} 块。${k.n} 吃了 1/${f1[0]}，弟弟吃了 1/${f2[0]}。还剩几块？`,
      dg:{k:'pie',n,p:[p1,p2],mk:[['T',n+' slices'],['P0','1/'+f1[0]],['P1','1/'+f2[0]],['Pr','?']]},
      calc:[{q:`1/${f1[0]} 是几块？${n} ÷ ${f1[0]} = ?`,a:p1,o:nopt(p1,[f1[0],n-f1[0],p1+1])},{q:`1/${f2[0]} 是几块？${n} ÷ ${f2[0]} = ?`,a:p2,o:nopt(p2,[f2[0],n-f2[0],p2+1])},{q:`还剩 ${n} − ${p1} − ${p2} = ?`,a:left,o:nopt(left,[p1+p2,n-p1,n-p2])}],
      sum:`1/${f1[0]} = ${p1} 块，1/${f2[0]} = ${p2} 块，剩 ${n} − ${p1} − ${p2} = ${left} 块。`};}},
- {id:'branch',t:'剩余分支',f:()=>{const k=kid(),a=pick([2,3,4]),b=pick([2,3,4]),u=ri(2,9)*(a===2?5:1),T=a*b*u,c1=T/a,rem=T-c1,c2=rem/b,left=rem-c2,back=Math.random()<.4,m=Math.random()<.5;
+ {id:'branch',t:'剩下的再取几分之几',f:()=>{const k=kid(),a=pick([2,3,4]),b=pick([2,3,4]),u=ri(2,9)*(a===2?5:1),T=a*b*u,c1=T/a,rem=T-c1,c2=rem/b,left=rem-c2,back=Math.random()<.4,m=Math.random()<.5;
    const it=m?['money','钱','$']:['eggs','个鸡蛋',''],val=v=>m?'$'+v:String(v);
    const what=m?[`${k.n} had $${T}. ${k.P} spent 1/${a} of it on a bag and 1/${b} of the remaining money on a book.`,`${k.n} spent 1/${a} of ${k.h} money on a bag and 1/${b} of the remaining money on a book. ${k.P} had $${left} left.`]
      :[`A baker had ${T} eggs. He used 1/${a} of them for cakes and 1/${b} of the remaining eggs for bread.`,`A baker used 1/${a} of his eggs for cakes and 1/${b} of the remaining eggs for bread. He had ${left} eggs left.`];
@@ -790,7 +790,7 @@ const BAR2=[
      dg:{k:'br',n:a,c:1,m:b,c2:1,ct:names[0],c2t:names[1],mk:[['C','1/'+a],['C2','1/'+b],['L',val(left)],['T','?']]},
      calc:[{q:`剩下的那段分成 ${b} 份，最后剩 ${b-1} 份 = ${left}。1 小份 = ?`,a:c2,o:nopt(c2,[left,left*b,c2+1])},{q:`剩下的那段（${names[0]}以外）= ${c2} × ${b} = ?`,a:rem,o:nopt(rem,[left+b,rem+c2,rem-c2])},{q:`一整条分 ${a} 份，剩下的那段是 ${a-1} 份 = ${rem}。一整条 = ?`,a:T,o:nopt(T,[rem+a,rem*a,T+c1])}],
      sum:`倒着走：剩下那段的 ${b-1} 份 = ${left}，1 小份 = ${c2}，剩下那段 = ${rem}；它是一整条的 ${a-1} 份，一整条 = ${val(T)}。`};}},
- {id:'line',t:'间隔图',f:()=>{const k=kid(),d=pick([2,3,4,5,6,8,10]);
+ {id:'line',t:'间隔',f:()=>{const k=kid(),d=pick([2,3,4,5,6,8,10]);
    if(Math.random()<.5){const n=ri(5,10),ans=(n-1)*d;
      return{p:`There are ${n} trees in a row. The trees are ${d} m apart. What is the distance between the first tree and the last tree?`,zh:`一排 ${n} 棵树，每两棵相隔 ${d} m。第一棵到最后一棵有多远？`,
        dg:{k:'line',rows:[{n}],mk:[['G0:0',d+' m'],['N0',n+' trees'],['A0:0-'+(n-1),'?']]},

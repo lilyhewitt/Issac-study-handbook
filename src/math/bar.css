@@ -77,3 +77,4 @@
 .pt-st .r{font-size:.85rem;color:var(--ink-2);white-space:nowrap}
 .pt-st.done b{background:var(--good,#2f9e7a);color:#fff}
 .pt-st.now{border-color:var(--mix)}.pt-st.now b{background:var(--mix);color:var(--on-mix)}
+.pt-en{font-style:normal;font-weight:600;font-size:.8rem;color:var(--ink-2)}
