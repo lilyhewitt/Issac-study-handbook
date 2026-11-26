@@ -2,7 +2,7 @@ const {chromium,devices}=require('playwright');
 (async()=>{const b=await chromium.launch();const errs=[];
 for(const [dn,dev] of [['iPhone',devices['iPhone 13']],['iPad',devices['iPad (gen 7)']]]){
  const p=await (await b.newContext({...dev,deviceScaleFactor:1})).newPage();p.on('pageerror',e=>errs.push(e.message));
- await p.goto('http://localhost:8767/math/');await p.waitForTimeout(300);await p.click('#tBar');
+ await p.goto('http://localhost:8767/math/');await p.waitForTimeout(300);await p.click('#tBar');if(await p.isVisible('#ptBook'))await p.click('#ptBook');
  let bad=0,checked=0;const ex=[];
  for(let ti=0;ti<8;ti++)for(let r=0;r<25;r++){if(await p.isVisible('#brTypes'))await p.click('#brTypes');await p.click(`[data-bt="${ti}"]`);
    if(await p.isVisible('#brDone'))for(let k=0;k<2;k++)await p.click('#brDone');   /* two tries → the right model is shown */

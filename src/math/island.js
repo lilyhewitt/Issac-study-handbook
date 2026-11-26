@@ -1,3 +1,4 @@
+const ISL_RING=['#FFB5C8','#B6A8FF','#8FE0C8','#FFD15C','#9FD8FF','#FFB98F'];
 /* ---------- 数学小岛 Math Island: word problems as a map. Each problem goes 4 fixed steps:
    ① 侦探看问题 (what is asked) → ② 划重点 + 提炼 (key words, plan) → ③ 画线段 (which picture) → ④ 闪电算 (answer).
    Hints fade: at the start of a station all four steps, later only step ①, the last problem none.
@@ -68,7 +69,7 @@ function islDraw(walk){const s=islSt(),L=islRoad(),cur=islCur(),wide=innerWidth>
     const st=n.t==='s'?s.st[n.i]:n.t==='r'?s.rv[n.r]:0,ch=n.t==='s'&&ISL[n.i].ch;
     g+=`<g class="isl-n${lock?' lock':''}${isCur?' cur':''}" data-i="${i}" transform="translate(${x} ${y})" ${lock?'opacity=".55"':''}>
     ${isCur?'<circle class="isl-pulse" r="48" fill="none" stroke="#ffc02e" stroke-width="5"/>':''}
-    <circle r="${r+4}" fill="rgba(0,0,0,.18)" cy="5"/><circle r="${r+4}" fill="${n.t==='r'?'#ffe7c2':n.t==='l'?'#dff3ff':isCur?'#fff8d8':lock?'#eef1f6':'#fff'}" stroke="${n.t==='r'?'#c4421a':n.t==='l'?'#4a7fb5':isCur?'#ffb400':lock?'#aab3c4':ch?'#e5383b':'#3fb24f'}" stroke-width="4"/>
+    <circle r="${r+4}" fill="rgba(0,0,0,.18)" cy="5"/><circle r="${r+4}" fill="${n.t==='r'?'#ffe7c2':n.t==='l'?'#dff3ff':isCur?'#fff8d8':lock?'#fff':'#fff'}" stroke="${n.t==='r'?'#c4421a':n.t==='l'?'#4a7fb5':isCur?'#ffb400':lock?ISL_RING[i%ISL_RING.length]:ch?'#e5383b':'#3fb24f'}" stroke-width="${lock?6:4}"/>
     <g transform="scale(${n.t==='r'?.85:1})" ${lock?'style="filter:grayscale(1)"':''}>${ISLI[islIcon(n)]}</g>
     ${lock&&n.t==='s'?`<g transform="translate(${r-4} ${-r+6})"><circle r="11" fill="#56607C"/><rect x="-5" y="-2" width="10" height="8" rx="1.5" fill="#fff"/><path d="M-3-2v-3a3 3 0 0 1 6 0v3" stroke="#fff" stroke-width="2" fill="none"/></g>`:''}
     ${st?`<g transform="translate(0 ${r+14})">${[-14,0,14].map((dx,k)=>islStarSvg(dx,0,k<st)).join('')}</g>`:''}

@@ -550,7 +550,7 @@ text.isl-zh{font:700 13px var(--f-body);fill:#3a4566;paint-order:stroke;stroke:#
 /* 数学小岛 ocean look (v4.34): the same layout as 太空探险 in science — a hero tile with 小小 the sailor, wide tiles on iPad,
    a four-box step bar above the problem, the problem on light paper, the working panel dark. */
 :root{--o-sun:#FFC93C;--o-or:#FF7B39;--o-ord:#B44A17;--o-s2:#16506B;--o-paper:#FFF8E7;--o-pink:#1C2B33}
-body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cpath d='M6 30q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.07' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M66 52q12-9 24 0t24 0' stroke='%23ffffff' stroke-opacity='.05' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cpath d='M6 30q12-9 24 0t24 0' stroke='%2336A88C' stroke-opacity='.16' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M66 52q12-9 24 0t24 0' stroke='%2336A88C' stroke-opacity='.11' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
 /* light paper wherever a problem or a picture is drawn: the template's light tokens, scoped */
 .isl-prob,.dg{--surface:#FFFFFF;--paper:#FFF8E7;--ink:#1C2B33;--ink-2:#4F6470;--line:#D9E6EC;--track:#E6EEF2;--wp:#5B3FD0;--wp-tint:#E9E3FF;--wp-ink:#4428A6;
   --calc:#0C6E8F;--calc-tint:#DFF4FB;--p4:#E25F2A;--p4-tint:#FDE8DD;--p4-ink:#9A3F15;--good:#1F9A5A;--good-bg:#E1F5E9;--miss:#B7791F;--miss-bg:#FDF3E1;--star:#FFB400;--hl:#FFE48A}
@@ -560,59 +560,67 @@ body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/20
 /* home: the big island tile */
 .tiles6.mt{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 .tiles6 .tile.isl-hero{grid-column:1 / -1;aspect-ratio:auto!important;flex-direction:row;align-items:center;gap:0.5rem;justify-content:flex-start;min-height:11rem;
-  background:linear-gradient(160deg,#1593B8,#0C6E8F);border:2px solid #49B9DA;box-shadow:0 5px 0 #08506A;color:#fff;padding:0.875rem 1rem;overflow:visible}
+  background:linear-gradient(160deg,#7EDCC4,#4EC3A7);border:3px solid #36A88C;box-shadow:0 6px 0 #36A88C;color:#0F3F36;border-radius:1.75rem;padding:0.875rem 1rem;overflow:visible}
 .tile.isl-hero .isl-art{position:static;width:7.75rem;height:8.25rem;flex:none;overflow:visible}
 .isl-htxt{display:flex;flex-direction:column;gap:0.25rem;min-width:0;flex:1;text-align:left;position:relative;z-index:1}
-.isl-hero .tname{font-size:1.65rem;line-height:1.02}.isl-hero .tsub{color:#E1F6FD}
-.isl-hbar{display:block;height:0.6rem;background:rgba(0,0,0,.2);border-radius:1rem;overflow:hidden;margin-top:0.25rem}.isl-hbar i{display:block;height:100%;width:0;background:var(--o-sun);border-radius:1rem}
-.isl-hnote{font-size:.85rem;color:#E1F6FD;line-height:1.35}.isl-hnote b{color:#fff}
+.isl-hero .tname{font-size:1.65rem;line-height:1.02}.isl-hero .tname{color:#0F3F36}.isl-hero .tsub{color:#1E5A4E}
+.isl-hbar{display:block;height:0.6rem;background:rgba(255,255,255,.55);border-radius:1rem;overflow:hidden;margin-top:0.25rem}.isl-hbar i{display:block;height:100%;width:0;background:var(--o-sun);border-radius:1rem}
+.isl-hnote{font-size:.85rem;color:#1E5A4E;line-height:1.35}.isl-hnote b{color:#0F3F36}
 .isl-hgo{align-self:flex-start;margin-top:0.375rem;background:var(--o-or);color:#fff;border-radius:0.875rem;padding:0.5rem 0.875rem;font:800 1.05rem var(--f-display);box-shadow:0 4px 0 var(--o-ord)}
 .tiles6.mt .tile:not(.isl-hero){aspect-ratio:auto;min-height:8.5rem}
-.tile[data-mode="bar"]{--c:#7A4FE0;--cd:#4A2E96}
-.tile[data-mode="p4"]{--c:#FF7B39;--cd:#B44A17}
-.tile[data-mode="me"]{--c:#D99A00;--cd:#8A6100}
-.tile[data-mode="redo"]{border-color:#7FB6CB!important}
+.tile[data-mode="bar"]{--c:#A796FF;--cd:#7F6CE0}
+.tile[data-mode="p4"]{--c:#FF9DB5;--cd:#E57895;color:#6E1838!important}.tile[data-mode="p4"] *{color:#6E1838!important}
+.tile[data-mode="me"]{--c:#FFD15C;--cd:#E0AF2E;color:#4A3500!important}.tile[data-mode="me"] *{color:#4A3500!important}.tile[data-mode="me"] svg{stroke:#4A3500!important}
+.tile[data-mode="redo"]{border-color:#9ED8C6!important}
 @media (min-width:700px){.tiles6 .tile.isl-hero{min-height:13rem}.tile.isl-hero .isl-art{width:9.5rem;height:10rem}.isl-hero .tname{font-size:2rem}}
 @media (min-width:1000px){.tiles6.mt .tile:not(.isl-hero){min-height:7.5rem;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0.875rem}
   .tiles6.mt .tile:not(.isl-hero) .glyph{margin:0}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.35rem}}
 /* top bars, side card, buttons */
-.isl-top .bk{background:rgba(255,255,255,.14);color:#fff;box-shadow:none;font-size:1.6rem;line-height:1;padding-bottom:0.15rem}
-.isl-pill{background:rgba(255,255,255,.14);color:#fff}
-.isl-cnt{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:0.35rem 0.8rem}
-.isl-card{border:2px solid var(--line);box-shadow:none}
-.isl-go{background:var(--o-or);color:#fff;box-shadow:0 4px 0 var(--o-ord)}
+.isl-top .bk{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);font-size:1.6rem;line-height:1;padding-bottom:0.15rem}
+.isl-pill{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.isl-cnt{background:#fff;color:var(--ink);border-radius:999px;padding:0.35rem 0.8rem}
+.isl-card{border:3px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:1.5rem}
+.isl-go{background:#FF8E6E;color:#fff;box-shadow:0 4px 0 #D9674A}
 .isl-now svg{background:#FFF8D8}
-.isl-map{border:2px solid var(--line)}
+.isl-map{border:5px solid #7EDCC4;box-shadow:0 6px 0 var(--line);border-radius:1.75rem}
 /* the four steps, as boxes above the problem */
 .isl-steps{margin:0 0 0.75rem;gap:0.5rem}
-.isl-sp{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:0.375rem;align-items:center;text-align:left;padding:0.375rem 0.5rem;border-width:2.5px;background:var(--surface);color:#fff}
+.isl-sp{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:0.375rem;align-items:center;text-align:left;padding:0.375rem 0.5rem;border-width:2.5px;background:var(--surface);color:var(--ink)}
 .isl-sp .ic{grid-row:1 / 3;font-size:1.2rem}.isl-sp b{font:800 .95rem var(--f-display)}.isl-sp i{color:var(--ink-2)}
-.isl-sp.on{border-color:var(--o-sun);background:#4A3D12;color:#fff}.isl-sp.ok{border-color:var(--good);background:var(--good-bg);color:#fff}
+.isl-sp.on{border-color:var(--o-sun);background:var(--mix-tint);color:var(--mix-ink)}.isl-sp.ok{border-color:var(--good);background:var(--good-bg);color:var(--good)}
 @media (max-width:520px){.isl-sp{grid-template-columns:1fr;text-align:center;padding:0.375rem 0.125rem}.isl-sp .ic{grid-row:auto;font-size:1rem}.isl-sp b{font-size:.78rem}.isl-sp i{display:none}}
 .isl-right{background:var(--surface);border:2px solid var(--line);border-radius:1.25rem;padding:1rem 1.125rem;min-width:0}
-.isl-o,.isl-fig,.isl-pc{background:var(--o-s2);color:#fff}
+.isl-o,.isl-fig,.isl-pc{background:#fff;color:var(--ink)}
 .isl-fig{background:var(--o-paper);color:var(--o-pink)}.isl-fig i{color:#4F6470}
-.isl-built{background:rgba(0,0,0,.18)}
-.isl-tip.good{color:#fff}
-.isl-keep{background:rgba(255,255,255,.06)}
-.isl-chips2 span{color:#fff}
+.isl-built{background:var(--paper)}
+.isl-tip.good{color:var(--good)}
+.isl-keep{background:var(--paper)}
+.isl-chips2 span{color:var(--ink)}
 /* done: 小小 plants a flag on the island */
-.isl-done{background:#0A4A66}
+.isl-done{background:#E3F7F1}
 .isl-scene{width:15rem;height:auto;overflow:visible;animation:islPop .6s}
-.isl-wh{margin:0;font:800 2.1rem var(--f-display);color:#fff}
+.isl-wh{margin:0;font:800 2.1rem var(--f-display);color:var(--ink)}
 .isl-win .isl-card{background:var(--surface)}
 .isl-medal{display:flex;gap:0.75rem;align-items:center;text-align:left}.isl-medal .isl-trophy{width:4.5rem;flex:none;animation:none}
 .isl-medal h2{font-size:1.35rem!important}.isl-back2{color:var(--ink-2)}
-.isl-stars svg{fill:#3d5a6a;stroke:#5d7c8c}
+.isl-stars svg{fill:#D3F0E7;stroke:#9ED8C6}
 @media (max-width:520px){.tiles6.mt .tile:not(.isl-hero){padding:0.875rem}.tiles6.mt .tile:not(.isl-hero) .tname{font-size:1.3rem}}
+
+/* v4.61 mint look: rounder cards, bigger full-width map, locked stops keep their colour */
+.board,.tasks,.plink,.redo,.iconbtn,.tile.empty{border:3px solid var(--line)!important;box-shadow:0 5px 0 var(--line)!important;border-radius:1.5rem!important}
+.tk{border-radius:1rem!important;background:var(--paper)!important}
+.tiles6.mt .tile:not(.isl-hero):not(.empty){border-radius:1.6rem;border:3px solid rgba(255,255,255,.55);box-shadow:0 6px 0 var(--cd)}
+.isl-free{background:#A796FF;box-shadow:0 5px 0 #7F6CE0;border-radius:1.5rem;border:3px solid rgba(255,255,255,.55)}
+@media (min-width:700px){.isl-wrap{display:flex!important;flex-direction:column!important}.isl-side{position:static!important;flex-direction:row!important;align-items:flex-start!important}.isl-side>*{flex:1}.isl-map{width:100%!important;max-width:none!important}.isl-map svg{max-width:none!important}}
+.isl-n.lock{opacity:.85!important}.isl-n.lock g[style]{filter:grayscale(.25) opacity(.8)!important}
 </style>
 <style>
-/* maths palette: one ocean world (数学小岛) in every theme. Violet = word problems / bar models, sea blue = calculation, orange = P4 preview.
+/* maths palette (v4.61): 薄荷泡泡 mint, one light look day and night. Violet = word problems / bar models, mint = calculation, pink = P4 preview.
    :root:not(#_) outranks the template's light and dark blocks, so these values always win. */
-:root:not(#_){--bg:#0A4A66; --surface:#0F3B52; --paper:#0D3448; --ink:#F2FBFF; --ink-2:#BFE3EF; --line:#2C7595; --track:#16506B; --focus:#FFC93C;
-  --wp:#7A5CF0; --wp-deep:#4A2E96; --wp-tint:#2C2A66; --wp-ink:#D4C8FF; --calc:#1593B8; --calc-deep:#0C6E8F; --calc-tint:#10465E; --calc-ink:#9FE3F7;
-  --p4:#FF7B39; --p4-deep:#B44A17; --p4-tint:#4A2E24; --p4-ink:#FFC09C; --mix:#FFC93C; --mix-deep:#B98A00; --mix-tint:#4A3D12; --mix-ink:#FFE08A; --on-mix:#2B1F00; --on-tile:#FFFFFF;
-  --star:#FFC93C; --good:#6FE3A1; --good-bg:#14473F; --miss:#FF9A6B; --miss-bg:#4A2A24; --hl:#5A4A12; --shade:rgba(0,0,0,.45); color-scheme:dark;}
+:root:not(#_){--bg:#E3F7F1; --surface:#FFFFFF; --paper:#F0FBF7; --ink:#1E4A46; --ink-2:#4F7D77; --line:#BDE6DA; --track:#D3F0E7; --focus:#FF8E6E;
+  --wp:#8F7BF0; --wp-deep:#6A55D0; --wp-tint:#EEEAFF; --wp-ink:#4A35A8; --calc:#3CC9A1; --calc-deep:#26A07E; --calc-tint:#DDF6EE; --calc-ink:#146B53;
+  --p4:#FF9DB5; --p4-deep:#E57895; --p4-tint:#FFE6EC; --p4-ink:#A3365A; --mix:#FFD15C; --mix-deep:#E0AF2E; --mix-tint:#FFF3D0; --mix-ink:#6B5000; --on-mix:#4A3500; --on-tile:#FFFFFF;
+  --star:#FFB400; --good:#1F9A5A; --good-bg:#E1F5E9; --miss:#C2701E; --miss-bg:#FDF0E1; --hl:#FFEFAF; --shade:rgba(30,74,70,.14); color-scheme:light;}
 </style>
 <script>
 /* Records sync (GitHub copy only). The child's device pushes each app's records to a small Firebase database
@@ -2161,6 +2169,7 @@ function dgSvg(d,placed,spots,bad){const L=dgLay(d);let o=L.g;
 function dgKey(d,id){const s=dgLay(d).spot(id);return s?s.key:id;}
 window.__dg={lay:dgLay,dec:dgDecoys,svg:dgSvg};   /* for the tests */
 
+const ISL_RING=['#FFB5C8','#B6A8FF','#8FE0C8','#FFD15C','#9FD8FF','#FFB98F'];
 /* ---------- 数学小岛 Math Island: word problems as a map. Each problem goes 4 fixed steps:
    ① 侦探看问题 (what is asked) → ② 划重点 + 提炼 (key words, plan) → ③ 画线段 (which picture) → ④ 闪电算 (answer).
    Hints fade: at the start of a station all four steps, later only step ①, the last problem none.
@@ -2231,7 +2240,7 @@ function islDraw(walk){const s=islSt(),L=islRoad(),cur=islCur(),wide=innerWidth>
     const st=n.t==='s'?s.st[n.i]:n.t==='r'?s.rv[n.r]:0,ch=n.t==='s'&&ISL[n.i].ch;
     g+=`<g class="isl-n${lock?' lock':''}${isCur?' cur':''}" data-i="${i}" transform="translate(${x} ${y})" ${lock?'opacity=".55"':''}>
     ${isCur?'<circle class="isl-pulse" r="48" fill="none" stroke="#ffc02e" stroke-width="5"/>':''}
-    <circle r="${r+4}" fill="rgba(0,0,0,.18)" cy="5"/><circle r="${r+4}" fill="${n.t==='r'?'#ffe7c2':n.t==='l'?'#dff3ff':isCur?'#fff8d8':lock?'#eef1f6':'#fff'}" stroke="${n.t==='r'?'#c4421a':n.t==='l'?'#4a7fb5':isCur?'#ffb400':lock?'#aab3c4':ch?'#e5383b':'#3fb24f'}" stroke-width="4"/>
+    <circle r="${r+4}" fill="rgba(0,0,0,.18)" cy="5"/><circle r="${r+4}" fill="${n.t==='r'?'#ffe7c2':n.t==='l'?'#dff3ff':isCur?'#fff8d8':lock?'#fff':'#fff'}" stroke="${n.t==='r'?'#c4421a':n.t==='l'?'#4a7fb5':isCur?'#ffb400':lock?ISL_RING[i%ISL_RING.length]:ch?'#e5383b':'#3fb24f'}" stroke-width="${lock?6:4}"/>
     <g transform="scale(${n.t==='r'?.85:1})" ${lock?'style="filter:grayscale(1)"':''}>${ISLI[islIcon(n)]}</g>
     ${lock&&n.t==='s'?`<g transform="translate(${r-4} ${-r+6})"><circle r="11" fill="#56607C"/><rect x="-5" y="-2" width="10" height="8" rx="1.5" fill="#fff"/><path d="M-3-2v-3a3 3 0 0 1 6 0v3" stroke="#fff" stroke-width="2" fill="none"/></g>`:''}
     ${st?`<g transform="translate(0 ${r+14})">${[-14,0,14].map((dx,k)=>islStarSvg(dx,0,k<st)).join('')}</g>`:''}
