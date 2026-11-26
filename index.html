@@ -942,7 +942,8 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   <div class="card"><span class="tag">v4.62 · 11 月 25 日</span><h3>没网也能用</h3><ul>
     <li>有网时打开任意一个 app，等底部出现“✓ 已存到这台设备，没网也能用”，三个 app 和这本手册就都存好了。</li>
     <li>之后没网也能从主屏幕图标直接打开、做题；进度存在 iPad 里，有网后自动同步。</li>
-    <li>有网时照常自动更新到最新版。</li></ul></div>
+    <li>打开时直接用存好的那份，不等网络：没网、酒店 wifi 连上却上不了网、网很慢，都是一点开就能用。</li>
+    <li>有网时在后台检查更新，有新版自动换上。</li></ul></div>
   <div class="card"><span class="tag">v4.61 · 11 月 25 日</span><h3>数学 app 换成“薄荷泡泡”配色</h3><ul>
     <li>整个数学 app 从深蓝改成薄荷绿底、白卡片，背景留着浅浅的波浪；白天晚上都是这一套。</li>
     <li>首页入口换成淡紫、粉色、奶油黄，卡片更圆、带粗描边。</li>
@@ -1351,10 +1352,10 @@ input.code{flex:1 1 9em;min-width:0;min-height:2.75rem;padding:0 .75rem;border-r
   if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
   var root=new URL(window.__SWROOT||'../',location.href);
   navigator.serviceWorker.register(new URL('sw.js',root).href,{scope:root.href}).catch(function(){});
-  var K='offline-ready-v1';try{if(localStorage.getItem(K))return;}catch(e){return;}
+  var K='offline-ready-v2';try{if(localStorage.getItem(K))return;}catch(e){return;}
   var tries=0;(function check(){
     if(++tries>20||!window.caches)return;
-    caches.open('xx-offline-v1').then(function(c){return Promise.all(['','math/','english/','science/'].map(function(p){return c.match(new URL(p,root).href);}));})
+    caches.open('xx-offline-v2').then(function(c){return Promise.all(['','math/','english/','science/'].map(function(p){return c.match(new URL(p,root).href);}));})
     .then(function(r){if(r.every(Boolean)){try{localStorage.setItem(K,'1');}catch(e){}
       var d=document.createElement('div');d.textContent='✓ 已存到这台设备，没网也能用';
       d.style.cssText='position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1E4A46;color:#fff;padding:10px 16px;border-radius:14px;font:600 15px system-ui,sans-serif;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2)';
