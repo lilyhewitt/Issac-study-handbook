@@ -12,7 +12,7 @@ const TOP={
  living:['life','Living things · 生物'],plants:['life','Plants · 植物分类'],animals:['life','Animals · 动物分类'],fungi:['life','Fungi & bacteria · 真菌和细菌'],
  plantlife:['life','Plant life cycle · 植物生命周期'],animallife:['life','Animal life cycles · 动物生命周期'],
  materials:['mat','Materials · 材料'],magnets:['mat','Magnets · 磁铁'],
- plantparts:['p4','Plant parts · 植物的构造'],digest:['p4','Digestion · 消化'],matter:['p4','Matter · 物质'],light:['p4','Light · 光'],heat:['p4','Heat · 热']
+ plantparts:['p4','Plant parts · 植物的构造'],digest:['p4','Digestion · 消化'],matter:['p4','Matter · 物质'],light:['p4','Light · 光'],heat:['p4','Heat · 热'],body:['p4','Human systems · 人体系统']
 };
 
 const Q=[
@@ -107,14 +107,14 @@ const Q=[
 ['materials',1,'Which object floats on water?','哪一样东西会浮在水上？',['a wooden block|木块','a metal spoon|金属汤匙','a glass marble|玻璃弹珠','a stone|石头'],'木块会浮在水上。'],
 ['materials',2,'Why is a tyre made of rubber?','为什么轮胎用橡胶做？',['Rubber is strong and flexible.|橡胶坚固又有弹性。','Rubber is transparent.|橡胶是透明的。','Rubber is magnetic.|橡胶会被磁铁吸。','Rubber absorbs water.|橡胶会吸水。'],'橡胶又坚固又有弹性，适合做轮胎。'],
 ['materials',2,'Which material is NOT suitable for making an umbrella?','哪一种材料不适合做雨伞？',['paper|纸','plastic|塑料','nylon|尼龙','waterproof cloth|防水布'],'纸会吸水、容易破，不适合做雨伞。'],
-['materials',2,'A ceramic plate breaks when it is dropped. This is because ceramic is ___.','陶瓷盘子掉下去会碎，因为陶瓷……',['not flexible|不能弯曲','waterproof|防水','transparent|透明','light|很轻'],'陶瓷不能弯曲，摔到就会碎。'],
+['materials',2,'A ceramic plate breaks when it is dropped. This is because ceramic is ___.','陶瓷盘子掉下去会碎，因为陶瓷……',['not strong (it breaks easily)|不坚固（容易碎）','waterproof|防水','transparent|透明','light|很轻'],'陶瓷不坚固（fragile），一摔就碎。课本：strong = 推、拉、碰撞不会断。'],
 ['materials',1,'Which of these is a metal?','哪一个是金属？',['steel|钢','rubber|橡胶','wood|木头','plastic|塑料'],'钢（steel）是金属。'],
 ['materials',2,'Kai wants to make a toy boat that floats. Which material should he use?','Kai 想做会浮的玩具船，应该用哪一种材料？',['foam|泡沫','a stone|石头','a metal block|金属块','clay|黏土'],'泡沫（foam）很轻，会浮在水上。'],
 ['materials',1,'Which object is made of rubber?','哪一样东西是橡胶做的？',['an eraser|橡皮擦','a spoon|汤匙','a window|窗户','a book|书'],'橡皮擦是橡胶做的。'],
 ['materials',1,'Which object is made of fabric (cloth)?','哪一样东西是布做的？',['a T-shirt|T 恤','a fork|叉子','a cup|杯子','a pencil|铅笔'],'T 恤是布（fabric）做的。'],
 ['materials',1,'Which material is NOT waterproof?','哪一种材料不防水？',['paper|纸','plastic|塑料','rubber|橡胶','glass|玻璃'],'纸会吸水，所以不防水。'],
 ['materials',2,'A sponge absorbs a lot of water. Which object should be made from a material like this?','海绵很会吸水。哪一样东西适合用这种材料做？',['a mop|拖把','a raincoat|雨衣','an umbrella|雨伞','rain boots|雨靴'],'拖把要吸水；雨衣、雨伞、雨靴都要防水。'],
-['materials',1,'Which material is hard and cannot be scratched easily?','哪种材料很硬、不容易被刮花？',['steel|钢','sponge|海绵','cloth|布','rubber|橡胶'],'钢最硬。'],
+['materials',1,'A rope must not break when it pulls a heavy box. The rope must be ___.','绳子拉很重的箱子时不能断。绳子必须……',['strong|坚固','transparent|透明','waterproof|防水','able to float|会浮'],'拉重物不断 = strong（坚固）。课本：strength 是被拉、被推时不断、不破的能力。'],
 ['materials',2,'Why are drinking glasses made of glass and not wood?','为什么水杯用玻璃做，不用木头？',['Glass is waterproof and we can see the drink inside.|玻璃防水，还看得见里面的饮料。','Glass is flexible.|玻璃容易弯曲。','Glass floats on water.|玻璃会浮。','Glass absorbs water.|玻璃会吸水。'],'玻璃不吸水、透明。木头会吸水，也看不见里面。'],
 /* ===== P3: magnets ===== */
 ['magnets',1,'Which object is attracted by a magnet?','哪一样东西会被磁铁吸住？',['an iron nail|铁钉','a plastic ruler|塑料尺','a wooden pencil|木铅笔','a rubber band|橡皮筋'],'铁钉是铁做的，会被吸住。'],
@@ -144,10 +144,10 @@ const Q=[
 ['plantparts',1,'Which part of a plant holds it firmly in the ground?','植物的哪一部分把它牢牢固定在地里？',['the roots|根','the leaves|叶','the flowers|花','the fruit|果实'],'根把植物固定在泥土里。'],
 ['plantparts',2,'Why are most leaves broad and flat?','为什么大多数叶子又宽又平？',['to trap more sunlight|接收更多阳光','to hold water|装水','to scare animals away|吓走动物','to make the plant heavy|让植物变重'],'又宽又平，能照到更多阳光，好制造食物。'],
 ['plantparts',2,'What can a flower develop into?','花可以发育成什么？',['a fruit|果实','a root|根','a leaf|叶','a stem|茎'],'花可以发育成果实（fruit），果实里面有种子。'],
-['plantparts',2,'A celery stalk was put in red-coloured water. After a few hours, red lines appeared in the stalk. This shows that the stem ___.','把芹菜放进红色的水里，几个小时后茎里出现红线。这说明茎……',['carries water up the plant|把水往上运','makes food|制造食物','takes in sunlight|吸收阳光','stores seeds|储存种子'],'红色的水顺着茎里的管子往上走 → 茎运送水分。'],
-['plantparts',2,'Which of these do we eat as a ROOT?','下面哪一样，我们吃的是“根”？',['carrot|胡萝卜','cabbage|包菜','tomato|番茄','celery|芹菜'],'胡萝卜是根。包菜是叶，番茄是果实，芹菜是茎。'],
+['plantparts',2,'The stem of a plant with white flowers was put in red-coloured water. After a few hours, the petals turned red. This shows that the stem ___.','把开白花的植物的茎放进红色的水里，几个小时后花瓣变红了。这说明茎……',['carries water up the plant|把水往上运','makes food|制造食物','takes in sunlight|吸收阳光','stores seeds|储存种子'],'红色的水顺着茎往上运到花瓣 → 茎运送水分。'],
+['plantparts',2,'Which of these do we eat as a ROOT?','下面哪一样，我们吃的是“根”？',['carrot|胡萝卜','cabbage|包菜','tomato|番茄','lettuce|生菜'],'胡萝卜是储存根（storage root）。包菜、生菜吃的是叶，番茄是果实。'],
 ['plantparts',2,'Which of these do we eat as a LEAF?','下面哪一样，我们吃的是“叶”？',['spinach|菠菜','carrot|胡萝卜','tomato|番茄','potato|马铃薯'],'菠菜吃的是叶子。'],
-['plantparts',2,'Which of these do we eat as a FRUIT?','下面哪一样，我们吃的是“果实”？',['tomato|番茄','spinach|菠菜','carrot|胡萝卜','celery|芹菜'],'番茄有种子，是果实。'],
+['plantparts',2,'Which of these do we eat as a FRUIT?','下面哪一样，我们吃的是“果实”？',['tomato|番茄','spinach|菠菜','carrot|胡萝卜','lettuce|生菜'],'番茄有种子，是果实。'],
 ['plantparts',1,'Water moves from the roots to the leaves through the ___.','水从根运到叶子，要经过……',['stem|茎','flower|花','fruit|果实','seed|种子'],'水经过茎往上运到叶子。'],
 ['plantparts',2,'What would most likely happen to a plant if its roots were cut off?','如果把植物的根剪掉，最可能会怎样？',['It would wilt because it cannot take in water.|会枯萎，因为吸不到水。','It would grow faster.|会长得更快。','It would make more flowers.|会开更多花。','Nothing would happen.|什么都不会发生。'],'没有根就吸不到水，植物会枯萎。'],
 ['plantparts',1,'Which part of a plant carries food from the leaves to other parts?','植物的哪一部分把叶子做的食物运到别的部分？',['the stem|茎','the flower|花','the seed|种子','the fruit|果实'],'茎里有管子，运送水分和食物。'],
@@ -227,6 +227,38 @@ const Q=[
 ['heat',1,'Water boils at ___.','水在几度沸腾？',['100 °C','0 °C','50 °C','37 °C'],'水在 100°C 沸腾。'],
 ['heat',1,'Ice melts at ___.','冰在几度融化？',['0 °C','100 °C','10 °C','37 °C'],'冰在 0°C 融化。'],
 ['heat',1,'Our normal body temperature is about ___.','我们正常的体温大约是多少？',['37 °C','100 °C','0 °C','20 °C'],'正常体温大约 37°C。'],
+/* ===== v4.64 additions: textbook points not yet covered, and more "NOT / LEAST" direction-word questions ===== */
+['body',1,'Which system is made up of the nose, windpipe and lungs?','鼻子、气管、肺属于哪个系统？',['the respiratory system|呼吸系统','the digestive system|消化系统','the circulatory system|循环系统','the skeletal system|骨骼系统'],'呼吸系统（respiratory system）：鼻、气管、肺，负责气体交换。'],
+['body',1,'The heart and blood vessels belong to the ___.','心脏和血管属于……',['circulatory system|循环系统','respiratory system|呼吸系统','muscular system|肌肉系统','digestive system|消化系统'],'循环系统（circulatory system）：心脏和血管。'],
+['body',2,'The circulatory system carries ___ to all parts of the body.','循环系统把什么送到全身？',['digested food and oxygen|消化后的食物和氧气','undigested food|没消化的食物','saliva|唾液','only water|只有水'],'课本：循环系统把消化后的食物和氧气送到全身。不是“食物”，是“消化后的食物”。'],
+['body',1,'Which part of the skeletal system protects the heart and lungs?','骨骼系统哪个部分保护心和肺？',['the rib cage|肋骨','the skull|头骨','the gullet|食道','the stomach|胃'],'肋骨（rib cage）保护心和肺；头骨保护脑。'],
+['body',2,'Bones cannot move on their own. Which system works with the skeletal system to move our arms?','骨头自己不会动。哪个系统和骨骼系统一起让手臂动？',['the muscular system|肌肉系统','the circulatory system|循环系统','the respiratory system|呼吸系统','the digestive system|消化系统'],'肌肉系统和骨骼系统一起工作，身体才能动。'],
+['body',2,'Why can talking while eating make us choke?','为什么边吃边说话会呛到？',['The windpipe is next to the gullet, so food may go into the windpipe.|气管就在食道旁边，食物可能进到气管。','The stomach is full.|胃满了。','Saliva stops working.|唾液不起作用了。','The food becomes too soft.|食物太软了。'],'气管（windpipe）在食道（gullet）旁边，食物可能走错路进气管。'],
+['body',2,'If one part of a system stops working, ___.','系统里有一个部分坏了，会……',['the whole system may not work properly|整个系统可能不能正常工作','the other parts work faster|其他部分会更快','nothing happens|没什么影响','the system grows a new part|系统会长出新的部分'],'系统的各部分一起工作，一个部分坏了，整个系统都可能受影响（像自行车掉了链子）。'],
+['light',2,'The screen is moved further away from the object. The torch and the object do not move. What happens to the shadow?','屏幕移得离物体更远，手电筒和物体不动。影子会怎样？',['It becomes bigger.|变大。','It becomes smaller.|变小。','It stays the same.|不变。','It disappears.|消失。'],'屏幕离物体越远，影子越大。光源离物体越近，影子也越大。'],
+['light',2,'Which object forms a lighter shadow?','哪一样东西形成的影子比较淡？',['a sheet of frosted glass|一片磨砂玻璃','a wooden block|木块','a metal plate|金属板','a thick book|厚书'],'磨砂玻璃是半透明（translucent），让一部分光通过，影子比较淡。'],
+['light',2,'A cone is placed with its side facing the torch. What is the shape of its shadow?','圆锥侧面对着手电筒，影子是什么形状？',['a triangle|三角形','a circle|圆形','a square|正方形','there is no shadow|没有影子'],'侧面对着光 → 三角形；底面或尖端对着光 → 圆形。'],
+['light',2,'We can see a tree in the day because ___.','白天我们看得见树，是因为……',['light from the Sun is reflected from the tree into our eyes|太阳光照到树上，被反射进眼睛','light from our eyes falls on the tree|眼睛发出的光照到树上','the tree gives off its own light|树自己会发光','the tree blocks light from our eyes|树挡住了眼睛的光'],'光源（太阳）→ 物体（树）→ 眼睛。箭头不能从眼睛出发。'],
+['light',1,'Which of these is a natural source of light?','下面哪一个是天然光源？',['lightning|闪电','a light bulb|灯泡','fireworks|烟花','the Moon|月亮'],'闪电是自然现象，自己发光。灯泡、烟花是人造光源；月亮不是光源。'],
+['heat',2,'A metal spoon at 25 °C is put into hot soup at 80 °C. What happens?','25°C 的金属汤匙放进 80°C 的热汤里，会怎样？',['Heat flows from the soup to the spoon until they reach the same temperature.|热从汤流到汤匙，直到温度一样。','Heat flows from the spoon to the soup.|热从汤匙流到汤。','Heat flows from the soup to the spoon and never stops.|热从汤流到汤匙，永远不停。','No heat flows.|没有热流动。'],'热从温度高的流向温度低的，温度一样后就不再流动。'],
+['heat',2,'Which of these is a source of heat?','下面哪一个是热源？',['a cup of hot coffee in a cool room|凉爽房间里的一杯热咖啡','an ice cube|冰块','a cold can drink|冰罐装饮料','a wooden spoon on the table|桌上的木汤匙'],'课本：比周围温度高的物体就是热源。'],
+['heat',2,'Which can measure the temperature of the air in a classroom?','哪一样可以量教室里空气的温度？',['a laboratory thermometer|实验室温度计','an infrared thermometer|红外线温度计','an electronic balance|电子秤','a measuring cylinder|量筒'],'实验室温度计量液体和气体；红外线温度计量固体和液体的表面。'],
+['heat',2,'Why is a woollen sweater warmer than a thin cotton shirt?','为什么羊毛衣比薄棉衣暖？',['More air is trapped in it, and air is a poor conductor of heat.|里面困住更多空气，空气是热的不良导体。','Wool gives off heat.|羊毛会发热。','Wool is a good conductor of heat.|羊毛是热的良导体。','Wool is heavier.|羊毛比较重。'],'羊毛纤维之间困住很多空气，身体的热不容易流到外面。毛衣自己不发热。'],
+['heat',1,'When water loses heat and freezes, it changes from a ___ to a ___.','水失去热结冰，从什么变成什么？',['liquid; solid|液体；固体','solid; liquid|固体；液体','gas; liquid|气体；液体','liquid; gas|液体；气体'],'失去热 → 结冰：液体变成固体。这是热的效应之一：状态改变。'],
+['heat',2,'A balloon is tied over the mouth of an empty flask. The flask is put in hot water and the balloon becomes bigger. Why?','空烧瓶口套着气球，烧瓶放进热水，气球变大了。为什么？',['The air in the flask gains heat and expands.|烧瓶里的空气得到热，膨胀了。','Hot water enters the balloon.|热水进了气球。','The air loses heat and contracts.|空气失去热，收缩了。','The balloon gains mass.|气球变重了。'],'空气得到热 → 膨胀 → 把气球撑大。'],
+['matter',2,'A flat ball has a mass of 586 g. After air is pumped into it, its mass will be ___.','瘪球 586 g，打气以后质量会……',['more than 586 g|比 586 g 多','less than 586 g|比 586 g 少','exactly 586 g|还是 586 g','0 g|0 g'],'空气有质量（has mass）。课本：打气后 597 g，多了 11 g。'],
+['matter',2,'Sound can pass through walls. Is sound matter?','声音能穿过墙。声音是物质吗？',['No. It has no mass and does not occupy space.|不是。它没有质量，也不占空间。','Yes, because it has mass.|是，因为它有质量。','Yes, because it occupies space.|是，因为它占空间。','Yes, everything is matter.|是，所有东西都是物质。'],'课本：光、影子、热、声音都不是物质。'],
+['matter',2,'Air is pumped into an empty 2-litre bottle. What is the volume of the air in the bottle?','往 2 升的空瓶里打气，瓶里空气的体积是多少？',['2 litres, because a gas fills all the space available|2 升，因为气体会占满所有空间','less than 1 litre|不到 1 升','it has no volume|没有体积','it depends on the colour of the bottle|看瓶子的颜色'],'气体没有固定体积，会占满所有可用的空间。'],
+['matter',2,'A measuring cylinder has 40 ml of water. A stone is put in and the water level rises to 55 ml. What is the volume of the stone?','量筒里有 40 ml 水，放进石头后水位升到 55 ml。石头的体积是多少？',['15 cm³|15 cm³','55 cm³|55 cm³','40 cm³|40 cm³','95 cm³|95 cm³'],'55 − 40 = 15 ml = 15 cm³（1 ml = 1 cm³）。'],
+['plantparts',1,'The tiny openings on a leaf allow ___.','叶子上的小孔让……',['gases to move into and out of the leaf|气体进出叶子','water to enter from the soil|泥土里的水进来','insects to lay eggs|昆虫产卵','roots to grow|根生长'],'课本：叶子上的小孔让气体进出（gas exchange）。'],
+['plantparts',2,'A rain tree has a thick, hard stem. This type of stem is ___.','雨树的茎又粗又硬，这种茎是……',['woody|木质的','non-woody|非木质的','a storage root|储存根','a climbing stem|攀爬的茎'],'乔木、灌木是木质茎（woody）；草本植物是非木质茎（non-woody）。'],
+['plantparts',2,'A cactus has spines instead of leaves. Which part of the cactus makes food?','仙人掌的叶子变成了刺。仙人掌哪个部分制造食物？',['the green stem|绿色的茎','the spines|刺','the roots|根','the flowers|花'],'刺减少水分流失；绿色的茎负责制造食物。'],
+['plantparts',2,'Sweet potatoes and carrots are storage roots. What do they store?','番薯和胡萝卜是储存根。它们储存什么？',['food made by the leaves|叶子制造的食物','air|空气','sunlight|阳光','seeds|种子'],'储存根储存叶子制造的食物。'],
+['materials',2,'A material breaks easily when it is bent. It is ___.','一种材料一弯就断，它是……',['rigid|刚硬（不能弯）','flexible|柔韧','waterproof|防水','transparent|透明'],'能弯不断 = flexible；一弯就断 = rigid。'],
+['materials',2,'Which of these is a MATERIAL, not an object?','下面哪一个是“材料”，不是“物体”？',['glass|玻璃','a cup|杯子','a window|窗户','a bottle|瓶子'],'材料是做东西用的（玻璃、木、金属）；物体是做出来的东西（杯子、窗户）。'],
+['fungi',2,'Under which condition would bread grow the LEAST mould?','面包在哪种条件下长的霉最少？',['cold and dry|冷又干','warm and damp|温暖又潮湿','warm and dry|温暖但干','cold and damp|冷但潮湿'],'先圈 LEAST！真菌需要温暖和水分，两样都少 → 霉最少。'],
+['materials',2,'Which material is the LEAST suitable for making a window?','哪种材料最不适合做窗户？',['wood|木头','clear glass|透明玻璃','clear plastic|透明塑料','frosted glass|磨砂玻璃'],'先圈 LEAST！窗户要让光进来，木头不透光（opaque），最不适合。'],
+['magnets',2,'Which pair of objects can NEVER repel each other?','哪一对东西永远不会互相推开？',['a magnet and an iron nail|磁铁和铁钉','two bar magnets|两块条形磁铁','two ring magnets|两块环形磁铁','a magnet and a compass needle|磁铁和指南针的针'],'先圈 NEVER！只有两块磁铁才会相斥。铁钉是磁性物体，只会被吸。指南针的针也是磁铁。'],
 ];
 Q.forEach(([tp,l,q,qz,o,ex])=>{const [c,t]=TOP[tp];GENS.push({c,t,l,w:1,f:()=>mkz(q,qz,o,ex)});});
 
@@ -261,7 +293,7 @@ const EXP=[
 ['p4',{p:'Priya put ice cubes of the same size in three places and timed how long they took to melt.\nUnder the sun: 10 minutes\nIn the classroom: 25 minutes\nIn a cooler box: 60 minutes',pz:'Priya 把一样大的冰块放在三个地方，记录多久融化。太阳下：10 分钟；教室里：25 分钟；冰箱盒里：60 分钟。'},[
  [1,'Where did the ice melt the fastest?','冰在哪里融化得最快？',['under the sun|太阳下','in the classroom|教室里','in the cooler box|冰箱盒里','it was the same|一样快'],'太阳下只要 10 分钟，最快。'],
  [2,'Why did the ice in the cooler box take the longest to melt?','为什么冰箱盒里的冰最久才融化？',['Less heat could reach the ice.|比较少热能传到冰。','The cooler box gave out cold.|冰箱盒会放出冷。','The ice in the box was bigger.|盒子里的冰比较大。','There was no air in the box.|盒子里没有空气。'],'冰箱盒不容易导热，外面的热很难进去。冰块是一样大的。']]],
-['p4',{p:'Ben put four spoons of the same size into a bowl of hot water. After 2 minutes, he touched the handles.\nMetal spoon: very hot\nPlastic spoon: warm\nWooden spoon: slightly warm',pz:'Ben 把一样大的汤匙放进热水里，2 分钟后摸把手。金属汤匙：很烫；塑料汤匙：温温的；木汤匙：有一点温。'},[
+['p4',{p:'Ben put three spoons of the same size into a bowl of hot water. After 2 minutes, he touched the handles.\nMetal spoon: very hot\nPlastic spoon: warm\nWooden spoon: slightly warm',pz:'Ben 把三把一样大的汤匙放进热水里，2 分钟后摸把手。金属汤匙：很烫；塑料汤匙：温温的；木汤匙：有一点温。'},[
  [1,'Which spoon is the best conductor of heat?','哪一支汤匙最容易导热？',['the metal spoon|金属汤匙','the plastic spoon|塑料汤匙','the wooden spoon|木汤匙','they are all the same|都一样'],'金属汤匙最烫 → 最容易导热。'],
  [2,'Which material is the best for making the handle of a cooking pot?','哪一种材料最适合做锅的把手？',['wood|木头','metal|金属','plastic film|塑料薄膜','glass|玻璃'],'木汤匙最不烫 → 木头最不容易导热，适合做把手。']]],
 ['p4',{p:'Two similar plants were given the same amount of water. Plant X was kept near a sunny window. Plant Y was kept in a dark cupboard. After one week, Plant X was green and healthy, but Plant Y was yellow and weak.',pz:'两盆差不多的植物浇一样多的水。X 放在有阳光的窗边，Y 放在黑暗的柜子里。一个星期后，X 绿绿的很健康，Y 变黄、很弱。'},[
@@ -283,7 +315,7 @@ const WORDSETS=[
  ['liquid','液体','flows and takes the shape of its container, like water','Milk is a **liquid**.'],
  ['gas','气体','spreads out to fill any space, like air','Air is a **gas**.'],
  ['volume','体积','how much space something takes up','We measured the **volume** of water in the cup.'],
- ['mass','质量','how much matter something has','We used a scale to find the **mass** of the bag.']]},
+ ['mass','质量','how much matter something has','We used an electronic balance to find the **mass** of the bag.']]},
 {title:'Digestion',zh:'消化',words:[
  ['digest','消化','break food down so the body can use it','Our bodies **digest** the food we eat.'],
  ['saliva','唾液','the liquid in your mouth','**Saliva** makes food soft.'],
@@ -299,7 +331,7 @@ const WORDSETS=[
 {title:'Heat',zh:'热',words:[
  ['temperature','温度','how hot or cold something is','The **temperature** today is 33 °C.'],
  ['conductor','导体','lets heat pass through easily','Metal is a good **conductor** of heat.'],
- ['insulator','隔热的东西','does not let heat pass through easily','Wood is a good **insulator**.'],
+ ['insulator','隔热的东西（= poor conductor of heat 不良导体）','a poor conductor of heat','Wood is a poor conductor of heat, so it is a good **insulator**.'],
  ['expand','膨胀','get bigger','Most things **expand** when they are heated.'],
  ['contract','收缩','get smaller','Most things **contract** when they are cooled.']]},
 {title:'Magnets and materials (P3)',zh:'磁铁和材料',words:[

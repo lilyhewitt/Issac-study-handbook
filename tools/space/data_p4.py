@@ -12,10 +12,10 @@ P4.append(dict(id='tree', name='大树星', en='Plant Systems', icon='🌳', c=[
     mc('What was the height of the red colour at 10 minutes?', ['4 cm', '10 cm', '2 cm', '6 cm'], '4 cm', '找 10 min 那一列。'),
     op('What is the relationship between time and the height of the red colour?', 4, ['relationship'], 'As {time} increases, the {height of the red colour} {increases}.',
        [('decreases', '2 → 4 → 6 是变高。')])]),
-  pr('A celery stalk was put in red water. After some time, the leaves of the celery turned red.', parts=[
-    op('Explain why the leaves turned red.', 2, ['Explain why'], 'The stem {transports} {water} from the bottom of the stalk to the {leaves}.',
-       [('food', '运上去的是红色的水，不是食物。'), ('absorbs', '茎是运送 (transports)，吸水的是根。'), ('the leaves are thirsty', '这是日常话。')],
-       ev=('txt', 'red water'), evtip='红色的水在下面，叶子在上面：水是从下往上运上去的。', score=['1 分：茎运送水', '1 分：从下面运到叶子'])]),
+  pr('The stem of a plant with white flowers was put in red water. After some time, the petals of the flowers turned red.', parts=[
+    op('Explain why the petals turned red.', 2, ['Explain why'], 'The stem {transports} the red {water} up to the {flowers}.',
+       [('food', '运上去的是红色的水，不是食物。'), ('absorbs', '茎是运送 (transports)，吸水的是根。'), ('the flowers are thirsty', '这是日常话，不是科学原因。')],
+       ev=('txt', 'red water'), evtip='红色的水在下面，花在上面：水是顺着茎从下往上运上去的。', score=['1 分：茎运送水', '1 分：把水运到花'])]),
   pr('The roots of a plant were cut off. The plant wilted.', parts=[op('Explain why the plant wilted.', 2, ['Explain why'],
        'Without roots, the plant could not {absorb} {water}, so it wilted.', [('food', '根吸的是水和矿物盐，不是食物。')])]),
   mcq('What do the roots of a plant do?', ['absorb food from the soil', 'absorb water and mineral salts', 'make food', 'take in light'], 2, '根吸水和矿物盐；食物是叶子做的。'),
@@ -80,14 +80,14 @@ P4.append(dict(id='matter', name='气球星', en='Matter', icon='🎈', c=['#ff9
   ]))
 
 # ---------------- 光星 Light ----------------
-SH = [['Sheet', 'A', 'B', 'C'], ['Light passing through (units)', '80', '5', '40']]
+SH = [['Sheet', 'A', 'B', 'C'], ['Light passing through (units)', '80', '0', '40']]
 BW = [['Sheet', 'X', 'Y', 'Z'], ['Light passing through (units)', '80', '30', '0']]
 P4.append(dict(id='light', name='光星', en='Light', icon='💡', c=['#fff07a', '#d6a800'], seg='P4',
   must=['We see an object when light from it enters our eyes.', 'Light travels in straight lines.', 'The Moon is not a source of light. It reflects light from the Sun.'],
   qs=[
   pr('A light sensor measured the amount of light passing through three sheets.', tbl=SH, parts=[
     mc('How much more light passed through A than through C?', ['40 units', '75 units', '35 units', '120 units'], '40 units', '80 − 40 = 40。'),
-    mc('Which sheet is the most likely to be opaque?', ['B', 'A', 'C'], 'B', 'B 只通过 5 个单位，最少。')]),
+    mc('Which sheet is opaque?', ['B', 'A', 'C'], 'B', 'B 是 0：一点光都不通过 = 不透明（opaque）。')]),
   pr('Ali can see a book on his desk at night when the lamp is switched on.', parts=[op('Explain how Ali sees the book.', 2, ['Explain how'],
        'Light from the {lamp} is {reflected} from the book into his {eyes}.',
        [('His eyes shine on the book', '光不是从眼睛出来的，方向反了。'), ('book', '光是从灯来的。')],

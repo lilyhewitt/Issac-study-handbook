@@ -54,7 +54,7 @@ P3.append(dict(id='class', name='分类星', en='Classification', icon='🌼', c
        'The hen {has feathers}, but the cat {has fur}.',
        [('Both have legs', '问的是不同点，不是相同点。'), ('The hen cannot fly', '表上没有这一条。')],
        ev=('cell', 1, 1), evtip='hen 那一行有羽毛，cat 那一行有毛：同一样东西（身上长什么），两边都写。',
-       score=['1 分：企鹅和蝙蝠两边都写了，并且比的是同一样东西'])]),
+       score=['1 分：母鸡和猫两边都写了，并且比的是同一样东西'])]),
   pr('Siti compared a frog and a crocodile.', tbl=FC, parts=[op('Based on the table, state one similarity between the frog and the crocodile.', 3, ['similarity'],
        '{Both} the frog and the crocodile {lay eggs}.', [('but', '问的是相同点，不用 but。'), ('have scales', '青蛙没有鳞片。')],
        ans='**Both** the frog and the crocodile **lay eggs** (or both live on land and in water).')]),
