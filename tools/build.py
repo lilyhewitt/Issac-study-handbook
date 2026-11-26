@@ -157,7 +157,7 @@ def page(app, db):
 </body>
 </html>
 '''
-    doc = doc.replace('</body>', read('shared', 'quizveto.html') + read('shared', 'autoupdate.html') + '</body>', 1)
+    doc = doc.replace('</body>', read('shared', 'quizveto.html') + read('shared', 'autoupdate.html') + read('shared', 'offline.html') + '</body>', 1)
     return doc.replace('</head>', read('shared', 'sync-app.html').replace('__DB__', db) + '</head>', 1)
 
 if __name__ == '__main__':
