@@ -16,3 +16,40 @@
   })();
 })();
 </script>
+
+<style>
+.netwrap{display:flex;align-items:center;gap:.5rem}
+.netpill{display:inline-flex;align-items:center;gap:.375rem;font:700 .875rem/1 system-ui,-apple-system,sans-serif;padding:.4rem .75rem;border-radius:999px;box-shadow:0 3px 0 rgba(0,0,0,.08);white-space:nowrap}
+.netpill svg{width:18px;height:18px;flex:none}
+.netpill[data-s="saving"]{background:#FFF3D0;color:#6B5000}.netpill[data-s="saving"] svg{animation:netspin 1s linear infinite}
+.netpill[data-s="on"]{background:#DDF6EE;color:#146B53}
+.netpill[data-s="off"]{background:#EEEAFF;color:#4A35A8}
+@keyframes netspin{to{transform:rotate(360deg)}}
+@media (max-width:430px){.netpill .nt{display:none}.netpill{padding:.4rem}}
+</style>
+<script>
+/* Status pill left of the sound button: 正在存… / 已存好 · 在线 / 没网 · 用存好的 (nothing when unsaved and offline). */
+(function(){
+  if(!('serviceWorker' in navigator)||location.protocol==='file:'||!window.caches)return;
+  var root=new URL(window.__SWROOT||'../',location.href);
+  var IC={saving:'<circle cx="9" cy="9" r="6" fill="none" stroke="#E0AF2E" stroke-width="2.5" stroke-dasharray="20 10"/>',
+    on:'<path d="M4 9.5l3.2 3.2L14 6" fill="none" stroke="#26A07E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    off:'<path d="M2 7a10 10 0 0 1 14 0M5 10a6 6 0 0 1 8 0" fill="none" stroke="#8F7BF0" stroke-width="2.2" stroke-linecap="round"/><circle cx="9" cy="13.5" r="1.6" fill="#8F7BF0"/><path d="M3 3l12 13" stroke="#4A35A8" stroke-width="2.2" stroke-linecap="round"/>'};
+  var TX={saving:'正在存…',on:'已存好 · 在线',off:'没网 · 用存好的'};
+  var pill=null,state='';
+  function mount(){var b=document.getElementById('bSound');if(!b||pill)return;
+    var w=document.createElement('div');w.className='netwrap';b.parentNode.insertBefore(w,b);
+    pill=document.createElement('span');pill.className='netpill';pill.hidden=true;pill.setAttribute('role','status');w.appendChild(pill);w.appendChild(b);}
+  function show(s){mount();if(!pill||s===state)return;state=s;if(!s){pill.hidden=true;return;}
+    pill.dataset.s=s;pill.title=TX[s];pill.innerHTML='<svg viewBox="0 0 18 18" aria-hidden="true">'+IC[s]+'</svg><span class="nt">'+TX[s]+'</span>';pill.hidden=false;}
+  function saved(){return caches.open('xx-offline-v2').then(function(c){return Promise.all(['','math/','english/','science/'].map(function(p){return c.match(new URL(p,root).href);}));}).then(function(r){return r.every(Boolean);}).catch(function(){return false;});}
+  function online(){if(navigator.onLine===false)return Promise.resolve(false);   /* connected wifi may still have no internet: ask */
+    return Promise.race([fetch(new URL('sw.js',root).href,{method:'HEAD',cache:'no-store'}).then(function(r){return r.ok;}),new Promise(function(ok){setTimeout(function(){ok(false);},4000);})]).catch(function(){return false;});}
+  var busy=false;function check(){if(busy)return;busy=true;
+    Promise.all([saved(),online()]).then(function(r){busy=false;show(r[0]?(r[1]?'on':'off'):(r[1]?'saving':''));if(!r[0]&&r[1])setTimeout(check,1500);}).catch(function(){busy=false;});}
+  window.addEventListener('online',check);window.addEventListener('offline',function(){check();});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')check();});
+  setInterval(check,60000);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',check);else check();
+})();
+</script>
