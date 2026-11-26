@@ -556,6 +556,50 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
 .lb-must{margin:0.75rem auto 0;max-width:36rem;background:#173f35;border-radius:0.75rem;padding:0.625rem 0.875rem;text-align:left;font-family:var(--f-display);font-weight:700;line-height:1.5}
 .lb-must small{display:block;font:500 .8rem var(--f-body);color:#9fe3c5;margin-bottom:0.125rem}
 .lb-row{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+/* 人体大发现 Body Explorer */
+.bd-view{--bd-card:#fffdf6;--bd-ink:#2a2550;--bd-soft:#6b5fae}
+.bd-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.25rem 0 .75rem}
+.bd-tab{background:#1b2257;border:2px solid #3a4590;border-radius:14px;padding:.5rem .25rem;color:#c7cdf5;font:800 .85rem var(--f-display,system-ui);text-align:center;cursor:pointer;line-height:1.2}
+.bd-tab b{display:block;font-size:1.4rem}
+.bd-tab.on{background:#ffd23f;color:#3a2a00;border-color:#fff3b0;box-shadow:0 4px 0 #b08c00}
+.bd-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:.875rem;align-items:start}
+@media (max-width:640px){.bd-grid{grid-template-columns:minmax(0,1fr)}.bd-stage{height:62vh!important;max-height:520px}}
+.bd-stage{background:#141a4a;border:2px solid #3a4590;border-radius:20px;height:560px;position:relative;overflow:hidden;display:flex;justify-content:center}
+.bd-stage svg{height:100%;width:auto;max-width:100%}
+.bd-stage [data-part]{cursor:pointer}
+.bd-tog{position:absolute;top:8px;left:8px;display:flex;gap:4px;z-index:2}
+.bd-tog button{border:0;border-radius:10px;padding:.35rem .6rem;font:800 .8rem system-ui;background:#252e6e;color:#c7cdf5;cursor:pointer}
+.bd-tog button.on{background:#ffd23f;color:#3a2a00}
+.bd-card{background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1rem;box-shadow:0 5px 0 #b9b2e0}
+.bd-card h3{margin:0;font-size:1.5rem}.bd-card .zh{color:var(--bd-soft);font-weight:700;margin-bottom:.5rem}
+.bd-spk{float:right;border:0;background:#7a4fe0;color:#fff;border-radius:12px;padding:.35rem .6rem;font-size:1rem;cursor:pointer}
+.bd-pill{display:inline-block;border-radius:999px;padding:.2rem .6rem;margin:0 .35rem .4rem 0;font-weight:800;font-size:.8rem;background:#e8fff2;color:#157446}
+.bd-pill.no{background:#fff0ea;color:#b44a17}
+.bd-do{line-height:1.5;margin:.4rem 0;font-size:1rem}.bd-do small{display:block;color:var(--bd-soft);font-size:.875rem}
+.bd-star{background:#fff3c4;border-left:5px solid #ffd23f;border-radius:10px;padding:.6rem .75rem;font-weight:700;margin-top:.6rem;color:#3a2a00}
+.bd-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.bd-chip{border:0;border-radius:10px;padding:.4rem .6rem;font:700 .85rem system-ui;background:#252e6e;color:#c7cdf5;cursor:pointer}
+.bd-chip.seen{background:#173d3a;color:#6fe3a1}.bd-chip.on{background:#ffd23f;color:#3a2a00}
+.bd-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.bd-act{flex:1 1 8rem;border:0;border-radius:14px;padding:.7rem .5rem;font:800 .9rem system-ui;background:#252e6e;color:#fff;cursor:pointer;box-shadow:0 3px 0 #10164a}
+.bd-act.go{background:#ff7b39;box-shadow:0 4px 0 #b44a17}
+.bd-q{background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1rem;font-weight:800;font-size:1.1rem}
+.bd-q small{display:block;color:var(--bd-soft);font-weight:600;font-size:.9rem;margin-top:.25rem}
+.bd-opt{display:block;width:100%;text-align:left;border:0;background:var(--bd-card);color:var(--bd-ink);border-radius:14px;padding:.75rem;font:800 1rem system-ui;margin-top:.5rem;box-shadow:0 3px 0 #b9b2e0;cursor:pointer}
+.bd-opt.ok{background:#e8fff2;box-shadow:0 3px 0 #6fe3a1}.bd-opt.bad{background:#fff0ea;box-shadow:0 3px 0 #ff9a6b}
+.bd-fb{margin-top:.75rem;border-radius:16px;padding:.75rem;background:#e8fff2;color:#155a36}.bd-fb.bad{background:#fff0ea;color:#8a3a12}
+.bd-fb small{display:block;opacity:.85}
+.bd-steps{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.bd-steps span{background:#252e6e;border-radius:10px;padding:.35rem .55rem;font-weight:700;font-size:.85rem;color:#c7cdf5}
+.bd-steps span.ok{background:#173d3a;color:#6fe3a1}.bd-steps span.cur{background:#ffd23f;color:#3a2a00}
+.bd-arm{background:var(--bd-card);border-radius:18px;padding:.5rem;color:var(--bd-ink)}
+.bd-arm svg{width:100%;height:auto;display:block}
+.bd-arm input{width:100%;accent-color:#7a4fe0}
+.bd-pair{background:var(--bd-card);color:var(--bd-ink);border-radius:14px;padding:.75rem;margin-top:.5rem}
+.bd-pair b{display:block;margin-bottom:.4rem}
+.bd-pair .bd-opt{margin-top:.35rem;box-shadow:0 2px 0 #d8d2f0;font-size:.9rem}
+.bd-done{text-align:center;background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1.25rem;font-weight:800;font-size:1.2rem}
+.bd-entry{flex:0 1 auto}
 </style>
 <style>
 /* science palette: one dark space world (太空探险) in every theme. Greens for living things, indigo for materials & magnets, orange for P4 preview.
@@ -731,6 +775,7 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
         <button class="tile mini" data-mode="cards" id="tCards"><span class="tname">Word cards</span><span class="tsub">单词卡</span><span class="tnote" id="wtNote"></span></button>
         <button class="tile mini" data-mode="life" id="tLife"><span class="tname">Living things</span><span class="tsub">生物选择题</span></button>
         <button class="tile mini" data-mode="mat" id="tMat"><span class="tname">Materials</span><span class="tsub">材料磁铁选择题</span></button>
+        <button class="tile mini bd-entry" data-mode="body" id="tBody"><span class="tname">Body Explorer</span><span class="tsub">人体大发现</span><span class="tnote" id="bdNote"></span></button>
         <button class="tile mini" data-mode="skill" id="tSkill"><span class="tname">Answer skills</span><span class="tsub">答题本领</span></button>
       </div>
     </div>
@@ -865,6 +910,10 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
     <div class="sm-top"><button class="sm-bk" id="labXBack" aria-label="Back to the lab">‹</button><div class="sm-tt" id="labXTitle"></div></div>
     <div class="lb-steps" id="labSteps"></div>
     <div id="labBody"></div>
+  </section>
+  <section id="vBody" class="view sm-view bd-view" aria-label="Body Explorer" hidden>
+    <div class="sm-top"><button class="sm-bk" id="bdBack" aria-label="Back">‹</button><div class="sm-tt" id="bdTitle">Body Explorer<small>人体大发现 · P4 Human Systems</small></div><div class="sm-pill">⭐ <span id="bdSeen">0</span> / <span id="bdAll">16</span></div></div>
+    <div id="bdMain"></div>
   </section>
   <section id="vSpell" class="view" aria-label="Spell it" hidden>
     <div class="qbar">
@@ -1979,6 +2028,309 @@ $('labBody').addEventListener('input',e=>{const t=e.target.closest('.lb-in');if(
 HOOK.tile.lab=labOpen;
 HOOK.home.push(()=>{const el=$('labNote');if(!el)return;const d=labSt().done,n=LAB.filter(x=>d[x.id]).length;el.textContent=n?`做过 ${n} / ${LAB.length} 个`:`${LAB.length} 个实验 · 用家里的东西做`;});
 window.__lab={LAB,LABPIC,labOpen,labStart};
+
+/* 人体大发现 Body Explorer drawings: the child figure (5 systems) and the arm for muscles in pairs. Drawn in code, no images, so it works offline. */
+(function(){
+/* Body Explorer anatomy v2 — textbook illustration style, front view. viewBox 0 0 300 700.
+   Viewer's left = the body's right side. Systems: dig, res, cir, ske, mus. */
+(function(){
+const MX=x=>300-x;
+/* ---------- outline (left half, mirrored) ---------- */
+const HALF=[[150.0,-13.4],[126.6,-9.5],[109.7,7.4],[103.2,33.4],[104.5,51.6],[96.7,49.0],[94.1,62.0],[98.0,73.7],[105.8,77.6],[111.0,91.9],[121.4,103.6],[131.8,111.4],[136,120],[124,126],[106,130],[92,136],[82,146],[76,160],[72,180],[68,210],[63,240],[59,270],[55,300],[52,330],[50,352],[50,366],[69,369],[72,350],[76,322],[81,292],[86,264],[90,238],[94,212],[98,192],[102,184],[104,210],[106,240],[107,270],[106,296],[104,320],[103,344],[103,372],[102,400],[103,440],[106,480],[109,514],[110,536],[107,562],[108,592],[112,622],[116,650],[135,652],[136,632],[138,604],[139,576],[140,548],[141,520],[143,490],[145,456],[147,420],[149,398],[150,392]];
+const PTS=HALF.concat(HALF.slice(1,-1).reverse().map(([x,y])=>[MX(x),y]));
+function cr(p,closed){const n=p.length;let d=`M${p[0][0]} ${p[0][1]}`;const g=i=>closed?p[(i+n)%n]:p[Math.max(0,Math.min(n-1,i))];
+ for(let i=0;i<(closed?n:n-1);i++){const p0=g(i-1),p1=g(i),p2=g(i+1),p3=g(i+2);d+=` C${(p1[0]+(p2[0]-p0[0])/6).toFixed(1)} ${(p1[1]+(p2[1]-p0[1])/6).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])/6).toFixed(1)} ${(p2[1]-(p3[1]-p1[1])/6).toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;}return d+(closed?' Z':'');}
+const SIL=cr(PTS,true);
+function limbs(fill,edge){let o='';for(const m of [x=>x,MX]){const fl=(x1,y1,x2,y2,w)=>`<path d="M${m(x1)} ${y1} Q${m((x1+x2)/2+ (x2<x1?-1:1))} ${(y1+y2)/2} ${m(x2)} ${y2}" stroke="${edge}" stroke-width="${w+2.4}" stroke-linecap="round" fill="none"/>`;
+  const ff=(x1,y1,x2,y2,w)=>`<path d="M${m(x1)} ${y1} Q${m((x1+x2)/2+(x2<x1?-1:1))} ${(y1+y2)/2} ${m(x2)} ${y2}" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
+  const F=[[51,390,44,414,5.2],[55,393,51,420,5.4],[60,394,59,421,5.4],[64,392,66,416,5.2],[67,378,75,394,5.6]];
+  const palm=`<path d="M${m(52)} 364 C${m(46)} 372 ${m(46)} 388 ${m(52)} 396 C${m(58)} 400 ${m(66)} 398 ${m(69)} 390 C${m(71)} 380 ${m(70)} 370 ${m(68)} 364 Z"`;
+  o+=palm+` fill="${edge}" transform="translate(0 0)" stroke="${edge}" stroke-width="2.4"/>`+F.map(f=>fl(...f)).join('')+palm+` fill="${fill}"/>`+F.map(f=>ff(...f)).join('');
+  const foot=`<path d="M${m(117)} 644 C${m(114)} 662 ${m(108)} 676 ${m(110)} 686 C${m(116)} 694 ${m(134)} 695 ${m(142)} 689 C${m(146)} 680 ${m(140)} 664 ${m(136)} 646 Z"`;
+  o+=foot+` fill="${fill}" stroke="${edge}" stroke-width="1.4"/>`+[0,1,2,3,4].map(i=>`<ellipse cx="${m(114+i*6.6)}" cy="${690-Math.abs(i-1)*.8}" rx="${i==4?3:3.4}" ry="3" fill="${fill}" stroke="${edge}" stroke-width="1"/>`).join('');}
+ return o;}
+/* ---------- defs ---------- */
+function defs(id){const R=(n,a,b,c)=>`<radialGradient id="${id}${n}" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="${a}"/><stop offset=".45" stop-color="${b}"/><stop offset="1" stop-color="${b}"/></radialGradient>`;
+ return `<defs><linearGradient id="${id}sk" x1="0" x2="1"><stop offset="0" stop-color="#F2AE82"/><stop offset=".3" stop-color="#F9C7A2"/><stop offset=".7" stop-color="#F9C7A2"/><stop offset="1" stop-color="#F2AE82"/></linearGradient>
+ ${R('st','#F8C0AE','#EE9A86','#CD6652')}${R('lu','#B8434E','#A3313D','#8A2430')}${R('ht','#EE6B5E','#D43D30','#8E1E16')}${R('lv','#C2564A','#A4402F','#74271C')}${R('si','#F9B4A4','#EE8A78','#D2604F')}${R('li','#F4AFAA','#E68A86','#C9615C')}${R('bn','#FFFFFF','#F6F1E6','#E3D8C0')}${R('mu','#F08C80','#E0705F','#C4554A')}
+ <filter id="${id}gl" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#FFC400"/><feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#FFC400"/></filter>
+ <filter id="${id}sh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.2" flood-color="#6b2a1a" flood-opacity=".35"/></filter>
+ <pattern id="${id}fb" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(75)"><path d="M0 0 V4" stroke="#F6B3A8" stroke-width=".7" opacity=".7"/></pattern><clipPath id="${id}cl"><path d="${SIL}"/></clipPath></defs>`;}
+function skin(id,tone){return `<path d="${SIL}" fill="${tone||`url(#${id}sk)`}" stroke="#E59C70" stroke-width="1.5"/>${limbs(tone||'#F7BF97','#E59C70')}
+ <g fill="none" stroke="#EBA892" stroke-width="1.2" opacity=".8"><path d="M110 70 q3 6 1 11 M190 70 q-3 6 -1 11"/><path d="M106 300 C112 330 122 350 144 374 M194 300 C188 330 178 350 156 374" opacity=".6"/><path d="M150 140 v70" opacity=".35"/><path d="M148 330 q2 3 4 0"/></g>`;}
+function face(){return `<g transform="translate(150 114) scale(1.3) translate(-150 -114)" fill="none" stroke="#C88466" stroke-width="1.3" stroke-linecap="round"><path d="M136 56 q5 -3 10 0 M154 56 q5 -3 10 0"/><path d="M150 62 q-3 10 0 14 q2 1 4 -1"/><path d="M143 88 q7 4 14 0"/></g>`;}
+const W=(id,hi,k,el)=>`<g data-part="${k}" class="pt"${hi===k?` filter="url(#${id}gl)"`:''}>${el}</g>`;
+const tube=(d,w,c,dk,hl=true)=>`<path d="${d}" fill="none" stroke="${dk}" stroke-width="${w+2.4}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>${hl?`<path d="${d}" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="${(w*.28).toFixed(1)}" stroke-linecap="round" stroke-linejoin="round" transform="translate(-${(w*.2).toFixed(1)} -${(w*.15).toFixed(1)})"/>`:''}`;
+const S={};
+/* ---------- digestive ---------- */
+S.dig=(id,hi)=>{let s='';
+ s+=W(id,hi,'mouth',`<ellipse cx="150" cy="94" rx="10" ry="8" fill="#A92A2A" stroke="#6E1515" stroke-width="1.2"/><path d="M142 92 q8 -5 16 0" fill="#F4F4F4"/><ellipse cx="150" cy="98" rx="5.5" ry="3" fill="#E07A7A"/>`);
+ s+=W(id,hi,'gullet',tube('M150 100 C150 122 149 150 149 178 C149 204 152 216 160 226',5,'#C63A3A','#7E1E1E'));
+ s+=W(id,hi,'stomach',`<g transform="translate(0 -8)"><path d="M158 232 C172 220 200 226 204 252 C208 282 192 306 166 308 C150 309 140 302 142 292 C152 294 168 290 176 278 C183 264 177 252 162 250 Z" fill="url(#${id}st)" stroke="#9E4637" stroke-width="1.3"/><g stroke="#C76B5B" stroke-width=".9" fill="none" opacity=".75"><path d="M166 256 C182 260 192 274 186 290"/><path d="M172 250 C188 254 198 270 194 286"/><path d="M156 298 C170 298 182 292 190 282"/></g></g>`);
+ /* small intestine: packed loops */
+ let si=`<path d="M120 304 C150 296 184 300 186 330 C188 360 162 370 140 368 C116 366 110 336 120 304 Z" fill="#F7B3A6" opacity=".75"/>`;
+ {let pts=[[124,308]];const rows=[312,321,330,339,348,357];
+  rows.forEach((y,k)=>{const L=126+Math.abs(k-2.5)*2,Rr=178-Math.abs(k-2.5)*2;const xs=k%2?[Rr,L]:[L,Rr];
+   const n=4;for(let j=0;j<=n;j++){const t=j/n;const x=xs[0]+(xs[1]-xs[0])*t;pts.push([x,y+Math.sin(t*Math.PI*3)*2.2]);}});
+  pts.push([128,362]);
+  const e=pts[pts.length-1];const d=cr(pts,false);const duo=`M141 286 C128 286 120 294 124 308`;const ile=`M${e[0].toFixed(1)} ${e[1].toFixed(1)} C${(e[0]+4).toFixed(1)} 368 132 372 121 372`;si+=tube(duo,6,`url(#${id}si)`,'#B4644E')+tube(ile,6,`url(#${id}si)`,'#B4644E')+tube(d,7.5,`url(#${id}si)`,'#A9433A')+`<path d="${d}" fill="none" stroke="#FFE1D6" stroke-width="1.1" transform="translate(-.8 -1.2)" opacity=".7"/>`;}
+ s+=W(id,hi,'small',si);
+ const LI='M116 376 C113 368 113 362 113 352 L113 306 C113 296 121 292 134 293 L168 294 C182 294 189 298 189 310 L189 348 C189 362 182 370 170 372 C160 374 154 378 152 382';
+ s+=W(id,hi,'large',`<path d="${LI}" fill="none" stroke="#A84A48" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="${LI}" fill="none" stroke="url(#${id}li)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="${LI}" fill="none" stroke="#C2615D" stroke-width="13" stroke-dasharray="1.2 5.5" stroke-linejoin="round"/><path d="${LI}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="3" transform="translate(-2 -2)"/><path d="M116 378 C112 382 110 388 112 392" stroke="#A84A48" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M116 378 C112 382 110 388 112 392" stroke="#E68A86" stroke-width="2.2" stroke-linecap="round" fill="none"/>`);
+ s+=W(id,hi,'rectum',`<path d="M152 382 L151 390" stroke="#A84A48" stroke-width="8" stroke-linecap="round"/><path d="M152 382 L151 390" stroke="#E68A86" stroke-width="5.5" stroke-linecap="round"/><circle cx="151" cy="391.5" r="2.2" fill="#7A3E22"/>`);
+ return s;};
+/* ---------- respiratory ---------- */
+S.res=(id,hi)=>{let s='';
+ s+=W(id,hi,'nose',`<g transform="translate(150 114) scale(1.3) translate(-150 -114)"><path d="M144 62 C140 72 139 78 144 81 L156 81 C161 78 160 72 156 62 Z" fill="#F0A792" stroke="#B06A50" stroke-width="1.1"/></g><path d="M150 70 C156 74 158 84 154 94 C152 100 150 104 150 108" stroke="#C77B7B" stroke-width="7.5" stroke-linecap="round" fill="none"/><path d="M150 70 C156 74 158 84 154 94 C152 100 150 104 150 108" stroke="#EFA9A4" stroke-width="5" stroke-linecap="round" fill="none"/>`);
+ let br='';const b=(x,y,a,l,w,dp)=>{if(dp>6)return;const x2=x+Math.sin(a)*l,y2=y+Math.cos(a)*l;br+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#F7FBFD" stroke-width="${w.toFixed(2)}" stroke-linecap="round" opacity=".9"/>`;b(x2,y2,a-.42,l*.74,w*.72,dp+1);b(x2,y2,a+.42,l*.74,w*.72,dp+1);};
+ b(144,204,-0.8,17,3.6,0);b(156,204,0.8,17,3.6,0);b(140,214,-1.6,12,2.6,1);b(160,214,1.6,12,2.6,1);
+ const RL='M139 134 C128 132 110 158 103 198 C97 236 97 274 103 302 C114 288 130 282 145 292 C147 250 147 188 139 134 Z';
+ const LL='M161 134 C172 132 190 158 197 198 C203 236 203 274 197 302 C186 288 172 282 162 290 C162 276 168 266 166 254 C164 244 159 238 158 228 C156 200 155 168 161 134 Z';
+ s+=W(id,hi,'lungs',`<path d="${RL}" fill="url(#${id}lu)" stroke="#6E1A24" stroke-width="1.3"/><path d="${LL}" fill="url(#${id}lu)" stroke="#6E1A24" stroke-width="1.3"/><g stroke="#7A1E2A" stroke-width="1" fill="none"><path d="M102 238 C118 232 132 222 144 208"/><path d="M104 266 C120 262 134 252 145 242"/><path d="M198 234 C184 242 172 252 163 272"/></g><g clip-path="url(#${id}cl)">${br}</g>`);
+ let rings='';for(let y=110;y<198;y+=5.5)rings+=`<path d="M145.5 ${y} q4.5 2 9 0" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity=".9"/>`;
+ s+=W(id,hi,'wind',`<path d="M150 104 L150 196" stroke="#8C9096" stroke-width="12" stroke-linecap="round"/><path d="M150 104 L150 200" stroke="#C9CCD1" stroke-width="10" stroke-linecap="round"/>${rings}<path d="M150 198 Q143 202 136 212 M150 198 Q157 202 164 212" stroke="#C9CCD1" stroke-width="7" fill="none" stroke-linecap="round"/>`);
+ s+=`<path d="M100 306 C112 282 136 284 150 296 C164 284 188 282 200 306" stroke="#D99A7A" stroke-width="1.6" fill="none" opacity=".8"/>`;
+ return s;};
+/* ---------- circulatory ---------- */
+S.cir=(id,hi)=>{let s='';
+ const AP=[[[156,228],[160,262],[158,300],[155,330],[154,350]],
+  [[154,350],[142,368],[132,398],[126,450],[121,500],[119,530],[121,580],[123,630],[124,684]],[[154,350],[166,368],[170,398],[175,450],[180,500],[181,530],[179,580],[177,630],[176,684]],
+  [[152,200],[144,170],[140,140],[139,110],[138,82]],[[160,200],[159,170],[160,140],[161,110],[162,82]],
+  [[150,204],[128,188],[110,166],[96,158],[88,186],[82,230],[76,282],[68,330],[61,372],[56,406]],[[162,204],[182,188],[192,166],[204,158],[212,186],[218,230],[224,282],[232,330],[239,372],[244,406]]];
+ const A=AP.map(p=>cr(p,false));A.push('M152 214 C148 198 160 190 170 198 C176 206 170 216 160 230');
+ const V=AP.map(p=>cr(p.map(([x,y])=>[x-5,y+2]),false));
+ let v='';V.forEach(d=>v+=`<path d="${d}" fill="none" stroke="#1F4FA8" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#3E73D2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`);
+ A.forEach(d=>v+=`<path d="${d}" fill="none" stroke="#8E1A12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#D8362A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`);
+ let sm='';const tr=(x,y,a,l,w,dp)=>{if(dp>2)return;const x2=x+Math.cos(a)*l,y2=y+Math.sin(a)*l,qx=(x+x2)/2+Math.sin(a)*l*.15,qy=(y+y2)/2-Math.cos(a)*l*.15;
+  sm+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} Q${qx.toFixed(1)} ${qy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="#D8362A" stroke-width="${w.toFixed(1)}" fill="none" stroke-linecap="round"/><path d="M${(x-3).toFixed(1)} ${(y+2.5).toFixed(1)} Q${(qx-3).toFixed(1)} ${(qy+2.5).toFixed(1)} ${(x2-3).toFixed(1)} ${(y2+2.5).toFixed(1)}" stroke="#3E73D2" stroke-width="${(w*.85).toFixed(1)}" fill="none" stroke-linecap="round"/>`;
+  tr(x2,y2,a-.5,l*.6,w*.7,dp+1);tr(x2,y2,a+.5,l*.6,w*.7,dp+1);};
+ const D=Math.PI/180;
+ [[158,250,-15,16],[157,282,200,16],[156,312,-10,14],[155,330,195,14],[156,240,195,14],[124,460,190,12],[176,460,-10,12],[121,570,195,11],[179,570,-15,11],[80,232,160,10],[220,232,20,10],[70,320,165,9],[230,320,15,9],[142,112,200,8],[158,112,-20,8]].forEach(([x,y,a,l])=>tr(x,y,a*D,l,1.8,0));
+ [[56,406],[244,406]].forEach(([x,y])=>{for(const a of [70,90,110])tr(x,y,a*D,10,1.3,1);});
+ [[124,684],[176,684]].forEach(([x,y])=>{for(const a of [150,30])tr(x,y-4,a*D,8,1.3,1);});
+ s+=W(id,hi,'vessels',v+sm);
+ s+=W(id,hi,'heart',`<g transform="translate(161 230) rotate(-28) scale(.8) translate(-161 -232)"><path d="M142 214 C138 200 152 192 162 200 C170 194 186 200 186 216 C186 240 168 258 152 268 C144 256 138 236 142 214 Z" fill="url(#${id}ht)" stroke="#6E140E" stroke-width="1.5"/><path d="M160 204 C166 222 164 244 154 262" stroke="#7A1810" stroke-width="1.3" fill="none" opacity=".7"/><path d="M168 212 C172 222 176 228 182 230" stroke="#F4A09A" stroke-width="1" fill="none" opacity=".6"/></g>`);
+ return s;};
+/* ---------- skeleton ---------- */
+S.ske=(id,hi)=>{let s='';const B='#FFFFFF',ST='#F7DCD3',CA='#FFFFFF';
+ const bone=(x1,y1,x2,y2,w,e1=1,e2=1)=>{const a=Math.atan2(y2-y1,x2-x1),nx=Math.sin(a),ny=-Math.cos(a),k=w/2,mx=(x1+x2)/2,my=(y1+y2)/2,kw=k*.62;
+  const P=(x,y,f)=>`${(x+nx*f).toFixed(1)} ${(y+ny*f).toFixed(1)}`;
+  const d=`M${P(x1,y1,k)} Q${P(mx,my,kw*1.05)} ${P(x2,y2,k*.9)} L${P(x2,y2,-k*.9)} Q${P(mx,my,-kw*1.05)} ${P(x1,y1,-k)} Z`;
+  const knob=(x,y,e)=>`<circle cx="${(x+nx*k*.45).toFixed(1)}" cy="${(y+ny*k*.45).toFixed(1)}" r="${(w*.62*e).toFixed(1)}" fill="${B}" stroke="${ST}"/><circle cx="${(x-nx*k*.45).toFixed(1)}" cy="${(y-ny*k*.45).toFixed(1)}" r="${(w*.62*e).toFixed(1)}" fill="${B}" stroke="${ST}"/>`;
+  return `${knob(x1,y1,e1)}${knob(x2,y2,e2)}<path d="${d}" fill="${B}" stroke="${ST}" stroke-width="1"/><path d="M${P(x1,y1,k*.5)} Q${P(mx,my,kw*.6)} ${P(x2,y2,k*.45)}" fill="none" stroke="${B}" stroke-width="${(w*.5).toFixed(1)}"/>`;};
+ const cbone=(x1,y1,x2,y2,w,bend,e1=1.5,e2=1.5)=>{const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),nx=-dy/len,ny=dx/len,cx=(x1+x2)/2+nx*bend,cy=(y1+y2)/2+ny*bend;
+  const d=`M${x1} ${y1} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x2} ${y2}`;const ux=dx/len,uy=dy/len;
+  const end=(x,y,e,dir)=>`<ellipse cx="${(x+ux*dir*w*.2).toFixed(1)}" cy="${(y+uy*dir*w*.2).toFixed(1)}" rx="${(w*e*.62).toFixed(1)}" ry="${(w*.55).toFixed(1)}" transform="rotate(${(Math.atan2(nx,-ny)*180/Math.PI).toFixed(1)} ${(x).toFixed(1)} ${(y).toFixed(1)})" fill="${B}" stroke="${ST}"/>`;
+  return `${end(x1,y1,e1,1)}${end(x2,y2,e2,-1)}<path d="${d}" fill="none" stroke="${ST}" stroke-width="${w+1.6}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${B}" stroke-width="${w}" stroke-linecap="round"/>${end(x1,y1,e1,1).replace(/stroke="[^"]+"/,'stroke="none"')}${end(x2,y2,e2,-1).replace(/stroke="[^"]+"/,'stroke="none"')}`;};
+ /* skull */
+ s+=W(id,hi,'skull',`<g transform="translate(150 114) scale(1.3) translate(-150 -114)"><path d="M118 58 C116 28 132 18 150 18 C168 18 184 28 182 58 C182 72 178 80 172 84 L170 96 C166 108 158 112 150 112 C142 112 134 108 130 96 L128 84 C122 80 118 72 118 58 Z" fill="${B}" stroke="${ST}" stroke-width="1.3"/><path d="M128 84 C134 90 142 92 150 92 C158 92 166 90 172 84" stroke="${ST}" fill="none"/><path d="M129 56 C132 50 144 50 146 56 C147 64 142 68 137 68 C132 68 128 64 129 56 Z" fill="#F2B7A6"/><path d="M171 56 C168 50 156 50 154 56 C153 64 158 68 163 68 C168 68 172 64 171 56 Z" fill="#F2B7A6"/><path d="M146 70 L150 81 L154 70 Q150 67 146 70 Z" fill="#F2B7A6"/><g stroke="${ST}" stroke-width=".8">${[138,142,146,150,154,158,162].map(x=>`<line x1="${x}" y1="92" x2="${x}" y2="100"/>`).join('')}</g><path d="M136 96 h28" stroke="${ST}"/><path d="M122 50 C126 40 134 36 140 36" stroke="${ST}" fill="none" opacity=".6"/></g>`);
+ /* backbone */
+ let sp='';for(let i=0;i<7;i++)sp+=`<rect x="145" y="${112+i*4.2}" width="10" height="3.4" rx="1.4" fill="${B}" stroke="${ST}" stroke-width=".7"/>`;
+ for(let i=0;i<5;i++)sp+=`<path d="M141 ${292+i*13} h18 l2 4 l-2 6 h-18 l-2 -6 Z" fill="${B}" stroke="${ST}" stroke-width=".9"/><path d="M138 ${297+i*13} h-4 M162 ${297+i*13} h4" stroke="${ST}" stroke-width="2"/>`;
+ s+=W(id,hi,'spine',sp);
+ /* ribs, sternum, collarbones */
+ let rb='';for(let i=0;i<12;i++){const y=146+i*11,w=24+Math.min(i,6)*6.4-(i>7?(i-7)*6:0)-(i>9?6:0),drop=24+i*1.6;
+  for(const sg of [-1,1]){const x0=150+sg*5,xo=150+sg*(w+8),xe=150+sg*(i<7?9:i<10?w-10:w-2),ye=y+drop+(i<7?8:12);
+   const d=`M${x0} ${y-2} C${150+sg*w*.6} ${y-10} ${xo} ${y-2} ${150+sg*(w+4)} ${y+drop*.6} C${150+sg*(w-2)} ${y+drop} ${150+sg*(w-8)} ${ye} ${xe} ${ye}`;
+   rb+=`<path d="${d}" fill="none" stroke="${ST}" stroke-width="5" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#FFFFFF" stroke-width="3.8" stroke-linecap="round"/>`;
+   if(i<10)rb+=`<path d="M${xe} ${ye} Q${150+sg*8} ${ye-4} ${150+sg*5} ${Math.min(y+8+i*2,238)}" stroke="${CA}" stroke-width="3" fill="none" stroke-linecap="round"/>`;}}
+ rb+=`<path d="M143 132 L157 132 L156 148 L154 150 L155 236 L150 246 L145 236 L146 150 L144 148 Z" fill="${B}" stroke="${ST}"/>`;
+ for(const sg of [-1,1]){const d=`M${150+sg*7} 132 C${150+sg*24} 124 ${150+sg*46} 128 ${150+sg*62} 140`;rb+=`<path d="${d}" stroke="${ST}" stroke-width="7" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#FFFFFF" stroke-width="5.2" fill="none" stroke-linecap="round"/>`;}
+ s+=W(id,hi,'ribs',rb);
+ /* limbs and pelvis */
+ let lb='';
+ lb+=`<path d="M150 356 C140 336 112 326 104 340 C98 354 104 370 116 380 C120 388 126 398 136 402 C142 404 146 400 148 396 L150 386 L152 396 C154 400 158 404 164 402 C174 398 180 388 184 380 C196 370 202 354 196 340 C188 326 160 336 150 356 Z" fill="${B}" stroke="${ST}" stroke-width="1.2"/><ellipse cx="134" cy="388" rx="6" ry="8" fill="#F4BCA8"/><ellipse cx="166" cy="388" rx="6" ry="8" fill="#F4BCA8"/><path d="M143 352 h14 l-1 30 l-6 6 l-6 -6 Z" fill="#FBEDE8" stroke="${ST}"/>`;
+ for(const m of [x=>x,MX]){
+  lb+=`<path d="M${m(92)} 142 C${m(100)} 150 ${m(104)} 170 ${m(100)} 196" stroke="${ST}" stroke-width="3" fill="none" opacity=".5"/>`;/* shoulder blade edge */
+  lb+=`<circle cx="${m(90)}" cy="150" r="6.5" fill="${B}" stroke="${ST}"/>`+cbone(m(89),156,m(72),258,6,m===MX?-3:3,1.3,1.9);
+  lb+=cbone(m(69),266,m(56),358,3.2,m===MX?-2.5:2.5,1.2,1.4)+cbone(m(76),266,m(63),360,3.2,m===MX?2:-2,1.4,1.2);
+  lb+=`<g fill="${B}" stroke="${ST}" stroke-width=".6">${[[56,368],[61,367],[66,368],[58,374],[64,374]].map(([x,y])=>`<circle cx="${m(x)}" cy="${y}" r="2.8"/>`).join('')}</g>`;
+  lb+=[[50,380,47,398,45,411],[54,382,52,402,51,417],[59,383,59,404,59,418],[64,382,65,400,66,413],[66,374,70,386,73,392]].map(([a,b2,c,d,e,f])=>`<path d="M${m(a)} ${b2} Q${m(c)} ${d} ${m(e)} ${f}" stroke="${ST}" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M${m(a)} ${b2} Q${m(c)} ${d} ${m(e)} ${f}" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+  lb+=`<circle cx="${m(127)}" cy="381" r="6.5" fill="${B}" stroke="${ST}"/>`+cbone(m(117),390,m(127),518,8,m===MX?4:-4,1.4,2.0)+`<path d="M${m(126)} 382 L${m(114)} 384" stroke="${ST}" stroke-width="7" stroke-linecap="round"/><path d="M${m(126)} 382 L${m(114)} 384" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>`;
+  lb+=`<ellipse cx="${m(127)}" cy="530" rx="6.5" ry="7" fill="${B}" stroke="${ST}"/>`;
+  lb+=cbone(m(127),540,m(126),648,6.5,m===MX?-2:2,2.0,1.5)+cbone(m(117),544,m(118),646,2.8,m===MX?-1.5:1.5,1.6,1.6);
+  lb+=`<path d="M${m(116)} 654 L${m(132)} 654 L${m(136)} 668 L${m(114)} 670 Z" fill="${B}" stroke="${ST}"/>`+[0,1,2,3,4].map(i=>`<path d="M${m(115+i*4.6)} 670 L${m(114+i*5.6)} 682 L${m(114+i*5.8)} 690" stroke="${ST}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M${m(115+i*4.6)} 670 L${m(114+i*5.6)} 682 L${m(114+i*5.8)} 690" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round"/>`).join('');
+ }
+ s+=W(id,hi,'bones',lb);
+ return s;};
+/* ---------- muscles (whole figure) ---------- */
+S.mus=(id,hi)=>{const M='#EC9184',EDGE='#F9D2C9';const P=d=>`<path d="${d}" fill="${M}" stroke="${EDGE}" stroke-width="1.3" stroke-linejoin="round"/>`;
+ const half=[
+ 'M137 102 C141 110 145 118 147 125 C145 127 142 127 140 125 C137 118 133 110 131 105 C132 102 135 101 137 102 Z',
+ 'M138 122 C124 127 106 131 93 139 C100 141 110 140 120 137 C129 134 136 130 141 126 Z',
+ 'M91 139 C78 143 72 160 74 180 C75 188 76 192 78 194 C86 186 94 172 99 158 C101 148 97 140 91 139 Z',
+ 'M147 141 C148 160 148 180 147 197 C134 203 116 201 104 192 C99 186 99 166 104 152 C109 142 120 138 132 138 C138 138 143 139 147 141 Z',
+ 'M77 194 C67 210 64 234 66 252 C68 260 76 261 80 255 C87 242 91 224 90 210 C89 200 84 194 77 194 Z',
+ 'M89 218 C93 232 93 246 88 258 C84 260 80 257 81 251 C84 240 86 228 89 218 Z',
+ 'M68 260 C61 284 56 316 55 346 C56 355 63 358 68 353 C73 330 78 296 80 266 C77 259 72 258 68 260 Z',
+ 'M81 263 C84 290 82 320 77 348 C79 354 84 352 85 346 C88 316 88 288 84 266 C83 263 82 262 81 263 Z',
+ 'M103 200 C106 200 110 203 111 207 C110 211 106 213 102 211 C101 207 101 202 103 200 Z','M103 216 C107 216 111 219 111 224 C110 228 106 229 103 227 C101 223 101 218 103 216 Z','M104 232 C108 232 112 236 111 240 C110 244 106 245 104 243 C102 239 102 234 104 232 Z',
+ 'M105 249 C103 270 105 288 111 302 C116 306 122 307 126 305 C123 282 121 260 118 244 C114 243 108 245 105 249 Z',
+ 'M131 206 C137 204 144 205 148 206 L148 226 C142 228 135 228 130 226 C127 220 127 212 131 206 Z','M130 231 C136 229 144 230 148 231 L148 251 C142 253 135 253 130 251 C127 245 127 237 130 231 Z','M130 256 C136 254 144 255 148 256 L148 274 C142 276 135 276 130 274 C127 268 127 261 130 256 Z','M130 279 C136 278 144 278 148 279 L148 328 C146 332 143 335 141 335 C135 320 130 302 129 288 C129 284 129 281 130 279 Z',
+ 'M116 344 C104 380 101 440 107 492 C111 506 121 506 125 496 C129 460 128 410 124 372 C122 360 119 350 116 344 Z',
+ 'M131 352 C122 392 121 446 126 494 C130 504 138 502 140 492 C144 462 143 414 139 380 C137 368 134 358 131 352 Z',
+ 'M142 438 C153 456 155 490 145 510 C137 513 132 503 133 491 C134 472 137 454 142 438 Z',
+ 'M121 340 C131 376 140 428 145 494 C146 497 149 497 149 494 C146 428 137 376 126 338 C124 337 122 338 121 340 Z',
+ 'M117 528 C106 556 106 594 113 622 C117 630 125 628 127 618 C131 590 129 556 123 534 C121 530 119 528 117 528 Z',
+ 'M127 532 C134 560 136 596 131 630 C129 640 125 640 125 630 C125 600 125 564 127 532 Z',
+ 'M146 398 C141 420 139 450 141 476 C143 482 147 480 148 472 C149 450 149 422 149 400 C148 397 147 397 146 398 Z'];
+ let s='';half.forEach(d=>{s+=P(d)+P(d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,(m,x,y)=>m)) });
+ /* mirror by transform for the right half */
+ const L=half.map(d=>P(d)+`<path d="${d}" fill="url(#${id}fb)"/>`).join('');
+ const body=`<path d="${SIL}" fill="#E27B6F"/>${limbs("#E8897D","#D0665B")}`+L+`<g transform="translate(300 0) scale(-1 1)">${L}</g>`+`<g transform="translate(150 114) scale(1.3) translate(-150 -114)"><path d="M120 40 C130 22 170 22 180 40 C174 52 160 55 150 55 C140 55 126 52 120 40 Z" fill="${M}" stroke="${EDGE}" stroke-width="1"/><path d="M120 40 C130 22 170 22 180 40 C174 52 160 55 150 55 C140 55 126 52 120 40 Z" fill="url(#${id}fb)"/><ellipse cx="137" cy="61" rx="8" ry="6.5" fill="none" stroke="${EDGE}" stroke-width="2.2"/><ellipse cx="163" cy="61" rx="8" ry="6.5" fill="none" stroke="${EDGE}" stroke-width="2.2"/><path d="M146 66 L150 80 L154 66" fill="#F9E3DC"/><ellipse cx="150" cy="90" rx="11" ry="5" fill="none" stroke="${EDGE}" stroke-width="2"/>${[[124,72,132,98],[176,72,168,98]].map(([a,b,c,d])=>`<path d="M${a} ${b} C${a+2} ${b+12} ${c-2} ${d-8} ${c} ${d}" stroke="${EDGE}" stroke-width="1.6" fill="none"/>`).join('')}</g>`+`<g stroke="#FBE7E1" stroke-linecap="round" fill="none"><path d="M150 140 V334" stroke-width="2.6"/><path d="M144 104 L147 124 M156 104 L153 124" stroke-width="2"/>${[x=>x,MX].map(m=>`<path d="M${m(58)} 350 L${m(59)} 366 M${m(65)} 352 L${m(66)} 367" stroke-width="1.6"/><path d="M${m(126)} 506 L${m(126)} 538" stroke-width="3.2"/><path d="M${m(124)} 628 L${m(125)} 650 M${m(130)} 628 L${m(130)} 650" stroke-width="1.8"/><path d="M${m(84)} 252 L${m(76)} 266" stroke-width="2"/>`).join('')}</g>`+`<g fill="#F6C2AE">${'<ellipse cx="117" cy="522" rx="7" ry="8"/><ellipse cx="183" cy="522" rx="7" ry="8"/>'}</g>`;
+ return W(id,hi,'muscles',body);};
+function body(sys,hi,opts={}){const id='b'+Math.random().toString(36).slice(2,7);
+ let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -24 300 724" width="100%" height="100%" class="anat">${defs(id)}`;
+ if(sys==='mus')s+=S.mus(id,hi);
+ else{s+=skin(id,sys==='ske'?'#F4BCA8':null);if(sys!=='ske')s+=face();s+=S[sys](id,hi);}
+ if(opts.labels)for(const [x,y,tx,ty,t,on] of opts.labels){const Lf=tx<150,w=t.length*6.2+14;s+=`<line x1="${x}" y1="${y}" x2="${tx}" y2="${ty}" stroke="${on?'#E0A800':'#6b6f8e'}" stroke-width="1.3"/><circle cx="${x}" cy="${y}" r="2.6" fill="${on?'#FFC400':'#fff'}" stroke="#6b6f8e" stroke-width=".8"/><rect x="${Lf?tx-w:tx}" y="${ty-10}" width="${w}" height="20" rx="7" fill="${on?'#FFC400':'#2B2F55'}"/><text x="${Lf?tx-w/2:tx+w/2}" y="${ty+4.5}" text-anchor="middle" font-size="12" font-weight="700" font-family="system-ui,sans-serif" fill="${on?'#3a2a00':'#fff'}">${t}</text>`;}
+ return s+'</svg>';}
+window.ANAT={body,SIL};
+})();
+const SK='#F8D0B4',SE='#E2A07C',BN='#FFFFFF',BE='#D8C6AE',MC='#D9493A',MR='#F3A196',ME='#A8352A';
+function armBent(){return `
+<path d="M40 28 C34 90 38 160 48 205 C52 232 70 246 92 242 C140 230 190 150 226 118 L244 100 C262 92 268 70 256 56 C244 44 224 48 214 60 L200 74 C170 104 140 150 124 168 C142 128 146 80 128 28 Z" fill="${SK}" stroke="${SE}" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M76 36 C74 100 76 160 80 206" stroke="${BE}" stroke-width="15" stroke-linecap="round" fill="none"/><path d="M76 36 C74 100 76 160 80 206" stroke="${BN}" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M86 214 L216 98 M92 224 L222 110" stroke="${BE}" stroke-width="8" stroke-linecap="round"/><path d="M86 214 L216 98 M92 224 L222 110" stroke="${BN}" stroke-width="5.5" stroke-linecap="round"/>
+<path d="M88 40 C124 70 140 120 124 160 C118 172 112 178 106 190 L102 192 C100 170 92 120 86 40 Z" fill="${MC}" stroke="${ME}" stroke-width="1.6"/>
+<path d="M98 70 C112 90 118 120 112 150" stroke="#F07A6A" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M66 40 C58 100 58 160 66 206 C68 212 74 214 76 208 C72 160 70 100 72 40 Z" fill="${MR}" stroke="${ME}" stroke-width="1.4"/>
+<path d="M106 190 L118 196" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><path d="M70 208 L76 220" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M226 64 C236 62 246 66 250 74 M222 74 C232 72 242 76 246 84 M220 84 C228 84 236 88 240 94" stroke="${SE}" stroke-width="2" fill="none" stroke-linecap="round"/>`;}
+function armStraight(){return `
+<path d="M40 28 C32 90 36 160 44 210 C46 260 52 310 58 340 C50 352 50 378 64 388 C80 398 102 392 108 378 C114 364 110 350 104 340 C108 300 112 250 112 210 C116 160 114 90 110 28 Z" fill="${SK}" stroke="${SE}" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M76 36 C74 100 76 160 78 206" stroke="${BE}" stroke-width="15" stroke-linecap="round" fill="none"/><path d="M76 36 C74 100 76 160 78 206" stroke="${BN}" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M72 218 L78 336 M86 218 L90 336" stroke="${BE}" stroke-width="8" stroke-linecap="round"/><path d="M72 218 L78 336 M86 218 L90 336" stroke="${BN}" stroke-width="5.5" stroke-linecap="round"/>
+<path d="M88 40 C100 90 104 150 98 210 L92 214 C92 150 90 90 84 40 Z" fill="${MR}" stroke="${ME}" stroke-width="1.4"/>
+<path d="M68 40 C42 90 40 150 58 200 C62 210 66 214 70 216 C72 160 72 100 72 40 Z" fill="${MC}" stroke="${ME}" stroke-width="1.6"/>
+<path d="M58 80 C50 110 50 140 56 170" stroke="#F07A6A" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M92 214 L92 226" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><path d="M68 216 L70 226" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M62 362 C72 366 92 366 102 360 M64 374 C74 378 92 378 100 372" stroke="${SE}" stroke-width="2" fill="none" stroke-linecap="round"/>`;}
+window.ARM={armBent,armStraight};
+})();
+
+/* 人体大发现 Body Explorer (P4 Human Systems, textbook p22–41). Content: claude/人体大发现_考点与内容.md.
+   Tap a part → it glows and shows the textbook sentence; food's / air's journey; a 12-question quiz; muscles in pairs; systems working together.
+   Everything is drawn in code (body-anat.js), so it works offline. Progress in S.body. */
+const BD_SYS=[['dig','🍎','Digestive','消化'],['res','🫁','Respiratory','呼吸'],['cir','❤️','Circulatory','循环'],['ske','🦴','Skeletal & Muscular','骨骼和肌肉']];
+const BD_PART={
+ mouth:{s:'dig',en:'Mouth',zh:'口',p:[150,86],pills:[['有消化液 has digestive juices',1]],t:[['Digestion <b>begins</b> here. Teeth break food into smaller pieces.','消化从这里开始，牙齿把食物咬碎。'],['Saliva is a digestive juice.','口水（唾液）是一种消化液。']],star:'Digestion begins in the mouth.'},
+ gullet:{s:'dig',en:'Gullet',zh:'食道',p:[150,170],pills:[['没有消化 no digestion',0]],t:[['Carries food from the mouth to the stomach.','把食物从口送到胃。'],['<b>No digestion</b> takes place here.','食道里不消化食物（常考陷阱）。']]},
+ stomach:{s:'dig',en:'Stomach',zh:'胃',p:[172,262],pills:[['有消化液 has digestive juices',1]],t:[['Food is mixed with digestive juices and broken down further.','食物和消化液搅拌，被进一步分解。']]},
+ small:{s:'dig',en:'Small intestine',zh:'小肠',p:[152,336],pills:[['有消化液',1],['吸收养分进血液',1],['不是吸水的地方',0]],t:[['Digestion <b>ends</b> here. Digested food is <b>absorbed into the blood</b>.','消化在这里结束；消化后的食物被吸收进血液。'],['About <b>6.5 m</b> long in an adult.','成人约 6.5 米，盘在肚子里。']],star:'Digestion begins in the mouth and ends in the small intestine.'},
+ large:{s:'dig',en:'Large intestine',zh:'大肠',p:[114,330],pills:[['吸收水分',1],['不吸收养分',0]],t:[['Water is absorbed from <b>undigested food</b>.','大肠从没消化的食物里吸收水分。'],['About <b>1.5 m</b> long in an adult.','成人约 1.5 米。']],star:'The large intestine absorbs water from undigested food.'},
+ rectum:{s:'dig',en:'Rectum & anus',zh:'直肠和肛门',p:[151,388],pills:[],t:[['Undigested food is stored in the rectum and passes out through the anus.','没消化的食物存在直肠，从肛门排出体外。']]},
+ nose:{s:'res',en:'Nose',zh:'鼻子',p:[150,62],pills:[],t:[['Air enters the body through the nose.','空气从鼻子进入身体。']]},
+ wind:{s:'res',en:'Windpipe',zh:'气管',p:[150,160],pills:[],t:[['Carries air to and from the lungs.','把空气送进肺，也把空气从肺送出来。']]},
+ lungs:{s:'res',en:'Lungs',zh:'肺',p:[118,240],pills:[['吸进 oxygen',1],['呼出 carbon dioxide',1]],t:[['Oxygen passes into the blood. Carbon dioxide passes out of the blood.','氧气进入血液，二氧化碳从血液出来。'],['Air breathed out still has some oxygen, but less than air breathed in.','呼出的气里还有氧气，只是比吸进的少（陷阱）。']],star:'We take in oxygen and give out carbon dioxide.'},
+ heart:{s:'cir',en:'Heart',zh:'心脏',p:[160,250],pills:[['属于循环系统，不是呼吸系统',0]],t:[['Pumps blood to all parts of the body.','把血液泵到全身。']],star:'The heart pumps blood to all parts of the body.'},
+ vessels:{s:'cir',en:'Blood vessels',zh:'血管',p:[122,470],pills:[],t:[['Carry blood around the body.','运送血液到身体各处。'],['Blood carries <b>oxygen and digested food</b> to all parts of the body, and takes away carbon dioxide.','血液把氧气和养分送到全身，把二氧化碳带走。']]},
+ skull:{s:'ske',en:'Skull',zh:'头骨',p:[150,24],pills:[],t:[['Protects the brain.','保护大脑。']]},
+ ribs:{s:'ske',en:'Rib cage',zh:'胸廓（肋骨）',p:[122,200],pills:[],t:[['Protects the heart and lungs.','保护心脏和肺。']]},
+ spine:{s:'ske',en:'Backbone',zh:'脊柱',p:[150,300],pills:[],t:[['Supports the body and lets us bend.','支撑身体，让我们能弯腰。']]},
+ bones:{s:'ske',en:'Other bones',zh:'其他骨头（大腿骨等）',p:[120,460],pills:[],t:[['The <b>femur</b> (thigh bone) is the longest and strongest bone.','大腿骨最长、最强壮。'],['The smallest bone is in the ear.','最小的骨头在耳朵里。']],star:'The skeleton supports the body, protects internal organs and allows movement.'},
+ muscles:{s:'mus',en:'Muscles',zh:'肌肉',p:[120,450],pills:[['只会拉，不会推',0]],t:[['Muscles are attached to bones.','肌肉连在骨头上。'],['They work in <b>pairs</b>: when one contracts, the other relaxes, and the bone moves.','肌肉成对工作：一块收缩，另一块放松，骨头就动了。']],star:'Muscles work in pairs to move bones.'}
+};
+const BD_KEYS=Object.keys(BD_PART);
+const BD_JR={food:{en:"Food's Journey",zh:'食物的旅程',icon:'🍎',sys:'dig',path:['mouth','gullet','stomach','small','large','rectum'],
+  q:['Where does food go in first?','Where does the food go after the mouth?','Where does the food go after the gullet?','Where does the food go after the stomach?','Where does the food go after the small intestine?','Where does undigested food leave the body?'],
+  end:'Digestion begins in the mouth and ends in the small intestine. The large intestine only absorbs water.',endZh:'食物在口开始消化，在小肠结束；大肠只吸水。'},
+ air:{en:"Air's Journey",zh:'空气的旅程',icon:'💨',sys:'res',path:['nose','wind','lungs'],
+  q:['Where does air go in?','Where does the air go after the nose?','Where does the air go after the windpipe?'],
+  end:'In the lungs, oxygen passes into the blood. The heart pumps it to all parts of the body.',endZh:'在肺里氧气进入血液，再由心脏送到全身。'}};
+/* quiz: t=tap a part / m=choose (first option correct) / l=letters on the diagram */
+const BD_QZ=[
+ {t:'tap',s:'dig',a:'mouth',q:'Tap where digestion begins.',zh:'点出消化开始的地方。',ex:'Digestion begins in the mouth.',exZh:'牙齿和唾液在口里开始消化。'},
+ {t:'tap',s:'dig',a:'small',q:'Tap where digestion ends.',zh:'点出消化结束的地方。',ex:'Digestion ends in the small intestine.',exZh:'消化在小肠结束。'},
+ {t:'tap',s:'dig',a:'large',q:'Tap where water is absorbed from undigested food.',zh:'点出从未消化食物里吸收水分的地方。',ex:'The large intestine absorbs water from undigested food.',exZh:'大肠只吸水；养分在小肠就吸收了。'},
+ {t:'m',q:'Which part does NOT produce digestive juices?',zh:'哪个部位没有消化液？',o:['Gullet','Mouth','Stomach','Small intestine'],ex:'The gullet only carries food to the stomach.',exZh:'食道只运送食物，不消化。'},
+ {t:'l',s:'dig',L:{P:'mouth',Q:'stomach',R:'small',S:'large'},q:'Compare the amount of digested food in R and in Q.',zh:'R 里消化后的食物比 Q 里多还是少？',o:['More in R than in Q','Less in R than in Q','The same'],ex:'R is the small intestine. Food is digested more by the time it gets there.',exZh:'越往后走，消化得越多。'},
+ {t:'l',s:'dig',L:{P:'gullet',Q:'stomach',R:'small',S:'large'},q:'Which part absorbs digested food into the blood?',zh:'哪个字母把消化后的食物吸收进血液？',o:['R','S','Q','P'],ex:'R is the small intestine.',exZh:'小肠吸收养分；S 大肠只吸水。'},
+ {t:'tap',s:'res',a:'lungs',q:'Tap the organ where oxygen passes into the blood.',zh:'点出氧气进入血液的器官。',ex:'Oxygen passes into the blood in the lungs.',exZh:'在肺里，氧气进入血液。'},
+ {t:'m',q:'Compared with air breathed in, air breathed out has ___.',zh:'和吸进的空气比，呼出的空气……',o:['more carbon dioxide and less oxygen','no oxygen at all','no carbon dioxide','only oxygen'],ex:'Air breathed out still has some oxygen.',exZh:'呼出的气里还有氧气，只是更少（陷阱）。'},
+ {t:'tap',s:'cir',a:'heart',q:'Tap the organ that pumps blood around the body.',zh:'点出把血液泵到全身的器官。',ex:'The heart pumps blood to all parts of the body.',exZh:'心脏属于循环系统。'},
+ {t:'m',q:'Blood carries ___ to all parts of the body.',zh:'血液把什么送到全身？',o:['oxygen and digested food','carbon dioxide only','undigested food','water only'],ex:'Blood carries oxygen and digested food, and takes away carbon dioxide.',exZh:'血液送氧气和养分，带走二氧化碳。'},
+ {t:'tap',s:'ske',a:'ribs',q:'Tap the bones that protect the heart and lungs.',zh:'点出保护心脏和肺的骨头。',ex:'The rib cage protects the heart and lungs.',exZh:'胸廓保护心和肺；头骨保护脑。'},
+ {t:'m',q:'When you bend your arm, the muscle in front ___ and the muscle at the back ___.',zh:'弯手臂时，前面的肌肉……后面的肌肉……',o:['contracts, relaxes','relaxes, contracts','contracts, contracts','relaxes, relaxes'],ex:'Muscles work in pairs. The front muscle contracts and pulls the forearm up.',exZh:'前面收缩把前臂拉上来，后面放松。'}
+];
+const BD_PAIRS=[['🍎 Digestive + ❤️ Circulatory','Digested food goes into the blood and is carried around the body.',['Oxygen goes into the blood.','The body moves.']],
+ ['🫁 Respiratory + ❤️ Circulatory','Oxygen goes into the blood and is carried around the body.',['Digested food goes into the blood.','The body moves.']],
+ ['🦴 Skeletal + 💪 Muscular','Bones and muscles work together so the body can move.',['Oxygen goes into the blood.','Water is absorbed.']]];
+const bdShuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+let BD={view:'ex',sys:'dig',sk:'ske',part:null};
+function bdSt(){if(!S.body||typeof S.body!=='object')S.body={};const b=S.body;if(!b.seen||typeof b.seen!=='object')b.seen={};if(!b.done||typeof b.done!=='object')b.done={};return b;}
+function bdGive(n,key,t,ok){S.stars=(S.stars||0)+n;const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
+  if(!Array.isArray(S.log))S.log=[];S.log.push({d:dk,ts:Date.now(),c:'p4',t:'人体大发现 · Body Explorer',k:key,h:QB.hash('body:'+key),ok:ok?1:0});if(S.log.length>5000)S.log=S.log.slice(-5000);}
+function bdTopCount(){const b=bdSt();$('bdSeen').textContent=BD_KEYS.filter(k=>b.seen[k]).length;$('bdAll').textContent=BD_KEYS.length;}
+function bdFig(sys,hi,o){const svg=ANAT.body(sys,hi,o||{});const hits=BD_KEYS.filter(k=>BD_PART[k].s===sys).map(k=>{const [x,y]=BD_PART[k].p;return `<circle class="bd-hit" data-part="${k}" cx="${x}" cy="${y}" r="18" fill="transparent"/>`;}).join('');return svg.replace(/<\/svg>$/,hits+'</svg>');}
+function bdSvgSys(){return BD.sys==='ske'?BD.sk:BD.sys;}
+function bdLabels(L,hi){return Object.entries(L).map(([ch,k])=>{const [x,y]=BD_PART[k].p,left=x<150;return [x,y,left?40:262,y,ch,hi===ch];});}
+function bdOpen(){bdSt();show('vBody');BD.view='ex';BD.part=null;bdDraw();}
+function bdTitle(en,zh){$('bdTitle').innerHTML=`${esc(en)}<small>${esc(zh)}</small>`;}
+function bdCard(k){if(!k)return `<div class="bd-card"><h3>Tap a part 点一个部位</h3><div class="zh">点人体图，或者点下面的名字</div><div class="bd-do">每个部位第一次点开就会点亮。16 个都点亮 +2 ★。</div></div>`;
+  const p=BD_PART[k];return `<div class="bd-card"><button class="bd-spk" data-say="${esc(p.en+'. '+p.t.map(x=>x[0].replace(/<[^>]+>/g,'')).join(' '))}" aria-label="Read aloud">🔊</button><h3>${esc(p.en)}</h3><div class="zh">${esc(p.zh)}</div>
+  ${p.pills.map(([t,g])=>`<span class="bd-pill${g?'':' no'}">${g?'✓':'✗'} ${esc(t)}</span>`).join('')}
+  ${p.t.map(([e,z])=>`<div class="bd-do">${e}<small>${esc(z)}</small></div>`).join('')}${p.star?`<div class="bd-star">★ ${esc(p.star)}</div>`:''}</div>`;}
+function bdDraw(){bdTopCount();const m=$('bdMain'),b=bdSt();
+ if(BD.view==='ex'){bdTitle('Body Explorer','人体大发现 · P4 Human Systems');
+  const sv=bdSvgSys(),keys=BD_KEYS.filter(k=>BD_PART[k].s===sv||(BD.sys==='ske'&&BD_PART[k].s===(BD.sk==='ske'?'ske':'mus')));
+  m.innerHTML=`<div class="bd-tabs">${BD_SYS.map(([k,i,en,zh])=>`<button class="bd-tab${BD.sys===k?' on':''}" data-sys="${k}"><b>${i}</b>${esc(en)} ${zh}</button>`).join('')}</div>
+  <div class="bd-grid"><div class="bd-stage" id="bdStage">${BD.sys==='ske'?`<div class="bd-tog"><button data-sk="ske" class="${BD.sk==='ske'?'on':''}">🦴 骨骼</button><button data-sk="mus" class="${BD.sk==='mus'?'on':''}">💪 肌肉</button></div>`:''}${bdFig(sv,BD.part)}</div>
+  <div>${bdCard(BD.part)}<div class="bd-chips">${keys.map(k=>`<button class="bd-chip${BD.part===k?' on':b.seen[k]?' seen':''}" data-part="${k}">${esc(BD_PART[k].en)}${b.seen[k]?' ✓':''}</button>`).join('')}</div>
+  <div class="bd-acts"><button class="bd-act" data-jr="food">🍎 食物的旅程</button><button class="bd-act" data-jr="air">💨 空气的旅程</button><button class="bd-act" data-go="mus">💪 肌肉成对</button><button class="bd-act" data-go="pair">🤝 系统合作</button><button class="bd-act go" data-go="quiz">🎯 考考你 ${BD_QZ.length} 题</button></div></div></div>`;return;}
+ if(BD.view==='jr'){const J=BD_JR[BD.jr],i=BD.step,fin=i>=J.path.length;bdTitle(J.icon+' '+J.en,J.zh+' · 按顺序点');
+  m.innerHTML=`<div class="bd-grid"><div class="bd-stage" id="bdStage">${bdFig(J.sys,fin?null:BD.hint)}</div><div>
+  ${fin?`<div class="bd-done">🎉 走完啦！${BD.gave?`<br>+${BD.gave} ★`:''}</div><div class="bd-star">★ ${esc(J.end)}<br><small>${esc(J.endZh)}</small></div>`:`<div class="bd-q">第 ${i+1} 步：${esc(J.q[i])}<small>点人体图上的部位</small></div>`}
+  ${BD.msg||''}<div class="bd-steps">${J.path.map((k,n)=>`<span class="${n<i?'ok':n===i&&!fin?'cur':''}">${n+1} ${n<i?esc(BD_PART[k].en)+' ✓':'?'}</span>`).join('')}</div>
+  <div class="bd-acts"><button class="bd-act" data-go="ex">‹ 回人体图</button>${fin?`<button class="bd-act go" data-jr="${BD.jr}">再走一次</button>`:''}</div></div></div>`;return;}
+ if(BD.view==='quiz'){const Z=BD.qz,q=Z.list[Z.i];bdTitle('🎯 Quiz','考考你 · 第 '+(Z.i+1)+' / '+Z.list.length+' 题');
+  if(Z.i>=Z.list.length){m.innerHTML=`<div class="bd-done">答对 ${Z.ok} / ${Z.list.length} 题 ${Z.ok===Z.list.length?'🎉 全对！':''}<br>${Z.gave?`+${Z.gave} ★`:''}</div><div class="bd-acts"><button class="bd-act" data-go="ex">‹ 回人体图</button><button class="bd-act go" data-go="quiz">再考一次</button></div>`;return;}
+  const lab=q.t==='l'?bdLabels(q.L):null,stage=q.t!=='m'?`<div class="bd-stage" id="bdStage">${bdFig(q.s,Z.ans&&q.t==='tap'?q.a:null,lab?{labels:lab}:{})}</div>`:'';
+  const opts=q.t!=='tap'?Z.opts.map((o,n)=>`<button class="bd-opt${Z.ans?(o===q.o[0]?' ok':n===Z.pick?' bad':''):''}" data-opt="${n}">${String.fromCharCode(65+n)}. ${esc(o)}${Z.ans&&o===q.o[0]?' ✓':''}</button>`).join(''):'';
+  const fb=Z.ans?`<div class="bd-fb${Z.right?'':' bad'}"><b>${Z.right?'✓ 对了！':'✗ '+esc(Z.wrongMsg||'再看看')}</b><div>${esc(q.ex)}</div><small>${esc(q.exZh)}</small></div><div class="bd-acts"><button class="bd-act go" data-go="next">下一题 →</button></div>`:'';
+  m.innerHTML=`<div class="${stage?'bd-grid':''}">${stage}<div><div class="bd-q">${esc(q.q)}<small>${esc(q.zh)}</small></div>${opts}${fb}</div></div>`;return;}
+ if(BD.view==='mus'){bdTitle('💪 Muscles in pairs','肌肉成对 · 拖动滑块弯手臂');const v=BD.arm||0;
+  m.innerHTML=`<div class="bd-grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><div class="bd-arm"><svg viewBox="0 0 320 420" id="bdArm">${bdArmSvg(v)}</svg>
+  <input type="range" min="0" max="100" value="${v}" id="bdArmR" aria-label="Bend the arm"><div style="display:flex;justify-content:space-between;font-weight:700;color:#6b5fae"><span>伸直 straight</span><span>弯曲 bent</span></div></div>
+  <div><div class="bd-card" id="bdArmTx">${bdArmTx(v)}</div><div class="bd-star">★ Muscles work in pairs to move bones.</div><div class="bd-do" style="color:#c7cdf5">肌肉只会<b>拉</b>（收缩变短），不会推。所以要两块一组：一块把骨头拉过来，另一块把它拉回去。</div>
+  <div class="bd-acts"><button class="bd-act" data-go="ex">‹ 回人体图</button></div></div></div>`;return;}
+ if(BD.view==='pair'){bdTitle('🤝 Systems work together','系统合作 · 两个系统一起做什么？');const P=BD.pr;
+  m.innerHTML=`${BD_PAIRS.map(([h,a,w],i)=>`<div class="bd-pair"><b>${esc(h)} →</b>${P.opts[i].map((o,n)=>`<button class="bd-opt${P.ans[i]!=null?(o===a?' ok':n===P.ans[i]?' bad':''):''}" data-pr="${i}:${n}">${esc(o)}${P.ans[i]!=null&&o===a?' ✓':''}</button>`).join('')}</div>`).join('')}
+  ${P.ans.every(x=>x!=null)?`<div class="bd-done" style="margin-top:.75rem">${P.ok===3?'🎉 全对！':'答对 '+P.ok+' / 3'}${P.gave?' +'+P.gave+' ★':''}</div>`:''}<div class="bd-acts"><button class="bd-act" data-go="ex">‹ 回人体图</button></div>`;}
+}
+function bdArmSvg(v){const t=v/100;return `<g opacity="${(1-t).toFixed(2)}" transform="translate(20 10)">${ARM.armStraight()}</g><g opacity="${t.toFixed(2)}" transform="translate(40 10)">${ARM.armBent()}</g>`;}
+function bdArmTx(v){return v>=50?`<h3>手臂弯曲 Bent</h3><div class="bd-do">The muscle in <b>front contracts</b> (shorter, thicker) and pulls the forearm up.<small>前面的肌肉收缩：变短变粗，把前臂拉上来。</small></div><div class="bd-do">The muscle at the <b>back relaxes</b>.<small>后面的肌肉放松。</small></div>`
+ :`<h3>手臂伸直 Straight</h3><div class="bd-do">The muscle at the <b>back contracts</b> and pulls the forearm down.<small>后面的肌肉收缩，把前臂拉直。</small></div><div class="bd-do">The muscle in <b>front relaxes</b> (longer, thinner).<small>前面的肌肉放松：变长变细。</small></div>`;}
+function bdTap(k){const b=bdSt();
+ if(BD.view==='ex'){if(!BD_PART[k])return;BD.part=k;if(!b.seen[k]){b.seen[k]=1;if(BD_KEYS.every(x=>b.seen[x])&&!b.done.all){b.done.all=1;bdGive(2,'all parts',1,1);}save();}bdDraw();return;}
+ if(BD.view==='jr'){const J=BD_JR[BD.jr];if(BD.step>=J.path.length)return;const want=J.path[BD.step];
+  if(k===want){BD.step++;BD.hint=k;BD.msg='';if(BD.step>=J.path.length){if(!b.done[BD.jr]){b.done[BD.jr]=1;BD.gave=1;bdGive(1,BD.jr+' journey',1,1);save();}else BD.gave=0;}}
+  else{const at=J.path.indexOf(k);BD.msg=`<div class="bd-fb bad"><b>刚才点了 ${esc(BD_PART[k]?BD_PART[k].en:k)}</b><div>${at>BD.step?`Not yet! It goes to the <b>${esc(BD_PART[want].en)}</b> first.`:at>=0?'Already passed — it has been there.':'Food and air do not go there.'}</div><small>${at>BD.step?'还没到哦，先去 '+BD_PART[want].zh+'。':at>=0?'已经走过这里了。':'这一步不经过这里。'}</small></div>`;}
+  bdDraw();return;}
+ if(BD.view==='quiz'){const Z=BD.qz,q=Z.list[Z.i];if(Z.ans||q.t!=='tap'||!BD_PART[k])return;bdAnswer(k===q.a,k===q.a?'':'你点了 '+BD_PART[k].en);}
+}
+function bdAnswer(right,msg){const Z=BD.qz;Z.ans=1;Z.right=right;Z.wrongMsg=msg;if(right)Z.ok++;bdDraw();}
+function bdQuiz(){BD.view='quiz';BD.qz={list:BD_QZ.slice(),i:0,ok:0};bdQNew();bdDraw();}
+function bdQNew(){const Z=BD.qz,q=Z.list[Z.i];Z.ans=0;Z.pick=null;Z.opts=q&&q.o?bdShuf(q.o):[];}
+function bdQNext(){const Z=BD.qz,b=bdSt();Z.i++;if(Z.i>=Z.list.length){const n=Z.ok===Z.list.length?3:1;Z.gave=n;b.done.quiz=Math.max(b.done.quiz||0,Z.ok);bdGive(n,'quiz '+Z.ok+'/'+Z.list.length,1,Z.ok===Z.list.length);save();}else bdQNew();bdDraw();}
+$('bdMain').addEventListener('click',e=>{const t=e.target;let x;
+ if(x=t.closest('[data-say]')){speakText(x.dataset.say);return;}
+ if(x=t.closest('[data-sys]')){BD.sys=x.dataset.sys;BD.part=null;bdDraw();return;}
+ if(x=t.closest('[data-sk]')){BD.sk=x.dataset.sk;BD.part=null;bdDraw();return;}
+ if(x=t.closest('[data-jr]')){BD.view='jr';BD.jr=x.dataset.jr;BD.step=0;BD.hint=null;BD.msg='';BD.gave=0;bdDraw();return;}
+ if(x=t.closest('[data-go]')){const g=x.dataset.go;if(g==='quiz')return bdQuiz();if(g==='next')return bdQNext();
+  if(g==='pair'){BD.view='pair';BD.pr={opts:BD_PAIRS.map(([,a,w])=>bdShuf([a,...w])),ans:[null,null,null],ok:0};}else{BD.view=g;if(g==='mus')BD.arm=0;}bdDraw();return;}
+ if(x=t.closest('[data-opt]')){const Z=BD.qz;if(!Z||Z.ans)return;const n=+x.dataset.opt,q=Z.list[Z.i];Z.pick=n;bdAnswer(Z.opts[n]===q.o[0],'');return;}
+ if(x=t.closest('[data-pr]')){const P=BD.pr,[i,n]=x.dataset.pr.split(':').map(Number);if(P.ans[i]!=null)return;P.ans[i]=n;if(P.opts[i][n]===BD_PAIRS[i][1])P.ok++;
+  if(P.ans.every(v=>v!=null)){const b=bdSt();if(!b.done.pair&&P.ok===3){b.done.pair=1;P.gave=1;bdGive(1,'systems together',1,1);save();}}bdDraw();return;}
+ if(x=t.closest('[data-part]')){bdTap(x.dataset.part);}
+});
+$('bdMain').addEventListener('input',e=>{if(e.target.id!=='bdArmR')return;const v=+e.target.value;BD.arm=v;$('bdArm').innerHTML=bdArmSvg(v);$('bdArmTx').innerHTML=bdArmTx(v);
+ const b=bdSt();if(v>=95&&!b.done.mus){b.done.mus=1;bdGive(1,'muscles in pairs',1,1);save();}});
+$('bdBack').addEventListener('click',()=>{if(BD.view!=='ex'){BD.view='ex';bdDraw();}else home();});
+HOOK.tile.body=bdOpen;
+HOOK.home.push(()=>{const el=$('bdNote');if(!el)return;const n=BD_KEYS.filter(k=>bdSt().seen[k]).length;el.textContent=n?`点亮 ${n} / ${BD_KEYS.length}`:'新！';});
+window.__body={BD_PART,BD_QZ,BD_JR,bdOpen,BD:()=>BD};
 
 function home(){
   drawTasks();

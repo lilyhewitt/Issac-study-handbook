@@ -23,7 +23,7 @@ const STEP=wrong=>{const Q=__sp.SQ();if(!Q)return'none';if(!document.getElementB
 const p=await (await b.newContext({...devices['iPad (gen 7) landscape']})).newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(U);await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(500);
 const tiles=await p.$$eval('#vHome .tile',x=>x.map(e=>e.dataset.mode).join(','));
-ok(tiles==='sp,tool,redo,p4,me,lab,cards,life,mat,skill','home tiles: Space Mission first, toolbox, try again, P4, my stars, Home Lab, then the small ones ('+tiles+')');
+ok(tiles==='sp,tool,redo,p4,me,lab,cards,life,mat,body,skill','home tiles: Space Mission first, toolbox, try again, P4, my stars, Home Lab, then the small ones ('+tiles+')');
 ok(await p.isVisible('#tSp .nw'),'NEW on the Space Mission tile');
 ok((await p.textContent('#smNote')).includes('Living and Non-living Things'),'the big tile names the next planet');
 const tk=await p.$$eval('#tasks .tk',x=>x.map(e=>e.dataset.tk));ok(tk[0]==='sp'&&tk[1]==='tool'&&tk.length===3&&!tk.includes('words'),'tasks: next planet, toolbox, one more; no word review ('+tk+')');

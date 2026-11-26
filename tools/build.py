@@ -117,6 +117,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('science', 'lab.css') + s[i:]
         s = rep(s, 'function home(){', read('science', 'lab-scenes.js') + '\n' + read('science', 'lab-data.js') + '\n' + read('science', 'lab.js') + '\nfunction home(){')
+        # 人体大发现 Body Explorer: P4 Human Systems (content from claude/人体大发现_考点与内容.md; drawings in body-anat.js)
+        s = rep(s, '  <section id="vSpell" class="view"', read('science', 'body.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('science', 'body.css') + s[i:]
+        s = rep(s, 'function home(){', read('science', 'body-anat.js') + '\n' + read('science', 'body.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')

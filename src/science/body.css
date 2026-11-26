@@ -1,0 +1,44 @@
+/* 人体大发现 Body Explorer */
+.bd-view{--bd-card:#fffdf6;--bd-ink:#2a2550;--bd-soft:#6b5fae}
+.bd-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.25rem 0 .75rem}
+.bd-tab{background:#1b2257;border:2px solid #3a4590;border-radius:14px;padding:.5rem .25rem;color:#c7cdf5;font:800 .85rem var(--f-display,system-ui);text-align:center;cursor:pointer;line-height:1.2}
+.bd-tab b{display:block;font-size:1.4rem}
+.bd-tab.on{background:#ffd23f;color:#3a2a00;border-color:#fff3b0;box-shadow:0 4px 0 #b08c00}
+.bd-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:.875rem;align-items:start}
+@media (max-width:640px){.bd-grid{grid-template-columns:minmax(0,1fr)}.bd-stage{height:62vh!important;max-height:520px}}
+.bd-stage{background:#141a4a;border:2px solid #3a4590;border-radius:20px;height:560px;position:relative;overflow:hidden;display:flex;justify-content:center}
+.bd-stage svg{height:100%;width:auto;max-width:100%}
+.bd-stage [data-part]{cursor:pointer}
+.bd-tog{position:absolute;top:8px;left:8px;display:flex;gap:4px;z-index:2}
+.bd-tog button{border:0;border-radius:10px;padding:.35rem .6rem;font:800 .8rem system-ui;background:#252e6e;color:#c7cdf5;cursor:pointer}
+.bd-tog button.on{background:#ffd23f;color:#3a2a00}
+.bd-card{background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1rem;box-shadow:0 5px 0 #b9b2e0}
+.bd-card h3{margin:0;font-size:1.5rem}.bd-card .zh{color:var(--bd-soft);font-weight:700;margin-bottom:.5rem}
+.bd-spk{float:right;border:0;background:#7a4fe0;color:#fff;border-radius:12px;padding:.35rem .6rem;font-size:1rem;cursor:pointer}
+.bd-pill{display:inline-block;border-radius:999px;padding:.2rem .6rem;margin:0 .35rem .4rem 0;font-weight:800;font-size:.8rem;background:#e8fff2;color:#157446}
+.bd-pill.no{background:#fff0ea;color:#b44a17}
+.bd-do{line-height:1.5;margin:.4rem 0;font-size:1rem}.bd-do small{display:block;color:var(--bd-soft);font-size:.875rem}
+.bd-star{background:#fff3c4;border-left:5px solid #ffd23f;border-radius:10px;padding:.6rem .75rem;font-weight:700;margin-top:.6rem;color:#3a2a00}
+.bd-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.bd-chip{border:0;border-radius:10px;padding:.4rem .6rem;font:700 .85rem system-ui;background:#252e6e;color:#c7cdf5;cursor:pointer}
+.bd-chip.seen{background:#173d3a;color:#6fe3a1}.bd-chip.on{background:#ffd23f;color:#3a2a00}
+.bd-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.bd-act{flex:1 1 8rem;border:0;border-radius:14px;padding:.7rem .5rem;font:800 .9rem system-ui;background:#252e6e;color:#fff;cursor:pointer;box-shadow:0 3px 0 #10164a}
+.bd-act.go{background:#ff7b39;box-shadow:0 4px 0 #b44a17}
+.bd-q{background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1rem;font-weight:800;font-size:1.1rem}
+.bd-q small{display:block;color:var(--bd-soft);font-weight:600;font-size:.9rem;margin-top:.25rem}
+.bd-opt{display:block;width:100%;text-align:left;border:0;background:var(--bd-card);color:var(--bd-ink);border-radius:14px;padding:.75rem;font:800 1rem system-ui;margin-top:.5rem;box-shadow:0 3px 0 #b9b2e0;cursor:pointer}
+.bd-opt.ok{background:#e8fff2;box-shadow:0 3px 0 #6fe3a1}.bd-opt.bad{background:#fff0ea;box-shadow:0 3px 0 #ff9a6b}
+.bd-fb{margin-top:.75rem;border-radius:16px;padding:.75rem;background:#e8fff2;color:#155a36}.bd-fb.bad{background:#fff0ea;color:#8a3a12}
+.bd-fb small{display:block;opacity:.85}
+.bd-steps{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.bd-steps span{background:#252e6e;border-radius:10px;padding:.35rem .55rem;font-weight:700;font-size:.85rem;color:#c7cdf5}
+.bd-steps span.ok{background:#173d3a;color:#6fe3a1}.bd-steps span.cur{background:#ffd23f;color:#3a2a00}
+.bd-arm{background:var(--bd-card);border-radius:18px;padding:.5rem;color:var(--bd-ink)}
+.bd-arm svg{width:100%;height:auto;display:block}
+.bd-arm input{width:100%;accent-color:#7a4fe0}
+.bd-pair{background:var(--bd-card);color:var(--bd-ink);border-radius:14px;padding:.75rem;margin-top:.5rem}
+.bd-pair b{display:block;margin-bottom:.4rem}
+.bd-pair .bd-opt{margin-top:.35rem;box-shadow:0 2px 0 #d8d2f0;font-size:.9rem}
+.bd-done{text-align:center;background:var(--bd-card);color:var(--bd-ink);border-radius:18px;padding:1.25rem;font-weight:800;font-size:1.2rem}
+.bd-entry{flex:0 1 auto}
