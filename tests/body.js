@@ -3,6 +3,7 @@
 // 12-question quiz (tap / choose / letters) gives stars at the end; muscles slider; systems pairs; saved in S.body; works offline; no page errors.
 const {chromium,devices}=require('playwright');
 const U='http://localhost:8767/science/',KEY='xiaoxiao-science-v1';let pass=0,fail=0;
+const tapAt=async(p,k,dx=0,dy=0)=>{const c=await p.evaluate(k=>{const svg=document.querySelector('#bdStage svg');const st=document.querySelector('#bdStage');const r0=st.getBoundingClientRect();if(r0.top<0||r0.bottom>innerHeight)st.scrollIntoView({block:'center'});const [x,y]=__body.BD_PART[k].p;const pt=svg.createSVGPoint();pt.x=x;pt.y=y;const q=pt.matrixTransform(svg.getScreenCTM());return [q.x,q.y];},k);await p.mouse.click(c[0]+dx,c[1]+dy);await p.waitForTimeout(40);};
 const ok=(c,m)=>{if(c){pass++;console.log('PASS',m);}else{fail++;console.log('FAIL',m);}};
 (async()=>{const b=await chromium.launch();const errs=[];
 for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
@@ -16,19 +17,23 @@ for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
     await p.click(`[data-sys="${sys}"]`);if(sk)await p.click(`[data-sk="${sk}"]`);
     for(const c of await p.$$eval('.bd-chip',a=>a.map(x=>x.dataset.part))){await p.click(`.bd-chip[data-part="${c}"]`);}
   }
-  await p.click('[data-sys="dig"]');await p.click('#bdStage .bd-hit[data-part="stomach"]');
+  {const bad=[];for(const [sys,sk] of [['dig'],['res'],['cir'],['ske','ske'],['ske','mus']]){await p.click(`[data-sys="${sys}"]`);if(sk)await p.click(`[data-sk="${sk}"]`);
+    const ks=await p.evaluate(([sys,sk])=>Object.keys(__body.BD_PART).filter(k=>__body.BD_PART[k].s===(sys==='ske'?sk:sys)),[sys,sk]);
+    for(const k of ks)for(const [dx,dy] of [[0,0]]){await tapAt(p,k,dx,dy);const got=await p.evaluate(()=>__body.BD().part);if(got!==k)bad.push(k+'@'+dx+','+dy+'→'+got);}}
+   ok(!bad.length,dev+': every part can be tapped, right on it ('+bad.slice(0,6).join(' ')+')');}
+  await p.click('[data-sys="dig"]');await tapAt(p,'stomach');
   ok((await p.textContent('.bd-card h3'))==='Stomach',dev+': tapping the picture opens the card');
   ok(await p.$('#bdStage [data-part="stomach"][filter]'),dev+': the tapped part glows');
   let s=await S();ok(keys.every(k=>s.body.seen[k])&&s.stars===12,dev+': all 16 parts lit → +2 ★');
-  await p.click('[data-jr="food"]');await p.click('#bdStage .bd-hit[data-part="small"]');
+  await p.click('[data-jr="food"]');await tapAt(p,'small');
   ok((await p.textContent('.bd-fb')).includes('Not yet'),dev+': a part out of order explains why');
-  for(const k of ['mouth','gullet','stomach','small','large','rectum'])await p.click(`#bdStage .bd-hit[data-part="${k}"]`);
-  ok(await p.isVisible('.bd-done'),dev+': food journey finishes');
-  await p.click('[data-go="ex"]');await p.click('[data-jr="air"]');for(const k of ['nose','wind','lungs'])await p.click(`#bdStage .bd-hit[data-part="${k}"]`);
+  {let n=0;for(const k of ['mouth','gullet','stomach','small','large','rectum'])await tapAt(p,k,(n++%2?12:-12),8);}
+  ok(await p.isVisible('.bd-done'),dev+': food journey finishes even when each tap is a finger-width off');
+  await p.click('[data-go="ex"]');await p.click('[data-jr="air"]');for(const k of ['nose','wind','lungs'])await tapAt(p,k);
   s=await S();ok(s.stars===14&&s.body.done.food&&s.body.done.air,dev+': both journeys +1 ★ each');
   await p.click('[data-go="ex"]');await p.click('[data-go="quiz"]');
   const QZ=await p.evaluate(()=>__body.BD_QZ);let wrong=true;
-  for(const q of QZ){if(q.t==='tap')await p.click(`#bdStage .bd-hit[data-part="${q.a}"]`);
+  for(const q of QZ){if(q.t==='tap')await tapAt(p,q.a);
     else{const ops=await p.$$eval('.bd-opt',a=>a.map(x=>x.textContent.slice(3)));let n=ops.indexOf(q.o[0]);if(wrong){n=(n+1)%ops.length;wrong=false;}await p.click(`[data-opt="${n}"]`);}
     ok(await p.isVisible('.bd-fb'),dev+': quiz answer shows the reason');await p.click('[data-go="next"]');}
   ok((await p.textContent('.bd-done')).includes('11 / 12'),dev+': quiz score 11/12');

@@ -2272,44 +2272,44 @@ window.ARM={armBent,armStraight};
    Everything is drawn in code (body-anat.js), so it works offline. Progress in S.body. */
 const BD_SYS=[['dig','🍎','Digestive','消化'],['res','🫁','Respiratory','呼吸'],['cir','❤️','Circulatory','循环'],['ske','🦴','Skeletal & Muscular','骨骼和肌肉']];
 const BD_PART={
- mouth:{s:'dig',en:'Mouth',zh:'口',p:[150,86],pills:[['有消化液 has digestive juices',1]],t:[['Digestion <b>begins</b> here. Teeth break food into smaller pieces.','消化从这里开始，牙齿把食物咬碎。'],['Saliva is a digestive juice.','口水（唾液）是一种消化液。']],star:'Digestion begins in the mouth.'},
- gullet:{s:'dig',en:'Gullet',zh:'食道',p:[150,170],pills:[['没有消化 no digestion',0]],t:[['Carries food from the mouth to the stomach.','把食物从口送到胃。'],['<b>No digestion</b> takes place here.','食道里不消化食物（常考陷阱）。']]},
- stomach:{s:'dig',en:'Stomach',zh:'胃',p:[172,262],pills:[['有消化液 has digestive juices',1]],t:[['Food is mixed with digestive juices and broken down further.','食物和消化液搅拌，被进一步分解。']]},
- small:{s:'dig',en:'Small intestine',zh:'小肠',p:[152,336],pills:[['有消化液',1],['吸收养分进血液',1],['不是吸水的地方',0]],t:[['Digestion <b>ends</b> here. Digested food is <b>absorbed into the blood</b>.','消化在这里结束；消化后的食物被吸收进血液。'],['About <b>6.5 m</b> long in an adult.','成人约 6.5 米，盘在肚子里。']],star:'Digestion begins in the mouth and ends in the small intestine.'},
- large:{s:'dig',en:'Large intestine',zh:'大肠',p:[114,330],pills:[['吸收水分',1],['不吸收养分',0]],t:[['Water is absorbed from <b>undigested food</b>.','大肠从没消化的食物里吸收水分。'],['About <b>1.5 m</b> long in an adult.','成人约 1.5 米。']],star:'The large intestine absorbs water from undigested food.'},
- rectum:{s:'dig',en:'Rectum & anus',zh:'直肠和肛门',p:[151,388],pills:[],t:[['Undigested food is stored in the rectum and passes out through the anus.','没消化的食物存在直肠，从肛门排出体外。']]},
- nose:{s:'res',en:'Nose',zh:'鼻子',p:[150,62],pills:[],t:[['Air enters the body through the nose.','空气从鼻子进入身体。']]},
- wind:{s:'res',en:'Windpipe',zh:'气管',p:[150,160],pills:[],t:[['Carries air to and from the lungs.','把空气送进肺，也把空气从肺送出来。']]},
- lungs:{s:'res',en:'Lungs',zh:'肺',p:[118,240],pills:[['吸进 oxygen',1],['呼出 carbon dioxide',1]],t:[['Oxygen passes into the blood. Carbon dioxide passes out of the blood.','氧气进入血液，二氧化碳从血液出来。'],['Air breathed out still has some oxygen, but less than air breathed in.','呼出的气里还有氧气，只是比吸进的少（陷阱）。']],star:'We take in oxygen and give out carbon dioxide.'},
- heart:{s:'cir',en:'Heart',zh:'心脏',p:[160,250],pills:[['属于循环系统，不是呼吸系统',0]],t:[['Pumps blood to all parts of the body.','把血液泵到全身。']],star:'The heart pumps blood to all parts of the body.'},
- vessels:{s:'cir',en:'Blood vessels',zh:'血管',p:[122,470],pills:[],t:[['Carry blood around the body.','运送血液到身体各处。'],['Blood carries <b>oxygen and digested food</b> to all parts of the body, and takes away carbon dioxide.','血液把氧气和养分送到全身，把二氧化碳带走。']]},
- skull:{s:'ske',en:'Skull',zh:'头骨',p:[150,24],pills:[],t:[['Protects the brain.','保护大脑。']]},
- ribs:{s:'ske',en:'Rib cage',zh:'胸廓（肋骨）',p:[122,200],pills:[],t:[['Protects the heart and lungs.','保护心脏和肺。']]},
- spine:{s:'ske',en:'Backbone',zh:'脊柱',p:[150,300],pills:[],t:[['Supports the body and lets us bend.','支撑身体，让我们能弯腰。']]},
- bones:{s:'ske',en:'Other bones',zh:'其他骨头（大腿骨等）',p:[120,460],pills:[],t:[['The <b>femur</b> (thigh bone) is the longest and strongest bone.','大腿骨最长、最强壮。'],['The smallest bone is in the ear.','最小的骨头在耳朵里。']],star:'The skeleton supports the body, protects internal organs and allows movement.'},
- muscles:{s:'mus',en:'Muscles',zh:'肌肉',p:[120,450],pills:[['只会拉，不会推',0]],t:[['Muscles are attached to bones.','肌肉连在骨头上。'],['They work in <b>pairs</b>: when one contracts, the other relaxes, and the bone moves.','肌肉成对工作：一块收缩，另一块放松，骨头就动了。']],star:'Muscles work in pairs to move bones.'}
+ mouth:{s:'dig',en:'Mouth',zh:'口',p:[150,94],pills:[['有消化液 has digestive juices',1]],t:[['Digestion <b>begins</b> here. Teeth break food into smaller pieces.','消化从这里开始，牙齿把食物咬碎。'],['Saliva is a digestive juice.','口水（唾液）是一种消化液。']],star:'Digestion begins in the mouth.'},
+ gullet:{s:'dig',en:'Gullet',zh:'食道',p:[150,166],pills:[['没有消化 no digestion',0]],t:[['Carries food from the mouth to the stomach.','把食物从口送到胃。'],['<b>No digestion</b> takes place here.','食道里不消化食物（常考陷阱）。']]},
+ stomach:{s:'dig',en:'Stomach',zh:'胃',p:[186,250],pills:[['有消化液 has digestive juices',1]],t:[['Food is mixed with digestive juices and broken down further.','食物和消化液搅拌，被进一步分解。']]},
+ small:{s:'dig',en:'Small intestine',zh:'小肠',p:[150,334],pills:[['有消化液',1],['吸收养分进血液',1],['不是吸水的地方',0]],t:[['Digestion <b>ends</b> here. Digested food is <b>absorbed into the blood</b>.','消化在这里结束；消化后的食物被吸收进血液。'],['About <b>6.5 m</b> long in an adult.','成人约 6.5 米，盘在肚子里。']],star:'Digestion begins in the mouth and ends in the small intestine.'},
+ large:{s:'dig',en:'Large intestine',zh:'大肠',p:[188,356],pills:[['吸收水分',1],['不吸收养分',0]],t:[['Water is absorbed from <b>undigested food</b>.','大肠从没消化的食物里吸收水分。'],['About <b>1.5 m</b> long in an adult.','成人约 1.5 米。']],star:'The large intestine absorbs water from undigested food.'},
+ rectum:{s:'dig',en:'Rectum & anus',zh:'直肠和肛门',p:[152,386],pills:[],t:[['Undigested food is stored in the rectum and passes out through the anus.','没消化的食物存在直肠，从肛门排出体外。']]},
+ nose:{s:'res',en:'Nose',zh:'鼻子',p:[150,60],pills:[],t:[['Air enters the body through the nose.','空气从鼻子进入身体。']]},
+ wind:{s:'res',en:'Windpipe',zh:'气管',p:[150,162],pills:[],t:[['Carries air to and from the lungs.','把空气送进肺，也把空气从肺送出来。']]},
+ lungs:{s:'res',en:'Lungs',zh:'肺',p:[136,226],pills:[['吸进 oxygen',1],['呼出 carbon dioxide',1]],t:[['Oxygen passes into the blood. Carbon dioxide passes out of the blood.','氧气进入血液，二氧化碳从血液出来。'],['Air breathed out still has some oxygen, but less than air breathed in.','呼出的气里还有氧气，只是比吸进的少（陷阱）。']],star:'We take in oxygen and give out carbon dioxide.'},
+ heart:{s:'cir',en:'Heart',zh:'心脏',p:[160,226],pills:[['属于循环系统，不是呼吸系统',0]],t:[['Pumps blood to all parts of the body.','把血液泵到全身。']],star:'The heart pumps blood to all parts of the body.'},
+ vessels:{s:'cir',en:'Blood vessels',zh:'血管',p:[62,330],pills:[],t:[['Carry blood around the body.','运送血液到身体各处。'],['Blood carries <b>oxygen and digested food</b> to all parts of the body, and takes away carbon dioxide.','血液把氧气和养分送到全身，把二氧化碳带走。']]},
+ skull:{s:'ske',en:'Skull',zh:'头骨',p:[150,46],pills:[],t:[['Protects the brain.','保护大脑。']]},
+ ribs:{s:'ske',en:'Rib cage',zh:'胸廓（肋骨）',p:[124,204],pills:[],t:[['Protects the heart and lungs.','保护心脏和肺。']]},
+ spine:{s:'ske',en:'Backbone',zh:'脊柱',p:[150,320],pills:[],t:[['Supports the body and lets us bend.','支撑身体，让我们能弯腰。']]},
+ bones:{s:'ske',en:'Other bones (e.g. femur)',zh:'其他骨头（如大腿骨）',p:[124,470],pills:[],t:[['The <b>femur</b> (thigh bone) is the longest and strongest bone.','大腿骨最长、最强壮。'],['The smallest bone is in the ear.','最小的骨头在耳朵里。']],star:'The skeleton supports the body, protects internal organs and allows movement.'},
+ muscles:{s:'mus',en:'Muscles',zh:'肌肉',p:[150,288],pills:[['只会拉，不会推',0]],t:[['Muscles are attached to bones.','肌肉连在骨头上。'],['They work in <b>pairs</b>: when one contracts, the other relaxes, and the bone moves.','肌肉成对工作：一块收缩，另一块放松，骨头就动了。']],star:'Muscles work in pairs to move bones.'}
 };
 const BD_KEYS=Object.keys(BD_PART);
 const BD_JR={food:{en:"Food's Journey",zh:'食物的旅程',icon:'🍎',sys:'dig',path:['mouth','gullet','stomach','small','large','rectum'],
-  q:['Where does food go in first?','Where does the food go after the mouth?','Where does the food go after the gullet?','Where does the food go after the stomach?','Where does the food go after the small intestine?','Where does undigested food leave the body?'],
+  q:['Where does food enter the body?','Where does the food go after the mouth?','Where does the food go after the gullet?','Where does the food go after the stomach?','Where does the food go after the small intestine?','Where is undigested food stored before it leaves the body?'],
   end:'Digestion begins in the mouth and ends in the small intestine. The large intestine only absorbs water.',endZh:'食物在口开始消化，在小肠结束；大肠只吸水。'},
  air:{en:"Air's Journey",zh:'空气的旅程',icon:'💨',sys:'res',path:['nose','wind','lungs'],
-  q:['Where does air go in?','Where does the air go after the nose?','Where does the air go after the windpipe?'],
+  q:['Where does air enter the body?','Where does the air go after the nose?','Where does the air go after the windpipe?'],
   end:'In the lungs, oxygen passes into the blood. The heart pumps it to all parts of the body.',endZh:'在肺里氧气进入血液，再由心脏送到全身。'}};
 /* quiz: t=tap a part / m=choose (first option correct) / l=letters on the diagram */
 const BD_QZ=[
- {t:'tap',s:'dig',a:'mouth',q:'Tap where digestion begins.',zh:'点出消化开始的地方。',ex:'Digestion begins in the mouth.',exZh:'牙齿和唾液在口里开始消化。'},
- {t:'tap',s:'dig',a:'small',q:'Tap where digestion ends.',zh:'点出消化结束的地方。',ex:'Digestion ends in the small intestine.',exZh:'消化在小肠结束。'},
- {t:'tap',s:'dig',a:'large',q:'Tap where water is absorbed from undigested food.',zh:'点出从未消化食物里吸收水分的地方。',ex:'The large intestine absorbs water from undigested food.',exZh:'大肠只吸水；养分在小肠就吸收了。'},
- {t:'m',q:'Which part does NOT produce digestive juices?',zh:'哪个部位没有消化液？',o:['Gullet','Mouth','Stomach','Small intestine'],ex:'The gullet only carries food to the stomach.',exZh:'食道只运送食物，不消化。'},
- {t:'l',s:'dig',L:{P:'mouth',Q:'stomach',R:'small',S:'large'},q:'Compare the amount of digested food in R and in Q.',zh:'R 里消化后的食物比 Q 里多还是少？',o:['More in R than in Q','Less in R than in Q','The same'],ex:'R is the small intestine. Food is digested more by the time it gets there.',exZh:'越往后走，消化得越多。'},
+ {t:'tap',s:'dig',a:'mouth',q:'Tap the part where digestion begins.',zh:'点出消化开始的地方。',ex:'Digestion begins in the mouth.',exZh:'牙齿和唾液在口里开始消化。'},
+ {t:'tap',s:'dig',a:'small',q:'Tap the part where digestion ends.',zh:'点出消化结束的地方。',ex:'Digestion ends in the small intestine.',exZh:'消化在小肠结束。'},
+ {t:'tap',s:'dig',a:'large',q:'Tap the part that absorbs water from undigested food.',zh:'点出从未消化食物里吸收水分的地方。',ex:'The large intestine absorbs water from undigested food.',exZh:'大肠只吸水；养分在小肠就吸收了。'},
+ {t:'m',q:'In which part of the digestive system are there NO digestive juices?',zh:'消化系统里，哪个部位没有消化液？',o:['Gullet','Mouth','Stomach','Small intestine'],ex:'The gullet only carries food to the stomach.',exZh:'食道只运送食物，不消化。'},
+ {t:'l',s:'dig',L:{P:'mouth',Q:'stomach',R:'small',S:'large'},q:'Food passes through Q before it reaches R. How does the amount of digested food in R compare with that in Q?',zh:'食物先经过 Q 再到 R。R 里消化后的食物比 Q 里多、少，还是一样？',o:['There is more digested food in R than in Q.','There is less digested food in R than in Q.','The amount is the same.'],ex:'R is the small intestine. Food is digested more by the time it gets there.',exZh:'越往后走，消化得越多。'},
  {t:'l',s:'dig',L:{P:'gullet',Q:'stomach',R:'small',S:'large'},q:'Which part absorbs digested food into the blood?',zh:'哪个字母把消化后的食物吸收进血液？',o:['R','S','Q','P'],ex:'R is the small intestine.',exZh:'小肠吸收养分；S 大肠只吸水。'},
  {t:'tap',s:'res',a:'lungs',q:'Tap the organ where oxygen passes into the blood.',zh:'点出氧气进入血液的器官。',ex:'Oxygen passes into the blood in the lungs.',exZh:'在肺里，氧气进入血液。'},
  {t:'m',q:'Compared with air breathed in, air breathed out has ___.',zh:'和吸进的空气比，呼出的空气……',o:['more carbon dioxide and less oxygen','no oxygen at all','no carbon dioxide','only oxygen'],ex:'Air breathed out still has some oxygen.',exZh:'呼出的气里还有氧气，只是更少（陷阱）。'},
  {t:'tap',s:'cir',a:'heart',q:'Tap the organ that pumps blood around the body.',zh:'点出把血液泵到全身的器官。',ex:'The heart pumps blood to all parts of the body.',exZh:'心脏属于循环系统。'},
- {t:'m',q:'Blood carries ___ to all parts of the body.',zh:'血液把什么送到全身？',o:['oxygen and digested food','carbon dioxide only','undigested food','water only'],ex:'Blood carries oxygen and digested food, and takes away carbon dioxide.',exZh:'血液送氧气和养分，带走二氧化碳。'},
+ {t:'m',q:'Which of these does blood carry from the lungs and the small intestine to all parts of the body?',zh:'血液从肺和小肠把什么送到全身？',o:['oxygen and digested food','carbon dioxide and undigested food','undigested food only','carbon dioxide only'],ex:'Blood carries oxygen and digested food, and takes away carbon dioxide.',exZh:'血液送氧气和养分，带走二氧化碳。'},
  {t:'tap',s:'ske',a:'ribs',q:'Tap the bones that protect the heart and lungs.',zh:'点出保护心脏和肺的骨头。',ex:'The rib cage protects the heart and lungs.',exZh:'胸廓保护心和肺；头骨保护脑。'},
- {t:'m',q:'When you bend your arm, the muscle in front ___ and the muscle at the back ___.',zh:'弯手臂时，前面的肌肉……后面的肌肉……',o:['contracts, relaxes','relaxes, contracts','contracts, contracts','relaxes, relaxes'],ex:'Muscles work in pairs. The front muscle contracts and pulls the forearm up.',exZh:'前面收缩把前臂拉上来，后面放松。'}
+ {t:'m',q:'When you bend your arm, the muscle at the front of your upper arm ___ and the muscle at the back of your upper arm ___.',zh:'弯手臂时，大臂前面的肌肉……大臂后面的肌肉……',o:['contracts, relaxes','relaxes, contracts','contracts, contracts','relaxes, relaxes'],ex:'Muscles work in pairs. The front muscle contracts and pulls the forearm up.',exZh:'前面收缩把前臂拉上来，后面放松。'}
 ];
 const BD_PAIRS=[['🍎 Digestive + ❤️ Circulatory','Digested food goes into the blood and is carried around the body.',['Oxygen goes into the blood.','The body moves.']],
  ['🫁 Respiratory + ❤️ Circulatory','Oxygen goes into the blood and is carried around the body.',['Digested food goes into the blood.','The body moves.']],
@@ -2320,7 +2320,24 @@ function bdSt(){if(!S.body||typeof S.body!=='object')S.body={};const b=S.body;if
 function bdGive(n,key,t,ok){S.stars=(S.stars||0)+n;const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   if(!Array.isArray(S.log))S.log=[];S.log.push({d:dk,ts:Date.now(),c:'p4',t:'人体大发现 · Body Explorer',k:key,h:QB.hash('body:'+key),ok:ok?1:0});if(S.log.length>5000)S.log=S.log.slice(-5000);}
 function bdTopCount(){const b=bdSt();$('bdSeen').textContent=BD_KEYS.filter(k=>b.seen[k]).length;$('bdAll').textContent=BD_KEYS.length;}
-function bdFig(sys,hi,o){const svg=ANAT.body(sys,hi,o||{});const hits=BD_KEYS.filter(k=>BD_PART[k].s===sys).map(k=>{const [x,y]=BD_PART[k].p;return `<circle class="bd-hit" data-part="${k}" cx="${x}" cy="${y}" r="18" fill="transparent"/>`;}).join('');return svg.replace(/<\/svg>$/,hits+'</svg>');}
+function bdFig(sys,hi,o){return ANAT.body(sys,hi,o||{});}
+/* Tapping: a finger is wide and some parts are thin (gullet, windpipe, vessels). Look at the tap point and 24 points
+   around it (up to 22 px away): right on a part → that part; otherwise count which part is under the points around, nearer points counting more; if nothing is close,
+   take the part whose centre is nearest (within 60 drawing units). */
+function bdPick(ev,stage,want){const svg=stage.querySelector('svg');if(!svg)return null;const sv=bdSvgNow();if(!sv)return null;
+  const own=k=>BD_PART[k]&&BD_PART[k].s===sv;const score={};
+  const add=(x,y,w)=>{for(const el of document.elementsFromPoint(x,y)){if(!stage.contains(el))continue;const g=el.closest('[data-part]');if(g&&own(g.dataset.part)){score[g.dataset.part]=(score[g.dataset.part]||0)+w;break;}}};
+  const X=ev.clientX,Y=ev.clientY;add(X,Y,1);const c0=Object.keys(score)[0];
+  [[8,4],[15,2],[22,1]].forEach(([r,w])=>{for(let i=0;i<8;i++){const a=i*Math.PI/4+(r===15?Math.PI/8:0);add(X+Math.cos(a)*r,Y+Math.sin(a)*r,w);}});
+  if(want&&score[want])return want;   /* journey / quiz: the right part is under his finger → count it */
+  if(want&&BD_PART[want]){const m=svg.getScreenCTM(),pt=svg.createSVGPoint();[pt.x,pt.y]=BD_PART[want].p;const q=pt.matrixTransform(m);if(Math.hypot(q.x-X,q.y-Y)<28)return want;}   /* …or within 28 px of its middle */
+  if(c0)return c0;                     /* finger right on a part: that part */
+  let best=null,bs=0;for(const k in score)if(score[k]>bs){bs=score[k];best=k;}
+  if(best)return best;
+  const m=svg.getScreenCTM();if(!m)return null;const pt=svg.createSVGPoint();pt.x=X;pt.y=Y;const q=pt.matrixTransform(m.inverse());
+  let nd=60;BD_KEYS.filter(own).forEach(k=>{const [x,y]=BD_PART[k].p,d=Math.hypot(x-q.x,y-q.y);if(d<nd){nd=d;best=k;}});return best;}
+function bdWant(){if(BD.view==='jr'){const J=BD_JR[BD.jr];return J.path[BD.step];}if(BD.view==='quiz'){const q=BD.qz.list[BD.qz.i];return q&&q.t==='tap'&&!BD.qz.ans?q.a:null;}return null;}
+function bdSvgNow(){if(BD.view==='ex')return bdSvgSys();if(BD.view==='jr')return BD_JR[BD.jr].sys;if(BD.view==='quiz'){const q=BD.qz.list[BD.qz.i];return q&&q.s;}return null;}
 function bdSvgSys(){return BD.sys==='ske'?BD.sk:BD.sys;}
 function bdLabels(L,hi){return Object.entries(L).map(([ch,k])=>{const [x,y]=BD_PART[k].p,left=x<150;return [x,y,left?40:262,y,ch,hi===ch];});}
 function bdOpen(){bdSt();show('vBody');BD.view='ex';BD.part=null;bdDraw();}
@@ -2381,6 +2398,7 @@ $('bdMain').addEventListener('click',e=>{const t=e.target;let x;
  if(x=t.closest('[data-opt]')){const Z=BD.qz;if(!Z||Z.ans)return;const n=+x.dataset.opt,q=Z.list[Z.i];Z.pick=n;bdAnswer(Z.opts[n]===q.o[0],'');return;}
  if(x=t.closest('[data-pr]')){const P=BD.pr,[i,n]=x.dataset.pr.split(':').map(Number);if(P.ans[i]!=null)return;P.ans[i]=n;if(P.opts[i][n]===BD_PAIRS[i][1])P.ok++;
   if(P.ans.every(v=>v!=null)){const b=bdSt();if(!b.done.pair&&P.ok===3){b.done.pair=1;P.gave=1;bdGive(1,'systems together',1,1);save();}}bdDraw();return;}
+ {const st=t.closest('#bdStage');if(st&&!t.closest('.bd-tog')){const k=bdPick(e,st,bdWant());if(k)bdTap(k);return;}}
  if(x=t.closest('[data-part]')){bdTap(x.dataset.part);}
 });
 $('bdMain').addEventListener('input',e=>{if(e.target.id!=='bdArmR')return;const v=+e.target.value;BD.arm=v;$('bdArm').innerHTML=bdArmSvg(v);$('bdArmTx').innerHTML=bdArmTx(v);
