@@ -8,7 +8,7 @@ CT = [['Temperature of water (°C)', '15', '25', '35'], ['Height the red colour 
 P4.append(dict(id='tree', name='大树星', en='Plant Systems', icon='🌳', c=['#7fe09a', '#2c7a3c'], seg='P4',
   must=['The roots absorb water and mineral salts from the soil.', 'The stem transports water, mineral salts and food to all parts of the plant.', 'The stem holds the plant upright so that the leaves can get enough light to make food.'],
   qs=[
-  pr('A celery stalk was put in red water. The height of the red colour in the stalk was measured.', tbl=CL, parts=[
+  pr('The stem of a plant with white flowers was put in red water. The height of the red colour in the stem was measured.', tbl=CL, parts=[
     mc('What was the height of the red colour at 10 minutes?', ['4 cm', '10 cm', '2 cm', '6 cm'], '4 cm', '找 10 min 那一列。'),
     op('What is the relationship between time and the height of the red colour?', 4, ['relationship'], 'As {time} increases, the {height of the red colour} {increases}.',
        [('decreases', '2 → 4 → 6 是变高。')])]),
@@ -23,12 +23,12 @@ P4.append(dict(id='tree', name='大树星', en='Plant Systems', icon='🌳', c=[
   pr('Most of the leaves of plant X were removed.', parts=[op('Predict how the growth of plant X will change. Explain.', 8, ['Predict', 'Explain'],
        'Plant X will {grow less}, because with fewer leaves, {less food} is made.', [('grow more', '叶子少了，方向反了。')])]),
   mcq('The stem holds the plant upright so that ___.', ['the roots get more water', 'the leaves can get enough light to make food', 'the flowers smell nice', 'the plant can move'], 2, '直立起来，叶子才晒得到光。'),
-  pr('Three similar celery stalks were put in red water at different temperatures. After 30 minutes, the height the red colour had risen was measured.', tbl=CT, parts=[
-    op('What is the aim of the experiment?', 5, ['aim'], 'To find out how the {temperature of the water} affects the {height} the red colour rises.', [('type of plant', '三根都是芹菜，没有改。')]),
+  pr('Three similar stems of white-flowered plants were put in red water at different temperatures. After 30 minutes, the height the red colour had risen was measured.', tbl=CT, parts=[
+    op('What is the aim of the experiment?', 5, ['aim'], 'To find out how the {temperature of the water} affects the {height} the red colour rises.', [('type of plant', '三根都是一样的白花茎，没有改。')]),
     op('What is the relationship between the temperature and the height of the red colour?', 4, ['relationship'], 'As the {temperature} increases, the {height of the red colour} {increases}.',
        [('decreases', '3 → 5 → 8 是变高。')]),
     op('State one variable that must be kept the same.', 5, ['kept the same'], 'The {amount of water} in each beaker.', [('temperature of the water', '温度是改变的。')],
-       ans='The **amount of water** (or the length of the stalk, the time).')]),
+       ans='The **amount of water** (or the length of the stem, the time).')]),
   ]))
 
 # ---------------- 人体星 Human Systems ----------------

@@ -100,12 +100,12 @@ const Q=[
 /* ===== P3: materials ===== */
 ['materials',1,'Which material lets you see through it clearly?','哪一种材料可以清楚地看穿？',['clear glass|透明玻璃','wood|木头','metal|金属','rubber|橡胶'],'透明玻璃可以让光通过，看得清楚。'],
 ['materials',1,'Raincoats are made of plastic because plastic is ___.','雨衣用塑料做，因为塑料……',['waterproof|防水','magnetic|会被磁铁吸','heavy|很重','soft like cloth|像布一样软'],'塑料防水（waterproof）。'],
-['materials',1,'Which material can bend easily without breaking?','哪一种材料能弯曲而不会断？',['rubber|橡胶','glass|玻璃','wood|木头','ceramic|陶瓷'],'橡胶有弹性，容易弯曲（flexible）。'],
+['materials',1,'Which material can bend easily without breaking?','哪一种材料能弯曲而不会断？',['rubber|橡胶','glass|玻璃','wood|木头','ceramic|陶瓷'],'橡胶柔韧（flexible），容易弯曲而不会断。'],
 ['materials',1,'A bicycle frame is made of metal because metal is ___.','脚车的车架用金属做，因为金属……',['strong|坚固','transparent|透明','flexible|容易弯曲','able to absorb water|会吸水'],'金属坚固（strong），可以承受重量。'],
 ['materials',1,'Which material absorbs water?','哪一种材料会吸水？',['cloth|布','plastic|塑料','glass|玻璃','metal|金属'],'布会吸水。'],
 ['materials',1,'Windows are made of glass so that ___.','窗户用玻璃做，是为了……',['light can pass through|光可以透进来','they can bend|可以弯曲','they can float|可以浮','they are soft|很软'],'玻璃透明，光可以透进来。'],
 ['materials',1,'Which object floats on water?','哪一样东西会浮在水上？',['a wooden block|木块','a metal spoon|金属汤匙','a glass marble|玻璃弹珠','a stone|石头'],'木块会浮在水上。'],
-['materials',2,'Why is a tyre made of rubber?','为什么轮胎用橡胶做？',['Rubber is strong and flexible.|橡胶坚固又有弹性。','Rubber is transparent.|橡胶是透明的。','Rubber is magnetic.|橡胶会被磁铁吸。','Rubber absorbs water.|橡胶会吸水。'],'橡胶又坚固又有弹性，适合做轮胎。'],
+['materials',2,'Why is a tyre made of rubber?','为什么轮胎用橡胶做？',['Rubber is strong and flexible.|橡胶坚固又柔韧。','Rubber is transparent.|橡胶是透明的。','Rubber is magnetic.|橡胶会被磁铁吸。','Rubber absorbs water.|橡胶会吸水。'],'橡胶又坚固又柔韧（flexible），适合做轮胎。'],
 ['materials',2,'Which material is NOT suitable for making an umbrella?','哪一种材料不适合做雨伞？',['paper|纸','plastic|塑料','nylon|尼龙','waterproof cloth|防水布'],'纸会吸水、容易破，不适合做雨伞。'],
 ['materials',2,'A ceramic plate breaks when it is dropped. This is because ceramic is ___.','陶瓷盘子掉下去会碎，因为陶瓷……',['not strong (it breaks easily)|不坚固（容易碎）','waterproof|防水','transparent|透明','light|很轻'],'陶瓷不坚固（fragile），一摔就碎。课本：strong = 推、拉、碰撞不会断。'],
 ['materials',1,'Which of these is a metal?','哪一个是金属？',['steel|钢','rubber|橡胶','wood|木头','plastic|塑料'],'钢（steel）是金属。'],
@@ -118,7 +118,7 @@ const Q=[
 ['materials',2,'Why are drinking glasses made of glass and not wood?','为什么水杯用玻璃做，不用木头？',['Glass is waterproof and we can see the drink inside.|玻璃防水，还看得见里面的饮料。','Glass is flexible.|玻璃容易弯曲。','Glass floats on water.|玻璃会浮。','Glass absorbs water.|玻璃会吸水。'],'玻璃不吸水、透明。木头会吸水，也看不见里面。'],
 /* ===== P3: magnets ===== */
 ['magnets',1,'Which object is attracted by a magnet?','哪一样东西会被磁铁吸住？',['an iron nail|铁钉','a plastic ruler|塑料尺','a wooden pencil|木铅笔','a rubber band|橡皮筋'],'铁钉是铁做的，会被吸住。'],
-['magnets',2,'Which material is NOT attracted by a magnet?','哪一种材料不会被磁铁吸住？',['copper|铜','iron|铁','steel|钢','nickel|镍'],'铜（copper）不会被吸。铁、钢、镍会。'],
+['magnets',2,'Which material is NOT attracted by a magnet?','哪一种材料不会被磁铁吸住？',['copper|铜','iron|铁','steel|钢','steel wool|钢丝绒'],'铜（copper）不会被吸。课本：铁和钢是磁性材料。'],
 ['magnets',2,'An aluminium can is ___ by a magnet.','铝罐会被磁铁怎样？',['not attracted|不会被吸','attracted|会被吸住','made into a magnet|变成磁铁','pushed into pieces|推成碎片'],'铝不是磁性材料，不会被吸。'],
 ['magnets',1,'The two ends of a bar magnet are called the ___.','条形磁铁的两端叫什么？',['poles|磁极','sides|边','corners|角','middles|中间'],'两端叫磁极（poles）：N 极和 S 极。'],
 ['magnets',1,'Which part of a bar magnet is the strongest?','条形磁铁哪里磁力最强？',['the poles|两极','the middle|中间','it is the same everywhere|到处都一样','the sides|侧面'],'两极（poles）磁力最强。'],
@@ -132,8 +132,8 @@ const Q=[
 ['magnets',2,'How can you make an electromagnet stronger?','怎样让电磁铁更强？',['Wind more turns of wire around the nail.|在铁钉上多绕几圈电线。','Use fewer coils.|少绕几圈。','Use a wooden stick.|改用木棒。','Use plastic string instead of wire.|用塑料绳代替电线。'],'线圈绕得越多，电磁铁越强。'],
 ['magnets',1,'The needle of a compass is a ___.','指南针的针是什么？',['magnet|磁铁','piece of plastic|塑料片','piece of glass|玻璃片','piece of copper|铜片'],'指南针的针是一块小磁铁，所以会指南北。'],
 ['magnets',1,'Magnets are used at a scrapyard to ___.','废铁场用磁铁来……',['pick up iron and steel|吸起铁和钢','pick up plastic bottles|吸起塑料瓶','pick up paper|吸起纸','cut wood|切木头'],'大磁铁可以吸起铁和钢。'],
-['magnets',2,'Dropping or heating a magnet many times can make it ___.','磁铁常常摔或加热，会变得怎样？',['weaker|更弱','stronger|更强','bigger|更大','heavier|更重'],'摔或加热会让磁铁变弱。'],
-['magnets',1,'A magnet attracts things made of ___.','磁铁会吸住什么材料做的东西？',['iron or steel|铁或钢','wood|木头','glass|玻璃','plastic|塑料'],'铁、钢（还有镍、钴）是磁性材料。'],
+['magnets',2,'Dropping or heating a magnet many times can make it ___.','磁铁常常摔或加热，会变得怎样？',['weaker|更弱','stronger|更强','bigger|更大','heavier|更重'],'摔或加热会让磁铁变弱。（课本没写，但考卷出过，记住就好）'],
+['magnets',1,'A magnet attracts things made of ___.','磁铁会吸住什么材料做的东西？',['iron or steel|铁或钢','wood|木头','glass|玻璃','plastic|塑料'],'课本：铁和钢是磁性材料。'],
 ['magnets',2,'Kai wants to separate iron filings (tiny bits of iron) from sand. What is the best thing to use?','Kai 想把铁屑从沙子里分出来，用什么最好？',['a magnet|磁铁','water|水','a cloth|布','a spoon|汤匙'],'磁铁只吸铁屑，不吸沙子。'],
 ['magnets',2,'Ben brought magnet A near magnet B. Magnet B moved away. Which poles were facing each other?','Ben 把磁铁 A 靠近磁铁 B，B 被推开了。面对面的是哪两个极？',['two north poles or two south poles|两个 N 极或两个 S 极','a north pole and a south pole|一个 N 极和一个 S 极','the middles of the magnets|两块磁铁的中间','we cannot tell|无法判断'],'被推开 = 相斥 → 同极：N 对 N 或 S 对 S。'],
 /* ===== P4: plant parts ===== */
@@ -223,7 +223,7 @@ const Q=[
 ['heat',2,'A metal lid on a glass jar is too tight to open. Why does putting the lid in hot water help?','玻璃瓶的金属盖太紧打不开。为什么把盖子放进热水里会有帮助？',['The metal lid expands and becomes looser.|金属盖受热膨胀，变松了。','The lid contracts.|盖子收缩了。','The jar becomes heavier.|瓶子变重了。','The hot water makes it slippery.|热水让它变滑。'],'金属盖受热膨胀，比玻璃瓶口松一点，就容易打开。'],
 ['heat',2,'Which sentence is correct?','哪一句是对的？',['Heat is a form of energy; temperature is how hot something is.|热是一种能量；温度是冷热的程度。','Heat and temperature are the same thing.|热和温度是一样的。','Temperature is a form of energy.|温度是一种能量。','Heat is measured with a ruler.|热用尺来量。'],'热是能量；温度是冷热的程度，用温度计量。'],
 ['heat',1,'A hot drink is left on the table. What happens to it?','热饮放在桌上会怎样？',['It loses heat and becomes cooler.|失去热，慢慢变凉。','It gains heat and becomes hotter.|得到热，变得更热。','It stays hot for ever.|永远都很热。','It turns into ice.|变成冰。'],'热饮把热传给周围比较冷的空气，慢慢变凉。'],
-['heat',2,'Which is the best material for a cooler box to keep drinks cold?','哪一种材料最适合做冰箱盒，让饮料保持冰凉？',['foam|泡沫','thin metal|薄金属','glass|玻璃','aluminium foil|铝箔'],'泡沫不容易导热，外面的热很难进去。'],
+['heat',2,'Which is the best material for a cooler box to keep drinks cold?','哪一种材料最适合做保冷箱，让饮料保持冰凉？',['foam|泡沫','thin metal|薄金属','glass|玻璃','aluminium foil|铝箔'],'泡沫不容易导热，外面的热很难进去。'],
 ['heat',1,'Water boils at ___.','水在几度沸腾？',['100 °C','0 °C','50 °C','37 °C'],'水在 100°C 沸腾。'],
 ['heat',1,'Ice melts at ___.','冰在几度融化？',['0 °C','100 °C','10 °C','37 °C'],'冰在 0°C 融化。'],
 ['heat',1,'Our normal body temperature is about ___.','我们正常的体温大约是多少？',['37 °C','100 °C','0 °C','20 °C'],'正常体温大约 37°C。'],
@@ -280,19 +280,19 @@ const EXP=[
 ['mat',{p:'Jun Jie made electromagnets with different numbers of coils of wire.\n10 coils: picked up 3 pins\n20 coils: picked up 7 pins\n30 coils: picked up 12 pins',pz:'Jun Jie 用不同圈数的电线做电磁铁。10 圈吸 3 根针，20 圈吸 7 根，30 圈吸 12 根。'},[
  [1,'How many pins did the electromagnet with 20 coils pick up?','20 圈的电磁铁吸起几根针？',['7','3','12','20'],'表上：20 coils → 7 pins。'],
  [2,'What happens when the number of coils increases?','线圈越多会怎样？',['The electromagnet picks up more pins.|电磁铁吸起更多针。','The electromagnet picks up fewer pins.|吸起的针更少。','Nothing changes.|没有变化。','The electromagnet stops working.|电磁铁不能用了。'],'圈数越多，吸的针越多 → 电磁铁越强。']]],
-['life',{p:'Ravi put bean seeds in four containers and checked them after 5 days.\nA: wet cotton wool, warm room → germinated\nB: dry cotton wool, warm room → did not germinate\nC: wet cotton wool, in the fridge → did not germinate\nD: wet cotton wool, dark warm cupboard → germinated',pz:'Ravi 把豆子放在四个容器里，5 天后检查。A：湿棉花、温暖房间 → 发芽；B：干棉花、温暖房间 → 没发芽；C：湿棉花、冰箱里 → 没发芽；D：湿棉花、黑暗温暖的柜子 → 发芽。'},[
+['life',{p:'Ravi put bean seeds in four containers and checked them after 5 days.\nA: wet cotton wool, warm dark cupboard → germinated\nB: dry cotton wool, warm dark cupboard → did not germinate\nC: wet cotton wool, in the fridge (cold, dark) → did not germinate\nD: wet cotton wool, warm room with light → germinated',pz:'Ravi 把豆子放在四个容器里，5 天后检查。A：湿棉花、温暖黑暗的柜子 → 发芽；B：干棉花、温暖黑暗的柜子 → 没发芽；C：湿棉花、冰箱里（冷、黑）→ 没发芽；D：湿棉花、有光的温暖房间 → 发芽。'},[
  [2,'Compare A and B. What do seeds need to germinate?','比较 A 和 B，种子发芽需要什么？',['water|水','light|光','soil|泥土','cold|寒冷'],'A 和 B 只差在湿和干 → 种子需要水。'],
- [2,'Compare A and C. What do seeds need to germinate?','比较 A 和 C，种子发芽需要什么？',['warmth|温暖','water|水','light|光','soil|泥土'],'A 和 C 只差在温暖和冰箱 → 种子需要温暖。'],
- [2,'What does container D show?','容器 D 说明什么？',['Seeds do not need light to germinate.|种子发芽不需要光。','Seeds need light to germinate.|种子发芽需要光。','Seeds need soil to germinate.|种子发芽需要泥土。','Seeds cannot grow in a cupboard.|种子在柜子里不能长。'],'D 在黑暗里也发芽了 → 发芽不需要光。']]],
+ [2,'Compare A and C. What do seeds need to germinate?','比较 A 和 C，种子发芽需要什么？',['warmth|温暖','water|水','light|光','soil|泥土'],'A 和 C 都是湿的、都是黑的，只差在温暖和冷 → 种子需要温暖。'],
+ [2,'Compare A and D. What do they show?','比较 A 和 D，说明什么？',['Seeds do not need light to germinate.|种子发芽不需要光。','Seeds need light to germinate.|种子发芽需要光。','Seeds need soil to germinate.|种子发芽需要泥土。','Seeds cannot grow in a cupboard.|种子在柜子里不能长。'],'A 黑、D 有光，都发芽了 → 发芽不需要光。']]],
 ['life',{p:'Hui Min left three slices of the same bread in different places for 5 days.\nIn the fridge: a little mould\nIn a warm, damp cupboard: a lot of mould\nIn the freezer: no mould',pz:'Hui Min 把三片一样的面包放在不同地方 5 天。冰箱：一点点霉；温暖潮湿的柜子：很多霉；冷冻库：没有霉。'},[
  [1,'Where did the most mould grow?','哪里长的霉最多？',['in the warm, damp cupboard|温暖潮湿的柜子','in the fridge|冰箱','in the freezer|冷冻库','the same everywhere|到处一样'],'温暖潮湿的柜子霉最多。'],
  [2,'What does this experiment show?','这个实验说明什么？',['Mould grows best in warm, damp places.|霉在温暖潮湿的地方长得最好。','Mould grows best in cold places.|霉在冷的地方长得最好。','Mould needs light to grow.|霉需要光才能长。','Bread never grows mould.|面包不会发霉。'],'越温暖潮湿，霉长得越多；越冷越少。']]],
 ['p4',{p:'Daniel measured the length of his shadow at different times on a sunny day.\n9 a.m.: 150 cm\n12 noon: 30 cm\n4 p.m.: 140 cm',pz:'Daniel 在晴天的不同时间量自己的影子长度。早上 9 点：150 cm；中午 12 点：30 cm；下午 4 点：140 cm。'},[
  [1,'When was his shadow the shortest?','什么时候影子最短？',['at 12 noon|中午 12 点','at 9 a.m.|早上 9 点','at 4 p.m.|下午 4 点','always the same|一直一样'],'中午 12 点只有 30 cm，最短。'],
  [2,'Why was his shadow the shortest at noon?','为什么中午影子最短？',['The Sun was high up in the sky.|太阳在天空很高的地方。','The Sun was low in the sky.|太阳在很低的地方。','There was no sunlight.|没有阳光。','Daniel was sitting down.|Daniel 坐着。'],'中午太阳在头顶上方，影子就短。']]],
-['p4',{p:'Priya put ice cubes of the same size in three places and timed how long they took to melt.\nUnder the sun: 10 minutes\nIn the classroom: 25 minutes\nIn a cooler box: 60 minutes',pz:'Priya 把一样大的冰块放在三个地方，记录多久融化。太阳下：10 分钟；教室里：25 分钟；冰箱盒里：60 分钟。'},[
- [1,'Where did the ice melt the fastest?','冰在哪里融化得最快？',['under the sun|太阳下','in the classroom|教室里','in the cooler box|冰箱盒里','it was the same|一样快'],'太阳下只要 10 分钟，最快。'],
- [2,'Why did the ice in the cooler box take the longest to melt?','为什么冰箱盒里的冰最久才融化？',['Less heat could reach the ice.|比较少热能传到冰。','The cooler box gave out cold.|冰箱盒会放出冷。','The ice in the box was bigger.|盒子里的冰比较大。','There was no air in the box.|盒子里没有空气。'],'冰箱盒不容易导热，外面的热很难进去。冰块是一样大的。']]],
+['p4',{p:'Priya put ice cubes of the same size in three places and timed how long they took to melt.\nUnder the sun: 10 minutes\nIn the classroom: 25 minutes\nIn a cooler box: 60 minutes',pz:'Priya 把一样大的冰块放在三个地方，记录多久融化。太阳下：10 分钟；教室里：25 分钟；保冷箱里：60 分钟。'},[
+ [1,'Where did the ice melt the fastest?','冰在哪里融化得最快？',['under the sun|太阳下','in the classroom|教室里','in the cooler box|保冷箱里','it was the same|一样快'],'太阳下只要 10 分钟，最快。'],
+ [2,'Why did the ice in the cooler box take the longest to melt?','为什么保冷箱里的冰最久才融化？',['Less heat could reach the ice.|比较少热能传到冰。','The cooler box gave out cold.|保冷箱会放出冷。','The ice in the box was bigger.|盒子里的冰比较大。','There was no air in the box.|盒子里没有空气。'],'保冷箱不容易导热，外面的热很难进去。冰块是一样大的。']]],
 ['p4',{p:'Ben put three spoons of the same size into a bowl of hot water. After 2 minutes, he touched the handles.\nMetal spoon: very hot\nPlastic spoon: warm\nWooden spoon: slightly warm',pz:'Ben 把三把一样大的汤匙放进热水里，2 分钟后摸把手。金属汤匙：很烫；塑料汤匙：温温的；木汤匙：有一点温。'},[
  [1,'Which spoon is the best conductor of heat?','哪一支汤匙最容易导热？',['the metal spoon|金属汤匙','the plastic spoon|塑料汤匙','the wooden spoon|木汤匙','they are all the same|都一样'],'金属汤匙最烫 → 最容易导热。'],
  [2,'Which material is the best for making the handle of a cooking pot?','哪一种材料最适合做锅的把手？',['wood|木头','metal|金属','plastic film|塑料薄膜','glass|玻璃'],'木汤匙最不烫 → 木头最不容易导热，适合做把手。']]],
