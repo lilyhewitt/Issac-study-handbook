@@ -2633,7 +2633,13 @@ if(QB.CH){if(!Array.isArray(S.chs))S.chs=S.ch?[S.ch]:[];S.chs=chNorm(S.chs);S.ch
 if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.misses=S.misses.filter(m=>m&&m.t!=='Spelling · 拼写'&&m.t!=='Plurals · 复数');if(!Array.isArray(S.recent))S.recent=[];if(!Array.isArray(S.seen))S.seen=[];if(!S.days||typeof S.days!=='object')S.days={};
 }
 norm();
-function save(){if(REMOTE)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(SYNC)SYNC.push(S);}
+/* the iPad keeps about 5 MB for all three apps together. If a save is refused for space, drop the oldest
+   records (the answers log, oldest first) and try again, so stars and progress are never lost silently. */
+function save(){if(REMOTE)return;let ok=false;
+  for(let k=0;k<6&&!ok;k++){try{localStorage.setItem(KEY,JSON.stringify(S));ok=true;}catch(e){
+    if(Array.isArray(S.log)&&S.log.length>200)S.log=S.log.slice(-Math.floor(S.log.length*0.6));else break;}}
+  if(SYNC)SYNC.push(S);}
+window.__save=save;  /* tests call this to check the storage-full path */
 /* opened from the parent handbook? then offer a way back to it */
 let fromHB=false;
 try{fromHB=new URLSearchParams(location.search).get('from')==='handbook';if(fromHB)sessionStorage.setItem('fromHandbook','1');else fromHB=sessionStorage.getItem('fromHandbook')==='1';}catch(e){}

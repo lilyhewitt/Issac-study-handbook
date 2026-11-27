@@ -45,6 +45,7 @@ if [ "${1:-}" != quick ]; then
   run "Space Mission (science)" node tests/space.js
   run "Home Lab (science)" node tests/lab.js
   run "Body Explorer (science)" node tests/body.js
+  run "storage nearly full" node tests/storage-full.js
   run "English grammar cells → P4, handbook read-together button" node tests/p4cells.js
   run "Bar path (math)" node tests/path.js
   [ -f tools/ws/.names ] && export WW_NAME=$(cut -d, -f1 tools/ws/.names)
