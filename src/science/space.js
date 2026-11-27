@@ -322,7 +322,9 @@ window.__sp={SQ:()=>SQ,road:smRoad,cur:smCur,start:smStart,S:()=>S,st:smSt};   /
    textbook unit (they used to be the P4 / Living things / Materials tiles on the home page). Meteor belts go straight in. ===== */
 const PL_TOP={living:['living'],class:['plants','animals'],fungi:['fungi'],mat:['materials'],seed:['plantlife'],bfly:['animallife'],
   mag:['magnets'],emag:['magnets'],tree:['plantparts'],body:['body','digest'],matter:['matter'],light:['light'],shadow:['light'],temp:['heat'],heat:['heat']};
-const PL_ACT={body:{ic:'🫀',t:'人体大发现 Body Explorer',sub:'点亮 16 个部位，走食物和空气的旅程',done:()=>{const b=S.body||{};return !!(b.done&&(b.done.food||b.done.all));},go:()=>bdOpen('pl')}};
+const PL_ACT={mag:{ic:'🧲',t:'磁铁实验室：磁铁侦探 · 会不会被吸 · 磁极',sub:'课本第 6 章，动手试再回答',done:()=>__mag.mgDone('mag'),go:()=>__mag.mgOpen('mag')},
+  emag:{ic:'🔧',t:'磁铁实验室：做磁铁 · 生活中的磁铁',sub:'课本第 7 章：摩擦法、电磁铁、磁选机',done:()=>__mag.mgDone('emag'),go:()=>__mag.mgOpen('emag')},
+  body:{ic:'🫀',t:'人体大发现 Body Explorer',sub:'点亮 16 个部位，走食物和空气的旅程',done:()=>{const b=S.body||{};return !!(b.done&&(b.done.food||b.done.all));},go:()=>bdOpen('pl')}};
 let PLN=null;
 function plGo(i){const L=smRoad(),n=L[i];if(!n||n.t!=='s'){smStart(i);return;}const id=SM[n.i].id;if(!PL_TOP[id]&&!PL_ACT[id]){smStart(i);return;}plOpen(i);}
 function plSt(){const s=smSt();if(!s.pm||typeof s.pm!=='object')s.pm={};return s;}
@@ -346,4 +348,4 @@ HOOK.quit=(function(old){return function(mode){if(/^tp:/.test(mode||'')&&PLN!=nu
   bd.addEventListener('click',()=>HOOK.tile.me());bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();HOOK.tile.me();}});}}
 /* Try again: this week's most-missed come first (the separate button is not shown in science) */
 {const f=HOOK.tile.redo;HOOK.tile.redo=()=>{if(weekTop().length)return startRound('week');return f?f():startRound('redo');};}
-window.__pl={plOpen,plGo,PL_TOP,PLN:()=>PLN,bodyIndex:()=>smRoad().findIndex(n=>n.t==='s'&&SM[n.i].id==='body')};
+window.__pl={plOpen,plGo,PL_TOP,PLN:()=>PLN,bodyIndex:()=>smRoad().findIndex(n=>n.t==='s'&&SM[n.i].id==='body'),idx:id=>smRoad().findIndex(n=>n.t==='s'&&SM[n.i].id===id)};

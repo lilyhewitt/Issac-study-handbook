@@ -122,6 +122,11 @@ def edition(app):
         i = s.index('</style>')
         s = s[:i] + read('science', 'body.css') + s[i:]
         s = rep(s, 'function home(){', read('science', 'body-anat.js') + '\n' + read('science', 'body.js') + '\nfunction home(){')
+        # 磁铁实验室 Magnet Lab (P3 textbook ch 6-7), opened from 磁铁星 / 电磁铁星
+        s = rep(s, '  <section id="vSpell" class="view"', read('science', 'mag.html') + '  <section id="vSpell" class="view"')
+        i = s.index('</style>')
+        s = s[:i] + read('science', 'mag.css') + s[i:]
+        s = rep(s, 'function home(){', read('science', 'mag.js') + '\nfunction home(){')
     if app == 'math':                                  # the bar-model screen
         s = rep(s, '  <section id="vSpell" class="view"', read('math', 'bar.html') + '  <section id="vSpell" class="view"')
         i = s.index('</style>')

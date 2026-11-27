@@ -46,6 +46,7 @@ if [ "${1:-}" != quick ]; then
   run "Home Lab (science)" node tests/lab.js
   run "Body Explorer (science)" node tests/body.js
   run "planet steps and the new science home" node tests/planet.js
+  run "Magnet Lab (science)" node tests/mag.js
   run "storage nearly full" node tests/storage-full.js
   run "slow down, break, this week's misses" node tests/guard.js
   run "English grammar cells → P4, handbook read-together button" node tests/p4cells.js

@@ -1,0 +1,15 @@
+/* 磁铁实验室 Magnet Lab */
+.mg-dots{display:flex;gap:6px;align-items:center;margin-left:auto}.mg-dots i{width:10px;height:10px;border-radius:50%;background:#3a4590}.mg-dots i.on{background:#ffd23f;width:26px;border-radius:6px}.mg-dots i.ok{background:#6fe3a1}
+.mg-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:.875rem;align-items:start}
+@media (max-width:700px){.mg-grid{grid-template-columns:minmax(0,1fr)}}
+.mg-stage{background:#fffdf6;border-radius:20px;overflow:hidden;touch-action:none}.mg-stage svg{width:100%;height:auto;display:block}
+.mg-side{display:flex;flex-direction:column;gap:.6rem;min-width:0}
+.mg-card{background:#fffdf6;color:#2a2550;border-radius:18px;padding:1rem;box-shadow:0 5px 0 #b9b2e0;line-height:1.5}
+.mg-card small{display:block;color:#6b5fae}.mg-big{font-size:1.2rem;font-weight:800;margin-bottom:.25rem}
+.mg-log{font-size:1.05rem}.mg-side>.mg-big{color:#fff}
+.mg-opt{display:block;width:100%;text-align:left;border:0;background:#fffdf6;color:#2a2550;border-radius:14px;padding:.9rem 1rem;font:800 1.05rem system-ui;box-shadow:0 3px 0 #b9b2e0;cursor:pointer}
+.mg-opt.ok{background:#e8fff2;box-shadow:0 3px 0 #6fe3a1}.mg-opt.bad{background:#fff0ea;box-shadow:0 3px 0 #ff9a6b}
+.mg-fb{border-radius:16px;padding:.75rem;background:#e8fff2;color:#155a36}.mg-fb.bad{background:#fff0ea;color:#8a3a12}.mg-fb small{display:block;opacity:.85}
+.mg-star{background:#fff3c4;border-left:5px solid #ffd23f;border-radius:10px;padding:.6rem .75rem;font-weight:700;color:#3a2a00}
+.mg-go{border:0;background:#ff7b39;color:#fff;font:900 1.1rem system-ui;border-radius:16px;padding:.85rem;box-shadow:0 4px 0 #b44a17;cursor:pointer;width:100%;margin-top:.4rem}
+.mg-do{color:#ffd23f;font-weight:900;font-size:1.2rem}
