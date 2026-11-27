@@ -266,13 +266,13 @@ function toolPlay(t){const pool=smShuf(smPool(t)).slice(0,5);if(!pool.length)ret
 /* ---------- events ---------- */
 $('smBack').addEventListener('click',home);$('toolBack').addEventListener('click',home);
 $('smQBack').addEventListener('click',()=>{const k=SQ&&SQ.kind;SQ=null;if(k==='t')toolOpen();else if(k==='d')home();else smOpen();});
-$('smNext').addEventListener('click',e=>{if(e.target.closest('#smGo'))smStart(smCur());});
+$('smNext').addEventListener('click',e=>{if(e.target.closest('#smGo'))plGo(smCur());});
 $('smMap').addEventListener('click',e=>{const n=e.target.closest('.sm-n');if(!n)return;const i=+n.dataset.i,L=smRoad();if(L[i].t==='w')return;
-  if(n.classList.contains('lock')){n.classList.remove('shake');void n.getBBox();n.classList.add('shake');return;}smStart(i);});
+  if(n.classList.contains('lock')){n.classList.remove('shake');void n.getBBox();n.classList.add('shake');return;}plGo(i);});
 $('toolTabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b){TOOLTAB=b.dataset.tab;toolDraw();}});
 $('toolBody').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(b&&!b.disabled)toolPlay(+b.dataset.tool);});
 $('vSpQ').addEventListener('click',e=>{
-  if(e.target.closest('#smNextStop')){smOpen(true);const L=smRoad(),c=smCur();if(c<L.length&&L[c].t!=='w')setTimeout(()=>smStart(c),SMWALK!=null?1400:0);return;}
+  if(e.target.closest('#smNextStop')){smOpen(true);const L=smRoad(),c=smCur();if(c<L.length&&L[c].t!=='w')setTimeout(()=>plGo(c),SMWALK!=null?1400:0);return;}
   if(e.target.closest('#smToMap')){smOpen(true);return;}
   if(e.target.closest('#smHome')){const k=SQ&&SQ.kind;SQ=null;if(k==='t')toolOpen();else home();return;}
   if(e.target.closest('#smAgain')){smStart(SQ.n);return;}
@@ -301,7 +301,7 @@ HOOK.home.push(()=>{const L=smRoad(),c=smCur(),n=L[Math.min(c,L.length-1)],el=$(
   const r=smRec(),tn=$('toolNote');if(tn)tn.textContent=r>=0?'⭐ 推荐：'+smCirc(r)+' '+TPL[r][1]:'';});
 HOOK.tasks.push(t=>{const L=smRoad(),c=smCur();if(c>=L.length&&!t.sp)return null;const n=L[Math.min(c,L.length-1)];
   return{k:'sp',name:'太空探险下一站 · '+smName(n)+(n.t==='s'?'（'+SM[n.i].qs.length+' 题）':''),done:!!t.sp};});
-HOOK.task.sp=()=>{const c=smCur(),L=smRoad();if(c<L.length)smStart(c);else smOpen();};
+HOOK.task.sp=()=>{const c=smCur(),L=smRoad();if(c<L.length)plGo(c);else smOpen();};
 HOOK.tasks.push(t=>{const r=smRec();if(r<0&&!t.tool)return null;return{k:'tool',name:'句式工具箱 · '+(r>=0?smCirc(r)+' '+TPL[r][1]:'练一个句式'),done:!!t.tool};});
 HOOK.task.tool=()=>{const r=smRec();if(r>=0)toolPlay(r);else toolOpen();};
 /* 错题重练 also takes the planet questions he got wrong */
@@ -316,3 +316,34 @@ HOOK.meExtra.push(()=>{const s=smSt();let el=$('smShelf');if(!el){el=document.cr
 window.__sp={SQ:()=>SQ,road:smRoad,cur:smCur,start:smStart,S:()=>S,st:smSt};   /* for the tests */
 /* turning the iPad or phone: redraw the map for the new width */
 {let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>{if(!$('vSp').hidden)smDraw();},250);});}
+
+/* ===== v4.72 planet page: a planet with more than its 8 questions opens a short list of steps, done top to bottom
+   ① hands-on (人体大发现 on 人体星; the magnet lab will go on 磁铁星) ② the planet's 8 questions ③ 5 choice questions of the same
+   textbook unit (they used to be the P4 / Living things / Materials tiles on the home page). Meteor belts go straight in. ===== */
+const PL_TOP={living:['living'],class:['plants','animals'],fungi:['fungi'],mat:['materials'],seed:['plantlife'],bfly:['animallife'],
+  mag:['magnets'],emag:['magnets'],tree:['plantparts'],body:['body','digest'],matter:['matter'],light:['light'],shadow:['light'],temp:['heat'],heat:['heat']};
+const PL_ACT={body:{ic:'🫀',t:'人体大发现 Body Explorer',sub:'点亮 16 个部位，走食物和空气的旅程',done:()=>{const b=S.body||{};return !!(b.done&&(b.done.food||b.done.all));},go:()=>bdOpen('pl')}};
+let PLN=null;
+function plGo(i){const L=smRoad(),n=L[i];if(!n||n.t!=='s'){smStart(i);return;}const id=SM[n.i].id;if(!PL_TOP[id]&&!PL_ACT[id]){smStart(i);return;}plOpen(i);}
+function plSt(){const s=smSt();if(!s.pm||typeof s.pm!=='object')s.pm={};return s;}
+function plOpen(i){if(i==null)i=PLN;PLN=i;const L=smRoad(),n=L[i],p=SM[n.i],s=plSt(),steps=[];
+  if(PL_ACT[p.id]){const a=PL_ACT[p.id];steps.push({k:'act',ic:a.ic,t:'先动手：'+a.t,sub:a.sub,done:a.done()});}
+  steps.push({k:'go',ic:p.icon,t:'闯关 '+p.qs.length+' 题',sub:s.st[n.i]?'已拿 '+s.st[n.i]+' ★ · 可以再闯一次':'太空探险大题，一步一步来',done:!!s.st[n.i]});
+  if(PL_TOP[p.id])steps.push({k:'mc',ic:'✏️',t:'选择题 5 题',sub:'同一个单元的选择题',done:!!s.pm[p.id]});
+  const cur=steps.findIndex(x=>!x.done);
+  $('plTitle').innerHTML=`${p.icon} ${esc(p.name)}<small>${esc(p.en)}</small>`;$('plStars').textContent='★ '+(s.st[n.i]||0);
+  $('plSteps').innerHTML=steps.map((x,j)=>`<button class="pl-step${j===cur?' on':''}${x.done?' ok':''}" data-pl="${x.k}"><span class="pl-n">${x.done?'✓':j+1}</span><span class="pl-tx"><b>${x.ic} ${esc(x.t)}</b><small>${esc(x.sub)}</small></span>${j===cur?'<span class="pl-go">开始 →</span>':''}</button>`).join('');
+  show('vPl');}
+$('plSteps').addEventListener('click',e=>{const b=e.target.closest('[data-pl]');if(!b)return;const k=b.dataset.pl,n=smRoad()[PLN],p=SM[n.i];
+  if(k==='act')PL_ACT[p.id].go();else if(k==='go')smStart(PLN);else startRound('tp:'+p.id);});
+$('plBack').addEventListener('click',()=>smOpen());
+/* a round of one planet's textbook units */
+HOOK.round=(function(old){return function(mode){if(/^tp:/.test(mode)){const id=mode.slice(3);return QB.topicQs(PL_TOP[id]||[],5,k=>!(S.seen||[]).includes(QB.hash(k)));}return old?old(mode):null;};})(HOOK.round);
+HOOK.side=(function(old){return function(mode){if(/^tp:/.test(mode)){const id=mode.slice(3);plSt().pm[id]=1;save();return {task:'tp',back:()=>plOpen(),label:'回到星球 →',sub:' 这颗星的选择题做完了。'};}return old?old(mode):null;};})(HOOK.side);
+HOOK.quit=(function(old){return function(mode){if(/^tp:/.test(mode||'')&&PLN!=null){plOpen();return true;}return old?old(mode):null;};})(HOOK.quit);
+/* the star card on the home page opens my stars (the My stars tile is gone) */
+{const bd=document.querySelector('#vHome .board');if(bd){bd.classList.add('sm-board');bd.setAttribute('role','button');bd.setAttribute('tabindex','0');bd.insertAdjacentHTML('beforeend','<span class="sm-board-go">点这里看我的星星 →</span>');
+  bd.addEventListener('click',()=>HOOK.tile.me());bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();HOOK.tile.me();}});}}
+/* Try again: this week's most-missed come first (the separate button is not shown in science) */
+{const f=HOOK.tile.redo;HOOK.tile.redo=()=>{if(weekTop().length)return startRound('week');return f?f():startRound('redo');};}
+window.__pl={plOpen,plGo,PL_TOP,PLN:()=>PLN,bodyIndex:()=>smRoad().findIndex(n=>n.t==='s'&&SM[n.i].id==='body')};

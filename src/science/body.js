@@ -74,7 +74,7 @@ function bdWant(){if(BD.view==='jr'){const J=BD_JR[BD.jr];return J.path[BD.step]
 function bdSvgNow(){if(BD.view==='ex')return bdSvgSys();if(BD.view==='jr')return BD_JR[BD.jr].sys;if(BD.view==='quiz'){const q=BD.qz.list[BD.qz.i];return q&&q.s;}return null;}
 function bdSvgSys(){return BD.sys==='ske'?BD.sk:BD.sys;}
 function bdLabels(L,hi){return Object.entries(L).map(([ch,k])=>{const [x,y]=BD_PART[k].p,left=x<150;return [x,y,left?40:262,y,ch,hi===ch];});}
-function bdOpen(){bdSt();show('vBody');BD.view='ex';BD.part=null;bdDraw();}
+function bdOpen(from){BD.from=from==='pl'?'pl':null;bdSt();show('vBody');BD.view='ex';BD.part=null;bdDraw();}
 function bdTitle(en,zh){$('bdTitle').innerHTML=`${esc(en)}<small>${esc(zh)}</small>`;}
 function bdCard(k){if(!k)return `<div class="bd-card"><h3>Tap a part 点一个部位</h3><div class="zh">点人体图，或者点下面的名字</div><div class="bd-do">每个部位第一次点开就会点亮。16 个都点亮 +2 ★。</div></div>`;
   const p=BD_PART[k];return `<div class="bd-card"><button class="bd-spk" data-say="${esc(p.en+'. '+p.t.map(x=>x[0].replace(/<[^>]+>/g,'')).join(' '))}" aria-label="Read aloud">🔊</button><h3>${esc(p.en)}</h3><div class="zh">${esc(p.zh)}</div>
@@ -137,7 +137,7 @@ $('bdMain').addEventListener('click',e=>{const t=e.target;let x;
 });
 $('bdMain').addEventListener('input',e=>{if(e.target.id!=='bdArmR')return;const v=+e.target.value;BD.arm=v;$('bdArm').innerHTML=bdArmSvg(v);$('bdArmTx').innerHTML=bdArmTx(v);
  const b=bdSt();if(v>=95&&!b.done.mus){b.done.mus=1;bdGive(1,'muscles in pairs',1,1);save();}});
-$('bdBack').addEventListener('click',()=>{if(BD.view!=='ex'){BD.view='ex';bdDraw();}else home();});
-HOOK.tile.body=bdOpen;
+$('bdBack').addEventListener('click',()=>{if(BD.view!=='ex'){BD.view='ex';bdDraw();}else if(BD.from==='pl'&&window.__pl)__pl.plOpen();else home();});
+HOOK.tile.body=()=>bdOpen();
 HOOK.home.push(()=>{const el=$('bdNote');if(!el)return;const n=BD_KEYS.filter(k=>bdSt().seen[k]).length;el.textContent=n?`点亮 ${n} / ${BD_KEYS.length}`:'新！';});
 window.__body={BD_PART,BD_QZ,BD_JR,bdOpen,BD:()=>BD};

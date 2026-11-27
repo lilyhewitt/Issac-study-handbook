@@ -368,5 +368,8 @@ function make(c,l,fresh,ok2){let pool=GENS.filter(g=>g.c===c&&g.l===l);if(!pool.
   if(ok2)for(let k=0;k<60;k++){q=one();if(ok2(key(q)))return q;}
   return q;}
 function size(){return GENS.length;}
-W.QB={GENS,make,pickCat,key,hash,shuf,size,WORDSETS,lines:true,hl:true};
+/* n choice questions from some textbook units (a planet's 选择题 step), ones he has not seen first */
+function topicQs(keys,n,fresh){const ts=new Set(keys.map(k=>TOP[k]&&TOP[k][1]).filter(Boolean)),pool=shuf(GENS.filter(g=>ts.has(g.t))),a=[],b=[],used=new Set();
+  pool.forEach(g=>{const x=g.f();x.c=g.c;x.t=g.t;x.l=g.l;const k=key(x);if(used.has(k))return;used.add(k);(fresh&&!fresh(k)?b:a).push(x);});return a.concat(b).slice(0,n);}
+W.QB={GENS,topicQs,make,pickCat,key,hash,shuf,size,WORDSETS,lines:true,hl:true};
 })(typeof window!=='undefined'?window:globalThis);

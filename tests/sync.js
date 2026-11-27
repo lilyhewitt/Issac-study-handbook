@@ -7,7 +7,7 @@ async function answer(p){/* science 答题本领 widgets have no #opt0 at first 
  if(await p.$('.skbank')){const n=(await p.$$('.skbank .skchip')).length;for(let j=0;j<n;j++)await p.click('.skbank .skchip:not([disabled])');return;}
  if(await p.$('.sksort')){for(const r of await p.$$('.skbins'))await (await r.$('.skbin')).click();await p.click('.skgo');return;}
  await p.click('#opt0');}
-async function tap(p,s){if(await p.$(s)&&await p.isVisible(s))return p.click(s);const m={'#tWp':'wp','#tCalc':'calc','#tP4':'p4'}[s];return p.evaluate(m=>__isl.startRound(m),m);}
+async function tap(p,s){if(await p.$(s)&&await p.isVisible(s))return p.click(s);if(await p.$(s)&&s==='#tLife')return p.$eval(s,b=>b.click());const m={'#tWp':'wp','#tCalc':'calc','#tP4':'p4'}[s];return p.evaluate(m=>__isl.startRound(m),m);}
 async function round(p,tile){await tap(p,tile);let n=0;while(await p.isVisible('#vQuiz')&&n<14){n++;await answer(p);await p.click('#bNext');}await p.click('#bHome');return n;}
 async function link(p,code){await p.click('#bStats');await p.click('#bParent');await p.waitForTimeout(200);if(!(await p.isVisible('#syncIn'))){out.push('  (already linked in this container)');return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}await p.fill('#syncIn',code);await p.click('[data-sync="go"]');await p.waitForTimeout(600);return (await p.innerText('#syncCard')).replace(/\n+/g,' | ');}
 (async()=>{const b=await chromium.launch();

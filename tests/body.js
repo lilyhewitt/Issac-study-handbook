@@ -10,8 +10,10 @@ for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
   const ctx=await b.newContext({...devices[dev]});const p=await ctx.newPage();p.on('pageerror',e=>errs.push(e.message));
   await p.goto(U);await p.evaluate(K=>{localStorage.clear();localStorage.setItem(K,JSON.stringify({stars:10,days:{},log:[],sets:{},wd:{},sp:{}}));},KEY);await p.reload();await p.waitForTimeout(600);
   const S=()=>p.evaluate(K=>JSON.parse(localStorage.getItem(K)),KEY);
-  ok(await p.isVisible('#tBody'),dev+': old save opens, Body Explorer tile is under 更多练习');
-  await p.click('#tBody');ok(await p.isVisible('#vBody .bd-stage svg'),dev+': the body picture shows');
+  ok(await p.isVisible('#tSp'),dev+': old save opens');
+  await p.click('#tSp');await p.waitForTimeout(300);
+  await p.evaluate(()=>{const idx=window.__pl.bodyIndex();__pl.plOpen(idx);});ok(await p.isVisible('#vPl')&&await p.$$eval('.pl-step',x=>x.length)===3,dev+': 人体星 has 3 steps: Body Explorer, 闯关, 选择题');
+  await p.click('[data-pl="act"]');ok(await p.isVisible('#vBody .bd-stage svg'),dev+': the body picture shows');
   const keys=await p.evaluate(()=>Object.keys(__body.BD_PART));
   for(const [sys,sk] of [['dig'],['res'],['cir'],['ske','ske'],['ske','mus']]){
     await p.click(`[data-sys="${sys}"]`);if(sk)await p.click(`[data-sk="${sk}"]`);
@@ -46,7 +48,7 @@ for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
   for(let i=0;i<3;i++){const ops=await p.$$eval(`[data-pr^="${i}:"]`,a=>a.map(x=>x.textContent));await p.click(`[data-pr="${i}:${ops.findIndex(t=>t.startsWith(P[i][0]))}"]`);}
   s=await S();ok(s.stars===17&&s.body.done.pair&&s.body.done.mus,dev+': muscles +1 ★, systems pairs +1 ★');
   ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),dev+': nothing scrolls sideways');
-  await p.click('#bdBack');await p.click('#bdBack');ok(await p.isVisible('#tBody')&&(await p.textContent('#bdNote')).includes('16 / 16'),dev+': back home, tile shows progress');
+  await p.click('#bdBack');await p.click('#bdBack');ok(await p.isVisible('#vPl')&&!!(await p.$('.pl-step.ok[data-pl="act"]')),dev+': back to 人体星, the first step is ticked');
   await ctx.close();
 }
 ok(errs.length===0,'no page errors '+JSON.stringify(errs.slice(0,3)));
