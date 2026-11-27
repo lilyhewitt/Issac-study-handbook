@@ -663,6 +663,8 @@ body{background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(255,255,255,.5
   window.xxSync=api;
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(timer);flush();}else cfgCheck();});
   window.addEventListener('load',function(){setTimeout(cfgCheck,300);});
+  /* records made with no internet (travel) go up as soon as the iPad is back online */
+  window.addEventListener('online',function(){if(last){clearTimeout(timer);timer=setTimeout(flush,2000);}});
 
   /* the card at the top of 家长看 */
   function card(){var el=document.getElementById('syncCard');if(el)return el;

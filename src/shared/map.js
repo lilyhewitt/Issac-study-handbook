@@ -137,8 +137,12 @@ const LOCKI='<path d="M-6 -1v-5a6 6 0 0 1 12 0v5" stroke="#8a9ca1" stroke-width=
 function gauge(st){const face=st==='lock'?'#3a4c50':'#f5e9cc',rim=st==='lock'?'#22323a':'#a8761f',arc=st==='done'?'#4fb3a0':st==='now'?'#c8683a':'#55686d',nd=st==='lock'?'#22323a':'#33464c';
   return `<circle r="32" fill="${face}" stroke="${rim}" stroke-width="6"/><path d="M-21 12A24 24 0 1 1 21 12" fill="none" stroke="${st==='lock'?'#4a5c60':'#d9cfb2'}" stroke-width="5"/><path d="${st==='done'?'M-21 12A24 24 0 1 1 21 12':'M-21 12A24 24 0 0 1 -7 -23'}" fill="none" stroke="${arc}" stroke-width="5"/><g transform="rotate(${st==='done'?60:-40})"><path d="M0 3L-3 0 0 -21 3 0z" fill="${nd}"/></g><circle r="4.5" fill="${rim}"/>`;}
 function mini(n){return [0,1,2].map(i=>`<g transform="translate(${(i-1)*17},${i===1?-4:0})">${MSTAR(8,i<n?'#ffd23f':'#33464c',i<n?'#a8761f':'#22323a')}</g>`).join('');}
+let MAPGAP=200;
+function mapWrap(t,room){if(t.length*9.4<=room||!/ /.test(t))return [t];const w=t.split(' ');let best=[t],bd=1e9;
+  for(let i=1;i<w.length;i++){const a=w.slice(0,i).join(' '),b=w.slice(i).join(' '),d=Math.max(a.length,b.length);if(d<bd){bd=d;best=[a,b];}}return best;}
 function mapDraw(walk){const k=MAP.k,M=S.map[k],T=TR[k],L=road(k),cur=curIdx(k),box=$('mBoard'),W=Math.max(320,box.clientWidth||document.documentElement.clientWidth-32);
   const{P,d,chests,H}=mapLayout(L,W);let g='';
+  MAPGAP=W/4;for(let i=1;i<P.length;i++)if(Math.abs(P[i][1]-P[i-1][1])<1){const dx=Math.abs(P[i][0]-P[i-1][0]);if(dx>20&&dx<MAPGAP)MAPGAP=dx;}
   L.forEach((n,i)=>{const[x,y]=P[i],done=nodeDone(k,n),now=i===cur,lock=!done&&!now;
     g+=`<g class="mn${lock?' lock':''}${now?' now':''}" data-i="${i}" transform="translate(${x},${y})">`;
     let nm,zh;
@@ -151,7 +155,9 @@ function mapDraw(walk){const k=MAP.k,M=S.map[k],T=TR[k],L=road(k),cur=curIdx(k),
       else if(done)g+=gauge('done')+(M.rv[n.r]?`<g transform="translate(0,-50)">${mini(M.rv[n.r])}</g>`:'');
       else g+=`<circle class="mn-pulse" r="48" fill="none" stroke="#ffd23f" stroke-width="3" stroke-dasharray="6 8"/><circle r="46" fill="url(#mGlow)"/>${gauge('now')}<g transform="translate(30,-30)"><circle r="14" fill="#c8683a" stroke="#f6d98a" stroke-width="2"/><text y="5" text-anchor="middle" class="mn-n">10</text></g>`;}
     const ty=now?(n.t==='l'?66:60):54;
-    g+=`<text y="${ty}" text-anchor="middle" class="mn-t${lock?' off':''}${now?' on':''}">${esc(nm)}</text>${zh?`<text y="${ty+17}" text-anchor="middle" class="mn-z">${esc(zh)}</text>`:''}</g>`;});
+    /* a long name would run into the next stop (iPad portrait): break it into two lines */
+    const room=MAPGAP-12,ln=mapWrap(nm,room),zy=ty+17+(ln.length-1)*18;
+    g+=`<text y="${ty}" text-anchor="middle" class="mn-t${lock?' off':''}${now?' on':''}">${ln.map((t,j)=>`<tspan x="0" dy="${j?18:0}">${esc(t)}</tspan>`).join('')}</text>${zh?`<text y="${zy}" text-anchor="middle" class="mn-z">${esc(zh)}</text>`:''}</g>`;});
   chests.forEach(c=>{const rvDone=M.rv[c.r]!=null,open=M.ch[c.c];const st=open==='g'?'gold':open?'silver':rvDone?'ready':'lock';
     g+=`<g class="mc ${st}" data-c="${c.c}" transform="translate(${c.x},${c.y})"><g class="mc-in" transform="scale(1.25)"><path d="M-14 -20a14 9 0 0 1 28 0" fill="none" stroke="#a8761f" stroke-width="4"/><rect x="-34" y="-20" width="68" height="44" rx="6" class="mc-b"/><path d="M-34 -4H34" class="mc-l"/><path d="M-21 -20v44M21 -20v44" stroke="#a8761f" stroke-width="5"/><g transform="translate(0 -4)"><path d="${gearD(10,8,3)}" fill="#d9a845" stroke="#6b4612" stroke-width="2"/></g></g><text y="58" text-anchor="middle" class="mn-t${st==='lock'?' off':''}">${open?(open==='g'?'金边徽章':'银边 · 再开一次'):'工具箱 · 10 题'}</text></g>`;});
   const kp=P[Math.min(cur,P.length-1)],from=MAP.walk!=null&&P[MAP.walk]?P[MAP.walk]:null;   /* he stands on the last stop until he walks on */
