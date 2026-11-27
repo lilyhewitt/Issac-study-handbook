@@ -2320,7 +2320,10 @@ function bdSt(){if(!S.body||typeof S.body!=='object')S.body={};const b=S.body;if
 function bdGive(n,key,t,ok){S.stars=(S.stars||0)+n;const dk=dkey(new Date());S.days[dk]=(S.days[dk]||0)+1;
   if(!Array.isArray(S.log))S.log=[];S.log.push({d:dk,ts:Date.now(),c:'p4',t:'人体大发现 · Body Explorer',k:key,h:QB.hash('body:'+key),ok:ok?1:0});if(S.log.length>5000)S.log=S.log.slice(-5000);}
 function bdTopCount(){const b=bdSt();$('bdSeen').textContent=BD_KEYS.filter(k=>b.seen[k]).length;$('bdAll').textContent=BD_KEYS.length;}
-function bdFig(sys,hi,o){return ANAT.body(sys,hi,o||{});}
+/* In journeys and the quiz, digestive and breathing pictures are cropped to head + body (no legs),
+   so the parts are about 1.6× bigger to tap and the letter labels stay on screen. */
+function bdFig(sys,hi,o){const svg=ANAT.body(sys,hi,o||{});
+  if(BD.view!=='ex'&&(sys==='dig'||sys==='res'))return svg.replace('viewBox="0 -24 300 724"','viewBox="18 30 264 400"');return svg;}
 /* Tapping: a finger is wide and some parts are thin (gullet, windpipe, vessels). Look at the tap point and 24 points
    around it (up to 22 px away): right on a part → that part; otherwise count which part is under the points around, nearer points counting more; if nothing is close,
    take the part whose centre is nearest (within 60 drawing units). */
@@ -2329,9 +2332,9 @@ function bdPick(ev,stage,want){const svg=stage.querySelector('svg');if(!svg)retu
   const add=(x,y,w)=>{for(const el of document.elementsFromPoint(x,y)){if(!stage.contains(el))continue;const g=el.closest('[data-part]');if(g&&own(g.dataset.part)){score[g.dataset.part]=(score[g.dataset.part]||0)+w;break;}}};
   const X=ev.clientX,Y=ev.clientY;add(X,Y,1);const c0=Object.keys(score)[0];
   [[8,4],[15,2],[22,1]].forEach(([r,w])=>{for(let i=0;i<8;i++){const a=i*Math.PI/4+(r===15?Math.PI/8:0);add(X+Math.cos(a)*r,Y+Math.sin(a)*r,w);}});
-  if(want&&score[want])return want;   /* journey / quiz: the right part is under his finger → count it */
+  if(c0)return c0;                     /* finger right on a part: that part (even in the quiz, so tapping the large intestine never counts as the small one) */
+  if(want&&score[want])return want;   /* journey / quiz: finger off every part but the right one is just next to it → count it */
   if(want&&BD_PART[want]){const m=svg.getScreenCTM(),pt=svg.createSVGPoint();[pt.x,pt.y]=BD_PART[want].p;const q=pt.matrixTransform(m);if(Math.hypot(q.x-X,q.y-Y)<28)return want;}   /* …or within 28 px of its middle */
-  if(c0)return c0;                     /* finger right on a part: that part */
   let best=null,bs=0;for(const k in score)if(score[k]>bs){bs=score[k];best=k;}
   if(best)return best;
   const m=svg.getScreenCTM();if(!m)return null;const pt=svg.createSVGPoint();pt.x=X;pt.y=Y;const q=pt.matrixTransform(m.inverse());

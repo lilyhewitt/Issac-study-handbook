@@ -33,6 +33,7 @@ for(const dev of ['iPad (gen 7) landscape','iPhone 13']){
   s=await S();ok(s.stars===14&&s.body.done.food&&s.body.done.air,dev+': both journeys +1 ★ each');
   await p.click('[data-go="ex"]');await p.click('[data-go="quiz"]');
   const QZ=await p.evaluate(()=>__body.BD_QZ);let wrong=true;
+  {await tapAt(p,'mouth');await p.click('[data-go="next"]');await tapAt(p,'large');const r=await p.evaluate(()=>__body.BD().qz);ok(r.ans&&!r.right,dev+': in the quiz, tapping right on the large intestine is not counted as the small intestine');await p.click('#bdBack');await p.click('[data-go="quiz"]');}
   for(const q of QZ){if(q.t==='tap')await tapAt(p,q.a);
     else{const ops=await p.$$eval('.bd-opt',a=>a.map(x=>x.textContent.slice(3)));let n=ops.indexOf(q.o[0]);if(wrong){n=(n+1)%ops.length;wrong=false;}await p.click(`[data-opt="${n}"]`);}
     ok(await p.isVisible('.bd-fb'),dev+': quiz answer shows the reason');await p.click('[data-go="next"]');}
