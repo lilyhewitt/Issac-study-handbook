@@ -79,6 +79,10 @@ html{touch-action:manipulation}
 .tname{display:block;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.05}
 .tsub{display:block;font-size:.86rem;opacity:.92;margin-top:2px}
 .redo{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;background:var(--surface);border:2px dashed var(--word);border-radius:1.125rem;padding:0.8125rem 1rem;font-weight:700}
+.gd-wrap{position:fixed;inset:0;z-index:999;background:rgba(10,14,40,.72);display:flex;align-items:center;justify-content:center;padding:1rem}
+.gd-card{background:var(--surface,#fff);color:var(--ink,#222);border-radius:1.5rem;padding:1.5rem 1.25rem;max-width:26rem;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.gd-card h2{margin:.25rem 0 .5rem;font-size:1.5rem}.gd-card p{margin:.4rem 0;line-height:1.55;font-size:1.05rem}.gd-ic{font-size:3rem}
+.gd-en{color:var(--ink-2,#666);font-size:.95rem!important}.gd-go{margin-top:1rem;min-width:10rem}.gd-go:disabled{opacity:.55}
 .redo small{display:block;font-weight:400;color:var(--ink-2);font-size:.85rem}
 .count{flex:none;min-width:2.25rem;height:2.25rem;padding:0 0.625rem;border-radius:6.1875rem;background:var(--word);color:var(--on-tile);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.1rem}
 .mini{display:flex;flex-wrap:wrap;gap:4px 1rem;color:var(--ink-2);font-size:.85rem;font-variant-numeric:tabular-nums}
@@ -362,6 +366,11 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
       <span class="count" id="redoN">0</span>
     </button>
 
+    <button class="redo" id="bWeek" hidden>
+      <span>这周错得最多 · Top 10<small>这 7 天错过、还没做对的题，错得多的先来</small></span>
+      <span class="count" id="weekN">0</span>
+    </button>
+
     <div class="mini" id="mini"></div>
     <p class="foot">Tap 🔊 Listen to hear the question. Tap 提示 for a Chinese hint.</p>
     <button class="plink" id="bStats">我的进步 · My progress →</button>
@@ -401,6 +410,10 @@ details.sess[open] summary .st-sh::after{content:"  收起 ▴"}
     </div>
     <h3 class="st-h3">单词卡</h3>
     <div class="stcard" id="stWords"></div>
+    <h3 class="st-h3">这周错得最多</h3>
+    <p class="st-note">最近 7 天错过、还没做对的题，按错的次数排。孩子首页的“这周错得最多”就是练这些（每道选择题错过的都能重做）。</p>
+    <div class="st-list" id="stWeek"></div>
+    <div class="stcard" id="stGuard" hidden></div>
     <h3 class="st-h3">做错过的题</h3>
     <p class="st-note">最近的在最上面。“后来做对了”= 之后再出现时他答对了。</p>
     <div class="st-list" id="stWrong"></div>
@@ -555,11 +568,47 @@ if(!Array.isArray(S.log))S.log=[];if(!Array.isArray(S.misses))S.misses=[];S.miss
 norm();
 /* the iPad keeps about 5 MB for all three apps together. If a save is refused for space, drop the oldest
    records (the answers log, oldest first) and try again, so stars and progress are never lost silently. */
-function save(){if(REMOTE)return;let ok=false;
+function save(){if(REMOTE)return;let ok=false;gdCheck();
   for(let k=0;k<6&&!ok;k++){try{localStorage.setItem(KEY,JSON.stringify(S));ok=true;}catch(e){
     if(Array.isArray(S.log)&&S.log.length>200)S.log=S.log.slice(-Math.floor(S.log.length*0.6));else break;}}
   if(SYNC)SYNC.push(S);}
 window.__save=save;  /* tests call this to check the storage-full path */
+/* Slow down + take a break (both shown as a full-screen pause card; records in S.guard for the parent view)
+   - three wrong answers in a row, each less than 4 s after the one before → "慢一点", 8 s before he can go on
+   - 25 minutes of answering without a 10-minute gap (counted across all three apps) → "休息一下", 20 s
+   Answers saved together in one go (less than 0.3 s apart) are not counted as fast. */
+const GD={n:-1,last:0,fw:0,open:false};
+function gdLog(kind){if(!S.guard||typeof S.guard!=='object')S.guard={};const a=Array.isArray(S.guard[kind])?S.guard[kind]:(S.guard[kind]=[]);a.push(Date.now());if(a.length>200)a.splice(0,a.length-200);}
+function gdPause(kind){if(GD.open||REMOTE)return;GD.open=true;gdLog(kind);
+  const rush=kind==='rush',secs=rush?8:20;
+  const el=document.createElement('div');el.className='gd-wrap';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');
+  el.innerHTML=`<div class="gd-card"><div class="gd-ic">${rush?'🐢':'👀'}</div><h2>${rush?'慢一点 · Slow down':'休息一下 · Take a break'}</h2>
+   <p>${rush?'刚才几题答得很快，又都错了。<br>每题先把题目读完，想一想再选。':'已经做了 25 分钟啦！<br>站起来，看看窗外远的地方，眨眨眼。'}</p>
+   <p class="gd-en">${rush?'Read the whole question before you choose.':'Look out of the window at something far away.'}</p>
+   <button class="btn gd-go" disabled>${secs}</button></div>`;
+  document.body.appendChild(el);const b=el.querySelector('.gd-go');let t=secs;
+  const iv=setInterval(()=>{t--;if(t>0){b.textContent=t;return;}clearInterval(iv);b.disabled=false;b.textContent=rush?'好，我慢慢来 →':'休息好了，继续 →';b.focus();},1000);
+  b.addEventListener('click',()=>{el.remove();GD.open=false;if(!rush){const a=gdAct();a.s=Date.now();a.l=Date.now();gdActSave(a);}});
+  save();}
+function gdAct(){try{const a=JSON.parse(localStorage.getItem('xx-active')||'{}');return a&&typeof a==='object'?a:{};}catch(e){return {};}}
+function gdActSave(a){try{localStorage.setItem('xx-active',JSON.stringify(a));}catch(e){}}
+function gdOff(){try{return navigator.webdriver&&!localStorage.getItem('xx-guard-test');}catch(e){return false;}}   /* automated tests answer fast on purpose; tests/guard.js turns it on */
+function gdCheck(){if(REMOTE||GD.open||gdOff()||!Array.isArray(S.log))return;const L=S.log;
+  if(GD.n<0||GD.n>L.length){GD.n=L.length;GD.last=L.length?(L[L.length-1].ts||0):0;return;}
+  const fresh=L.slice(GD.n);GD.n=L.length;if(!fresh.length)return;
+  let rush=false;
+  fresh.forEach(e=>{const t=e.ts||0;if(GD.last&&t-GD.last<300)return;   /* saved together with the one before */
+    const fast=GD.last&&t-GD.last<4000;
+    if(!e.ok)GD.fw=fast?GD.fw+1:1;else GD.fw=0;
+    GD.last=t;if(GD.fw>=3){rush=true;GD.fw=0;}});
+  const now=Date.now(),a=gdAct();if(!a.l||now-a.l>10*60000)a.s=now;a.l=now;gdActSave(a);
+  if(rush){gdPause('rush');return;}
+  if(a.s&&now-a.s>=25*60000)gdPause('break');}
+window.__guard=GD;
+/* this week's most-missed: choice questions he got wrong in the last 7 days and has not yet put right, most wrong first */
+function weekTop(){const L=Array.isArray(S.log)?S.log:[],d7=new Date();d7.setDate(d7.getDate()-6);const k7=dkey(d7);const c={};
+  L.forEach(e=>{if(e.d>=k7&&!e.ok)c[e.h]=(c[e.h]||0)+1;});
+  return S.misses.map(m=>({m,n:c[QB.hash(QB.key(m))]||0})).filter(x=>x.n>0).sort((x,y)=>y.n-x.n).slice(0,10);}
 /* opened from the parent handbook? then offer a way back to it */
 let fromHB=false;
 try{fromHB=new URLSearchParams(location.search).get('from')==='handbook';if(fromHB)sessionStorage.setItem('fromHandbook','1');else fromHB=sessionStorage.getItem('fromHandbook')==='1';}catch(e){}
@@ -601,6 +650,7 @@ function home(){
   $('hLvlNote').textContent=`${PER-S.stars%PER} ★ to Level ${lvl+1}`;
   $('hStreak').textContent=streak();
   $('bRedo').hidden=!S.misses.length;$('redoN').textContent=S.misses.length;
+  {const w=weekTop().length;$('bWeek').hidden=w<3;$('weekN').textContent=w;}
   $('mini').innerHTML=Object.keys(CATS).filter(k=>S.by[k][0]).map(k=>`<span>${CATS[k]} · ${S.by[k][0]} 题 · 对 ${Math.round(S.by[k][1]/S.by[k][0]*100)}%</span>`).join('');
   $('bSound').setAttribute('aria-pressed',String(!!S.snd));
   const dn=dueWords().length,nx=nextSet();
@@ -620,6 +670,7 @@ function again(m){const q=JSON.parse(JSON.stringify(m));const idx=QB.shuf(m.opts
 function startRound(mode){if(QB.CH)QB.focus=S.chs||[];p4Sync();
   const qs=[],keys=new Set(),recent=new Set(S.recent),seen=new Set(S.seen);let hq=null;
   if(mode==='redo'){QB.shuf(S.misses).slice(0,ROUND).forEach(m=>qs.push(again(m)));}
+  else if(mode==='week'){weekTop().forEach(x=>qs.push(again(x.m)));}
   else if(mode==='wall'){QB.shuf(WL.filter(w=>S.wd[w.w])).sort((x,y)=>(S.wd[y.w].bad||0)-(S.wd[x.w].bad||0)).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(mode==='review'){QB.shuf(dueWords()).slice(0,ROUND).forEach(w=>qs.push(wordQ(w)));}
   else if(/^learn:\d+$/.test(mode)){const si=+mode.slice(6),stt=WS[si].title;if(!S.sets[stt])S.sets[stt]=dkey(new Date());QB.shuf(WS[si].words).forEach(w=>qs.push(wordQ(w,true)));}
@@ -912,6 +963,11 @@ function statsView(){show('vStats');HOOK.statsExtra.forEach(f=>f());chCard();voi
     +(wi.weak.length?`<p class="st-sub">还不熟：${wi.weak.map(w=>'<b>'+esc(w.w)+'</b>（'+esc(w.zh)+'）').join('、')}</p>`:'')
     :'<p class="st-sub">还没开始学单词卡。</p>';
   $('stSess').innerHTML=sessHTML();
+  {const d7=new Date();d7.setDate(d7.getDate()-6);const k7=dkey(d7),L=Array.isArray(S.log)?S.log:[];
+   const W=stats().wrong.filter(w=>!w.fixed).map(w=>Object.assign({},w,{wk:L.filter(e=>e.h===w.e.h&&!e.ok&&e.d>=k7).length})).filter(w=>w.wk).sort((a,b)=>b.wk-a.wk).slice(0,10);
+   $('stWeek').innerHTML=W.length?W.map(w=>`<div class="st-w"><div class="st-wt"><span>${esc(w.e.t)}${w.e.k?' · '+esc(w.e.k):''}</span><span class="st-badge">这周错 ${w.wk} 次</span></div><div class="st-wq">${esc(w.e.q)}</div><div class="st-wa">他选：${esc(w.e.a||'')} · 答案：<b>${esc(w.e.r||'')}</b></div></div>`).join(''):'<p class="st-sub">这 7 天没有还没做对的错题。</p>';
+   const G=S.guard||{},cnt=k=>(Array.isArray(G[k])?G[k]:[]).filter(t=>t>=d7.setHours(0,0,0,0)).length,r=cnt('rush'),b=cnt('break');
+   $('stGuard').hidden=!(r||b);$('stGuard').innerHTML=`<p class="me-t">做题习惯（最近 7 天）</p><p class="st-sub">答太快、连错被叫停 <b>${r}</b> 次 · 连续做满 25 分钟提醒休息 <b>${b}</b> 次</p>`;}
   const ec=errCounts();$('stErrBox').hidden=!ec.length;$('stErrs').innerHTML=ec.map(([k,n])=>`<div class="st-row lo"><div class="st-name">${esc((QB.ERRS||{})[k]||k)}</div><div class="st-num">${n} 次</div></div>`).join('');
   if(!st.total){$('stSum').innerHTML='<p class="st-sub">还没有记录。从现在开始，他每做一题都会记在这里。</p>';$('stTopics').innerHTML='';$('stWrong').innerHTML='';return;}
   $('stSum').innerHTML=`<div class="st-big"><b>${st.total}</b> 题 · 对 <b>${pct(st.okn,st.total)}%</b></div><p class="st-sub">练了 ${st.days} 天 · 最近 7 天 ${st.last7} 题 · 从 ${esc(st.L[0].d)} 开始记录</p>`;
@@ -929,6 +985,7 @@ function report(){const st=stats(),title=document.title;
   if(good.length)t+='\n做得好的：\n'+good.map(line).join('\n')+'\n';
   const w=st.wrong.filter(x=>!x.fixed).slice(0,20);
   if(w.length)t+='\n还没做对的错题：\n'+w.map((x,i)=>`${i+1}. [${x.e.t}${x.e.k?' · '+x.e.k:''}] ${x.e.p?'（短文：'+x.e.p+'…）':''}${x.e.q}　他选：${x.e.a}　答案：${x.e.r}${x.wrong>1?'（错 '+x.wrong+' 次）':''}`).join('\n')+'\n';
+  {const G=S.guard||{},d7=Date.now()-7*864e5,r=(G.rush||[]).filter(x=>x>=d7).length,b=(G.break||[]).filter(x=>x>=d7).length;if(r||b)t+=`\n最近 7 天：答太快连错被叫停 ${r} 次，提醒休息 ${b} 次。\n`;}
   const ec=errCounts();if(ec.length)t+='\n常见错法：\n'+ec.map(([k,n])=>`- ${(QB.ERRS||{})[k]||k}：${n} 次`).join('\n')+'\n';
   const wi=wordInfo();
   if(wi.learned.length)t+=`\n单词卡：学过 ${wi.learned.length} 个词，记住了 ${wi.mast.length} 个。`+(wi.weak.length?`还不熟：${wi.weak.map(w=>w.w+'（'+w.zh+'）').join('、')}。`:'')+'\n';
@@ -1012,6 +1069,7 @@ function confetti(){
 /* events */
 document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{const m=b.dataset.mode;if(NEWV[m]&&(S.nv[m]||0)<NEWV[m]){S.nv[m]=NEWV[m];save();}if(HOOK.tile[m])HOOK.tile[m]();else startRound(m);}));
 $('bRedo').addEventListener('click',()=>startRound('redo'));
+$('bWeek').addEventListener('click',()=>startRound('week'));
 $('opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)choose(+b.dataset.i);});
 $('bNext').addEventListener('click',next);
 $('bQuit').addEventListener('click',()=>{try{speechSynthesis.cancel();}catch(e){}const m=R&&R.mode;R=null;if(HOOK.quit&&HOOK.quit(m))return;home();});
